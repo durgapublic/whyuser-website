@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhyUser - Who, What, Why</title>
+    <title>WhyUser - Stop Building Blind</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -28,6 +28,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -115,7 +119,7 @@
         .nav-links a:hover {
             color: var(--text-primary);
         }
-
+        
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -181,349 +185,146 @@
             margin-bottom: 48px;
             line-height: 1.5;
         }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 48px;
-            margin: 48px 0;
-            flex-wrap: wrap;
+        
+        /* Analysis Input Section */
+        .analysis-input-section {
+            padding: 40px;
+            background: rgba(255,255,255,0.5);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px var(--shadow);
+            backdrop-filter: blur(10px);
         }
-
-        .stat {
+        
+        .analysis-input-section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
             text-align: center;
         }
 
-        .stat-value {
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--accent);
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 16px;
-            color: var(--text-tertiary);
-        }
-
-        /* Hero CTAs */
-        .hero-ctas {
+        .url-input {
             display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-
-        .hero-cta {
-            padding: 16px 32px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: inline-flex;
+            gap: 16px;
             align-items: center;
-            gap: 8px;
         }
 
-        .hero-cta.primary {
+        .url-input input {
+            flex: 1;
+            padding: 18px 24px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .url-input input:focus {
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(139, 107, 71, 0.1);
+        }
+
+        .predict-button {
+            padding: 18px 36px;
             background: var(--accent);
             color: white;
-            border: 2px solid transparent;
-        }
-
-        .hero-cta.primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(139, 107, 71, 0.25);
-        }
-
-        /* Industry Reality Section */
-        .industry-reality-section {
-            padding: 80px 0;
-            background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(246, 243, 238, 0.4) 100%);
-        }
-
-        .reality-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .reality-header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .reality-header h2 {
-            font-size: 48px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-
-        .reality-header p {
-            font-size: 20px;
-            color: var(--text-secondary);
-        }
-
-        .reality-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            margin-bottom: 48px;
-        }
-
-        .industry-stat {
-            background: rgba(255, 255, 255, 0.7);
-            padding: 32px;
-            border-radius: 16px;
-            text-align: center;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        .industry-stat:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        
+        .predict-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(139, 107, 71, 0.3);
         }
 
-        .stat-number {
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 8px;
-        }
-
-        .stat-context {
-            font-size: 18px;
-            color: var(--text-primary);
-            font-weight: 500;
-            margin-bottom: 16px;
-        }
-
-        .stat-source {
-            font-size: 13px;
+        .input-context {
+            font-size: 14px;
             color: var(--text-tertiary);
-            font-style: italic;
-        }
-
-        .reality-insight {
-            background: rgba(220, 53, 69, 0.05);
-            border: 2px solid rgba(220, 53, 69, 0.1);
-            padding: 32px;
-            border-radius: 16px;
             text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .reality-insight h3 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .reality-cta {
-            text-align: center;
-        }
-
-        .cta-context {
-            margin-top: 12px;
-            font-size: 16px;
-            color: var(--text-secondary);
+            margin-top: 24px;
         }
 
         /* How it Works Section */
-        .how-it-works-simple {
+        .how-it-works-section {
             padding: 80px 0;
-            background: linear-gradient(180deg, rgba(246, 243, 238, 0.4) 0%, var(--bg-primary) 100%);
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
         }
 
         .how-header {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 64px;
         }
 
         .how-header h2 {
             font-size: 48px;
             font-weight: 600;
             margin-bottom: 16px;
+            letter-spacing: -0.02em;
         }
 
-        .how-subtitle {
+        .how-header p {
             font-size: 20px;
             color: var(--text-secondary);
-        }
-
-        .prediction-flow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto 48px;
-            flex-wrap: wrap;
-        }
-
-        .flow-step {
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-            padding: 24px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .flow-step:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        }
-
-        .flow-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .flow-step h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-        }
-
-        .flow-step p {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        .flow-arrow {
-            font-size: 32px;
-            color: var(--accent);
-            font-weight: 300;
-        }
-
-        .simulation-visual {
-            text-align: center;
             max-width: 800px;
             margin: 0 auto;
-            padding: 32px;
-            background: rgba(139, 107, 71, 0.05);
-            border-radius: 16px;
         }
 
-        .simulation-description {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        .demo-link {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--accent);
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .demo-link:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(139, 107, 71, 0.25);
-        }
-
-        .prediction-paths {
+        .how-steps-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-top: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
         }
 
-        .path-option {
-            border: 2px solid var(--border);
-            border-radius: 16px;
+        .how-step {
             padding: 32px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.4);
             transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
         }
 
-        .path-option:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(139, 107, 71, 0.1);
+        .how-step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px var(--shadow);
+            border-color: rgba(139, 107, 71, 0.2);
+        }
+        
+        .step-number {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 16px;
+            background: var(--bg-accent);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
         }
 
-        .path-option.industry-path {
-            background: linear-gradient(135deg, rgba(139, 107, 71, 0.02) 0%, rgba(139, 107, 71, 0.05) 100%);
-        }
-
-        .path-option.your-data-path {
-            background: linear-gradient(135deg, rgba(34, 134, 58, 0.02) 0%, rgba(34, 134, 58, 0.05) 100%);
-        }
-
-        .path-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .path-header input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 16px;
-        }
-
-        .path-header label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            flex: 1;
-        }
-
-        .path-icon {
-            font-size: 32px;
-        }
-
-        .path-title {
+        .step-title {
             font-size: 20px;
             font-weight: 600;
-            color: var(--text-primary);
+            margin-bottom: 12px;
         }
 
-        .path-benefits {
-            display: grid;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .benefit {
-            font-size: 15px;
+        .step-description {
+            font-size: 16px;
             color: var(--text-secondary);
-            padding-left: 8px;
         }
-
-        .path-cta {
-            font-size: 14px;
-            color: var(--text-tertiary);
-            font-style: italic;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        /* Speed Comparison Section */
+        
+        /* Comparison Section */
         .comparison-section {
             padding: 80px 0;
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            background: var(--bg-primary);
         }
-
+        
         .comparison-header {
             text-align: center;
             margin-bottom: 64px;
@@ -568,9 +369,7 @@
             color: var(--text-primary);
         }
 
-        .comparison-card.old::before {
-            color: var(--error);
-        }
+        .comparison-card.old::before { color: var(--error); }
 
         .comparison-card.new {
             background: rgba(34, 134, 58, 0.05);
@@ -579,802 +378,87 @@
             box-shadow: 0 8px 40px rgba(34, 134, 58, 0.1);
         }
 
-        .comparison-card.new::before {
-            color: var(--success);
-        }
-
-        .comparison-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 32px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .comparison-features {
-            display: grid;
-            gap: 24px;
-        }
-
-        .feature-group {
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 24px;
-        }
-
-        .feature-group:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .feature-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-tertiary);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .feature-content {
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--text-primary);
-        }
-
-        .feature-content strong {
-            font-weight: 600;
-            color: inherit;
-        }
-
-        .comparison-card.old .feature-content strong {
-            color: var(--error);
-        }
-
-        .comparison-card.new .feature-content strong {
-            color: var(--success);
-        }
-
-        /* Predictor Section */
-        .predictor-section {
-            padding: 80px 0;
-            background: var(--bg-secondary);
-        }
-
-        .predictor-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-
-        .predictor-header h2 {
-            font-size: 48px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-
-        .predictor-form {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .form-section {
-            margin-bottom: 40px;
-        }
-
-        .form-section h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .url-input {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 16px;
-            align-items: center;
-        }
-
-        .url-input input {
-            flex: 1;
-            padding: 14px 20px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.7);
-            font-size: 15px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .url-input input:focus {
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(139, 107, 71, 0.1);
-        }
-
-        .url-status {
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .url-status.valid {
-            background: rgba(34, 134, 58, 0.1);
-            color: var(--success);
-        }
-
-        .add-variant-btn {
-            background: transparent;
-            border: 2px dashed var(--border);
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: fit-content;
-        }
-
-        .add-variant-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(139, 107, 71, 0.05);
-        }
-
-        /* Multi-stage Funnel */
-        .funnel-toggle {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 48px;
-            height: 24px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--border);
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked+.toggle-slider {
-            background-color: var(--accent);
-        }
-
-        input:checked+.toggle-slider:before {
-            transform: translateX(24px);
-        }
-
-        .funnel-steps {
-            display: none;
-            gap: 16px;
-            padding: 20px;
-            background: var(--bg-accent);
-            border-radius: 8px;
-            margin-top: 16px;
-        }
-
-        .funnel-steps.show {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        }
-
-        .step-input {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .step-input label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .step-input input {
-            padding: 10px 16px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .step-input input:focus {
-            border-color: var(--accent);
-            background: white;
-        }
-
-        .ga4-connect {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        .ga4-button {
-            width: 100%;
-            padding: 12px 20px;
-            background: white;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .ga4-button:hover {
-            border-color: var(--accent);
-            background: rgba(139, 107, 71, 0.02);
-        }
-
-        .ga4-security {
-            margin-top: 8px;
-            font-size: 12px;
-            color: var(--text-tertiary);
-            text-align: center;
-        }
-
-        .predict-button {
-            width: 100%;
-            padding: 20px 40px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            margin-top: 32px;
-        }
-
-        .predict-button:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(139, 107, 71, 0.3);
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.show {
-            opacity: 1;
-        }
-
-        .modal {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background: var(--bg-primary);
-            border-radius: 16px;
-            padding: 40px;
-            max-width: 480px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.show .modal {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .modal-header h3 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-        }
-
-        .modal-header p {
-            font-size: 16px;
-            color: var(--text-secondary);
-        }
-
-        .modal-form {
-            display: grid;
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .form-group input {
-            padding: 14px 20px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.7);
-            font-size: 15px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .form-group input:focus {
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(139, 107, 71, 0.1);
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 16px 32px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 8px;
-        }
-
-        .submit-button:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 8px 30px rgba(139, 107, 71, 0.25);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--text-tertiary);
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .close-modal:hover {
-            background: var(--bg-accent);
-            color: var(--text-primary);
-        }
-
-        /* Comparison Table Section */
-        .comparison-table-section {
-            padding: 80px 0;
-            background: var(--bg-secondary);
-        }
-
-        .comparison-table-header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .comparison-table-header h2 {
-            font-size: 42px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        .comparison-table {
-            overflow-x: auto;
-            margin-bottom: 32px;
-        }
-
-        .comparison-table table {
-            width: 100%;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .comparison-table th,
-        .comparison-table td {
-            padding: 20px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .comparison-table th {
-            background: var(--bg-secondary);
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .whyuser-col {
-            background: rgba(139, 107, 71, 0.05);
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        .solution-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background: var(--accent);
-            color: white;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .feature-name {
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .comparison-table strong {
-            color: var(--accent);
-        }
-
-        .comparison-summary {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 32px;
-            background: rgba(139, 107, 71, 0.05);
-            border-radius: 16px;
-        }
-
-        .comparison-summary p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin: 0;
-        }
+        .comparison-card.new::before { color: var(--success); }
+        .comparison-title { font-size: 20px; font-weight: 600; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
+        .comparison-features { display: grid; gap: 24px; }
+        .feature-group { border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+        .feature-group:last-child { border-bottom: none; padding-bottom: 0; }
+        .feature-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); margin-bottom: 8px; font-weight: 600; }
+        .feature-content { font-size: 16px; line-height: 1.6; color: var(--text-primary); }
+        .feature-content strong { font-weight: 600; color: inherit; }
+        .comparison-card.old .feature-content strong { color: var(--error); }
+        .comparison-card.new .feature-content strong { color: var(--success); }
 
         /* Waitlist Section */
         .waitlist-section {
             padding: 80px 0;
-            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
         }
-
-        .waitlist-container {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .waitlist-header {
-            margin-bottom: 48px;
-        }
-
-        .waitlist-form {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 16px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-        }
-
-        .form-group textarea {
-            width: 100%;
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .privacy-note {
-            margin-top: 16px;
-            font-size: 14px;
-            color: var(--text-tertiary);
-        }
-
-        .credibility-box {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 32px;
-            background: rgba(139, 107, 71, 0.05);
-            border-radius: 16px;
-            text-align: center;
-        }
-
-        .credibility-text {
-            font-size: 18px;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        /* Success State */
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .success-checkmark {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 24px;
-            position: relative;
-            display: none;
-        }
-
-        .success-checkmark.show {
-            display: block;
-        }
-
-        .success-checkmark svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .success-checkmark .circle {
-            stroke: var(--success);
-            stroke-width: 2;
-            fill: none;
-            stroke-dasharray: 166;
-            stroke-dashoffset: 166;
-            animation: circle 0.6s ease forwards;
-        }
-
-        .success-checkmark .check {
-            stroke: var(--success);
-            stroke-width: 3;
-            fill: none;
-            stroke-dasharray: 48;
-            stroke-dashoffset: 48;
-            animation: check 0.3s ease forwards 0.6s;
-        }
-
-        @keyframes circle {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-
-        @keyframes check {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
+        
+        .waitlist-container { max-width: 600px; margin: 0 auto; text-align: center; }
+        .waitlist-header { margin-bottom: 48px; }
+        .waitlist-header h2 { font-size: 48px; font-weight: 600; margin-bottom: 16px; }
+        .waitlist-header p { font-size: 20px; color: var(--text-secondary); }
+        .waitlist-form { background: rgba(255, 255, 255, 0.5); border-radius: 16px; padding: 40px; backdrop-filter: blur(10px); }
+        .form-group { margin-bottom: 24px; text-align: left; }
+        .form-group input { width: 100%; padding: 14px 20px; border: 2px solid var(--border); border-radius: 8px; background: rgba(255, 255, 255, 0.7); font-size: 15px; font-family: inherit; transition: all 0.3s ease; outline: none; }
+        .form-group input:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 3px rgba(139, 107, 71, 0.1); }
+        .submit-button { width: 100%; padding: 16px 32px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .submit-button:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 8px 30px rgba(139, 107, 71, 0.25); }
+        .privacy-note { margin-top: 16px; font-size: 14px; color: var(--text-tertiary); }
+        .success-checkmark { width: 80px; height: 80px; margin: 0 auto 24px; position: relative; display: none; }
+        .success-checkmark.show { display: block; }
+        .success-checkmark svg { width: 100%; height: 100%; }
+        .success-checkmark .circle { stroke: var(--success); stroke-width: 2; fill: none; stroke-dasharray: 166; stroke-dashoffset: 166; animation: circle 0.6s ease forwards; }
+        .success-checkmark .check { stroke: var(--success); stroke-width: 3; fill: none; stroke-dasharray: 48; stroke-dashoffset: 48; animation: check 0.3s ease forwards 0.6s; }
+        @keyframes circle { to { stroke-dashoffset: 0; } }
+        @keyframes check { to { stroke-dashoffset: 0; } }
 
         /* Footer */
-        footer {
-            background: var(--text-primary);
-            color: rgba(255, 255, 255, 0.9);
-            padding: 64px 0 32px;
-        }
+        footer { background: var(--text-primary); color: rgba(255, 255, 255, 0.9); padding: 64px 0 32px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 48px; margin-bottom: 48px; }
+        .footer-section h4 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: white; }
+        .footer-section ul { list-style: none; padding: 0;}
+        .footer-section li { margin-bottom: 12px; }
+        .footer-section a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 15px; transition: color 0.3s ease; }
+        .footer-section a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 32px; text-align: center; font-size: 14px; color: rgba(255, 255, 255, 0.5); }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 48px;
-            margin-bottom: 48px;
-        }
-
-        .footer-section h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: white;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section li {
-            margin-bottom: 12px;
-        }
-
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 15px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 32px;
-            text-align: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .mobile-menu-toggle span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--text-primary);
-            margin-bottom: 6px;
-            transition: all 0.3s ease;
-        }
-
-        /* Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive */
+        /* Animations & Responsive */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .mobile-menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        .mobile-menu-toggle span { display: block; width: 24px; height: 2px; background: var(--text-primary); margin-bottom: 6px; transition: all 0.3s ease; }
+        
         @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 72px;
-                left: 0;
-                right: 0;
-                background: rgba(250, 248, 245, 0.98);
-                flex-direction: column;
-                padding: 24px;
-                gap: 24px;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                box-shadow: 0 4px 40px var(--shadow);
-            }
-
-            .nav-links.open {
-                transform: translateX(0);
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            h1 {
-                font-size: clamp(30px, 10vw, 48px);
-            }
-
-            .hero-stats {
-                gap: 24px;
-            }
-
-            .comparison-grid {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .comparison-card.new {
-                transform: scale(1);
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-ctas {
-                flex-direction: column;
-                gap: 16px;
-                width: 100%;
-            }
-
-            .hero-cta {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-            }
-
-            .prediction-paths {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .funnel-steps.show {
-                grid-template-columns: 1fr;
-            }
-
-            .prediction-flow {
-                flex-direction: column;
-            }
-
-            .flow-arrow {
-                transform: rotate(90deg);
-            }
-
-            .comparison-table {
-                font-size: 14px;
-            }
-
-            .comparison-table th,
-            .comparison-table td {
-                padding: 12px 8px;
-            }
+            .nav-links { position: fixed; top: 72px; left: 0; right: 0; background: rgba(250, 248, 245, 0.98); flex-direction: column; padding: 24px; gap: 24px; transform: translateX(-100%); transition: transform 0.3s ease; box-shadow: 0 4px 40px var(--shadow); }
+            .nav-links.open { transform: translateX(0); }
+            .mobile-menu-toggle { display: block; }
+            h1 { font-size: clamp(30px, 10vw, 48px); }
+            .url-input { flex-direction: column; }
+            .predict-button { width: 100%; }
+            .comparison-grid { grid-template-columns: 1fr; gap: 24px; }
+            .comparison-card.new { transform: scale(1); }
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
     <header id="header">
         <div class="container">
             <nav>
                 <div class="logo-container">
-                    <a href="#" class="logo">
+                    <a href="/" class="logo">
                         <img src="images/logo1.png" alt="WhyUser" class="logo-image">
                     </a>
                     <span class="tagline">Behavioral OS for Business</span>
                 </div>
                 <ul class="nav-links" id="navLinks">
-                    <li><a href="#how-it-works-simple">How It Works</a></li>
-                    <li><a href="#predictor">Predict My Test</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#comparison">Why It's Better</a></li>
                     <li><a href="#waitlist">Early Access</a></li>
+                    <li><a href="demo.html">Live Demo</a></li>
                 </ul>
                 <button class="mobile-menu-toggle" id="mobileMenuToggle">
                     <span></span>
@@ -1385,192 +469,117 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content fade-in">
-                <h1>Stop Wasting <span class="gradient-text">$25K</span> and <span class="gradient-text">8 Weeks</span>
-                    on <br> A/B Tests That Will Fail</h1>
-                <p class="hero-subtitle">Predict what works in hours — not from post-mortems 8 weeks later</p>
+                <h1> See Your Site Through Your <span class="gradient-text">Buyer's Eyes</span></h1>
+                <p class="hero-subtitle">Stop building blind. Get evidence from AI buyer simulations to end debates and ship what actually converts.</p>
 
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="stat-value">2h</div>
-                        <div class="stat-label">vs 8 weeks</div>
+                <div class="analysis-input-section">
+                    <h3>Get Your Free Buyer Insight Brief</h3>
+                    <div class="url-input">
+                        <input type="url" placeholder="Enter your landing page URL..." id="pageUrl">
+                        <a href="demo.html" class="predict-button" id="analyzeBtn">Analyze My Page</a>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value">70%</div>
-                        <div class="stat-label">accuracy</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">$25K</div>
-                        <div class="stat-label">saved per test</div>
-                    </div>
-                </div>
-
-                <div class="hero-ctas">
-                    <a href="#predictor" class="hero-cta primary">
-                        <span>⚡</span>
-                        <span>Predict My Next Test</span>
-                    </a>
+                    <p class="input-context">No GA access needed. Just a URL.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Industry Reality Section -->
-    <section class="industry-reality-section" id="waste-reality">
+    <section class="how-it-works-section" id="how-it-works">
         <div class="container">
-            <div class="reality-wrapper fade-in">
-                <div class="reality-header">
-                    <h2>The B2B A/B Testing Reality</h2>
-                    <p>What the data really says about testing waste</p>
+            <div class="how-header fade-in">
+                <h2>Go From "Guess" to "Evidence" in 3 Steps</h2>
+                <p>Our engine uses AI, cognitive science, and chaos modeling to simulate real-world buyer behavior, delivering a clear verdict before you build.</p>
+            </div>
+            <div class="how-steps-grid">
+                <div class="how-step fade-in">
+                    <div class="step-number">STEP 1</div>
+                    <h3 class="step-title">Page & Persona Analysis</h3>
+                    <p class="step-description">We analyze your page's structure, copy, and trust signals, then simulate your core B2B buyer personas (like the Security Guardian or Economic Buyer).</p>
                 </div>
-
-                <div class="reality-stats">
-                    <div class="industry-stat">
-                        <div class="stat-number">87.5%</div>
-                        <div class="stat-context">of A/B tests fail to beat control</div>
-                        <div class="stat-source">VWO analysis (1 in 8 tests succeed)</div>
-                    </div>
-
-                    <div class="industry-stat">
-                        <div class="stat-number">80%</div>
-                        <div class="stat-context">of tests stopped before statistical significance</div>
-                        <div class="stat-source">Convert.com study of 28,000+ tests</div>
-                    </div>
-
-                    <div class="industry-stat">
-                        <div class="stat-number">5,000</div>
-                        <div class="stat-context">visitors/week needed per test page</div>
-                        <div class="stat-source">Industry minimum for reliable results</div>
-                    </div>
+                <div class="how-step fade-in">
+                    <div class="step-number">STEP 2</div>
+                    <h3 class="step-title">Behavioral Simulation</h3>
+                    <p class="step-description">Hundreds of AI "buyers" navigate your page. We record every virtual click, scroll, and moment of frustration to identify hidden friction points.</p>
                 </div>
-
-                <div class="reality-insight">
-                    <h3>Your B2B Testing Math:</h3>
-                    <div style="display: grid; gap: 16px; text-align: left; max-width: 600px; margin: 0 auto;">
-                        <div
-                            style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
-                            <span>Typical B2B monthly traffic:</span>
-                            <strong>2,500 visitors</strong>
-                        </div>
-                        <div
-                            style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
-                            <span>Required per variant:</span>
-                            <strong style="color: var(--error);">2,000+ visitors</strong>
-                        </div>
-                        <div
-                            style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
-                            <span>Time to significance:</span>
-                            <strong>8-12 weeks</strong>
-                        </div>
-                        <div
-                            style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
-                            <span>Engineering cost (80h × $120):</span>
-                            <strong>$9,600</strong>
-                        </div>
-                        <div
-                            style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
-                            <span>Design cost (40h × $100):</span>
-                            <strong>$4,000</strong>
-                        </div>
-                        <div
-                            style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
-                            <span>Ad spend + opportunity cost:</span>
-                            <strong>$11,400</strong>
-                        </div>
-                        <div
-                            style="display: flex; justify-content: space-between; padding: 16px 0 0 0; font-size: 20px; font-weight: 600; color: var(--accent);">
-                            <span>Total cost per test:</span>
-                            <strong>$25,000</strong>
-                        </div>
-                    </div>
-                    <p style="margin-top: 24px; font-size: 18px; font-weight: 600;">
-                        With 87.5% failure rate × $25K = <span style="color: var(--error);">$21,875 wasted per
-                            test</span>
-                    </p>
-                </div>
-
-                <div class="reality-cta">
-                    <a href="#predictor" class="hero-cta primary">
-                        <span>⚡</span>
-                        <span>Predict Before You Build</span>
-                    </a>
-                    <p class="cta-context">Know which tests will fail in 2 hours, not 8 weeks</p>
+                <div class="how-step fade-in">
+                    <div class="step-number">STEP 3</div>
+                    <h3 class="step-title">Actionable Buyer Insight Brief</h3>
+                    <p class="step-description">You get a one-page summary showing exactly what resonated, what caused confusion, and a prioritized list of fixes to improve conversion.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Speed Comparison Section -->
-    <section class="comparison-section">
+    <section class="comparison-section" id="comparison">
         <div class="container">
             <div class="comparison-header fade-in">
-                <h2>Skip the Failures, Test Only Winners</h2>
-                <p>Predict Before You Test. Know winners in hours, not weeks.</p>
+                <h2>Debates vs. Data</h2>
+                <p>Why simulating buyers beats endless internal meetings.</p>
             </div>
 
             <div class="comparison-grid">
                 <div class="comparison-card old fade-in">
-                    <h3 class="comparison-title">❌ Traditional A/B Testing</h3>
+                    <h3 class="comparison-title">❌ The Old Way: Building Blind</h3>
                     <div class="comparison-features">
                         <div class="feature-group">
-                            <div class="feature-label">Time to Know</div>
+                            <div class="feature-label">The Process</div>
                             <div class="feature-content">
-                                <strong>8-12 weeks</strong> waiting for significance<br>
-                                Build → Test → Wait → Learn you failed<br>
-                                87.5% of tests fail (industry average)
+                                <strong> Endless debates</strong> based on opinions.<br>
+                                Build → Launch → Wait → Learn you failed.<br>
+                                Hope is your only strategy.
                             </div>
                         </div>
 
                         <div class="feature-group">
-                            <div class="feature-label">Cost of Failure</div>
+                            <div class="feature-label">The Cost</div>
                             <div class="feature-content">
-                                <strong>$25K wasted</strong> per failed test<br>
-                                Engineering time + Ad spend + Opportunity cost<br>
-                                12 tests/year × 87.5% = <strong>$262K waste</strong>
+                                <strong>$25K+ wasted</strong> on dev & design.<br>
+                                Weeks of engineering time lost.<br>
+                                Team morale crushed by another failure.
                             </div>
                         </div>
 
                         <div class="feature-group">
-                            <div class="feature-label">B2B Reality</div>
+                            <div class="feature-label">The Outcome</div>
                             <div class="feature-content">
-                                Need 2,000+ visitors per variant<br>
-                                You have: 2,500 monthly total<br>
-                                Result: Never reach significance
+                                Page doesn't resonate with key buyers.<br>
+                                Sales gets frustrated with marketing.<br>
+                                Back to the drawing board.
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="comparison-card new fade-in">
-                    <h3 class="comparison-title">✅ WhyUser Intelligence</h3>
+                    <h3 class="comparison-title">✅ The WhyUser Way: Building with Evidence</h3>
                     <div class="comparison-features">
                         <div class="feature-group">
-                            <div class="feature-label">Time to Know</div>
+                            <div class="feature-label">The Process</div>
                             <div class="feature-content">
-                                <strong>Hours</strong> to get predictions<br>
-                                Predict → Build winners only → Test<br>
-                                70% win rate with WhyUser
+                                <strong>2-hour simulation</strong> before you build.<br>
+                                Simulate → Get evidence → Build with confidence.<br>
+                                Data drives every decision.
                             </div>
                         </div>
 
                         <div class="feature-group">
-                            <div class="feature-label">Value Created</div>
+                            <div class="feature-label">The Value</div>
                             <div class="feature-content">
-                                <strong>Save $25K</strong> per skipped failure<br>
-                                Test only winners → 4x better ROI<br>
-                                Prevent <strong>$175K annual waste</strong>
+                                <strong>Prevent failures</strong> before they're coded.<br>
+                                Align stakeholders with objective data.<br>
+                                Ship winners, faster.
                             </div>
                         </div>
 
                         <div class="feature-group">
-                            <div class="feature-label">B2B Intelligence</div>
+                            <div class="feature-label">The Outcome</div>
                             <div class="feature-content">
-                                Works with 500+ monthly visitors<br>
-                                AI simulates thousands of sessions<br>
-                                Result: Confident predictions fast
+                                Launch pages you know will work.<br>
+                                End political debates with evidence.<br>
+                                Accelerate your growth.
                             </div>
                         </div>
                     </div>
@@ -1579,263 +588,12 @@
         </div>
     </section>
 
-    <!-- How it Works -->
-    <section class="how-it-works-simple" id="how-it-works-simple">
-        <div class="container">
-            <div class="how-header fade-in">
-                <h2>How We Predicts Tests</h2>
-                <p class="how-subtitle">30-second explanation (no magic, just behavioral science & chaos modeling)</p>
-            </div>
-
-            <div class="prediction-flow fade-in">
-                <div class="flow-step">
-                    <div class="flow-icon">🔍</div>
-                    <h3>1. Page Analysis</h3>
-                    <p>We scan your pages like users do: form fields, CTAs, trust signals, mobile UX</p>
-                </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <div class="flow-icon">👥</div>
-                    <h3>2. Behavioral Personas</h3>
-                    <p>We create "twins" of your visitors based on YOUR traffic patterns</p>
-                </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <div class="flow-icon">🎮</div>
-                    <h3>3. Simulate Navigation</h3>
-                    <p>1000s of "twins" navigate both versions, converting or abandoning</p>
-                </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <div class="flow-icon">📊</div>
-                    <h3>4. Aggregate Results</h3>
-                    <p>Statistical analysis reveals which variant wins and why</p>
-                </div>
-            </div>
-
-            <div class="simulation-visual fade-in">
-                <p class="simulation-description">
-                    <strong>Think of it as </strong> test-driving before you buy—WhyUser's AI personas test every
-                    variant to surface the copy that converts best.
-                </p>
-                <a href="#demo-video" class="demo-link">Watch 2-minute demo →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Predictor Section -->
-    <section class="predictor-section" id="predictor">
-        <div class="container">
-            <div class="predictor-header fade-in">
-                <h2>Predict Your A/B Test</h2>
-                <p>Enter your Control + Variants URLs for instant analysis</p>
-            </div>
-
-            <div class="predictor-form fade-in" id="predictorForm">
-                <div class="form-section">
-                    <h3>🏠 Control URL (Current Version)</h3>
-                    <div class="url-input">
-                        <input type="url" placeholder="https://yoursite.com/pricing" id="controlUrl" value="">
-                        <span class="url-status valid">✓ Valid</span>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>🆚 Test Variants</h3>
-                    <div class="url-input">
-                        <input type="url" placeholder="https://yoursite.com/pricing-v2" id="variantA" value="">
-                        <span class="url-status valid">✓ Valid</span>
-                    </div>
-                    <div id="additionalVariants"></div>
-                    <button class="add-variant-btn" onclick="addVariant()">+ Add Another Variant</button>
-                </div>
-
-                <div class="form-section">
-                    <h3>🎯 Success Metric</h3>
-                    <select
-                        style="width: 100%; padding: 14px 20px; border: 2px solid var(--border); border-radius: 8px; background: rgba(255, 255, 255, 0.7); font-size: 15px; font-family: inherit; outline: none;">
-                        <option value="trial">Trial Signup</option>
-                        <option value="demo">Demo Request</option>
-                        <option value="contact">Contact Sales</option>
-                        <option value="download">Content Download</option>
-                        <option value="custom">Custom Goal</option>
-                    </select>
-                </div>
-
-                <div class="form-section">
-                    <h3>🔗 Multi-Stage Funnel (Optional)</h3>
-                    <div class="funnel-toggle">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="enableFunnel" onchange="toggleFunnel()">
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <span>Track complete buyer journey</span>
-                    </div>
-                    <div class="funnel-steps" id="funnelSteps">
-                        <div class="step-input">
-                            <label>Landing Page</label>
-                            <input type="text" placeholder="/features" value="/features">
-                        </div>
-                        <div class="step-input">
-                            <label>Demo/Trial</label>
-                            <input type="text" placeholder="/demo" value="/demo">
-                        </div>
-                        <div class="step-input">
-                            <label>Signup</label>
-                            <input type="text" placeholder="/signup" value="/signup">
-                        </div>
-                        <div class="step-input">
-                            <label>Activation</label>
-                            <input type="text" placeholder="/welcome" value="/welcome">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>🎯 Choose Your Prediction Path</h3>
-                    <div class="prediction-paths">
-                        <div class="path-option industry-path">
-                            <div class="path-header">
-                                <input type="radio" name="accuracy" id="industryPath" value="industry" checked>
-                                <label for="industryPath">
-                                    <span class="path-icon">🏭</span>
-                                    <span class="path-title">Industry Patterns</span>
-                                </label>
-                            </div>
-                            <div class="path-benefits">
-                                <div class="benefit">✓ 62% accurate predictions</div>
-                                <div class="benefit">✓ Start in 30 seconds</div>
-                                <div class="benefit">✓ No data sharing required</div>
-                                <div class="benefit">✓ Perfect for proof of concept</div>
-                            </div>
-                            <div class="path-cta">Best for: Quick validation, security-conscious teams</div>
-                        </div>
-
-                        <div class="path-option your-data-path">
-                            <div class="path-header">
-                                <input type="radio" name="accuracy" id="yourDataPath" value="ga4">
-                                <label for="yourDataPath">
-                                    <span class="path-icon">📊</span>
-                                    <span class="path-title">YOUR Data Patterns</span>
-                                </label>
-                            </div>
-                            <div class="path-benefits">
-                                <div class="benefit">✓ 70% accurate predictions</div>
-                                <div class="benefit">✓ Your exact visitor behavior</div>
-                                <div class="benefit">✓ Buyer committee insights</div>
-                                <div class="benefit">✓ Maximum ROI</div>
-                            </div>
-                            <div class="ga4-connect" id="ga4Connect" style="display: none;">
-                                <button class="ga4-button" onclick="connectGA4()">
-                                    <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right: 8px;">
-                                        <path fill="currentColor"
-                                            d="M9 0C4.03 0 0 4.03 0 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm0-11a4 4 0 100 8 4 4 0 000-8z" />
-                                    </svg>
-                                    Connect Google Analytics
-                                </button>
-                                <p class="ga4-security">Read-only • Auto-deleted</p>
-                            </div>
-                            <div class="path-cta">Best for: Maximum accuracy, strategic decisions</div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="predict-button" onclick="startPrediction()">Get My Test Results Now</button>
-            </div>
-        </div>
-        <div class="credibility-box fade-in">
-            <p class="credibility-text">
-                <strong>The catch?</strong> We're not 100% accurate. We're 62-70% accurate.
-                But that's 2-3x better than the 33% industry average, and infinitely faster than waiting 8 weeks.
-            </p>
-        </div>
-    </section>
-
-    <!-- Comparison Section -->
-    <section class="comparison-table-section">
-        <div class="container">
-            <div class="comparison-table-header fade-in">
-                <h2>WhyUser vs. The Alternatives</h2>
-                <p>Why predictions beat everything else for B2B</p>
-            </div>
-
-            <div class="comparison-table fade-in">
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th class="whyuser-col">
-                                <div class="solution-badge">WhyUser</div>
-                            </th>
-                            <th>Traditional A/B Testing</th>
-                            <th>CRO Consultants</th>
-                            <th>In-House Analysis</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="feature-name">Time to Insights</td>
-                            <td class="whyuser-col"><strong>2 hours</strong></td>
-                            <td>8-12 weeks</td>
-                            <td>2-4 weeks</td>
-                            <td>1-2 weeks</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-name">Accuracy</td>
-                            <td class="whyuser-col"><strong>62-70%</strong></td>
-                            <td>100% (but slow)</td>
-                            <td>40-60%</td>
-                            <td>30-50%</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-name">Works with Low Traffic</td>
-                            <td class="whyuser-col"><strong>✓ 500+ visitors</strong></td>
-                            <td>✗ Need 2000+/variant</td>
-                            <td>✓ But guessing</td>
-                            <td>✗ Statistical noise</td>
-                        </tr>
-                        <!-- <tr>
-                            <td class="feature-name">Cost per Test</td>
-                            <td class="whyuser-col"><strong>$500</strong></td>
-                            <td>$25,000</td>
-                            <td>$5,000-15,000</td>
-                            <td>$10,000 (time)</td>
-                        </tr> -->
-                        <tr>
-                            <td class="feature-name">B2B Committee Insights</td>
-                            <td class="whyuser-col"><strong>✓ Role-specific</strong></td>
-                            <td>✗ Aggregate only</td>
-                            <td>✓ If experienced</td>
-                            <td>✗ Limited</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-name">Failure Prevention</td>
-                            <td class="whyuser-col"><strong>Before building</strong></td>
-                            <td>After 8 weeks</td>
-                            <td>Maybe</td>
-                            <td>Rarely</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="comparison-summary fade-in">
-                <p>
-                    <strong>Bottom line:</strong> WhyUser gives you 70% of the insight in 2% of the time at 1% of the
-                    cost.
-                    Perfect? No. Game-changing for B2B? Absolutely.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Waitlist Section -->
     <section class="waitlist-section" id="waitlist">
         <div class="container">
             <div class="waitlist-container">
                 <div class="waitlist-header fade-in">
-                    <h2>Join the Early Access</h2>
-                    <p>Start predicting A/B tests in hours</p>
+                    <h2>Get Early Access</h2>
+                    <p>Stop debating and start building with evidence. Get your first Buyer Insight Brief for free.</p>
                 </div>
 
                 <div class="waitlist-form fade-in">
@@ -1846,287 +604,106 @@
                         <div class="form-group">
                             <input type="text" placeholder="Company name" required>
                         </div>
-                        <div class="form-group">
-                            <input type="text" placeholder="Job Title" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea placeholder="What's your biggest A/B testing challenge?" required></textarea>
-                        </div>
                         <button type="submit" class="submit-button">Request Early Access</button>
                     </form>
                     <p class="privacy-note">We'll only email about WhyUser updates. No spam.</p>
                 </div>
-
-                <div class="success-checkmark" id="successMessage">
-                    <svg viewBox="0 0 52 52">
-                        <circle class="circle" cx="26" cy="26" r="25" fill="none" />
-                        <path class="check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                    </svg>
+                
+                <div class="success-message" id="successMessage" style="display: none;">
+                    <div class="success-checkmark">
+                        <svg viewBox="0 0 52 52">
+                            <circle class="circle" cx="26" cy="26" r="25" fill="none" />
+                            <path class="check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                    </div>
                     <p style="color: var(--success); font-weight: 600;">Thank you! We'll be in touch soon.</p>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>WhyUser</h4>
-                    <p style="margin-top: 12px; line-height: 1.6;">Predict A/B test outcomes in hours using behavioral
-                        intelligence. Stop wasting money on tests that will fail.</p>
+                    <p style="margin-top: 12px; line-height: 1.6;">See your website through your buyer's eyes. Get AI-driven pre-launch analysis to build pages that convert.</p>
                 </div>
-
                 <div class="footer-section">
                     <h4>Product</h4>
                     <ul>
-                        <li><a href="#how-it-works-simple">How It Works</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
                         <li><a href="#">Pricing</a></li>
                         <li><a href="#">Documentation</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-section">
                     <h4>Company</h4>
                     <ul>
                         <li><a href="about.html">About</a></li>
                         <li><a href="#">Blog</a></li>
-                        <li><a href="#">Case Studies</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-section">
                     <h4>Legal</h4>
                     <ul>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Security</a></li>
                     </ul>
                 </div>
             </div>
-
             <div class="footer-bottom">
                 <p>&copy; 2025 WhyUser. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Prediction Modal -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <button class="close-modal" onclick="closeModal()">×</button>
-
-            <div class="modal-header">
-                <h3>Get Your Test Prediction</h3>
-                <p>We'll analyze your variants and send results in 2 hours</p>
-            </div>
-
-            <form class="modal-form" id="leadForm" onsubmit="submitForm(event)">
-                <div class="form-group">
-                    <label>Work Email</label>
-                    <input type="email" placeholder="you@company.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" placeholder="John Smith" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Company</label>
-                    <input type="text" placeholder="Acme Inc" required>
-                </div>
-
-                <button type="submit" class="submit-button">Get My Prediction →</button>
-            </form>
-
-            <div class="success-message" id="successMessage">
-                <div class="success-checkmark show">
-                    <svg viewBox="0 0 52 52">
-                        <circle class="circle" cx="26" cy="26" r="25" fill="none" />
-                        <path class="check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                    </svg>
-                </div>
-                <h3>Success!</h3>
-                <p>We'll analyze your test and email results within 2 hours.</p>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Mobile menu toggle
+        // --- Static page logic ---
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
         const navLinks = document.getElementById('navLinks');
-
-        mobileMenuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('open');
-        });
-
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+        }
+        
+        window.addEventListener('scroll', () => { 
             const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+            if (header) {
+                header.classList.toggle('scrolled', window.scrollY > 100); 
             }
         });
-
-        // Smooth scrolling
+        
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    // Close mobile menu if open
-                    navLinks.classList.remove('open');
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (navLinks.classList.contains('open')) {
+                        navLinks.classList.remove('open');
+                    }
                 }
             });
         });
-
-        // Intersection observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
+        
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Add variant functionality
-        let variantCount = 1;
-        function addVariant() {
-            variantCount++;
-            const variantsContainer = document.getElementById('additionalVariants');
-            const newVariant = document.createElement('div');
-            newVariant.className = 'url-input';
-            newVariant.innerHTML = `
-                <input type="url" placeholder="https://yoursite.com/pricing-v${variantCount + 1}" id="variant${variantCount}">
-                <span class="url-status valid">✓ Valid</span>
-            `;
-            variantsContainer.appendChild(newVariant);
-        }
-
-        // Toggle funnel
-        function toggleFunnel() {
-            const funnelSteps = document.getElementById('funnelSteps');
-            const checkbox = document.getElementById('enableFunnel');
-
-            if (checkbox.checked) {
-                funnelSteps.classList.add('show');
-            } else {
-                funnelSteps.classList.remove('show');
-            }
-        }
-
-        // Handle accuracy selection
-        document.getElementById('industryPath').addEventListener('change', function () {
-            document.getElementById('ga4Connect').style.display = 'none';
-        });
-
-        document.getElementById('yourDataPath').addEventListener('change', function () {
-            document.getElementById('ga4Connect').style.display = 'block';
-        });
-
-        // GA4 Connection
-        let useGA4 = false;
-        function connectGA4() {
-            // Simulate OAuth flow
-            const button = event.target;
-            button.innerHTML = 'Connecting...';
-            button.disabled = true;
-
-            setTimeout(() => {
-                button.innerHTML = '✓ Connected to GA4';
-                button.style.background = 'rgba(34, 134, 58, 0.1)';
-                button.style.color = 'var(--success)';
-                useGA4 = true;
-            }, 2000);
-        }
-
-        // Start prediction
-        function startPrediction() {
-            // Validate that at least control and one variant are filled
-            const controlUrl = document.getElementById('controlUrl').value;
-            const variantA = document.getElementById('variantA').value;
-
-            if (!controlUrl || !variantA) {
-                alert('Please enter at least a control URL and one variant URL');
-                return;
-            }
-
-            // Show modal
-            const modal = document.getElementById('modalOverlay');
-            if (modal) {
-                modal.style.display = 'block';
-                setTimeout(() => {
-                    modal.classList.add('show');
-                }, 10);
-            }
-        }
-
-        // Close modal function
-        function closeModal(event) {
-            // Only close if clicking the overlay or close button
-            if (!event || event.target === event.currentTarget || event.target.classList.contains('close-modal')) {
-                const modal = document.getElementById('modalOverlay');
-                if (modal) {
-                    modal.classList.remove('show');
-                    setTimeout(() => {
-                        modal.style.display = 'none';
-                    }, 300);
-                }
-            }
-        }
-
-        // Submit form function
-        function submitForm(event) {
-            event.preventDefault();
-            const form = document.getElementById('leadForm');
-            const successMessage = document.getElementById('successMessage');
-
-            if (form && successMessage) {
-                // Hide form, show success
-                form.style.display = 'none';
-                successMessage.style.display = 'block';
-
-                // Close modal after 3 seconds
-                setTimeout(() => {
-                    closeModal();
-                    // Reset form
-                    form.reset();
-                    form.style.display = 'grid';
-                    successMessage.style.display = 'none';
-                }, 3000);
-            }
-        }
-
-        // Waitlist submission
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        
         function submitWaitlist(event) {
             event.preventDefault();
             const form = document.getElementById('waitlistForm');
             const successMessage = document.getElementById('successMessage');
-
-            // Simulate submission
-            form.style.display = 'none';
-            successMessage.classList.add('show');
+            if(form && successMessage) {
+                form.style.display = 'none';
+                successMessage.style.display = 'block';
+                successMessage.querySelector('.success-checkmark').classList.add('show');
+            }
         }
     </script>
 </body>
-
 </html>

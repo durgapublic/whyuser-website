@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About WhyUser - Built by Teams Who Get A/B Testing Pain</title>
+    <title>About WhyUser - Built from the Pain of Building Blind</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -117,7 +117,8 @@
             color: var(--text-primary);
         }
 
-        .nav-links a.active::after {
+        .nav-links a.active::after,
+        .nav-links a:hover::after {
             content: '';
             position: absolute;
             bottom: -4px;
@@ -125,29 +126,16 @@
             width: 100%;
             height: 2px;
             background: var(--accent);
+            transition: width 0.3s ease;
         }
-
-        .cta-button {
-            background: var(--accent);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .cta-button:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(139, 107, 71, 0.2);
+        
+        .nav-links a:not(:hover)::after {
+            width: 0;
         }
 
         /* Main Content */
         .main-content {
-            margin-top: 120px;
+            padding-top: 120px;
             padding-bottom: 80px;
         }
 
@@ -215,28 +203,6 @@
         .timeline-item {
             position: relative;
             margin-bottom: 48px;
-            opacity: 0;
-            transform: translateX(-20px);
-            animation: slideIn 0.6s ease forwards;
-        }
-
-        .timeline-item:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .timeline-item:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .timeline-item:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .timeline-dot {
@@ -267,7 +233,7 @@
         .timeline-title {
             font-size: 20px;
             font-weight: 600;
-            color: var(--error);
+            color: var(--text-primary);
             margin-bottom: 8px;
             display: flex;
             align-items: center;
@@ -282,7 +248,11 @@
 
         .timeline-highlight {
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--accent);
+        }
+        
+        .timeline-highlight.error {
+            color: var(--error);
         }
 
         /* Philosophy Section */
@@ -292,221 +262,18 @@
             margin: 48px 0;
         }
 
-        .philosophy-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .philosophy-container { max-width: 1200px; margin: 0 auto; }
+        .philosophy-header { text-align: center; margin-bottom: 64px; }
+        .philosophy-header h2 { font-size: 48px; font-weight: 600; margin-bottom: 16px; letter-spacing: -0.02em; }
+        .philosophy-header p { font-size: 20px; color: var(--text-secondary); }
+        .philosophy-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+        .philosophy-card { position: relative; padding: 40px; background: rgba(255, 255, 255, 0.6); border-radius: 16px; transition: all 0.3s ease; overflow: hidden; cursor: default; }
+        .philosophy-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px var(--shadow); background: rgba(255, 255, 255, 0.8); }
+        .philosophy-icon { font-size: 48px; margin-bottom: 24px; display: inline-block; }
+        .philosophy-title { font-size: 24px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); }
+        .philosophy-text { font-size: 16px; color: var(--text-secondary); line-height: 1.6; }
+        .philosophy-quote { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); font-style: italic; color: var(--accent); font-size: 15px; }
 
-        .philosophy-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-
-        .philosophy-header h2 {
-            font-size: 48px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-
-        .philosophy-header p {
-            font-size: 20px;
-            color: var(--text-secondary);
-        }
-
-        .philosophy-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
-        }
-
-        .philosophy-card {
-            position: relative;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            overflow: hidden;
-            cursor: default;
-        }
-
-        .philosophy-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(139, 107, 71, 0.05) 0%, transparent 70%);
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-
-        .philosophy-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px var(--shadow);
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        .philosophy-card:hover::before {
-            transform: scale(1.5);
-        }
-
-        .philosophy-icon {
-            font-size: 48px;
-            margin-bottom: 24px;
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-
-        .philosophy-card:hover .philosophy-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .philosophy-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .philosophy-text {
-            font-size: 16px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .philosophy-quote {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-            font-style: italic;
-            color: var(--accent);
-            font-size: 15px;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
-            margin: 48px 0;
-        }
-
-        .stat-card {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.5);
-            padding: 32px 20px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px var(--shadow);
-            background: rgba(255, 255, 255, 0.7);
-        }
-
-        .stat-card:hover::after {
-            transform: scaleX(1);
-        }
-
-        .stat-number {
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--accent);
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 16px;
-            color: var(--text-tertiary);
-        }
-
-        /* Values Section */
-        .values-section {
-            padding: 80px 0;
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-        }
-
-        .values-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-
-        .values-header h2 {
-            font-size: 48px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .value-card {
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 12px;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .value-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
-        }
-
-        .value-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px var(--shadow);
-            background: rgba(255, 255, 255, 0.7);
-        }
-
-        .value-icon {
-            font-size: 48px;
-            margin-bottom: 24px;
-        }
-
-        .value-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-        }
-
-        .value-description {
-            font-size: 16px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
 
         /* Mission Section */
         .mission-section {
@@ -575,141 +342,36 @@
         }
 
         /* Footer */
-        footer {
-            background: var(--text-primary);
-            color: rgba(255, 255, 255, 0.9);
-            padding: 64px 0 32px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 48px;
-            margin-bottom: 48px;
-        }
-
-        .footer-section h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: white;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section li {
-            margin-bottom: 12px;
-        }
-
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 15px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 32px;
-            text-align: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .mobile-menu-toggle span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--text-primary);
-            margin-bottom: 6px;
-            transition: all 0.3s ease;
-        }
-
-        /* Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive */
+        footer { background: var(--text-primary); color: rgba(255, 255, 255, 0.9); padding: 64px 0 32px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 48px; margin-bottom: 48px; }
+        .footer-section h4 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: white; }
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section li { margin-bottom: 12px; }
+        .footer-section a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 15px; transition: color 0.3s ease; }
+        .footer-section a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 32px; text-align: center; font-size: 14px; color: rgba(255, 255, 255, 0.5); }
+        .mobile-menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        .mobile-menu-toggle span { display: block; width: 24px; height: 2px; background: var(--text-primary); margin-bottom: 6px; transition: all 0.3s ease; }
+        
+        /* Animations & Responsive */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        
         @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 72px;
-                left: 0;
-                right: 0;
-                background: rgba(250, 248, 245, 0.98);
-                flex-direction: column;
-                padding: 24px;
-                gap: 24px;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                box-shadow: 0 4px 40px var(--shadow);
-            }
-
-            .nav-links.open {
-                transform: translateX(0);
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            .about-hero h1 {
-                font-size: clamp(30px, 10vw, 48px);
-            }
-
-            .timeline-container {
-                padding-left: 20px;
-            }
-
-            .timeline-dot {
-                left: -20px;
-            }
-
-            .philosophy-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .values-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .mission-section {
-                padding: 48px 24px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
+            .nav-links { position: fixed; top: 72px; left: 0; right: 0; background: rgba(250, 248, 245, 0.98); flex-direction: column; padding: 24px; gap: 24px; transform: translateX(-100%); transition: transform 0.3s ease; box-shadow: 0 4px 40px var(--shadow); }
+            .nav-links.open { transform: translateX(0); }
+            .mobile-menu-toggle { display: block; }
+            .about-hero h1 { font-size: clamp(30px, 10vw, 48px); }
+            .timeline-container { padding-left: 20px; }
+            .timeline-dot { left: -20px; }
+            .philosophy-cards { grid-template-columns: 1fr; }
+            .mission-section { padding: 48px 24px; }
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
     <header id="header">
         <div class="container">
             <nav>
@@ -721,8 +383,8 @@
                 </div>
                 <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="index.html#how-it-works">How It Works</a></li>
-                    <li><a href="index.html#predictor">Predict My Test</a></li>
+                    <li><a href="demo.html">Live Demo</a></li>
+                    <li><a href="about.html" class="active">About Us</a></li>
                     <li><a href="index.html#waitlist">Early Access</a></li>
                 </ul>
                 <button class="mobile-menu-toggle" id="mobileMenuToggle">
@@ -734,196 +396,131 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <!-- Hero Section -->
             <div class="about-hero fade-in">
-                <h1>Built for Teams Who Are Tired of<br><span class="gradient-text">Funding Failures</span></h1>
-                <p>We predict A/B test outcomes because waiting 8 weeks to fail is insane</p>
+                <h1>Stop Funding Failures. Start Shipping Winners.</h1>
+                <p><br>Most landing pages are dead on arrival. Get the evidence from our AI buyer simulations <b>before</b> you build, so your budget funds what will actually convert.</p>
             </div>
 
-            <!-- Story Timeline Section -->
             <section class="story-timeline">
-                <h2 class="fade-in">Sound Familiar?</h2>
+                <h2 class="fade-in">Our Journey. Probably Yours Too.</h2>
                 <div class="timeline-container">
                     <div class="timeline-line"></div>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item fade-in">
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
-                            <div class="timeline-title">
-                                <span>Week 2</span>
-                                <span>🤔</span>
-                            </div>
+                            <div class="timeline-title">The Launch 🚀</div>
                             <p class="timeline-text">
-                                <span class="timeline-highlight">10 weeks. $25K. Failed by 31%.</span>
-                                Another checkout redesign down the drain.
+                                A beautiful, expensive new site goes live. The team is excited. The CEO loves the new headline. The designer is proud.
                             </p>
                         </div>
                     </div>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item fade-in">
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
-                            <div class="timeline-title">
-                                <span>Week 10</span>
-                                <span>📉</span>
-                            </div>
+                            <div class="timeline-title">The Reality Check 🤔</div>
                             <p class="timeline-text">
-                                You suspected failure by week 2.
-                                <span class="timeline-highlight">Statistical significance came week 10.</span>
+                                Two weeks later, the numbers are flat. Hotjar shows users scrolling past the CTA. The "Security Guardian" persona drops off instantly. The "Tech Evaluator" can't find the docs. But who's right? The debate begins.
                             </p>
                         </div>
                     </div>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item fade-in">
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
-                            <div class="timeline-title">
-                                <span>Today</span>
-                                <span>⚡</span>
-                            </div>
+                            <div class="timeline-title">The "Fix" 💸</div>
                             <p class="timeline-text">
-                                WhyUser exists because teams deserve to know
-                                <span class="timeline-highlight">before they build.</span>
+                                An A/B test is proposed. <span class="timeline-highlight error">Weeks of dev time and thousands in ad spend later</span>, the test is inconclusive. The original "guess" was just as good as the new one. The core problem was never diagnosed.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">The Epiphany 💡</div>
+                            <p class="timeline-text">
+                                The problem isn't testing. It's <span class="timeline-highlight">building blind</span>. We needed to see the site through our buyers' eyes *before* the first meeting. We needed to replace opinions with evidence. That's why we built WhyUser.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Philosophy Section -->
             <section class="philosophy-section">
                 <div class="philosophy-container">
                     <div class="philosophy-header fade-in">
-                        <h2>We're Not Another Testing Tool</h2>
-                        <p>We're A/B test prevention.</p>
+                        <h2>Our Core Belief: Simulation Before Creation</h2>
+                        <p>A/B testing is a powerful tool, but it's the last 5%. We focus on the first 95%.</p>
                     </div>
 
                     <div class="philosophy-cards">
                         <div class="philosophy-card fade-in">
-                            <div class="philosophy-icon">🕳️</div>
-                            <h3 class="philosophy-title">Testing Tools Dig Faster</h3>
+                            <div class="philosophy-icon">👥</div>
+                            <h3 class="philosophy-title">Your Buyers Aren't a Monolith</h3>
                             <p class="philosophy-text">
-                                Traditional tools help you test faster. That's like selling faster shovels to dig holes.
+                                A great headline for your Economic Buyer is jargon to your Tech Evaluator. A feature that excites your Champion is a security risk for your Guardian. Optimizing for "a user" means optimizing for no one.
                             </p>
                             <p class="philosophy-quote">
-                                "We tell you which holes to skip entirely."
+                                "We simulate the entire buying committee, not just a generic visitor."
                             </p>
                         </div>
 
                         <div class="philosophy-card fade-in">
-                            <div class="philosophy-icon">🧬</div>
-                            <h3 class="philosophy-title">Behavioral AI Personas</h3>
+                            <div class="philosophy-icon">🔬</div>
+                            <h3 class="philosophy-title">Evidence Ends Debates</h3>
                             <p class="philosophy-text">
-                                Your users → Behavioral AI personas → Variant simulations → 1-hour prediction.
+                                The highest-paid person's opinion is a terrible way to design a website. AI-driven simulation provides objective data to end subjective arguments and align stakeholders.
                             </p>
                             <p class="philosophy-quote">
-                                "Not 8 weeks of hoping you're right."
+                                "Replace 'I think...' with 'The simulation shows...'"
                             </p>
                         </div>
 
                         <div class="philosophy-card fade-in">
-                            <div class="philosophy-icon">🎯</div>
-                            <h3 class="philosophy-title">70% Beats 87.5%</h3>
+                            <div class="philosophy-icon">⚡</div>
+                            <h3 class="philosophy-title">Speed is a Moat</h3>
                             <p class="philosophy-text">
-                                70% accuracy beats 87.5% failure rate every time. Simple math, massive impact.
+                                Waiting weeks for test results is a death sentence in a competitive market. Getting high-confidence insights in hours allows your team to out-learn and out-build everyone else.
                             </p>
                             <p class="philosophy-quote">
-                                "Better to be mostly right early than perfectly wrong late."
+                                "Why wait to fail when you can predict to win?"
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <!-- Stats -->
-            <div class="stats-grid fade-in">
-                <div class="stat-card">
-                    <div class="stat-number">87.5%</div>
-                    <div class="stat-label">Tests That Fail</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">$25K</div>
-                    <div class="stat-label">Average Test Cost</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">8 weeks</div>
-                    <div class="stat-label">Traditional Testing</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">2 hours</div>
-                    <div class="stat-label">WhyUser Prediction</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Values Section -->
-        <section class="values-section">
+            
             <div class="container">
-                <div class="values-header fade-in">
-                    <h2>Our Values</h2>
-                    <p>Simple principles that guide every prediction</p>
+                <div class="mission-section fade-in">
+                    <h2>Our Mission</h2>
+                    <p>To give every B2B team the evidence they need to stop building blind, end the guesswork, and launch websites that their buyers actually want.</p>
+    
+                    <a href="demo.html" class="cta-button-large">
+                        <span>▶️</span>
+                        <span>See It In Action</span>
+                    </a>
                 </div>
-
-                <div class="values-grid">
-                    <div class="value-card fade-in">
-                        <div class="value-icon">🎯</div>
-                        <h3 class="value-title">Honest</h3>
-                        <p class="value-description">Bad news early beats expensive surprises. If your variant will
-                            fail, we say so clearly.</p>
-                    </div>
-
-                    <div class="value-card fade-in">
-                        <div class="value-icon">🙏</div>
-                        <h3 class="value-title">Humble</h3>
-                        <p class="value-description">We're not perfect. That's why every prediction includes confidence
-                            levels and learnings.</p>
-                    </div>
-
-                    <div class="value-card fade-in">
-                        <div class="value-icon">😊</div>
-                        <h3 class="value-title">Happy</h3>
-                        <p class="value-description">Every prevented failure is a team that stays confident and a budget
-                            that funds winners.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Mission Section -->
-        <div class="container">
-            <div class="mission-section fade-in">
-                <h2>Our Mission</h2>
-                <p>Stop the billions wasted annually on A/B tests that were doomed from the start.</p>
-
-                <p>Every prevented failure means more resources for winners.</p>
-
-                <a href="index.html#predictor" class="cta-button-large">
-                    <span>⚡</span>
-                    <span>Predict Your Next Test</span>
-                </a>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>WhyUser</h4>
-                    <p style="margin-top: 12px; line-height: 1.6;">Predict A/B test outcomes in hours using behavioral
-                        intelligence. Stop wasting money on tests that will fail.</p>
+                    <p style="margin-top: 12px; line-height: 1.6;">See your website through your buyer's eyes. Get AI-driven pre-launch analysis to build pages that convert.</p>
                 </div>
 
                 <div class="footer-section">
                     <h4>Product</h4>
                     <ul>
                         <li><a href="index.html#how-it-works">How It Works</a></li>
-                        <li><a href="index.html#features">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
+                        <li><a href="demo.html">Live Demo</a></li>
                         <li><a href="#">Documentation</a></li>
                     </ul>
                 </div>
@@ -931,9 +528,8 @@
                 <div class="footer-section">
                     <h4>Company</h4>
                     <ul>
-                        <li><a href="about.html">About</a></li>
+                        <li><a href="about.html">About Us</a></li>
                         <li><a href="#">Blog</a></li>
-                        <li><a href="#">Case Studies</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
                 </div>
@@ -943,7 +539,6 @@
                     <ul>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Security</a></li>
                     </ul>
                 </div>
             </div>
@@ -955,25 +550,22 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
         const navLinks = document.getElementById('navLinks');
 
-        mobileMenuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('open');
-        });
-
-        // Header scroll effect
+        if(mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('open');
+            });
+        }
+        
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+            if (header) {
+                header.classList.toggle('scrolled', window.scrollY > 100);
             }
         });
 
-        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -983,16 +575,12 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
-                    navLinks.classList.remove('open');
+                    if (navLinks.classList.contains('open')) {
+                        navLinks.classList.remove('open');
+                    }
                 }
             });
         });
-
-        // Intersection observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1000,11 +588,9 @@
                     entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     </script>
 </body>
 
