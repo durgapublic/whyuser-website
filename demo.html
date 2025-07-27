@@ -272,7 +272,7 @@
         }
 
         .section-header h2 {
-            font-size: 48px;
+            font-size: clamp(36px, 5vw, 48px);
             font-weight: 600;
             margin-bottom: 16px;
         }
@@ -340,7 +340,7 @@
             margin-top: 64px;
         }
 
-        /* NEW: Unified report card styling */
+        /* Unified report card styling */
         .master-brief-card {
             background: white;
             border-radius: 16px;
@@ -374,6 +374,64 @@
         .executive-summary-list li:last-child { margin-bottom: 0; }
         .executive-summary-list li::before { content: '⚡'; position: absolute; left: 0; top: 2px; font-size: 18px; }
 
+        /* NEW: Strategic Narrative Section */
+        .strategic-narrative-section {
+            background: var(--bg-accent);
+            border-radius: 12px;
+            padding: 32px;
+        }
+        .strategic-narrative-section h3 {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .aha-moment {
+            font-size: 18px;
+            text-align: center;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+            font-style: italic;
+        }
+        .narrative-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .narrative-column h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+        .narrative-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .narrative-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+        .narrative-list li::before {
+            position: absolute;
+            left: 0;
+            top: 4px;
+        }
+        .narrative-strengths li::before { content: '✅'; }
+        .narrative-weaknesses li::before { content: '❌'; }
+        .narrative-recommendation {
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+        }
+        .narrative-recommendation h4 { font-size: 16px; margin-bottom: 12px; }
+        .narrative-recommendation p { color: var(--text-secondary); font-size: 15px; }
+
+
         /* Heat Map Section */
         .heat-map-table { width: 100%; border-collapse: collapse; font-family: 'SF Mono', monospace; font-size: 14px; }
         .heat-map-table th, .heat-map-table td { padding: 12px; text-align: left; }
@@ -405,27 +463,91 @@
         .path-outcome-metric p { font-size: 14px; color: var(--text-tertiary); margin-bottom: 4px; }
         .path-outcome-metric span { font-size: 16px; font-weight: 600; }
         .path-outcome-metric .bad-outcome { color: var(--error); }
+        
         .monologue-section { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--border); }
         .monologue-section h4 { text-align: center; margin-bottom: 20px; font-size: 18px; font-weight: 600; }
         .monologue-timeline { font-family: 'SF Mono', monospace; font-size: 14px; line-height: 1.8; background: #fdfbf9; padding: 20px; border-radius: 8px; min-height: 100px; }
-        .monologue-entry { opacity: 0; transition: opacity 0.5s ease; }
+        .monologue-entry { opacity: 0; transition: opacity 0.5s ease; margin-bottom: 8px; }
         .monologue-time { color: var(--text-tertiary); }
+        .monologue-event { text-transform: uppercase; font-weight: 600; }
         .monologue-thought { color: var(--text-primary); }
         .blinking-cursor { display: inline-block; background-color: var(--text-primary); width: 8px; height: 14px; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
-        
-        /* Playbook Section */
-        .playbook-section { border: 2px solid var(--success); background: rgba(34, 134, 58, 0.03); border-radius: 12px; padding: 32px; }
-        .playbook-title { text-align: center; margin-bottom: 32px; }
-        .playbook-title h3 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
-        .playbook-table { width: 100%; border-collapse: collapse; }
-        .playbook-table th, .playbook-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border); }
-        .playbook-table th { color: var(--text-secondary); font-weight: 500; font-size: 14px; }
-        .effort-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500; }
-        .effort-low { background: rgba(34, 134, 58, 0.1); color: var(--success); }
-        .effort-med { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        .impact-high { color: var(--success); font-weight: 600; }
-        .impact-med { color: var(--text-primary); font-weight: 600; }
+
+        /* NEW: Final Verdict Section */
+        .final-verdict-section {
+            margin-top: 32px;
+            padding: 24px;
+            border: 2px solid var(--error);
+            border-radius: 12px;
+            background: rgba(220, 53, 69, 0.03);
+        }
+        .final-verdict-section h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--error);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .verdict-reason p, .verdict-irritant p {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+        .verdict-reason strong, .verdict-irritant strong {
+            color: var(--text-primary);
+        }
+        .verdict-reason { margin-bottom: 12px; }
+
+        /* NEW: Diagnostics and Playbook Section */
+        .diagnostics-playbook-section {
+            border-top: 1px solid var(--border);
+            padding-top: 32px;
+        }
+        .business-impact-statement {
+            font-size: 18px;
+            text-align: center;
+            font-weight: 500;
+            padding: 16px;
+            background: var(--bg-accent);
+            border-radius: 8px;
+            margin-bottom: 32px;
+        }
+        .critique-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        .critique-card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+        .critique-header {
+            padding: 16px 24px;
+            background: var(--bg-secondary);
+            font-weight: 600;
+            font-size: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        .critique-body {
+            padding: 24px;
+        }
+        .critique-body strong {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .critique-body p {
+            margin: 0 0 16px;
+            color: var(--text-secondary);
+        }
+        .fix-recommendation {
+            border-top: 1px dashed var(--border);
+            padding-top: 16px;
+        }
+        .fix-recommendation strong { color: var(--success); }
+
 
         /* Benchmark Section */
         .benchmark-metric { padding: 24px 0; border-bottom: 1px solid var(--border); }
@@ -505,7 +627,7 @@
             .url-input { flex-direction: column; }
             .predict-button { width: 100%; }
             .persona-header { flex-direction: column; text-align: center; }
-            .persona-insights-grid { grid-template-columns: 1fr; }
+            .persona-insights-grid, .narrative-grid { grid-template-columns: 1fr; }
             .path-outcome-grid { grid-template-columns: 1fr; gap: 16px; }
             .playbook-table { font-size: 14px; }
             .playbook-table th, .playbook-table td { padding: 12px 8px; }
@@ -704,7 +826,7 @@
             document.getElementById('successMessage').classList.add('show');
         }
 
-        // --- Interactive Demo Logic ---
+        // --- ENHANCED Interactive Demo Logic ---
         const analyzeBtn = document.getElementById('analyzeBtn');
         const demoSection = document.getElementById('interactiveDemoSection');
         const personaSelectorSection = document.getElementById('personaSelectorSection');
@@ -725,23 +847,78 @@
         ];
 
         const detailedPersonaData = {
-            SecurityGuardian: { id: 'SecurityGuardian', icon: '🛡️', name: '“Security-Guardian” Persona', context: '24% Traffic Weight. Goal: Mitigate Risk.', positives: ['“Protect customer data” headline matched intent (84%)', 'Dark colour-scheme signals seriousness (62%)', 'Live-chat staffed by “CISSP-certified” agent (41%)'], negatives: ['No SOC-2 or ISO-27001 badge above the fold (93%)', 'Phrase “enterprise-grade encryption” felt vague (77%)', 'No data-retention policy link (55%)'], path: 'HOME → /product (scroll 38%) → /pricing → BOUNCE', session: '12s', ctaPerformance: '0/50', monologue: [{ time: '00:02', thought: '“Looks modern, but where’s the compliance proof?”' }, { time: '00:05', thought: 'Scrolls → “Still marketing fluff, no third-party attestations.”' }, { time: '00:11', thought: '“Too risky — I’m out.” → closes tab' }] },
-            TechEvaluator: { id: 'TechEvaluator', icon: '⚙️', name: '“Tech-Evaluator” Persona', context: '18% Traffic Weight. Goal: Validate Technical Fit.', positives: ['“5-minute SDK integration” copy (71%)', 'Code snippet with cURL request (54%)', 'Performance benchmark chart (37%)'], negatives: ['“Single-click API” claim contradicted doc page (68%)', 'Hidden pricing tiers after 3 scrolls (51%)', '8-field demo form exceeded patience threshold (43%)'], path: 'HOME → /product → /docs → BOUNCE', session: '4m 32s', ctaPerformance: '2/50', monologue: [{ time: '00:03', thought: '"Okay, SDK integration claim is strong. Let\'s see the docs."' }, { time: '01:20', thought: '"The code samples are decent, but wait... this isn\'t single-click."' }, { time: '02:15', thought: '"Ugh, have to scroll forever to find pricing. Not transparent."' }, { time: '02:45', thought: '"An 8-field form just to see a demo? No thanks." → closes tab' }] }
+            SecurityGuardian: { 
+                id: 'SecurityGuardian', 
+                icon: '🛡️', 
+                name: '“Security-Guardian” Persona', 
+                context: '24% Traffic Weight. Goal: Mitigate Risk.', 
+                positives: ['“Protect customer data” headline matched intent (84%)', 'Dark colour-scheme signals seriousness (62%)', 'Live-chat staffed by “CISSP-certified” agent (41%)'], 
+                negatives: ['No SOC-2 or ISO-27001 badge above the fold (93%)', 'Phrase “enterprise-grade encryption” felt vague (77%)', 'No data-retention policy link (55%)'], 
+                path: 'HOME → /product (scroll 38%) → /pricing → BOUNCE', 
+                session: '12s', 
+                ctaPerformance: '0/50', 
+                monologue: [
+                    { time: '00:02', event: 'scan', element: 'headline', thought: '“Okay, \'Simple, Transparent\'. A bold claim that triggers my skepticism. Let\'s see if they back it up.”' }, 
+                    { time: '00:05', event: 'distraction', element: 'animated_cta_button', thought: '“That flashing button is annoying and feels \'salesy\'. It\'s eroding my trust.”' }, 
+                    { time: '00:12', event: 'scan', element: 'footer', thought: '“I\'ll just scan to the bottom for the SOC-2 logo. It\'s not here. This confirms my bias that this company isn\'t enterprise-ready.”' },
+                    { time: '00:16', event: 'decision', element: 'close_button', thought: '“This is too much work. The combination of unclear pricing and distracting UI makes me trust them less. I\'m out.”' }
+                ],
+                finalVerdict: {
+                    outcome: 'ABANDON',
+                    reason: "The page failed to provide immediate, verifiable proof of enterprise compliance, triggering skepticism and violating my core need for visible trust signals.",
+                    keyIrritation: "The animated button combined with the missing SOC-2 logo on the pricing page."
+                }
+            },
+            TechEvaluator: { 
+                id: 'TechEvaluator', 
+                icon: '⚙️', 
+                name: '“Tech-Evaluator” Persona', 
+                context: '18% Traffic Weight. Goal: Validate Technical Fit.', 
+                positives: ['“5-minute SDK integration” copy (71%)', 'Code snippet with cURL request (54%)', 'Performance benchmark chart (37%)'], 
+                negatives: ['“Single-click API” claim contradicted doc page (68%)', 'Hidden pricing tiers after 3 scrolls (51%)', '8-field demo form exceeded patience threshold (43%)'], 
+                path: 'HOME → /product → /docs → BOUNCE', 
+                session: '4m 32s', 
+                ctaPerformance: '2/50', 
+                monologue: [
+                    { time: '00:03', event: 'scan', element: 'headline', thought: '"Okay, SDK integration claim is strong. Let\'s see the docs."' }, 
+                    { time: '01:20', event: 'scroll', element: 'docs_page', thought: '"The code samples are decent, but wait... this isn\'t single-click."' }, 
+                    { time: '02:15', event: 'scroll', element: 'pricing_page', thought: '"Ugh, have to scroll forever to find pricing. Not transparent."' }, 
+                    { time: '02:45', event: 'decision', element: 'demo_form', thought: '"An 8-field form just to see a demo? No thanks." → closes tab' }
+                ],
+                finalVerdict: {
+                    outcome: 'ABANDON',
+                    reason: "The claims made on the marketing page were contradicted by the technical documentation, breaking trust and signaling a lack of transparency.",
+                    keyIrritation: "The discrepancy between the 'single-click API' claim and the reality in the docs."
+                }
+            }
         };
         
         const briefDividerHTML = `<div class="brief-divider"></div>`;
         const executiveSummaryHTML = `<div class="brief-section" id="executiveSummarySection"> <div class="section-header" style="margin-bottom: 24px;"> <h2>Executive Summary</h2> </div> <ul class="executive-summary-list"> <li>Your <strong>Guardian Trust Score</strong> is <strong>31 / 100</strong> → Bottom 12th percentile among security-SaaS sites we track.</li> <li>Fixing the three issues below would move you to the <strong>60th percentile</strong> and unlock an estimated <strong>+47% more demo requests</strong> (benchmark-based).</li> </ul> </div>`;
-        const heatMapHTML = `<div class="brief-section" id="heatMapSection"> <div class="section-header" style="margin-bottom: 24px;"> <h2>Friction Heat Map</h2> </div> <table class="heat-map-table"> <thead> <tr> <th>Persona × Funnel Page</th> <th>HOME</th> <th>/PRODUCT</th> <th>/PRICING</th> <th>/DEMO FORM</th> </tr> </thead> <tbody> <tr> <td>Security-Guardian</td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>Tech-Evaluator</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-low">██░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>C-Level Executive</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">███░</span></td> </tr> <tr> <td>End-User</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-low">░░░</span></td> <td><span class="friction-none">░░░</span></td> </tr> </tbody> </table> <div class="heat-map-legend"><span><span class="friction-high">████</span> High Friction</span> <span><span class="friction-none">░░░░</span> Low Friction</span></div> </div>`;
+        
+        // NEW: Strategic Narrative Section HTML
+        const strategicNarrativeHTML = `<div class="brief-section strategic-narrative-section" id="strategicNarrativeSection"><h3>💡 Strategic Narrative Alignment</h3><p class="aha-moment">"The page fails at its core strategic goal. It wants me to believe it's a 'modern disruptor,' but its lack of visible, hard compliance proof reinforces my mental model that 'modern' means 'risky'. The story falls apart on the first scan."</p><div class="narrative-grid"><div class="narrative-column narrative-strengths"><h4>Strengths</h4><ul class="narrative-list"><li>The clean UI and modern design successfully communicate the 'modern' part of the narrative.</li></ul></div><div class="narrative-column narrative-weaknesses"><h4>Weaknesses</h4><ul class="narrative-list"><li>The page fails to provide immediate, overwhelming evidence (like a SOC-2 logo above the fold) to counteract my default belief that new vendors are insecure.</li><li>Using marketing buzzwords like 'Next-Gen Synergy' instead of technical specifications makes the 'disruptor' claim feel unsubstantiated and untrustworthy.</li></ul></div></div><div class="narrative-recommendation"><h4>Recommendation for Alignment</h4><p>To make the 'agile but secure' narrative believable, you must over-index on proof. Lead with the SOC-2 and ISO certifications in the hero banner to immediately address my primary objection before telling the rest of your story.</p></div></div>`;
+        
+        const heatMapHTML = `<div class="brief-section" id="heatMapSection"> <div class="section-header" style="margin-bottom: 24px;"> <h2>Friction Heat Map</h2> </div> <table class="heat-map-table"> <thead> <tr> <th>Persona × Funnel Page</th> <th>HOME</th> <th>/PRODUCT</th> <th>/PRICING</th> <th>/DEMO FORM</th> </tr> </thead> <tbody> <tr> <td>Security-Guardian</td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>Tech-Evaluator</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-low">██░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>C-Level Executive</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">███░</span></td> </tr> <tr> <td>End-User</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-low">░░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> </tbody> </table> <div class="heat-map-legend"><span><span class="friction-high">████</span> High Friction</span> <span><span class="friction-none">░░░░</span> Low Friction</span></div> </div>`;
+
+        function createPersonaCardHTML(persona) { 
+            return `<div class="brief-section persona-card" id="${persona.id}"> <div class="persona-header"> <div class="persona-icon">${persona.icon}</div> <div class="persona-title-group"> <h3 class="persona-name">${persona.name}</h3> <p class="persona-role-context">${persona.context}</p> </div> </div> <div class="persona-insights-grid"> <div class="insight-column"> <h4 style="color: var(--success);">✅ What Resonated</h4> <ul class="insight-list positive-insights">${persona.positives.map(p => `<li>${p}</li>`).join('')}</ul> </div> <div class="insight-column"> <h4 style="color: var(--error);">⚠ What Stalled / Confused</h4> <ul class="insight-list negative-insights">${persona.negatives.map(n => `<li>${n}</li>`).join('')}</ul> </div> </div> <div class="path-outcome-section"> <h4>Path to Abandonment</h4> <div class="path-outcome-grid"> <div class="path-outcome-metric"><p>Typical Path</p><span>${persona.path}</span></div> <div class="path-outcome-metric"><p>Median Session</p><span>${persona.session}</span></div> <div class="path-outcome-metric"><p>CTA Performance</p><span class="bad-outcome">${persona.ctaPerformance} clicks</span></div> </div> </div> <div class="monologue-section"> <h4>Simulated Journey Timeline</h4> <div class="monologue-timeline" id="monologue-${persona.id}"><span class="blinking-cursor"></span></div> </div> <div class="final-verdict-section"> <h4>Final Verdict & Key Irritant</h4> <div class="verdict-reason"><strong>Outcome: ${persona.finalVerdict.outcome}</strong><p>${persona.finalVerdict.reason}</p></div> <div class="verdict-irritant"><strong>Key Irritant:</strong><p>${persona.finalVerdict.keyIrritation}</p></div> </div> </div>`; 
+        }
+        
+        // NEW: Diagnostics and Playbook HTML
+        const diagnosticsPlaybookHTML = `<div class="brief-section diagnostics-playbook-section" id="diagnosticsPlaybookSection"> <div class="section-header" style="margin-bottom: 32px;"> <h2>Detailed Diagnostics & Playbook</h2> </div> <div class="business-impact-statement"><strong>Business Impact:</strong> The page's failure to tell a convincing strategic story to a key gatekeeper means the sales process is dead on arrival for high-value enterprise accounts.</div> <div class="critique-grid"> <div class="critique-card"> <div class="critique-header">Messaging Critique</div> <div class="critique-body"> <strong>Critique:</strong> <p>The headline 'Simple, Transparent Pricing' is contradicted by the page's lack of clarity, failing to address the Security Guardian's skepticism.</p> <div class="fix-recommendation"> <strong>Recommended Fix:</strong> <p>Change the headline to 'Flexible Pricing for Every Team' and add a sub-headline: 'Fully-compliant with SOC-2, ISO, and GDPR standards'.</p> </div> </div> </div> <div class="critique-card"> <div class="critique-header">Conversion Critique</div> <div class="critique-body"> <strong>Critique:</strong> <p>The 'Book a Demo' CTA is the wrong ask for a persona who needs proof, not a pitch.</p> <div class="fix-recommendation"> <strong>Recommended Fix:</strong> <p>The primary CTA for this persona should be 'View Security & Compliance Docs'. The demo is a stage-two action, only considered after trust is established.</p> </div> </div> </div> <div class="critique-card"> <div class="critique-header">Competitive Gap Analysis</div> <div class="critique-body"> <strong>Critique:</strong> <p>The page lacks the decision-support tools that this persona expects, based on their experience with market leaders.</p> <div class="fix-recommendation"> <strong>Recommended Fix:</strong> <p>Competitor 'Tenable' allows direct download of their SOC-2 report. Gating this content behind a form is a competitive disadvantage and signals a lack of transparency.</p> </div> </div> </div> </div> </div>`;
+
         const benchmarkHTML = `<div class="brief-section" id="benchmarkSection"> <div class="section-header" style="margin-bottom: 32px;"> <h2>Benchmark Scorecard</h2> <p>How your site's key metrics compare to the industry median.</p></div> <div class="benchmark-metric"> <div class="benchmark-header"> <span class="benchmark-name">Guardian Trust Score</span> <span class="benchmark-score"><span class="your-value">31</span> / 100 <span class="gap gap-negative">(−23 pts)</span></span> </div> <div class="benchmark-bar-container"> <div class="benchmark-bar" style="left: 0%; width: 100%;"></div> <div class="benchmark-marker" style="left: calc((31 - 35) / (72 - 35) * 100% + 4%);"></div> </div> <div class="bar-labels"><span>25th %ile (35)</span><span>75th %ile (72)</span></div> </div> <div class="benchmark-metric"> <div class="benchmark-header"> <span class="benchmark-name">Avg. Demo Form Fields</span> <span class="benchmark-score"><span class="your-value">8</span> fields <span class="gap gap-negative">(+4 fields)</span></span> </div> <div class="benchmark-bar-container"> <div class="benchmark-bar" style="left: 0%; width: 100%;"></div> <div class="benchmark-marker" style="left: calc((6 - 8) / (6 - 2) * 100%);"></div> </div> <div class="bar-labels"><span>75th %ile (2)</span><span>25th %ile (6)</span></div> </div> </div>`;
         const shareBadgeHTML = `<div class="brief-section" id="shareBadgeSection"> <div class="share-badge-grid"> <div class="share-badge-text"> <p><strong>Share Your Score.</strong> See how your team's pages stack up against the industry.</p> <a href="#waitlist" class="predict-button" style="font-size: 15px; padding: 12px 24px;">Get Your Badge</a> </div> <div class="share-badge"> <div>GUARDIAN TRUST SCORE</div> <div class="score">31 / 100</div> <div>Bottom 12th %tile in Security</div> </div> </div> </div>`;
-        function createPersonaCardHTML(persona) { return `<div class="brief-section persona-card" id="${persona.id}"> <div class="persona-header"> <div class="persona-icon">${persona.icon}</div> <div class="persona-title-group"> <h3 class="persona-name">${persona.name}</h3> <p class="persona-role-context">${persona.context}</p> </div> </div> <div class="persona-insights-grid"> <div class="insight-column"> <h4 style="color: var(--success);">✅ What Resonated</h4> <ul class="insight-list positive-insights">${persona.positives.map(p => `<li>${p}</li>`).join('')}</ul> </div> <div class="insight-column"> <h4 style="color: var(--error);">⚠ What Stalled / Confused</h4> <ul class="insight-list negative-insights">${persona.negatives.map(n => `<li>${n}</li>`).join('')}</ul> </div> </div> <div class="path-outcome-section"> <h4>Path to Abandonment</h4> <div class="path-outcome-grid"> <div class="path-outcome-metric"><p>Typical Path</p><span>${persona.path}</span></div> <div class="path-outcome-metric"><p>Median Session</p><span>${persona.session}</span></div> <div class="path-outcome-metric"><p>CTA Performance</p><span class="bad-outcome">${persona.ctaPerformance} clicks</span></div> </div> </div> <div class="monologue-section"> <h4>Simulated Inner Monologue</h4> <div class="monologue-timeline" id="monologue-${persona.id}"><span class="blinking-cursor"></span></div> </div> </div>`; }
-        const playbookHTML = `<div class="brief-section playbook-section" id="playbookSection"> <div class="playbook-title"> <h3>Your Prioritized Quick-Win Playbook</h3> <p>Fix these issues to win back your highest-value personas.</p> </div> <table class="playbook-table"> <thead><tr><th>Rank</th><th>Recommendation</th><th>Effort</th><th>Est. Impact Metric</th></tr></thead> <tbody> <tr><td>1</td><td>Add SOC-2 & ISO-27001 badges in hero banner</td><td><span class="effort-badge effort-low">Low</span></td><td class="impact-high">+22 Guardian Score</td></tr> <tr><td>2</td><td>Shorten demo form: split into 2-step progressive reveal</td><td><span class="effort-badge effort-med">Medium</span></td><td class="impact-high">+18 Tech-Eval conv.</td></tr> <tr><td>3</td><td>Replace “enterprise-grade encryption” with “AES-256, SOC-2 Type II, FedRAMP-ready”</td><td><span class="effort-badge effort-low">Low</span></td><td class="impact-med">+14 Guardian Score</td></tr> </tbody> </table> </div>`;
         
         function typeMonologue(monologueId, monologueLines) {
             const container = document.getElementById(monologueId); if (!container) return; container.innerHTML = ''; let lineIndex = 0;
             function showNextLine() {
                 if (lineIndex < monologueLines.length) {
-                    const entry = document.createElement('div'); entry.className = 'monologue-entry'; const { time, thought } = monologueLines[lineIndex]; entry.innerHTML = `<span class="monologue-time">[${time}]</span> <span class="monologue-thought">${thought}</span>`; container.appendChild(entry);
+                    const entry = document.createElement('div'); entry.className = 'monologue-entry'; 
+                    const { time, event, element, thought } = monologueLines[lineIndex]; 
+                    entry.innerHTML = `<span class="monologue-time">[${time}]</span> <span class="monologue-event">${event.toUpperCase()}</span> on <strong>${element}</strong> → <span class="monologue-thought">'${thought}'</span>`; 
+                    container.appendChild(entry);
                     setTimeout(() => entry.style.opacity = 1, 10); lineIndex++; setTimeout(showNextLine, 1500);
                 }
             } showNextLine();
@@ -766,16 +943,17 @@
             await new Promise(resolve => setTimeout(resolve, 1500));
             briefSection.style.display = 'block'; briefSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            // This is the new logic for the unified brief
             resultsGrid.innerHTML = `<div class="master-brief-card" id="masterBriefCard"></div>`;
             const masterCard = document.getElementById('masterBriefCard');
 
+            // NEW: Enhanced sequence of report elements
             const elementSequence = [
                 { html: executiveSummaryHTML, id: 'executiveSummarySection' },
+                { html: strategicNarrativeHTML, id: 'strategicNarrativeSection' },
                 { html: heatMapHTML, id: 'heatMapSection' },
                 { html: createPersonaCardHTML(detailedPersonaData.SecurityGuardian), id: detailedPersonaData.SecurityGuardian.id, monologue: detailedPersonaData.SecurityGuardian.monologue },
                 { html: createPersonaCardHTML(detailedPersonaData.TechEvaluator), id: detailedPersonaData.TechEvaluator.id, monologue: detailedPersonaData.TechEvaluator.monologue },
-                { html: playbookHTML, id: 'playbookSection' },
+                { html: diagnosticsPlaybookHTML, id: 'diagnosticsPlaybookSection' },
                 { html: benchmarkHTML, id: 'benchmarkSection' },
                 { html: shareBadgeHTML, id: 'shareBadgeSection' }
             ];
@@ -789,13 +967,15 @@
                 
                 const section = document.getElementById(el.id);
                 await new Promise(resolve => setTimeout(resolve, 100)); // wait for render
-                section.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                section.classList.add('visible');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    section.classList.add('visible');
+                }
                 
                 if (el.monologue) {
                     typeMonologue('monologue-' + el.id, el.monologue);
                 }
-                await new Promise(resolve => setTimeout(resolve, 2000)); // shorter delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
             }
 
             analyzeBtn.disabled = false;
