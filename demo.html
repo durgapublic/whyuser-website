@@ -374,33 +374,34 @@
         .executive-summary-list li:last-child { margin-bottom: 0; }
         .executive-summary-list li::before { content: '⚡'; position: absolute; left: 0; top: 2px; font-size: 18px; }
 
-        /* Strategic Narrative Section */
-        .strategic-narrative-section {
+        /* MODIFIED: Strategic Narrative Section (now inside persona card) */
+        .persona-strategic-narrative {
             background: var(--bg-accent);
             border-radius: 12px;
-            padding: 32px;
+            padding: 24px;
+            margin-top: 32px;
         }
-        .strategic-narrative-section h3 {
-            font-size: 24px;
+        .persona-strategic-narrative h3 {
+            font-size: 20px;
             font-weight: 600;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
         .aha-moment {
-            font-size: 18px;
+            font-size: 16px;
             text-align: center;
             color: var(--text-primary);
-            margin-bottom: 32px;
+            margin-bottom: 24px;
             font-style: italic;
         }
         .narrative-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
         .narrative-column h4 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             margin-bottom: 12px;
             padding-bottom: 8px;
@@ -414,7 +415,7 @@
             position: relative;
             padding-left: 24px;
             margin-bottom: 8px;
-            font-size: 15px;
+            font-size: 14px;
             color: var(--text-secondary);
         }
         .narrative-list li::before {
@@ -426,10 +427,10 @@
         .narrative-weaknesses li::before { content: '❌'; }
         .narrative-recommendation {
             border-top: 1px solid var(--border);
-            padding-top: 24px;
+            padding-top: 16px;
         }
-        .narrative-recommendation h4 { font-size: 16px; margin-bottom: 12px; }
-        .narrative-recommendation p { color: var(--text-secondary); font-size: 15px; }
+        .narrative-recommendation h4 { font-size: 15px; margin-bottom: 8px; }
+        .narrative-recommendation p { color: var(--text-secondary); font-size: 14px; margin:0; }
 
 
         /* Heat Map Section */
@@ -445,12 +446,12 @@
         .heat-map-legend span { margin: 0 12px; }
 
         /* Persona Snapshot Section */
-        .persona-header { display: flex; align-items: center; gap: 24px; margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+        .persona-header { display: flex; align-items: center; gap: 24px; margin-bottom: 24px;}
         .persona-icon { font-size: 48px; background: var(--bg-accent); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
         .persona-title-group { flex: 1; }
         .persona-name { font-size: 28px; font-weight: 600; color: var(--text-primary); }
         .persona-role-context { font-size: 16px; color: var(--text-secondary); }
-        .persona-insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+        .persona-insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin: 32px 0; }
         .insight-column h4 { font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
         .insight-list { list-style: none; display: grid; gap: 12px; }
         .insight-list li { position: relative; padding-left: 28px; font-size: 16px; color: var(--text-secondary); }
@@ -908,7 +909,13 @@
                 id: 'SecurityGuardian', 
                 icon: '🛡️', 
                 name: '“Security-Guardian” Persona', 
-                context: '24% Traffic Weight. Goal: Mitigate Risk.', 
+                context: '24% Traffic Weight. Goal: Mitigate Risk.',
+                strategicNarrative: {
+                    ahaMoment: "The page fails at its core strategic goal. It wants me to believe it's a 'modern disruptor,' but its lack of visible, hard compliance proof reinforces my mental model that 'modern' means 'risky'. The story falls apart on the first scan.",
+                    strengths: ["The clean UI and modern design successfully communicate the 'modern' part of the narrative."],
+                    weaknesses: ["Fails to provide immediate, overwhelming evidence (like a SOC-2 logo above the fold) to counteract my default belief that new vendors are insecure.", "Using marketing buzzwords like 'Next-Gen Synergy' feels unsubstantiated and untrustworthy."],
+                    recommendation: "To make the 'agile but secure' narrative believable, you must over-index on proof. Lead with the SOC-2 and ISO certifications in the hero banner to immediately address my primary objection."
+                },
                 positives: ['“Protect customer data” headline matched intent (84%)', 'Dark colour-scheme signals seriousness (62%)', 'Live-chat staffed by “CISSP-certified” agent (41%)'], 
                 negatives: ['No SOC-2 or ISO-27001 badge above the fold (93%)', 'Phrase “enterprise-grade encryption” felt vague (77%)', 'No data-retention policy link (55%)'], 
                 path: 'HOME → /product (scroll 38%) → /pricing → BOUNCE', 
@@ -930,7 +937,13 @@
                 id: 'TechEvaluator', 
                 icon: '⚙️', 
                 name: '“Tech-Evaluator” Persona', 
-                context: '18% Traffic Weight. Goal: Validate Technical Fit.', 
+                context: '18% Traffic Weight. Goal: Validate Technical Fit.',
+                strategicNarrative: {
+                    ahaMoment: "The page's narrative of 'simplicity and power' is immediately contradicted by the technical reality. The story breaks down the moment I try to validate a marketing claim against the documentation.",
+                    strengths: ["The initial headline '5-minute SDK integration' is compelling and aligns with my need for efficiency."],
+                    weaknesses: ["The 'single-click API' claim is not supported by the code samples in the docs, which destroys credibility.", "Hiding pricing details behind multiple scrolls signals a lack of transparency that is a major red flag for technical buyers."],
+                    recommendation: "Ensure 100% fidelity between marketing claims and technical reality. Surface transparent pricing and avoid hyperbole to build trust with this persona."
+                },
                 positives: ['“5-minute SDK integration” copy (71%)', 'Code snippet with cURL request (54%)', 'Performance benchmark chart (37%)'], 
                 negatives: ['“Single-click API” claim contradicted doc page (68%)', 'Hidden pricing tiers after 3 scrolls (51%)', '8-field demo form exceeded patience threshold (43%)'], 
                 path: 'HOME → /product → /docs → BOUNCE', 
@@ -952,11 +965,50 @@
         
         const briefDividerHTML = `<div class="brief-divider"></div>`;
         const executiveSummaryHTML = `<div class="brief-section" id="executiveSummarySection"> <div class="section-header" style="margin-bottom: 24px;"> <h2>Executive Summary</h2> </div> <ul class="executive-summary-list"> <li>Your <strong>Guardian Trust Score</strong> is <strong>31 / 100</strong> → Bottom 12th percentile among security-SaaS sites we track.</li> <li>Fixing the three issues below would move you to the <strong>60th percentile</strong> and unlock an estimated <strong>+47% more demo requests</strong> (benchmark-based).</li> </ul> </div>`;
-        const strategicNarrativeHTML = `<div class="brief-section strategic-narrative-section" id="strategicNarrativeSection"><h3>💡 Strategic Narrative Alignment</h3><p class="aha-moment">"The page fails at its core strategic goal. It wants me to believe it's a 'modern disruptor,' but its lack of visible, hard compliance proof reinforces my mental model that 'modern' means 'risky'. The story falls apart on the first scan."</p><div class="narrative-grid"><div class="narrative-column narrative-strengths"><h4>Strengths</h4><ul class="narrative-list"><li>The clean UI and modern design successfully communicate the 'modern' part of the narrative.</li></ul></div><div class="narrative-column narrative-weaknesses"><h4>Weaknesses</h4><ul class="narrative-list"><li>The page fails to provide immediate, overwhelming evidence (like a SOC-2 logo above the fold) to counteract my default belief that new vendors are insecure.</li><li>Using marketing buzzwords like 'Next-Gen Synergy' instead of technical specifications makes the 'disruptor' claim feel unsubstantiated and untrustworthy.</li></ul></div></div><div class="narrative-recommendation"><h4>Recommendation for Alignment</h4><p>To make the 'agile but secure' narrative believable, you must over-index on proof. Lead with the SOC-2 and ISO certifications in the hero banner to immediately address my primary objection before telling the rest of your story.</p></div></div>`;
         const heatMapHTML = `<div class="brief-section" id="heatMapSection"> <div class="section-header" style="margin-bottom: 24px;"> <h2>Friction Heat Map</h2> </div> <table class="heat-map-table"> <thead> <tr> <th>Persona × Funnel Page</th> <th>HOME</th> <th>/PRODUCT</th> <th>/PRICING</th> <th>/DEMO FORM</th> </tr> </thead> <tbody> <tr> <td>Security-Guardian</td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>Tech-Evaluator</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-low">██░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>C-Level Executive</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">███░</span></td> </tr> <tr> <td>End-User</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-low">░░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> </tbody> </table> <div class="heat-map-legend"><span><span class="friction-high">████</span> High Friction</span> <span><span class="friction-none">░░░░</span> Low Friction</span></div> </div>`;
 
+        // MODIFIED: This function now builds the persona card INCLUDING the strategic narrative section
         function createPersonaCardHTML(persona) { 
-            return `<div class="brief-section persona-card" id="${persona.id}"> <div class="persona-header"> <div class="persona-icon">${persona.icon}</div> <div class="persona-title-group"> <h3 class="persona-name">${persona.name}</h3> <p class="persona-role-context">${persona.context}</p> </div> </div> <div class="persona-insights-grid"> <div class="insight-column"> <h4 style="color: var(--success);">✅ What Resonated</h4> <ul class="insight-list positive-insights">${persona.positives.map(p => `<li>${p}</li>`).join('')}</ul> </div> <div class="insight-column"> <h4 style="color: var(--error);">⚠ What Stalled / Confused</h4> <ul class="insight-list negative-insights">${persona.negatives.map(n => `<li>${n}</li>`).join('')}</ul> </div> </div> <div class="path-outcome-section"> <h4>Path to Abandonment</h4> <div class="path-outcome-grid"> <div class="path-outcome-metric"><p>Typical Path</p><span>${persona.path}</span></div> <div class="path-outcome-metric"><p>Median Session</p><span>${persona.session}</span></div> <div class="path-outcome-metric"><p>CTA Performance</p><span class="bad-outcome">${persona.ctaPerformance} clicks</span></div> </div> </div> <div class="monologue-section"> <h4>Simulated Journey Timeline</h4> <div class="monologue-timeline" id="monologue-${persona.id}"><span class="blinking-cursor"></span></div> </div> <div class="final-verdict-section"> <h4>Final Verdict & Key Irritant</h4> <div class="verdict-reason"><strong>Outcome: ${persona.finalVerdict.outcome}</strong><p>${persona.finalVerdict.reason}</p></div> <div class="verdict-irritant"><strong>Key Irritant:</strong><p>${persona.finalVerdict.keyIrritation}</p></div> </div> </div>`; 
+            const narrative = persona.strategicNarrative;
+            return `<div class="brief-section persona-card" id="${persona.id}">
+                <div class="persona-header">
+                    <div class="persona-icon">${persona.icon}</div>
+                    <div class="persona-title-group">
+                        <h3 class="persona-name">${persona.name}</h3>
+                        <p class="persona-role-context">${persona.context}</p>
+                    </div>
+                </div>
+                <div class="persona-strategic-narrative">
+                    <h3>💡 Strategic Narrative Alignment</h3>
+                    <p class="aha-moment">"${narrative.ahaMoment}"</p>
+                    <div class="narrative-grid">
+                        <div class="narrative-column narrative-strengths"><h4>Strengths</h4><ul class="narrative-list">${narrative.strengths.map(s => `<li>${s}</li>`).join('')}</ul></div>
+                        <div class="narrative-column narrative-weaknesses"><h4>Weaknesses</h4><ul class="narrative-list">${narrative.weaknesses.map(w => `<li>${w}</li>`).join('')}</ul></div>
+                    </div>
+                    <div class="narrative-recommendation"><h4>Recommendation</h4><p>${narrative.recommendation}</p></div>
+                </div>
+                <div class="persona-insights-grid">
+                    <div class="insight-column"><h4 style="color: var(--success);">✅ What Resonated</h4><ul class="insight-list positive-insights">${persona.positives.map(p => `<li>${p}</li>`).join('')}</ul></div>
+                    <div class="insight-column"><h4 style="color: var(--error);">⚠ What Stalled / Confused</h4><ul class="insight-list negative-insights">${persona.negatives.map(n => `<li>${n}</li>`).join('')}</ul></div>
+                </div>
+                <div class="path-outcome-section">
+                    <h4>Path to Abandonment</h4>
+                    <div class="path-outcome-grid">
+                        <div class="path-outcome-metric"><p>Typical Path</p><span>${persona.path}</span></div>
+                        <div class="path-outcome-metric"><p>Median Session</p><span>${persona.session}</span></div>
+                        <div class="path-outcome-metric"><p>CTA Performance</p><span class="bad-outcome">${persona.ctaPerformance} clicks</span></div>
+                    </div>
+                </div>
+                <div class="monologue-section">
+                    <h4>Simulated Journey Timeline</h4>
+                    <div class="monologue-timeline" id="monologue-${persona.id}"><span class="blinking-cursor"></span></div>
+                </div>
+                <div class="final-verdict-section">
+                    <h4>Final Verdict & Key Irritant</h4>
+                    <div class="verdict-reason"><strong>Outcome: ${persona.finalVerdict.outcome}</strong><p>${persona.finalVerdict.reason}</p></div>
+                    <div class="verdict-irritant"><strong>Key Irritant:</strong><p>${persona.finalVerdict.keyIrritation}</p></div>
+                </div>
+            </div>`; 
         }
 
         const benchmarkHTML_Guardian = `<div class="section-header" style="margin-bottom: 32px; margin-top: 32px;"><h3>Persona Benchmark: Security Guardian</h3></div><div class="benchmark-metric"><div class="benchmark-header"><span class="benchmark-name">Guardian Trust Score</span><span class="benchmark-score"><span class="your-value" style="color: var(--error);">31</span> / 100<span class="gap gap-negative">(−23 pts)</span></span></div><div class="benchmark-bar-container"><div class="benchmark-bar"></div><div class="benchmark-marker" style="left: calc((31 - 35) / (72 - 35) * 100% + 4%);"><div class="benchmark-marker-line"></div></div></div><div class="bar-labels"><span>25th %ile (35)</span><span>75th %ile (72)</span></div></div>`;
@@ -1044,12 +1096,12 @@
             resultsGrid.innerHTML = `<div class="master-brief-card" id="masterBriefCard"></div>`;
             const masterCard = document.getElementById('masterBriefCard');
             
+            // CORRECTED: Sequence no longer contains a generic strategic narrative section.
             const elementSequence = [
                 { html: executiveSummaryHTML, id: 'executiveSummarySection' },
-                { html: strategicNarrativeHTML, id: 'strategicNarrativeSection' },
                 { html: heatMapHTML, id: 'heatMapSection' },
-                { html: createPersonaCardHTML(detailedPersonaData.SecurityGuardian), id: detailedPersonaData.SecurityGuardian.id, monologue: detailedPersonaData.SecurityGuardian.monologue },
-                { html: createPersonaCardHTML(detailedPersonaData.TechEvaluator), id: detailedPersonaData.TechEvaluator.id, monologue: detailedPersonaData.TechEvaluator.monologue },
+                { html: createPersonaCardHTML(detailedPersonaData.SecurityGuardian), id: 'SecurityGuardian', monologue: detailedPersonaData.SecurityGuardian.monologue },
+                { html: createPersonaCardHTML(detailedPersonaData.TechEvaluator), id: 'TechEvaluator', monologue: detailedPersonaData.TechEvaluator.monologue },
                 { html: diagnosticsPlaybookSectionHTML, id: 'diagnosticsPlaybookSection' },
                 { html: shareBadgeHTML, id: 'shareBadgeSection' }
             ];
@@ -1061,7 +1113,7 @@
                 if (i > 0) { masterCard.innerHTML += briefDividerHTML; }
                 masterCard.innerHTML += el.html;
                 
-                await new Promise(resolve => setTimeout(resolve, 100)); 
+                await new Promise(resolve => setTimeout(resolve, 50));
                 
                 const section = document.getElementById(el.id);
                 if (section) {
@@ -1073,10 +1125,11 @@
                     typeMonologue('monologue-' + el.id, el.monologue);
                 }
                 
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, 1000));
             }
             
-            // **BUG FIX: INITIALIZE TABS *AFTER* THE ENTIRE CARD IS RENDERED**
+            // **CORRECTED SCRIPT**
+            // This now runs ONCE after the entire report is rendered, ensuring all elements exist.
             const tabContainer = document.getElementById('diagnosticsPlaybookSection');
             if(tabContainer) {
                 const tabNav = tabContainer.querySelector('.tab-navigation');
