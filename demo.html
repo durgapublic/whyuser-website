@@ -374,7 +374,7 @@
         .executive-summary-list li:last-child { margin-bottom: 0; }
         .executive-summary-list li::before { content: '⚡'; position: absolute; left: 0; top: 2px; font-size: 18px; }
 
-        /* NEW: Strategic Narrative Section */
+        /* Strategic Narrative Section */
         .strategic-narrative-section {
             background: var(--bg-accent);
             border-radius: 12px;
@@ -474,7 +474,7 @@
         .blinking-cursor { display: inline-block; background-color: var(--text-primary); width: 8px; height: 14px; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* NEW: Final Verdict Section */
+        /* Final Verdict Section */
         .final-verdict-section {
             margin-top: 32px;
             padding: 24px;
@@ -499,7 +499,7 @@
         }
         .verdict-reason { margin-bottom: 12px; }
 
-        /* NEW: Diagnostics and Playbook Section */
+        /* Diagnostics and Playbook Section */
         .diagnostics-playbook-section {
             border-top: 1px solid var(--border);
             padding-top: 32px;
@@ -517,6 +517,7 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 24px;
+            margin-bottom: 40px;
         }
         .critique-card {
             border: 1px solid var(--border);
@@ -548,6 +549,19 @@
         }
         .fix-recommendation strong { color: var(--success); }
 
+        /* RE-INTEGRATED: Playbook Section */
+        .playbook-section { border-top: 1px solid var(--border); padding-top: 40px; }
+        .playbook-title { text-align: center; margin-bottom: 32px; }
+        .playbook-title h3 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+        .playbook-title p { font-size: 18px; color: var(--text-secondary); }
+        .playbook-table { width: 100%; border-collapse: collapse; }
+        .playbook-table th, .playbook-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        .playbook-table th { color: var(--text-secondary); font-weight: 500; font-size: 14px; text-transform: uppercase; }
+        .effort-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500; }
+        .effort-low { background: rgba(34, 134, 58, 0.1); color: var(--success); }
+        .effort-med { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .impact-high { color: var(--success); font-weight: 600; }
+        .impact-med { color: var(--text-primary); font-weight: 600; }
 
         /* Benchmark Section */
         .benchmark-metric { padding: 24px 0; border-bottom: 1px solid var(--border); }
@@ -896,7 +910,6 @@
         const briefDividerHTML = `<div class="brief-divider"></div>`;
         const executiveSummaryHTML = `<div class="brief-section" id="executiveSummarySection"> <div class="section-header" style="margin-bottom: 24px;"> <h2>Executive Summary</h2> </div> <ul class="executive-summary-list"> <li>Your <strong>Guardian Trust Score</strong> is <strong>31 / 100</strong> → Bottom 12th percentile among security-SaaS sites we track.</li> <li>Fixing the three issues below would move you to the <strong>60th percentile</strong> and unlock an estimated <strong>+47% more demo requests</strong> (benchmark-based).</li> </ul> </div>`;
         
-        // NEW: Strategic Narrative Section HTML
         const strategicNarrativeHTML = `<div class="brief-section strategic-narrative-section" id="strategicNarrativeSection"><h3>💡 Strategic Narrative Alignment</h3><p class="aha-moment">"The page fails at its core strategic goal. It wants me to believe it's a 'modern disruptor,' but its lack of visible, hard compliance proof reinforces my mental model that 'modern' means 'risky'. The story falls apart on the first scan."</p><div class="narrative-grid"><div class="narrative-column narrative-strengths"><h4>Strengths</h4><ul class="narrative-list"><li>The clean UI and modern design successfully communicate the 'modern' part of the narrative.</li></ul></div><div class="narrative-column narrative-weaknesses"><h4>Weaknesses</h4><ul class="narrative-list"><li>The page fails to provide immediate, overwhelming evidence (like a SOC-2 logo above the fold) to counteract my default belief that new vendors are insecure.</li><li>Using marketing buzzwords like 'Next-Gen Synergy' instead of technical specifications makes the 'disruptor' claim feel unsubstantiated and untrustworthy.</li></ul></div></div><div class="narrative-recommendation"><h4>Recommendation for Alignment</h4><p>To make the 'agile but secure' narrative believable, you must over-index on proof. Lead with the SOC-2 and ISO certifications in the hero banner to immediately address my primary objection before telling the rest of your story.</p></div></div>`;
         
         const heatMapHTML = `<div class="brief-section" id="heatMapSection"> <div class="section-header" style="margin-bottom: 24px;"> <h2>Friction Heat Map</h2> </div> <table class="heat-map-table"> <thead> <tr> <th>Persona × Funnel Page</th> <th>HOME</th> <th>/PRODUCT</th> <th>/PRICING</th> <th>/DEMO FORM</th> </tr> </thead> <tbody> <tr> <td>Security-Guardian</td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>Tech-Evaluator</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-low">██░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>C-Level Executive</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">███░</span></td> </tr> <tr> <td>End-User</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-low">░░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> </tbody> </table> <div class="heat-map-legend"><span><span class="friction-high">████</span> High Friction</span> <span><span class="friction-none">░░░░</span> Low Friction</span></div> </div>`;
@@ -905,8 +918,9 @@
             return `<div class="brief-section persona-card" id="${persona.id}"> <div class="persona-header"> <div class="persona-icon">${persona.icon}</div> <div class="persona-title-group"> <h3 class="persona-name">${persona.name}</h3> <p class="persona-role-context">${persona.context}</p> </div> </div> <div class="persona-insights-grid"> <div class="insight-column"> <h4 style="color: var(--success);">✅ What Resonated</h4> <ul class="insight-list positive-insights">${persona.positives.map(p => `<li>${p}</li>`).join('')}</ul> </div> <div class="insight-column"> <h4 style="color: var(--error);">⚠ What Stalled / Confused</h4> <ul class="insight-list negative-insights">${persona.negatives.map(n => `<li>${n}</li>`).join('')}</ul> </div> </div> <div class="path-outcome-section"> <h4>Path to Abandonment</h4> <div class="path-outcome-grid"> <div class="path-outcome-metric"><p>Typical Path</p><span>${persona.path}</span></div> <div class="path-outcome-metric"><p>Median Session</p><span>${persona.session}</span></div> <div class="path-outcome-metric"><p>CTA Performance</p><span class="bad-outcome">${persona.ctaPerformance} clicks</span></div> </div> </div> <div class="monologue-section"> <h4>Simulated Journey Timeline</h4> <div class="monologue-timeline" id="monologue-${persona.id}"><span class="blinking-cursor"></span></div> </div> <div class="final-verdict-section"> <h4>Final Verdict & Key Irritant</h4> <div class="verdict-reason"><strong>Outcome: ${persona.finalVerdict.outcome}</strong><p>${persona.finalVerdict.reason}</p></div> <div class="verdict-irritant"><strong>Key Irritant:</strong><p>${persona.finalVerdict.keyIrritation}</p></div> </div> </div>`; 
         }
         
-        // NEW: Diagnostics and Playbook HTML
-        const diagnosticsPlaybookHTML = `<div class="brief-section diagnostics-playbook-section" id="diagnosticsPlaybookSection"> <div class="section-header" style="margin-bottom: 32px;"> <h2>Detailed Diagnostics & Playbook</h2> </div> <div class="business-impact-statement"><strong>Business Impact:</strong> The page's failure to tell a convincing strategic story to a key gatekeeper means the sales process is dead on arrival for high-value enterprise accounts.</div> <div class="critique-grid"> <div class="critique-card"> <div class="critique-header">Messaging Critique</div> <div class="critique-body"> <strong>Critique:</strong> <p>The headline 'Simple, Transparent Pricing' is contradicted by the page's lack of clarity, failing to address the Security Guardian's skepticism.</p> <div class="fix-recommendation"> <strong>Recommended Fix:</strong> <p>Change the headline to 'Flexible Pricing for Every Team' and add a sub-headline: 'Fully-compliant with SOC-2, ISO, and GDPR standards'.</p> </div> </div> </div> <div class="critique-card"> <div class="critique-header">Conversion Critique</div> <div class="critique-body"> <strong>Critique:</strong> <p>The 'Book a Demo' CTA is the wrong ask for a persona who needs proof, not a pitch.</p> <div class="fix-recommendation"> <strong>Recommended Fix:</strong> <p>The primary CTA for this persona should be 'View Security & Compliance Docs'. The demo is a stage-two action, only considered after trust is established.</p> </div> </div> </div> <div class="critique-card"> <div class="critique-header">Competitive Gap Analysis</div> <div class="critique-body"> <strong>Critique:</strong> <p>The page lacks the decision-support tools that this persona expects, based on their experience with market leaders.</p> <div class="fix-recommendation"> <strong>Recommended Fix:</strong> <p>Competitor 'Tenable' allows direct download of their SOC-2 report. Gating this content behind a form is a competitive disadvantage and signals a lack of transparency.</p> </div> </div> </div> </div> </div>`;
+        const prioritizedPlaybookTableHTML = `<div class="playbook-section" id="playbookSection"><div class="playbook-title"><h3>Your Prioritized Quick-Win Playbook</h3><p>Fix these issues to win back your highest-value personas.</p></div><table class="playbook-table"><thead><tr><th>Rank</th><th>Recommendation</th><th>Effort</th><th>Est. Impact Metric</th></tr></thead><tbody><tr><td>1</td><td>Add SOC-2 & ISO-27001 badges in hero banner</td><td><span class="effort-badge effort-low">Low</span></td><td class="impact-high">+22 Guardian Score</td></tr><tr><td>2</td><td>Shorten demo form: split into 2-step progressive reveal</td><td><span class="effort-badge effort-med">Medium</span></td><td class="impact-high">+18 Tech-Eval conv.</td></tr><tr><td>3</td><td>Replace “enterprise-grade encryption” with “AES-256, SOC-2 Type II, FedRAMP-ready”</td><td><span class="effort-badge effort-low">Low</span></td><td class="impact-med">+14 Guardian Score</td></tr></tbody></table></div>`;
+
+        const diagnosticsPlaybookHTML = `<div class="brief-section diagnostics-playbook-section" id="diagnosticsPlaybookSection"> <div class="section-header" style="margin-bottom: 32px;"> <h2>Detailed Diagnostics & Playbook</h2> </div> <div class="business-impact-statement"><strong>Business Impact:</strong> The page's failure to tell a convincing strategic story to a key gatekeeper means the sales process is dead on arrival for high-value enterprise accounts.</div> <div class="critique-grid"> <div class="critique-card"> <div class="critique-header">Messaging Critique</div> <div class="critique-body"> <strong>Critique:</strong> <p>The headline 'Simple, Transparent Pricing' is contradicted by the page's lack of clarity, failing to address the Security Guardian's skepticism.</p> <div class="fix-recommendation"> <strong>Recommended Fix:</strong> <p>Change the headline to 'Flexible Pricing for Every Team' and add a sub-headline: 'Fully-compliant with SOC-2, ISO, and GDPR standards'.</p> </div> </div> </div> <div class="critique-card"> <div class="critique-header">Conversion Critique</div> <div class="critique-body"> <strong>Critique:</strong> <p>The 'Book a Demo' CTA is the wrong ask for a persona who needs proof, not a pitch.</p> <div class="fix-recommendation"> <strong>Recommended Fix:</strong> <p>The primary CTA for this persona should be 'View Security & Compliance Docs'. The demo is a stage-two action, only considered after trust is established.</p> </div> </div> </div> <div class="critique-card"> <div class="critique-header">Competitive Gap Analysis</div> <div class="critique-body"> <strong>Critique:</strong> <p>The page lacks the decision-support tools that this persona expects, based on their experience with market leaders.</p> <div class="fix-recommendation"> <strong>Recommended Fix:</strong> <p>Competitor 'Tenable' allows direct download of their SOC-2 report. Gating this content behind a form is a competitive disadvantage and signals a lack of transparency.</p> </div> </div> </div> </div> ${prioritizedPlaybookTableHTML} </div>`;
 
         const benchmarkHTML = `<div class="brief-section" id="benchmarkSection"> <div class="section-header" style="margin-bottom: 32px;"> <h2>Benchmark Scorecard</h2> <p>How your site's key metrics compare to the industry median.</p></div> <div class="benchmark-metric"> <div class="benchmark-header"> <span class="benchmark-name">Guardian Trust Score</span> <span class="benchmark-score"><span class="your-value">31</span> / 100 <span class="gap gap-negative">(−23 pts)</span></span> </div> <div class="benchmark-bar-container"> <div class="benchmark-bar" style="left: 0%; width: 100%;"></div> <div class="benchmark-marker" style="left: calc((31 - 35) / (72 - 35) * 100% + 4%);"></div> </div> <div class="bar-labels"><span>25th %ile (35)</span><span>75th %ile (72)</span></div> </div> <div class="benchmark-metric"> <div class="benchmark-header"> <span class="benchmark-name">Avg. Demo Form Fields</span> <span class="benchmark-score"><span class="your-value">8</span> fields <span class="gap gap-negative">(+4 fields)</span></span> </div> <div class="benchmark-bar-container"> <div class="benchmark-bar" style="left: 0%; width: 100%;"></div> <div class="benchmark-marker" style="left: calc((6 - 8) / (6 - 2) * 100%);"></div> </div> <div class="bar-labels"><span>75th %ile (2)</span><span>25th %ile (6)</span></div> </div> </div>`;
         const shareBadgeHTML = `<div class="brief-section" id="shareBadgeSection"> <div class="share-badge-grid"> <div class="share-badge-text"> <p><strong>Share Your Score.</strong> See how your team's pages stack up against the industry.</p> <a href="#waitlist" class="predict-button" style="font-size: 15px; padding: 12px 24px;">Get Your Badge</a> </div> <div class="share-badge"> <div>GUARDIAN TRUST SCORE</div> <div class="score">31 / 100</div> <div>Bottom 12th %tile in Security</div> </div> </div> </div>`;
@@ -946,7 +960,6 @@
             resultsGrid.innerHTML = `<div class="master-brief-card" id="masterBriefCard"></div>`;
             const masterCard = document.getElementById('masterBriefCard');
 
-            // NEW: Enhanced sequence of report elements
             const elementSequence = [
                 { html: executiveSummaryHTML, id: 'executiveSummarySection' },
                 { html: strategicNarrativeHTML, id: 'strategicNarrativeSection' },
@@ -966,7 +979,7 @@
                 masterCard.innerHTML += el.html;
                 
                 const section = document.getElementById(el.id);
-                await new Promise(resolve => setTimeout(resolve, 100)); // wait for render
+                await new Promise(resolve => setTimeout(resolve, 100));
                 if (section) {
                     section.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     section.classList.add('visible');
