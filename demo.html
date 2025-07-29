@@ -375,7 +375,16 @@
         .scoreboard-table td:first-child, .details-table td:first-child, .path-analysis-table td:first-child { font-weight: 600; }
         .path-analysis-table td { font-family: 'SF Mono', monospace; }
         .critical-blocker { color: var(--error); font-weight: 500; }
-        .fail-verdict { background: rgba(220, 53, 69, 0.05); color: var(--error); font-weight: bold; border-radius: 4px; padding: 2px 6px; display: inline-block; }
+        .fail-verdict { 
+            background: rgba(220, 53, 69, 0.1); 
+            color: var(--error); 
+            font-weight: bold; 
+            border-radius: 4px; 
+            padding: 4px 8px; 
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
 
 
         /* Heat Map Section */
@@ -419,11 +428,27 @@
         .persona-name { font-size: 24px; font-weight: 600; color: var(--text-primary); }
         .persona-fictional-name { font-size: 16px; color: var(--text-secondary); }
         .two-column-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+        .detail-card { margin-bottom: 32px; }
         .detail-card h4 { font-size: 20px; font-weight: 600; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
         .worldview-list { list-style: none; padding-left: 0; }
         .worldview-list li { margin-bottom: 12px; padding-left: 24px; position: relative; color: var(--text-secondary); }
         .worldview-list li::before { content: '🧠'; position: absolute; left: 0; top: 1px; }
         .worldview-list li strong { color: var(--text-primary); }
+
+        /* NEW: Verdict Card Styling */
+        .verdict-card {
+            background: rgba(255, 250, 240, 0.8);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+            margin-bottom: 32px;
+        }
+        .verdict-card h4 {
+            margin-bottom: 16px;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
         
         /* Playbook Section */
         .playbook-section { border: 2px solid var(--success); background: rgba(34, 134, 58, 0.03); border-radius: 12px; padding: 32px; }
@@ -434,6 +459,14 @@
         .playbook-table th { color: var(--text-secondary); font-weight: 500; font-size: 14px; }
         .value-score { font-weight: 700; font-size: 16px; }
         .playbook-note { font-size: 14px; color: var(--text-tertiary); margin-top: 16px; font-style: italic; }
+
+        /* Inner Monologue Section Styling */
+        .monologue-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 16px; }
+        .monologue-table td { padding: 12px; border-bottom: 1px solid var(--border); }
+        .monologue-time { font-family: 'SF Mono', monospace; color: var(--text-tertiary); width: 80px; vertical-align: top; }
+        .monologue-thought { color: var(--text-secondary); }
+        .monologue-thought strong { color: var(--error); }
+
 
         /* Share Badge Section */
         .share-badge-container { text-align: center; }
@@ -732,8 +765,25 @@
                         { current: 'Security badges in footer only', problem: 'Hidden trust signals confirm bias about lacking security', fix: 'Move SOC-2, ISO badges to hero banner above fold' }
                     ]
                 },
+                conversion_critique: {
+                    summary: "The 'Book a Demo' CTA is the wrong ask for a persona who needs proof, not a pitch.",
+                    fix: "The primary CTA for this persona should be 'View Security & Compliance Docs'. The demo is a stage-two action, only considered after trust is established."
+                },
                 variance: { score: 8, label: 'Highly Consistent' },
                 playbook: [{ rank: 1, rec: 'Add SOC-2 & ISO-27001 badges in hero banner', score: 93, outcome: 'Increase Guardian Conversion Rate from 0% to ~5%'}, { rank: 2, rec: 'Provide a direct link to the data retention policy', score: 68, outcome: 'Reduce Product Page friction score by 15 pts'}],
+                final_verdict: {
+                    outcome: "ABANDON",
+                    reason: "The page failed to provide immediate, verifiable proof of enterprise compliance, triggering skepticism and violating my core need for visible trust signals.",
+                    key_irritation: "The missing SOC-2 logo above the fold."
+                },
+                monologue: [
+                    { time: '00:02', thought: 'Okay, homepage loads. Looks modern, clean. But my job is to see past the design.' },
+                    { time: '00:05', thought: 'Scanning for trust signals. Where is the SOC-2 badge? Not above the fold. That\'s a red flag.' },
+                    { time: '00:09', thought: 'Reading headline: "Protect customer data." Good, but that\'s table stakes. I need proof, not promises.' },
+                    { time: '00:12', thought: 'Scrolling... more marketing copy. "Enterprise-grade encryption" is meaningless without specifics.' },
+                    { time: '00:16', thought: 'I\'ll check the footer. Still no compliance logos. This confirms my bias that they aren\'t enterprise-ready.'},
+                    { time: '00:19', thought: '<strong>Decision: This is too risky.</strong> The lack of upfront, hard evidence makes me trust them less. I\'m out.' }
+                ],
                 triggers: [{ text: 'No SOC-2 or ISO-27001 badge above the fold', sig: 'Critical', runs: 93}, { text: 'Phrase "enterprise-grade encryption" felt vague', sig: 'High', runs: 77}, { text: 'No data-retention policy link', sig: 'Medium', runs: 55}],
                 drivers: [{ text: '"Protect customer data" headline', sig: 'Medium', runs: 84}, { text: 'Live-chat staffed by "CISSP-certified" agent', sig: 'Medium', runs: 41}],
                 path: [{ path: 'HOME → BOUNCE', weight: '93%', outcome: 'Abandon', variance: 8 }, { path: 'HOME → /product → BOUNCE', weight: '7%', outcome: 'Abandon', variance: 15 }],
@@ -756,10 +806,27 @@
                         { current: '8-field demo form', problem: 'High friction contradicts "easy" narrative', fix: '3-field form: email, company, "Get API keys instantly"' }
                     ]
                 },
+                conversion_critique: {
+                    summary: "The 'Book a Demo' CTA asks for too much commitment from a technical persona who just wants to evaluate the API.",
+                    fix: "Change the primary CTA to 'Get Free API Key'. Gate the key behind a simple email-only form."
+                },
                 variance: { score: 12, label: 'Moderately Consistent' },
                 playbook: [
                     { rank: 1, rec: 'Shorten demo form from 8 to 4 fields (2-step reveal)', score: 86, outcome: '+15% Demo Form Completion'}, 
                     { rank: 2, rec: 'Add interactive API explorer to docs', score: 55, outcome: 'Increase technical engagement'}
+                ],
+                final_verdict: {
+                    outcome: "ABANDON",
+                    reason: "The high-friction demo form contradicts the page's 'easy integration' narrative, destroying credibility and signaling a painful sales process.",
+                    key_irritation: "The 8-field demo form with a required phone number."
+                },
+                monologue: [
+                    { time: '00:03', thought: 'Alright, let\'s see if this is legit. I\'m looking for developer docs or an API link in the main nav.' },
+                    { time: '00:06', thought: '"5-minute SDK integration"... bold claim. Let\'s see the code.' },
+                    { time: '00:11', thought: 'Found a cURL snippet. That\'s a good sign. It shows they understand a developer audience.' },
+                    { time: '00:18', thought: 'Okay, let\'s see how to try it. Click "Book a Demo"...' },
+                    { time: '00:21', thought: 'An 8-field form with a required phone number? For a demo? This contradicts their entire "easy integration" story.' },
+                    { time: '00:25', thought: '<strong>Decision: Too much friction.</strong> If the demo signup is this painful, the actual product probably is too. I\'m not giving my phone number.' }
                 ],
                 triggers: [
                     { text: '8-field demo form exceeded patience threshold', sig: 'Critical', runs: 86}, 
@@ -900,6 +967,35 @@
                 </table>
             </div>`;
         }
+        
+        // NEW: Function to create the Final Verdict section
+        function createFinalVerdictHTML(persona) {
+            if (!persona.final_verdict) return '';
+            const { outcome, reason, key_irritation } = persona.final_verdict;
+            let outcomeClass = outcome.toUpperCase() === 'ABANDON' ? 'fail-verdict' : 'success-verdict';
+
+            return `
+            <div class="verdict-card">
+                <h4>Final Verdict & Key Irritation</h4>
+                <p><strong>Outcome: <span class="${outcomeClass}">${outcome}</span></strong></p>
+                <p style="margin-top: 8px;"><strong>Reason:</strong> ${reason}</p>
+                <p style="margin-top: 16px;"><strong>Key Irritation:</strong> <strong style="color: var(--error);">${key_irritation}</strong></p>
+            </div>
+            `;
+        }
+        
+        // NEW: Function to create the Conversion Critique section
+        function createConversionCritiqueHTML(persona) {
+            if (!persona.conversion_critique) return '';
+            const { summary, fix } = persona.conversion_critique;
+            return `
+            <div class="detail-card">
+                <h4>Conversion Critique</h4>
+                <p style="margin-bottom: 12px; color: var(--text-secondary); font-style: italic;">"${summary}"</p>
+                <p><strong>Recommended Fix:</strong> <span style="color: var(--success); font-weight: 600;">${fix}</span></p>
+            </div>
+            `;
+        }
 
         function createPersonaPlaybookHTML(persona) {
             if (!persona.playbook) return '';
@@ -911,6 +1007,24 @@
                        <tbody>${persona.playbook.map(p => `<tr><td>${p.rank}</td><td><strong>${p.rec}</strong></td><td>${p.score}</td><td>${p.outcome}</td></tr>`).join('')}</tbody>
                     </table>
                     <p class="playbook-note"><strong>Note on Value Score:</strong> Represents the percentage of simulation runs where this friction point caused abandonment or frustration for this specific persona.</p>
+                </div>`;
+        }
+
+        function createInnerMonologueHTML(persona) {
+            if (!persona.monologue) return '';
+            return `
+                <div class="detail-card">
+                    <h4>Inner Monologue Timeline (Sample Run)</h4>
+                    <table class="monologue-table">
+                        <tbody>
+                            ${persona.monologue.map(step => `
+                                <tr>
+                                    <td class="monologue-time">${step.time}</td>
+                                    <td class="monologue-thought">${step.thought}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
                 </div>`;
         }
 
@@ -1056,14 +1170,14 @@
                     ${createPersonaProfileHTML(persona)}
                     ${createPersonaScoreBadgeHTML(persona)}
                 </div>
-                ${briefDividerHTML}
+                
+                ${createConversionCritiqueHTML(persona)}
                 ${createPersonaPlaybookHTML(persona)}
-                ${briefDividerHTML}
                 ${createPathDistributionHTML(persona.path)}
-                ${briefDividerHTML}
                 ${createMessagingCritiqueHTML(persona)}
-                ${briefDividerHTML}
                 ${createBehavioralTriggersAndDriversHTML(persona)}
+                ${createFinalVerdictHTML(persona)}
+                ${createInnerMonologueHTML(persona)}
                 ${briefDividerHTML}
                 ${createBenchmarksHTML(persona.benchmarks)}
             </div>`;
