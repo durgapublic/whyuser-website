@@ -196,7 +196,7 @@
             backdrop-filter: blur(10px);
         }
         
-        .analysis-input-section h3 {
+        h3 {
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 24px;
@@ -272,7 +272,7 @@
         }
 
         .section-header h2 {
-            font-size: clamp(36px, 5vw, 48px);
+            font-size: 48px;
             font-weight: 600;
             margin-bottom: 16px;
         }
@@ -284,12 +284,30 @@
             margin: 0 auto;
         }
         
+        .analysis-progress {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .analysis-progress p {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
         #personaSelectorSection {
             display: none;
         }
         .persona-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 24px;
             margin-top: 40px;
         }
@@ -317,24 +335,6 @@
         .persona-selector-name { font-weight: 600; color: var(--text-primary); }
         .persona-selector-role { font-size: 14px; color: var(--text-tertiary); min-height: 40px; }
         
-        .analysis-progress {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-        
-        .analysis-progress p {
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
-        }
-        
         #briefSection {
             display: none;
             margin-top: 64px;
@@ -357,80 +357,25 @@
             transform: translateY(0);
         }
         .brief-section {
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-        .brief-section.visible {
-            opacity: 1;
+            opacity: 1; /* Make sections visible by default within the card */
         }
         .brief-divider {
             border-top: 1px solid var(--border);
             margin: 40px 0;
         }
 
-        /* Executive Summary Section */
+        /* Executive Summary & Scoreboard */
         .executive-summary-list { list-style: none; padding-left: 0; }
         .executive-summary-list li { font-size: 18px; color: var(--text-secondary); margin-bottom: 16px; padding-left: 30px; position: relative; }
         .executive-summary-list li:last-child { margin-bottom: 0; }
         .executive-summary-list li::before { content: '⚡'; position: absolute; left: 0; top: 2px; font-size: 18px; }
-
-        /* MODIFIED: Strategic Narrative Section (now inside persona card) */
-        .persona-strategic-narrative {
-            background: var(--bg-accent);
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 32px;
-        }
-        .persona-strategic-narrative h3 {
-            font-size: 20px;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 16px;
-        }
-        .aha-moment {
-            font-size: 16px;
-            text-align: center;
-            color: var(--text-primary);
-            margin-bottom: 24px;
-            font-style: italic;
-        }
-        .narrative-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-        .narrative-column h4 {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--border);
-        }
-        .narrative-list {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        .narrative-list li {
-            position: relative;
-            padding-left: 24px;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        .narrative-list li::before {
-            position: absolute;
-            left: 0;
-            top: 4px;
-        }
-        .narrative-strengths li::before { content: '✅'; }
-        .narrative-weaknesses li::before { content: '❌'; }
-        .narrative-recommendation {
-            border-top: 1px solid var(--border);
-            padding-top: 16px;
-        }
-        .narrative-recommendation h4 { font-size: 15px; margin-bottom: 8px; }
-        .narrative-recommendation p { color: var(--text-secondary); font-size: 14px; margin:0; }
+        .scoreboard-table, .details-table, .path-analysis-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 24px; }
+        .scoreboard-table th, .scoreboard-table td, .details-table th, .details-table td, .path-analysis-table th, .path-analysis-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .scoreboard-table th, .details-table th, .path-analysis-table th { color: var(--text-secondary); font-weight: 500; font-size: 14px; }
+        .scoreboard-table td:first-child, .details-table td:first-child, .path-analysis-table td:first-child { font-weight: 600; }
+        .path-analysis-table td { font-family: 'SF Mono', monospace; }
+        .critical-blocker { color: var(--error); font-weight: 500; }
+        .fail-verdict { background: rgba(220, 53, 69, 0.05); color: var(--error); font-weight: bold; border-radius: 4px; padding: 2px 6px; display: inline-block; }
 
 
         /* Heat Map Section */
@@ -438,195 +383,60 @@
         .heat-map-table th, .heat-map-table td { padding: 12px; text-align: left; }
         .heat-map-table th { color: var(--text-tertiary); }
         .heat-map-table td:first-child { font-weight: 600; }
+        .heat-map-table .friction-cell { font-weight: bold; }
         .friction-high { color: var(--error); }
         .friction-med { color: var(--warning); }
-        .friction-low { color: var(--text-tertiary); opacity: 0.7; }
-        .friction-none { color: var(--text-tertiary); opacity: 0.3; }
-        .heat-map-legend { margin-top: 24px; text-align: center; font-size: 14px; color: var(--text-tertiary); }
+        .friction-low { color: var(--success); }
+        .heat-map-legend { margin-top: 16px; text-align: center; font-size: 14px; color: var(--text-tertiary); }
         .heat-map-legend span { margin: 0 12px; }
 
+        /* Tabs for Personas */
+        .persona-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 32px; }
+        .tab-link { padding: 12px 20px; cursor: pointer; font-weight: 600; font-size: 16px; color: var(--text-tertiary); position: relative; border-bottom: 4px solid transparent; transition: all 0.3s ease; }
+        .tab-link:hover { color: var(--text-primary); }
+        .tab-link.active { color: var(--text-primary); border-bottom-color: var(--accent); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         /* Persona Snapshot Section */
-        .persona-header { display: flex; align-items: center; gap: 24px; margin-bottom: 24px;}
-        .persona-icon { font-size: 48px; background: var(--bg-accent); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .persona-variance-bar-container { width: 100%; height: 8px; background: var(--bg-accent); border-radius: 4px; margin-top: 8px; }
+        .persona-variance-bar { height: 100%; border-radius: 4px; transition: width 0.5s ease-out; }
+        .variance-consistent { background: var(--success); }
+        .variance-moderate { background: var(--warning); }
+        .variance-variable { background: var(--error); }
+
+        .persona-score-badge { font-family: 'SF Mono', monospace; border: 2px solid var(--border); padding: 24px; border-radius: 8px; background: var(--bg-primary); text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;}
+        .persona-score-badge .score { font-size: 32px; font-weight: 600; color: var(--error); }
+        .persona-score-badge .score-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase;}
+        .persona-score-badge .score-subtitle { font-size: 14px; color: var(--text-tertiary); }
+        
+        .persona-dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+        .persona-vitals-table { width: 100%; margin-bottom: 24px; }
+        .persona-header { display: flex; align-items: center; gap: 24px; border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 24px;}
+        .persona-icon { font-size: 48px; background: var(--bg-accent); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; }
         .persona-title-group { flex: 1; }
-        .persona-name { font-size: 28px; font-weight: 600; color: var(--text-primary); }
-        .persona-role-context { font-size: 16px; color: var(--text-secondary); }
-        .persona-insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin: 32px 0; }
-        .insight-column h4 { font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-        .insight-list { list-style: none; display: grid; gap: 12px; }
-        .insight-list li { position: relative; padding-left: 28px; font-size: 16px; color: var(--text-secondary); }
-        .insight-list li::before { position: absolute; left: 0; top: 2px; font-size: 18px; }
-        .positive-insights li::before { content: '✅'; }
-        .negative-insights li::before { content: '⚠'; }
-        .path-outcome-section { padding-top: 32px; border-top: 1px solid var(--border); }
-        .path-outcome-section h4 { margin-bottom: 16px; font-size: 18px; font-weight: 600; }
-        .path-outcome-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; text-align: center; }
-        .path-outcome-metric p { font-size: 14px; color: var(--text-tertiary); margin-bottom: 4px; }
-        .path-outcome-metric span { font-size: 16px; font-weight: 600; }
-        .path-outcome-metric .bad-outcome { color: var(--error); }
+        .persona-name { font-size: 24px; font-weight: 600; color: var(--text-primary); }
+        .persona-fictional-name { font-size: 16px; color: var(--text-secondary); }
+        .two-column-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+        .detail-card h4 { font-size: 20px; font-weight: 600; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+        .worldview-list { list-style: none; padding-left: 0; }
+        .worldview-list li { margin-bottom: 12px; padding-left: 24px; position: relative; color: var(--text-secondary); }
+        .worldview-list li::before { content: '🧠'; position: absolute; left: 0; top: 1px; }
+        .worldview-list li strong { color: var(--text-primary); }
         
-        .monologue-section { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--border); }
-        .monologue-section h4 { text-align: center; margin-bottom: 20px; font-size: 18px; font-weight: 600; }
-        .monologue-timeline { font-family: 'SF Mono', monospace; font-size: 14px; line-height: 1.8; background: #fdfbf9; padding: 20px; border-radius: 8px; min-height: 100px; }
-        .monologue-entry { opacity: 0; transition: opacity 0.5s ease; margin-bottom: 8px; }
-        .monologue-time { color: var(--text-tertiary); }
-        .monologue-event { text-transform: uppercase; font-weight: 600; }
-        .monologue-thought { color: var(--text-primary); }
-        .blinking-cursor { display: inline-block; background-color: var(--text-primary); width: 8px; height: 14px; animation: blink 1s step-end infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* Final Verdict Section */
-        .final-verdict-section {
-            margin-top: 32px;
-            padding: 24px;
-            border: 2px solid var(--error);
-            border-radius: 12px;
-            background: rgba(220, 53, 69, 0.03);
-        }
-        .final-verdict-section h4 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--error);
-            text-align: center;
-            margin-bottom: 16px;
-        }
-        .verdict-reason p, .verdict-irritant p {
-            margin: 0;
-            font-size: 16px;
-            color: var(--text-secondary);
-        }
-        .verdict-reason strong, .verdict-irritant strong {
-            color: var(--text-primary);
-        }
-        .verdict-reason { margin-bottom: 12px; }
-
-        /* Diagnostics and Playbook Section with Tabs */
-        .diagnostics-playbook-section {
-            border-top: 1px solid var(--border);
-            padding-top: 32px;
-        }
-        .tab-navigation {
-            display: flex;
-            border-bottom: 2px solid var(--border);
-            margin-bottom: 32px;
-        }
-        .tab-btn {
-            padding: 12px 24px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--text-tertiary);
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        .tab-btn:hover {
-            color: var(--text-primary);
-        }
-        .tab-btn.active {
-            color: var(--accent);
-            font-weight: 600;
-        }
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent);
-        }
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .business-impact-statement {
-            font-size: 18px;
-            text-align: center;
-            font-weight: 500;
-            padding: 16px;
-            background: var(--bg-accent);
-            border-radius: 8px;
-            margin-bottom: 32px;
-        }
-        .critique-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-        .critique-card {
-            border: 1px solid var(--border);
-            border-radius: 12px;
-        }
-        .critique-header {
-            padding: 16px 24px;
-            background: var(--bg-secondary);
-            font-weight: 600;
-            font-size: 18px;
-            border-bottom: 1px solid var(--border);
-        }
-        .critique-body {
-            padding: 24px;
-        }
-        .critique-body strong {
-            display: block;
-            margin-bottom: 4px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        .critique-body p {
-            margin: 0 0 16px;
-            color: var(--text-secondary);
-        }
-        .fix-recommendation {
-            border-top: 1px dashed var(--border);
-            padding-top: 16px;
-        }
-        .fix-recommendation strong { color: var(--success); }
-        
-        .playbook-section { border-top: 1px solid var(--border); padding-top: 40px; margin-bottom: 40px; }
-        .playbook-title { text-align: center; margin-bottom: 32px; }
+        /* Playbook Section */
+        .playbook-section { border: 2px solid var(--success); background: rgba(34, 134, 58, 0.03); border-radius: 12px; padding: 32px; }
+        .playbook-title { text-align: left; margin-bottom: 24px; }
         .playbook-title h3 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
         .playbook-table { width: 100%; border-collapse: collapse; }
         .playbook-table th, .playbook-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border); }
-        .playbook-table th { color: var(--text-secondary); font-weight: 500; font-size: 14px; text-transform: uppercase; }
-        .effort-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500; }
-        .effort-low { background: rgba(34, 134, 58, 0.1); color: var(--success); }
-        .effort-med { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        .impact-high { color: var(--success); font-weight: 600; }
-        .impact-med { color: var(--text-primary); font-weight: 600; }
-
-        /* Benchmark Section */
-        .benchmark-metric { padding: 24px 0; border-bottom: 1px solid var(--border); }
-        .benchmark-metric:last-child { border-bottom: none; padding-bottom: 0; }
-        .benchmark-metric:first-child { padding-top: 0; }
-        .benchmark-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .benchmark-name { font-weight: 600; font-size: 18px; }
-        .benchmark-score { font-size: 18px; }
-        .benchmark-score .your-value { font-weight: 700; }
-        .benchmark-score .gap { margin-left: 8px; font-size: 14px; font-weight: 500; }
-        .gap-negative { color: var(--error); }
-        .gap-positive { color: var(--success); }
-        .benchmark-bar-container { width: 100%; height: 20px; background: var(--bg-accent); border-radius: 10px; position: relative; }
-        .benchmark-bar { position: absolute; top: 0; left: 0; height: 100%; background: linear-gradient(90deg, var(--warning) 0%, var(--success) 100%); border-radius: 10px; }
-        .benchmark-marker { position: absolute; top: -4px; width: 4px; height: 28px; background: var(--error); border-radius: 2px; transform: translateX(-50%); text-align: center; }
-        .benchmark-marker::after { content: 'YOU'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 600; }
-        .bar-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--text-tertiary); }
+        .playbook-table th { color: var(--text-secondary); font-weight: 500; font-size: 14px; }
+        .value-score { font-weight: 700; font-size: 16px; }
+        .playbook-note { font-size: 14px; color: var(--text-tertiary); margin-top: 16px; font-style: italic; }
 
         /* Share Badge Section */
-        .share-badge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
-        .share-badge { font-family: 'SF Mono', monospace; border: 2px solid var(--border); padding: 24px; border-radius: 8px; background: var(--bg-primary); text-align: center; }
-        .share-badge .score { font-size: 32px; font-weight: 600; }
+        .share-badge-container { text-align: center; }
         .share-badge-text p { margin: 0 0 16px; font-size: 18px; color: var(--text-secondary);}
 
         /* How it Works Section */
@@ -685,13 +495,14 @@
             .url-input { flex-direction: column; }
             .predict-button { width: 100%; }
             .persona-header { flex-direction: column; text-align: center; }
-            .persona-insights-grid, .narrative-grid { grid-template-columns: 1fr; }
-            .path-outcome-grid { grid-template-columns: 1fr; gap: 16px; }
+            .two-column-grid { grid-template-columns: 1fr; }
             .playbook-table { font-size: 14px; }
             .playbook-table th, .playbook-table td { padding: 12px 8px; }
             .footer-content { grid-template-columns: 1fr; text-align: center; }
             .persona-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
             .share-badge-grid { grid-template-columns: 1fr; }
+            .persona-tabs { flex-wrap: wrap; }
+            .tab-link { flex-grow: 1; text-align: center; }
         }
     </style>
 </head>
@@ -711,7 +522,6 @@
                     <li><a href="#waitlist">Early Access</a></li>
                 </ul>
                 <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                    <span></span>
                     <span></span>
                     <span></span>
                 </button>
@@ -739,16 +549,16 @@
     
     <section id="interactiveDemoSection">
         <div class="container">
-            <div id="personaSelectorSection">
+            <div id="personaSelectorSection" style="display:none;">
                 <div class="section-header">
                     <h2>Buyer Personas Identified</h2>
-                    <p>We've identified the key buyer personas for your site. The brief below will be based on the selected roles, which you can customize.</p>
+                    <p>We've identified the key buyer personas for your site. The brief below will be based on these roles.</p>
                 </div>
                 <div class="persona-grid" id="personaGrid">
                 </div>
             </div>
 
-            <div id="briefSection">
+            <div id="briefSection" style="display:none;">
                 <div class="section-header" id="reportHeader">
                     <h2>Your Live Buyer Insight Brief</h2>
                     <p>Here's how your key buyer personas actually see your page. No opinions, just simulated behavior.</p>
@@ -884,7 +694,7 @@
             document.getElementById('successMessage').classList.add('show');
         }
 
-        // --- ENHANCED Interactive Demo Logic ---
+        // --- Interactive Demo Logic ---
         const analyzeBtn = document.getElementById('analyzeBtn');
         const demoSection = document.getElementById('interactiveDemoSection');
         const personaSelectorSection = document.getElementById('personaSelectorSection');
@@ -893,284 +703,527 @@
         const analysisProgress = document.getElementById('analysisProgress');
         const personaGrid = document.getElementById('personaGrid');
 
+        // --- Data for Report ---
         const allPersonas = [
-            { code: 'EB', name: 'Economic Buyer', icon: '💰', role: 'Approves budget, focuses on ROI' },
-            { code: 'TD', name: 'Tech Evaluator', icon: '⚙️', role: 'Validates features & integration' },
+            { code: 'EU', name: 'End User', icon: '👩‍💻', role: 'Cares about daily workflow' },
             { code: 'GR', name: 'Security Guardian', icon: '🛡️', role: 'Vets for risk & compliance' },
-            { code: 'CH', name: 'Champion', icon: '🏆', role: 'Advocates for the solution internally' },
-            { code: 'LS', name: 'Legal/Procurement', icon: '⚖️', role: 'Manages contracts & vendor risk' },
+            { code: 'TD', name: 'Tech Evaluator', icon: '⚙️', role: 'Validates features & integration' },
+            { code: 'CH', name: 'Champion', icon: '🏆', role: 'Advocates for the solution' },
             { code: 'IN', name: 'Influencer', icon: '🌟', role: 'Shapes opinion with expertise' },
-            { code: 'EU', name: 'End User', icon: '👩‍💻', role: 'Cares about daily workflow impact' },
-            { code: 'IT', name: 'IT Administrator', icon: '🖥️', role: 'Manages implementation & infra' }
+            { code: 'EB', name: 'Economic Buyer', icon: '💰', role: 'Approves budget, focuses on ROI' },
+            { code: 'IT', name: 'IT Administrator', icon: '🖥️', role: 'Manages implementation & infra' },
+            { code: 'LS', name: 'Legal/Procurement', icon: '⚖️', role: 'Manages contracts & vendor risk' },
         ];
 
-        const detailedPersonaData = {
+        const personaDetails = {
             SecurityGuardian: { 
                 id: 'SecurityGuardian', 
-                icon: '🛡️', 
-                name: '“Security-Guardian” Persona', 
-                context: '24% Traffic Weight. Goal: Mitigate Risk.',
-                strategicNarrative: {
-                    ahaMoment: "The page fails at its core strategic goal. It wants me to believe it's a 'modern disruptor,' but its lack of visible, hard compliance proof reinforces my mental model that 'modern' means 'risky'. The story falls apart on the first scan.",
-                    strengths: ["The clean UI and modern design successfully communicate the 'modern' part of the narrative."],
-                    weaknesses: ["Fails to provide immediate, overwhelming evidence (like a SOC-2 logo above the fold) to counteract my default belief that new vendors are insecure.", "Using marketing buzzwords like 'Next-Gen Synergy' feels unsubstantiated and untrustworthy."],
-                    recommendation: "To make the 'agile but secure' narrative believable, you must over-index on proof. Lead with the SOC-2 and ISO certifications in the hero banner to immediately address my primary objection."
+                icon: '🛡️', name: 'Security Guardian', 
+                fictional_name: 'Valerie, Head of IT Risk & Compliance',
+                mental_model: 'Believes that \'user-friendly\' and \'modern\' are often code for \'lacks enterprise-grade security features and compliance\'. Starts with a deep-seated trust in established, legacy vendors.',
+                non_negotiable_needs: ['Must have SOC-2 Type II certification visible.', 'Must provide a clear, accessible data processing agreement (DPA).'],
+                vitals: { traffic: '24%', conv: '0%', friction: '88', goal: 'To disqualify vendors who don\'t meet non-negotiable security standards.', skepticism: 'A slick UI often hides a lack of security depth.'},
+                narrative: { intended: 'We are the modern, agile, user-friendly alternative to legacy security platforms.', verdict: 'FAIL. The page\'s lack of hard evidence confirms the persona\'s negative bias instead of challenging it.'},
+                messaging_critique: {
+                    summary: 'The headline "Simple, Transparent Pricing" is immediately contradicted by vague security claims, failing to address this persona\'s primary concern.',
+                    issues: [
+                        { current: '"Enterprise-grade encryption"', problem: 'Vague marketing speak that triggers skepticism', fix: '"AES-256 encryption, SOC-2 Type II, GDPR-compliant"' },
+                        { current: '"Industry-leading security"', problem: 'Unsubstantiated claim without proof', fix: '"SOC-2 Type II certified with 99.99% uptime SLA"' },
+                        { current: 'Security badges in footer only', problem: 'Hidden trust signals confirm bias about lacking security', fix: 'Move SOC-2, ISO badges to hero banner above fold' }
+                    ]
                 },
-                positives: ['“Protect customer data” headline matched intent (84%)', 'Dark colour-scheme signals seriousness (62%)', 'Live-chat staffed by “CISSP-certified” agent (41%)'], 
-                negatives: ['No SOC-2 or ISO-27001 badge above the fold (93%)', 'Phrase “enterprise-grade encryption” felt vague (77%)', 'No data-retention policy link (55%)'], 
-                path: 'HOME → /product (scroll 38%) → /pricing → BOUNCE', 
-                session: '12s', 
-                ctaPerformance: '0/50', 
-                monologue: [
-                    { time: '00:02', event: 'scan', element: 'headline', thought: '“Okay, \'Simple, Transparent\'. A bold claim that triggers my skepticism. Let\'s see if they back it up.”' }, 
-                    { time: '00:05', event: 'distraction', element: 'animated_cta_button', thought: '“That flashing button is annoying and feels \'salesy\'. It\'s eroding my trust.”' }, 
-                    { time: '00:12', event: 'scan', element: 'footer', thought: '“I\'ll just scan to the bottom for the SOC-2 logo. It\'s not here. This confirms my bias that this company isn\'t enterprise-ready.”' },
-                    { time: '00:16', event: 'decision', element: 'close_button', thought: '“This is too much work. The combination of unclear pricing and distracting UI makes me trust them less. I\'m out.”' }
-                ],
-                finalVerdict: {
-                    outcome: 'ABANDON',
-                    reason: "The page failed to provide immediate, verifiable proof of enterprise compliance, triggering skepticism and violating my core need for visible trust signals.",
-                    keyIrritation: "The animated button combined with the missing SOC-2 logo on the pricing page."
-                }
+                variance: { score: 8, label: 'Highly Consistent' },
+                playbook: [{ rank: 1, rec: 'Add SOC-2 & ISO-27001 badges in hero banner', score: 93, outcome: 'Increase Guardian Conversion Rate from 0% to ~5%'}, { rank: 2, rec: 'Provide a direct link to the data retention policy', score: 68, outcome: 'Reduce Product Page friction score by 15 pts'}],
+                triggers: [{ text: 'No SOC-2 or ISO-27001 badge above the fold', sig: 'Critical', runs: 93}, { text: 'Phrase "enterprise-grade encryption" felt vague', sig: 'High', runs: 77}, { text: 'No data-retention policy link', sig: 'Medium', runs: 55}],
+                drivers: [{ text: '"Protect customer data" headline', sig: 'Medium', runs: 84}, { text: 'Live-chat staffed by "CISSP-certified" agent', sig: 'Medium', runs: 41}],
+                path: [{ path: 'HOME → BOUNCE', weight: '93%', outcome: 'Abandon', variance: 8 }, { path: 'HOME → /product → BOUNCE', weight: '7%', outcome: 'Abandon', variance: 15 }],
+                benchmarks: [{ metric: 'Time to Find Compliance Info', site: 'Not Found', median: '18 seconds', delta: 'FAIL', percentile: '<10th'}, { metric: 'Visible Trust Signals (Homepage)', site: '1', median: '4', delta: '-3 signals', percentile: '15th'}],
             },
             TechEvaluator: { 
                 id: 'TechEvaluator', 
                 icon: '⚙️', 
-                name: '“Tech-Evaluator” Persona', 
-                context: '18% Traffic Weight. Goal: Validate Technical Fit.',
-                strategicNarrative: {
-                    ahaMoment: "The page's narrative of 'simplicity and power' is immediately contradicted by the technical reality. The story breaks down the moment I try to validate a marketing claim against the documentation.",
-                    strengths: ["The initial headline '5-minute SDK integration' is compelling and aligns with my need for efficiency."],
-                    weaknesses: ["The 'single-click API' claim is not supported by the code samples in the docs, which destroys credibility.", "Hiding pricing details behind multiple scrolls signals a lack of transparency that is a major red flag for technical buyers."],
-                    recommendation: "Ensure 100% fidelity between marketing claims and technical reality. Surface transparent pricing and avoid hyperbole to build trust with this persona."
+                name: 'Tech Evaluator',
+                fictional_name: 'David, Principal Engineer',
+                mental_model: 'Easy integration usually means limited functionality or a weak API.',
+                non_negotiable_needs: ['Must have clear API documentation.', 'Must see evidence of performance at scale.'],
+                vitals: { traffic: '18%', conv: '4%', friction: '65', goal: 'To validate the product\'s technical capabilities and integration ease.', skepticism: 'Claims of "5-minute setup" are usually false.' },
+                narrative: { intended: 'We are powerful but easy to integrate.', verdict: 'FAIL. Vague claims and a high-friction demo form undermine the "easy" narrative.' },
+                messaging_critique: {
+                    summary: 'Technical claims lack specificity and the "single-click API" promise contradicts the complex demo form, destroying credibility.',
+                    issues: [
+                        { current: '"Single-click API integration"', problem: 'Oversimplified claim that experienced developers distrust', fix: '"REST API with SDKs for Python, Node, Java. Average integration: 2 hours"' },
+                        { current: '"Powerful features"', problem: 'Generic claim without technical proof', fix: '"Process 10M events/sec with <50ms p99 latency"' },
+                        { current: '8-field demo form', problem: 'High friction contradicts "easy" narrative', fix: '3-field form: email, company, "Get API keys instantly"' }
+                    ]
                 },
-                positives: ['“5-minute SDK integration” copy (71%)', 'Code snippet with cURL request (54%)', 'Performance benchmark chart (37%)'], 
-                negatives: ['“Single-click API” claim contradicted doc page (68%)', 'Hidden pricing tiers after 3 scrolls (51%)', '8-field demo form exceeded patience threshold (43%)'], 
-                path: 'HOME → /product → /docs → BOUNCE', 
-                session: '4m 32s', 
-                ctaPerformance: '2/50', 
-                monologue: [
-                    { time: '00:03', event: 'scan', element: 'headline', thought: '"Okay, SDK integration claim is strong. Let\'s see the docs."' }, 
-                    { time: '01:20', event: 'scroll', element: 'docs_page', thought: '"The code samples are decent, but wait... this isn\'t single-click."' }, 
-                    { time: '02:15', event: 'scroll', element: 'pricing_page', thought: '"Ugh, have to scroll forever to find pricing. Not transparent."' }, 
-                    { time: '02:45', event: 'decision', element: 'demo_form', thought: '"An 8-field form just to see a demo? No thanks." → closes tab' }
+                variance: { score: 12, label: 'Moderately Consistent' },
+                playbook: [
+                    { rank: 1, rec: 'Shorten demo form from 8 to 4 fields (2-step reveal)', score: 86, outcome: '+15% Demo Form Completion'}, 
+                    { rank: 2, rec: 'Add interactive API explorer to docs', score: 55, outcome: 'Increase technical engagement'}
                 ],
-                finalVerdict: {
-                    outcome: 'ABANDON',
-                    reason: "The claims made on the marketing page were contradicted by the technical documentation, breaking trust and signaling a lack of transparency.",
-                    keyIrritation: "The discrepancy between the 'single-click API' claim and the reality in the docs."
-                }
+                triggers: [
+                    { text: '8-field demo form exceeded patience threshold', sig: 'Critical', runs: 86}, 
+                    { text: 'Vague "Single-click API" claim contradicted docs', sig: 'High', runs: 68}, 
+                    { text: 'Hidden pricing tiers after 3 scrolls', sig: 'Medium', runs: 51}
+                ],
+                drivers: [
+                    { text: '"5-minute SDK integration" copy', sig: 'High', runs: 71}, 
+                    { text: 'Code snippet with cURL request', sig: 'Medium', runs: 54}, 
+                    { text: 'Performance benchmark chart', sig: 'Medium', runs: 37}
+                ],
+                path: [
+                    { path: 'HOME → /product → /pricing → /demo → BOUNCE', weight: '85%', outcome: 'Abandon', variance: 12 }, 
+                    { path: 'HOME → /docs → BOUNCE', weight: '15%', outcome: 'Abandon', variance: 18 }
+                ],
+                benchmarks: [
+                    { metric: 'Avg. Demo Form Fields', site: '8', median: '4', delta: '+4 fields', percentile: '20th'}, 
+                    { metric: 'API Docs Accessibility', site: '3 Clicks', median: '1 Click', delta: '+2 Clicks', percentile: '30th'}
+                ],
             }
-        };
+        };        
         
         const briefDividerHTML = `<div class="brief-divider"></div>`;
-        const executiveSummaryHTML = `<div class="brief-section" id="executiveSummarySection"> <div class="section-header" style="margin-bottom: 24px;"> <h2>Executive Summary</h2> </div> <ul class="executive-summary-list"> <li>Your <strong>Guardian Trust Score</strong> is <strong>31 / 100</strong> → Bottom 12th percentile among security-SaaS sites we track.</li> <li>Fixing the three issues below would move you to the <strong>60th percentile</strong> and unlock an estimated <strong>+47% more demo requests</strong> (benchmark-based).</li> </ul> </div>`;
-        const heatMapHTML = `<div class="brief-section" id="heatMapSection"> <div class="section-header" style="margin-bottom: 24px;"> <h2>Friction Heat Map</h2> </div> <table class="heat-map-table"> <thead> <tr> <th>Persona × Funnel Page</th> <th>HOME</th> <th>/PRODUCT</th> <th>/PRICING</th> <th>/DEMO FORM</th> </tr> </thead> <tbody> <tr> <td>Security-Guardian</td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>Tech-Evaluator</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-med">████░░</span></td> <td><span class="friction-low">██░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> <tr> <td>C-Level Executive</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-high">████</span></td> <td><span class="friction-med">███░</span></td> </tr> <tr> <td>End-User</td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-none">░░░░</span></td> <td><span class="friction-low">░░░</span></td> <td><span class="friction-none">░░░░</span></td> </tr> </tbody> </table> <div class="heat-map-legend"><span><span class="friction-high">████</span> High Friction</span> <span><span class="friction-none">░░░░</span> Low Friction</span></div> </div>`;
 
-        // MODIFIED: This function now builds the persona card INCLUDING the strategic narrative section
-        function createPersonaCardHTML(persona) { 
-            const narrative = persona.strategicNarrative;
-            return `<div class="brief-section persona-card" id="${persona.id}">
+        function createExecutiveSummaryHeaderHTML() {
+            const personaData = [
+                { name: 'Security Guardian', traffic: 0.24, conv: 0.00 },
+                { name: 'Tech Evaluator', traffic: 0.18, conv: 0.04 },
+                { name: 'Economic Buyer', traffic: 0.12, conv: 0.02 },
+                { name: 'Champion', traffic: 0.22, conv: 0.18 },
+                { name: 'End User', traffic: 0.24, conv: 0.15 }
+            ];
+            
+            const overallConv = personaData.reduce((sum, p) => sum + (p.traffic * p.conv), 0);
+            const overallConvPercent = (overallConv * 100).toFixed(1);
+
+            return `
+            <div class="brief-section" id="executiveSummarySection">
+                <div class="section-header" style="margin-bottom: 24px; text-align: left;">
+                    <h3 style="font-size: 24px;">1. Executive Summary</h3>
+                </div>
+                <ul class="executive-summary-list">
+                    <li>The page fails to build trust with key decision-makers, causing a <strong>0% conversion rate</strong> for the critical <strong>Security Guardian</strong> persona.</li>
+                    <li>The core issue is a mismatch between the 'modern, agile' marketing narrative and the lack of hard, visible proof (like compliance badges) required by technical buyers.</li>
+                    <li><strong>Traffic-weighted overall conversion: ${overallConvPercent}%</strong> (vs. industry median of 2.3% for B2B SaaS)</li>
+                </ul>
+            </div>`;
+        }
+
+        function createPerformanceSummaryHTML() {
+            return `
+            <div class="brief-section" id="performanceSummarySection">
+                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
+                    <h3 style="font-size: 24px;">2. Performance Summary</h3>
+                </div>
+                <h4>Persona Performance Scoreboard</h4>
+                <table class="scoreboard-table">
+                <thead><tr><th>Persona</th><th>Traffic Weight</th><th>Simulated Conv. Rate</th><th>Friction Score (0-100)</th><th>Key Blocker</th></tr></thead>
+                <tbody>
+                    <tr><td>🛡️ Security Guardian</td><td>24%</td><td><strong>0%</strong></td><td><strong class="critical-blocker">88 (Critical)</strong></td><td class="critical-blocker">Missing Trust Signals</td></tr>
+                    <tr><td>⚙️ Tech Evaluator</td><td>18%</td><td>4%</td><td><strong class="critical-blocker" style="color:var(--warning)">65 (High)</strong></td><td>Form Friction & Vague Copy</td></tr>
+                    <tr><td>💰 Economic Buyer</td><td>12%</td><td>2%</td><td><strong class="critical-blocker" style="color:var(--warning)">72 (High)</strong></td><td class="critical-blocker">Unclear ROI</td></tr>
+                    <tr><td>🏆 Champion</td><td>22%</td><td>18%</td><td>35 (Low)</td><td>-</td></tr>
+                    <tr><td>👩‍💻 End User</td><td>24%</td><td>15%</td><td>41 (Low)</td><td>-</td></tr>
+                </tbody>
+                </table>
+                ${briefDividerHTML}
+                <h4>CTA Performance Summary</h4>
+                <table class="details-table">
+                    <thead><tr><th>Persona</th><th>Primary CTA</th><th>Result</th><th>Core Reason from Simulation</th></tr></thead>
+                    <tbody>
+                        <tr><td>🛡️ Security Guardian</td><td>Book a Demo</td><td><strong>Ignored (93%)</strong></td><td>Lost trust and abandoned before seeing the CTA.</td></tr>
+                        <tr><td>⚙️ Tech Evaluator</td><td>Book a Demo</td><td><strong>Skipped (86%)</strong></td><td>Reached CTA but form friction (8 fields) was too high.</td></tr>
+                        <tr><td>💰 Economic Buyer</td><td>Book a Demo</td><td><strong>Skipped (75%)</strong></td><td>Could not find pricing or ROI information to justify the next step.</td></tr>
+                        <tr><td>🏆 Champion</td><td>Book a Demo</td><td><strong style="color:var(--success)">Clicked (80%)</strong></td><td>Recognized value and was motivated to engage further.</td></tr>
+                        <tr><td>👩‍💻 End User</td><td>Book a Demo</td><td><strong style="color:var(--success)">Clicked (72%)</strong></td><td>Page content addressed core needs, leading to interest in a demo.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            `;
+        }
+
+        function createPathAnalysisTableHTML() {
+             return `
+            <div class="brief-section" id="pathAnalysisSection">
+                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
+                    <h3 style="font-size: 24px;">3. Key Journey Abandonment Points</h3>
+                </div>
+                 <table class="path-analysis-table">
+                    <thead><tr><th>Journey Step (Path)</th><th>🛡️ Guardian</th><th>⚙️ Tech Eval</th><th>💰 Econ Buyer</th><th>🏆 Champion</th><th>👩‍💻 End User</th></tr></thead>
+                    <tbody>
+                        <tr><td>Home Page</td><td><strong class="critical-blocker">93% Abd.</strong></td><td>0% Abd.</td><td>5% Abd.</td><td>0% Abd.</td><td>0% Abd.</td></tr>
+                        <tr><td style="padding-left: 24px;">→ Product Page</td><td>-</td><td>5% Abd.</td><td><strong class="critical-blocker">35% Abd.</strong></td><td>2% Abd.</td><td>5% Abd.</td></tr>
+                        <tr><td style="padding-left: 24px;">→ Pricing Page</td><td>-</td><td>15% Abd.</td><td><strong class="critical-blocker">40% Abd.</strong></td><td>5% Abd.</td><td>10% Abd.</td></tr>
+                        <tr><td style="padding-left: 24px;">→ Demo Form</td><td>-</td><td><strong class="critical-blocker">85% Abd.</strong></td><td>-</td><td>10% Abd.</td><td>15% Abd.</td></tr>
+                        <tr><td><strong>Final Conv.</strong></td><td><strong>0%</strong></td><td><strong>4%</strong></td><td><strong>2%</strong></td><td><strong>18%</strong></td><td><strong>15%</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            `;
+        }
+
+        function createHeatMapHTML() {
+            return `
+            <div class="brief-section" id="heatMapSection">
+                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
+                    <h3 style="font-size: 24px;">4. Page-Level Friction Hotspots</h3>
+                </div>
+                <p style="font-size: 16px; color: var(--text-tertiary);">Friction Score (from 100 simulations) by page for each persona. Lower is better.</p>
+                <table class="heat-map-table">
+                    <thead> <tr> <th>Persona</th> <th>HOME</th> <th>/PRODUCT</th> <th>/PRICING</th> <th>/DEMO FORM</th> </tr> </thead>
+                    <tbody>
+                        <tr> <td>🛡️ Security Guardian</td> <td class="friction-cell"><span class="friction-high">█ 88</span></td> <td class="friction-cell"><span class="friction-med">█ 45</span></td> <td>-</td> <td>-</td> </tr>
+                        <tr> <td>⚙️ Tech Evaluator</td> <td class="friction-cell"><span class="friction-low">█ 25</span></td> <td class="friction-cell"><span class="friction-med">█ 55</span></td> <td class="friction-cell"><span class="friction-med">█ 61</span></td> <td class="friction-cell"><span class="friction-high">█ 91</span></td> </tr>
+                        <tr> <td>💰 Economic Buyer</td> <td class="friction-cell"><span class="friction-low">█ 30</span></td> <td class="friction-cell"><span class="friction-med">█ 68</span></td> <td class="friction-cell"><span class="friction-high">█ 85</span></td> <td>-</td> </tr>
+                        <tr> <td>🏆 Champion</td> <td class="friction-cell"><span class="friction-low">█ 15</span></td> <td class="friction-cell"><span class="friction-low">█ 20</span></td> <td class="friction-cell"><span class="friction-low">█ 25</span></td> <td class="friction-cell"><span class="friction-low">█ 35</span></td> </tr>
+                        <tr> <td>👩‍💻 End User</td> <td class="friction-cell"><span class="friction-low">█ 20</span></td> <td class="friction-cell"><span class="friction-low">█ 25</span></td> <td class="friction-cell"><span class="friction-low">█ 30</span></td> <td class="friction-cell"><span class="friction-med">█ 41</span></td> </tr>
+                    </tbody>
+                </table>
+                <div class="heat-map-legend"><span>Friction Score: <span class="friction-high">High</span>, <span class="friction-med">Medium</span>, <span class="friction-low">Low</span></span></div>
+            </div>`;
+        }
+        
+        function createPlaybookHTML() {
+            return `
+            <div class="brief-section playbook-section" id="playbookSection">
+                <div class="playbook-title">
+                    <h3 style="font-size: 24px;">5. Prioritized Quick-Win Playbook</h3>
+                    <p style="font-size: 16px; color: var(--text-secondary);">This is your data-driven backlog. Fix these to win over your key personas.</p>
+                </div>
+                <table class="playbook-table">
+                    <thead><tr><th>Rank</th><th>Recommendation</th><th>Value Score</th><th>Persona / Stage</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td><strong>Add SOC-2 & ISO-27001 badges in hero banner</strong></td><td class="value-score" style="color:var(--success)">93</td><td>Security Guardian / Homepage</td></tr>
+                        <tr><td>2</td><td>Shorten demo form from 8 to 4 fields (2-step reveal)</td><td class="value-score" style="color:var(--success)">86</td><td>Tech Evaluator / Demo Form</td></tr>
+                        <tr><td>3</td><td>Replace "enterprise-grade encryption" with specific standards (e.g., "AES-256")</td><td class="value-score" style="color:var(--warning)">77</td><td>Guardian & Evaluator / Product Page</td></tr>
+                    </tbody>
+                </table>
+            </div>`;
+        }
+
+        function createPersonaPlaybookHTML(persona) {
+            if (!persona.playbook) return '';
+            return `
+                 <div class="detail-card">
+                    <h4>Persona-Specific Playbook</h4>
+                     <table class="details-table">
+                       <thead><tr><th>Rank</th><th>Recommendation</th><th>Value Score</th><th>Expected Outcome</th></tr></thead>
+                       <tbody>${persona.playbook.map(p => `<tr><td>${p.rank}</td><td><strong>${p.rec}</strong></td><td>${p.score}</td><td>${p.outcome}</td></tr>`).join('')}</tbody>
+                    </table>
+                    <p class="playbook-note"><strong>Note on Value Score:</strong> Represents the percentage of simulation runs where this friction point caused abandonment or frustration for this specific persona.</p>
+                </div>`;
+        }
+
+        function createMessagingCritiqueHTML(persona) {
+            if (!persona.messaging_critique) return '';
+            const { summary, issues } = persona.messaging_critique;
+            
+            return `
+                <div class="detail-card">
+                    <h4>Messaging Critique & Copy Fixes</h4>
+                    <p style="margin-bottom: 16px; color: var(--text-secondary);">${summary}</p>
+                    <table class="details-table">
+                        <thead>
+                            <tr><th>Current Copy</th><th>The Problem</th><th>Fix It To</th></tr>
+                        </thead>
+                        <tbody>
+                            ${issues.map(issue => `
+                                <tr>
+                                    <td style="color: var(--error);">${issue.current}</td>
+                                    <td>${issue.problem}</td>
+                                    <td style="color: var(--success); font-weight: 600;">${issue.fix}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>`;
+        }
+
+        function createPathDistributionHTML(paths) {
+            return `
+                <div class="detail-card">
+                    <h4>Path Distribution</h4>
+                    <table class="details-table">
+                    <thead><tr><th>Path Distribution</th><th>Weight</th><th>Outcome</th><th>Variance Score</th></tr></thead>
+                    <tbody>${paths.map(p => `
+                        <tr>
+                            <td>${p.path}</td>
+                            <td>${p.weight}</td>
+                            <td>${p.outcome}</td>
+                            <td>${p.variance}/100 <span style="color: var(--text-tertiary)">(${p.variance < 10 ? 'Highly Consistent' : p.variance < 20 ? 'Moderately Consistent' : 'Variable'})</span></td>
+                        </tr>
+                    `).join('')}</tbody>
+                    </table>
+                </div>`;
+        }
+
+        function createBehavioralTriggersAndDriversHTML(persona) {
+            return `
+             <div class="detail-card">
+                <h4>Behavioral Analysis</h4>
+                <div class="two-column-grid">
+                    <div>
+                        <h5>Abandonment Triggers</h5>
+                        <table class="details-table">
+                         <thead><tr><th>Trigger Event</th><th>Significance</th><th>Weight</th></tr></thead>
+                        <tbody>${persona.triggers.map(t => `<tr><td>${t.text}</td><td><strong class="critical-blocker">${t.sig}</strong></td><td>${t.runs}/100</td></tr>`).join('')}</tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h5>Engagement Drivers</h5>
+                        <table class="details-table">
+                         <thead><tr><th>Driver Event</th><th>Significance</th><th>Weight</th></tr></thead>
+                        <tbody>${persona.drivers.map(d => `<tr><td>${d.text}</td><td>${d.sig}</td><td>${d.runs}/100</td></tr>`).join('')}</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+        
+        function createBenchmarksHTML(benchmarks) {
+            return `
+                <div class="detail-card">
+                    <h4>Persona-Specific Benchmark</h4>
+                    <table class="details-table">
+                    <thead><tr><th>Persona-Specific Benchmark</th><th>Your Site</th><th>Industry Median</th><th>Percentile Rank</th></tr></thead>
+                    <tbody>${benchmarks.map(b => `
+                        <tr>
+                            <td>${b.metric}</td>
+                            <td><strong>${b.site}</strong></td>
+                            <td>${b.median}</td>
+                            <td><strong class="${b.percentile.includes('<') ? 'critical-blocker' : ''}">${b.percentile}</strong></td>
+                        </tr>
+                    `).join('')}</tbody>
+                    </table>
+                </div>`;
+        }
+
+        function createPersonaScoreBadgeHTML(persona) {
+            if (persona.id === 'SecurityGuardian') {
+                return `
+                <div class="persona-score-badge">
+                    <div class="score-title">Guardian Trust Score</div>
+                    <div class="score">31 / 100</div>
+                    <div class="score-subtitle">Bottom 12th %tile in Security</div>
+                </div>`;
+            } else {
+                const friction = parseInt(persona.vitals.friction);
+                let scoreColor = 'var(--success)';
+                if (friction >= 80) scoreColor = 'var(--error)';
+                else if (friction >= 60) scoreColor = 'var(--warning)';
+                
+                return `
+                <div class="persona-score-badge">
+                    <div class="score-title">${persona.name} Friction Score</div>
+                    <div class="score" style="color: ${scoreColor};">${friction} / 100</div>
+                    <div class="score-subtitle">Lower is better</div>
+                </div>`;
+            }
+        }
+        
+        function createPersonaProfileHTML(persona) {
+             return `
+                <div class="detail-card">
+                    <h4>A. Persona Profile</h4>
+                     <p style="margin-bottom: 16px;"><strong>Mental Model:</strong> <em>"${persona.mental_model}"</em></p>
+                    <ul class="worldview-list">
+                       ${persona.non_negotiable_needs.map(need => `<li><strong>Non-Negotiable:</strong> ${need}</li>`).join('')}
+                    </ul>
+                </div>
+             `;
+        }
+
+        function createPersonaDashboardHTML(persona) {
+            const { variance } = persona;
+            let varianceClass = 'variance-variable';
+            if (variance.score < 10) varianceClass = 'variance-consistent';
+            else if (variance.score < 20) varianceClass = 'variance-moderate';
+
+            return `
+            <div class="persona-dashboard-grid">
                 <div class="persona-header">
                     <div class="persona-icon">${persona.icon}</div>
                     <div class="persona-title-group">
                         <h3 class="persona-name">${persona.name}</h3>
-                        <p class="persona-role-context">${persona.context}</p>
+                        <p class="persona-fictional-name">${persona.fictional_name}</p>
+                        <div class="persona-variance-bar-container"><div class="persona-variance-bar ${varianceClass}" style="width: ${variance.score}%;"></div></div>
+                        <p style="margin-top: 8px; color: var(--text-tertiary);">Behavior Variance: ${variance.score}/100 (${variance.label})</p>
                     </div>
                 </div>
-                <div class="persona-strategic-narrative">
-                    <h3>💡 Strategic Narrative Alignment</h3>
-                    <p class="aha-moment">"${narrative.ahaMoment}"</p>
-                    <div class="narrative-grid">
-                        <div class="narrative-column narrative-strengths"><h4>Strengths</h4><ul class="narrative-list">${narrative.strengths.map(s => `<li>${s}</li>`).join('')}</ul></div>
-                        <div class="narrative-column narrative-weaknesses"><h4>Weaknesses</h4><ul class="narrative-list">${narrative.weaknesses.map(w => `<li>${w}</li>`).join('')}</ul></div>
-                    </div>
-                    <div class="narrative-recommendation"><h4>Recommendation</h4><p>${narrative.recommendation}</p></div>
+
+                <div class="two-column-grid">
+                    ${createPersonaProfileHTML(persona)}
+                    ${createPersonaScoreBadgeHTML(persona)}
                 </div>
-                <div class="persona-insights-grid">
-                    <div class="insight-column"><h4 style="color: var(--success);">✅ What Resonated</h4><ul class="insight-list positive-insights">${persona.positives.map(p => `<li>${p}</li>`).join('')}</ul></div>
-                    <div class="insight-column"><h4 style="color: var(--error);">⚠ What Stalled / Confused</h4><ul class="insight-list negative-insights">${persona.negatives.map(n => `<li>${n}</li>`).join('')}</ul></div>
-                </div>
-                <div class="path-outcome-section">
-                    <h4>Path to Abandonment</h4>
-                    <div class="path-outcome-grid">
-                        <div class="path-outcome-metric"><p>Typical Path</p><span>${persona.path}</span></div>
-                        <div class="path-outcome-metric"><p>Median Session</p><span>${persona.session}</span></div>
-                        <div class="path-outcome-metric"><p>CTA Performance</p><span class="bad-outcome">${persona.ctaPerformance} clicks</span></div>
-                    </div>
-                </div>
-                <div class="monologue-section">
-                    <h4>Simulated Journey Timeline</h4>
-                    <div class="monologue-timeline" id="monologue-${persona.id}"><span class="blinking-cursor"></span></div>
-                </div>
-                <div class="final-verdict-section">
-                    <h4>Final Verdict & Key Irritant</h4>
-                    <div class="verdict-reason"><strong>Outcome: ${persona.finalVerdict.outcome}</strong><p>${persona.finalVerdict.reason}</p></div>
-                    <div class="verdict-irritant"><strong>Key Irritant:</strong><p>${persona.finalVerdict.keyIrritation}</p></div>
-                </div>
-            </div>`; 
+                ${briefDividerHTML}
+                ${createPersonaPlaybookHTML(persona)}
+                ${briefDividerHTML}
+                ${createPathDistributionHTML(persona.path)}
+                ${briefDividerHTML}
+                ${createMessagingCritiqueHTML(persona)}
+                ${briefDividerHTML}
+                ${createBehavioralTriggersAndDriversHTML(persona)}
+                ${briefDividerHTML}
+                ${createBenchmarksHTML(persona.benchmarks)}
+            </div>`;
         }
+        
+        function createShareBadgeHTML() {
+            const mailtoSubject = "Evidence to unblock our landing page";
+            const mailtoBody = "Team,%0A%0AI ran our landing page through an AI buyer simulation. The results for our 'Security Guardian' persona are concerning.%0A%0AOur Guardian Trust Score is 31/100 (Bottom 12th percentile). This is likely a key reason our enterprise deals are stalling.%0A%0ALet's discuss the recommended fixes from the attached brief.";
+            const mailtoLink = `mailto:?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(mailtoBody)}`;
 
-        const benchmarkHTML_Guardian = `<div class="section-header" style="margin-bottom: 32px; margin-top: 32px;"><h3>Persona Benchmark: Security Guardian</h3></div><div class="benchmark-metric"><div class="benchmark-header"><span class="benchmark-name">Guardian Trust Score</span><span class="benchmark-score"><span class="your-value" style="color: var(--error);">31</span> / 100<span class="gap gap-negative">(−23 pts)</span></span></div><div class="benchmark-bar-container"><div class="benchmark-bar"></div><div class="benchmark-marker" style="left: calc((31 - 35) / (72 - 35) * 100% + 4%);"><div class="benchmark-marker-line"></div></div></div><div class="bar-labels"><span>25th %ile (35)</span><span>75th %ile (72)</span></div></div>`;
-        const benchmarkHTML_TechEval = `<div class="section-header" style="margin-bottom: 32px; margin-top: 32px;"><h3>Persona Benchmark: Tech Evaluator</h3></div><div class="benchmark-metric"><div class="benchmark-header"><span class="benchmark-name">Technical Credibility Score</span><span class="benchmark-score"><span class="your-value" style="color: var(--warning);">45</span> / 100<span class="gap gap-negative">(−15 pts)</span></span></div><div class="benchmark-bar-container"><div class="benchmark-bar"></div><div class="benchmark-marker" style="left: calc((45 - 40) / (80 - 40) * 100%); background-color: var(--warning);"><div class="benchmark-marker-line"></div></div></div><div class="bar-labels"><span>25th %ile (40)</span><span>75th %ile (80)</span></div></div>`;
-
-        const diagnosticsPlaybookHTML_Guardian = `
-            <div class="business-impact-statement"><strong>Business Impact (Guardian):</strong> Failing to provide immediate proof of compliance makes the product a non-starter for enterprise accounts, killing deals before they even reach a salesperson.</div>
-            <div class="critique-grid">
-                <div class="critique-card"><div class="critique-header">Messaging Critique</div><div class="critique-body"><strong>Critique:</strong><p>The term 'enterprise-grade' is vague and untrustworthy. This persona needs specific, verifiable facts, not marketing jargon.</p><div class="fix-recommendation"><strong>Recommended Fix:</strong><p>Replace 'enterprise-grade encryption' with 'AES-256, SOC-2 Type II Certified, and FedRAMP-ready'.</p></div></div></div>
-                <div class="critique-card"><div class="critique-header">Conversion Critique</div><div class="critique-body"><strong>Critique:</strong><p>The primary CTA 'Book a Demo' is premature. The Guardian is in a 'verify, then trust' mindset and is not ready for a sales conversation.</p><div class="fix-recommendation"><strong>Recommended Fix:</strong><p>Offer a 'View Security & Compliance Docs' CTA above the fold. Treat the demo as a secondary action for those who have already verified your credentials.</p></div></div></div>
-            </div>
-            <div class="playbook-section">
-                <div class="playbook-title"><h3>Prioritized Playbook</h3></div>
-                <table class="playbook-table"><thead><tr><th>Rank</th><th>Recommendation</th><th>Effort</th><th>Est. Impact Metric</th></tr></thead><tbody>
-                    <tr><td>1</td><td>Add SOC-2 & ISO-27001 badges in hero banner</td><td><span class="effort-badge effort-low">Low</span></td><td class="impact-high">+22 Guardian Score</td></tr>
-                    <tr><td>2</td><td>Provide a direct link to the data retention policy in the footer</td><td><span class="effort-badge effort-low">Low</span></td><td class="impact-med">+9 Guardian Score</td></tr>
-                </tbody></table>
-            </div>
-            ${benchmarkHTML_Guardian}
-            `;
-
-        const diagnosticsPlaybookHTML_TechEval = `
-            <div class="business-impact-statement"><strong>Business Impact (Tech Evaluator):</strong> Contradictory claims between marketing and documentation destroy technical credibility, leading to a loss of the internal champion required to push the deal forward.</div>
-            <div class="critique-grid">
-                <div class="critique-card"><div class="critique-header">Friction Critique</div><div class="critique-body"><strong>Critique:</strong><p>An 8-field demo form creates a massive friction barrier for a technical user who wants to evaluate the product, not enter a sales funnel.</p><div class="fix-recommendation"><strong>Recommended Fix:</strong><p>Implement a 2-step form. Step 1 asks only for an email to access a sandbox environment. Step 2 can ask for more details later.</p></div></div></div>
-                 <div class="critique-card"><div class="critique-header">Competitive Gap Analysis</div><div class="critique-body"><strong>Critique:</strong><p>Competitors like 'Datadog' offer an instant, no-login sandbox environment. Requiring a form submission to evaluate the product is a major competitive disadvantage.</p><div class="fix-recommendation"><strong>Recommended Fix:</strong><p>Create a limited, public-facing interactive sandbox to showcase the product's core functionality without requiring user information.</p></div></div></div>
-            </div>
-            <div class="playbook-section">
-                <div class="playbook-title"><h3>Prioritized Playbook</h3></div>
-                <table class="playbook-table"><thead><tr><th>Rank</th><th>Recommendation</th><th>Effort</th><th>Est. Impact Metric</th></tr></thead><tbody>
-                    <tr><td>1</td><td>Shorten demo form to 3 fields or use progressive profiling</td><td><span class="effort-badge effort-med">Medium</span></td><td class="impact-high">+18 Tech-Eval Conv.</td></tr>
-                    <tr><td>2</td><td>Ensure marketing claims ('single-click API') are 100% consistent with docs</td><td><span class="effort-badge effort-low">Low</span></td><td class="impact-high">+15 Credibility Score</td></tr>
-                </tbody></table>
-            </div>
-            ${benchmarkHTML_TechEval}
-            `;
-
-        const diagnosticsPlaybookSectionHTML = `
-            <div class="brief-section diagnostics-playbook-section" id="diagnosticsPlaybookSection">
-                <div class="section-header" style="margin-bottom: 32px;"> <h2>Detailed Diagnostics & Playbook</h2> </div>
-                <div class="tab-navigation">
-                    <button class="tab-btn active" data-persona="SecurityGuardian">🛡️ Security Guardian</button>
-                    <button class="tab-btn" data-persona="TechEvaluator">⚙️ Tech Evaluator</button>
+            return `
+            <div class="brief-section" id="shareBadgeSection">
+                 <div class="section-header" style="margin-bottom: 24px; text-align:left;">
+                    <h3 style="font-size: 24px;">7. Shareable Evidence</h3>
                 </div>
-                <div class="tab-content-container">
-                    <div class="tab-content active" data-persona="SecurityGuardian">${diagnosticsPlaybookHTML_Guardian}</div>
-                    <div class="tab-content" data-persona="TechEvaluator">${diagnosticsPlaybookHTML_TechEval}</div>
+                <div class="share-badge-container">
+                    <div class="share-badge-text">
+                        <p><strong>Arm your team with objective evidence.</strong> Use the pre-filled email to end subjective debates about compliance and get stakeholder buy-in.</p>
+                        <a href="${mailtoLink}" class="predict-button" style="font-size: 15px; padding: 12px 24px;">Share Report Internally</a>
+                    </div>
                 </div>
             </div>`;
+        }
         
-        const shareBadgeHTML = `<div class="brief-section" id="shareBadgeSection"> <div class="share-badge-grid"> <div class="share-badge-text"> <p><strong>Share this report.</strong> Give your team the evidence needed to make the right call.</p> <a href="#waitlist" class="predict-button" style="font-size: 15px; padding: 12px 24px;">Get Sharable Link</a> </div> <div class="share-badge" id="shareBadgeCard"> <div id="shareBadgeTitle">GUARDIAN TRUST SCORE</div> <div class="score" id="shareBadgeScore" style="color: var(--error);">31 / 100</div> <div id="shareBadgePercentile">Bottom 12th %tile in Security</div> </div> </div> </div>`;
-        
-        function typeMonologue(monologueId, monologueLines) {
-            const container = document.getElementById(monologueId); if (!container) return; container.innerHTML = ''; let lineIndex = 0;
-            function showNextLine() {
-                if (lineIndex < monologueLines.length) {
-                    const entry = document.createElement('div'); entry.className = 'monologue-entry'; 
-                    const { time, event, element, thought } = monologueLines[lineIndex]; 
-                    entry.innerHTML = `<span class="monologue-time">[${time}]</span> <span class="monologue-event">${event.toUpperCase()}</span> on <strong>${element}</strong> → <span class="monologue-thought">'${thought}'</span>`; 
-                    container.appendChild(entry);
-                    setTimeout(() => entry.style.opacity = 1, 10); lineIndex++; setTimeout(showNextLine, 1500);
-                }
-            } showNextLine();
+        function createConfidenceMethodologyHTML() {
+            return `
+            <div class="brief-section" id="confidenceSection">
+                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
+                    <h3 style="font-size: 24px;">8. Report Confidence & Methodology</h3>
+                </div>
+                <div style="background: rgba(139, 107, 71, 0.05); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
+                    <h4 style="margin-bottom: 16px;">Simulation Confidence: <span style="color: var(--success);">High (9/10 runs)</span></h4>
+                    <p style="margin-bottom: 16px;">The primary abandonment signals for the Security Guardian and Tech Evaluator personas were consistent across >90% of simulations, indicating stable and reliable results.</p>
+                    
+                    <h4 style="margin-bottom: 8px;">Methodology</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 8px;">• <strong>Simulations:</strong> 100 AI buyer journeys across 8 canonical B2B personas</li>
+                        <li style="margin-bottom: 8px;">• <strong>Traffic Weights:</strong> Based on Similarweb data and industry averages for your vertical</li>
+                        <li style="margin-bottom: 8px;">• <strong>Benchmarks:</strong> 2025 B2B SaaS Conversion Index (n=500 companies)</li>
+                        <li style="margin-bottom: 8px;">• <strong>Variance Scoring:</strong> Lower scores indicate more consistent behavior across runs</li>
+                    </ul>
+                    
+                    <p style="margin-top: 16px; font-size: 14px; color: var(--text-tertiary);">
+                        <strong>Note:</strong> This analysis simulates buyer behavior based on page structure, copy, and design patterns. 
+                        Actual conversion rates may vary based on traffic quality, market conditions, and product-market fit.
+                    </p>
+                </div>
+            </div>`;
         }
 
         async function runAnalysis() {
-            const url = document.getElementById('pageUrl').value; if (!url || !url.startsWith('http')) { alert('Please enter a valid URL (e.g., https://example.com).'); return; }
+            const url = document.getElementById('pageUrl').value; 
+            if (!url || !url.startsWith('http')) { 
+                alert('Please enter a valid URL (e.g., https://example.com).'); 
+                return; 
+            }
+            
             analyzeBtn.disabled = true;
-            demoSection.style.display = 'block'; demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            personaSelectorSection.style.display = 'none'; briefSection.style.display = 'none'; analysisProgress.style.display = 'block'; analysisProgress.querySelector('p').textContent = 'Generating Buyer Personas...'; personaGrid.innerHTML = ''; resultsGrid.innerHTML = '';
+            analyzeBtn.textContent = 'Analyzing...';
+            demoSection.style.display = 'block'; 
+            briefSection.style.display = 'none';
+            personaSelectorSection.style.display = 'none';
+            demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            resultsGrid.innerHTML = '';
+            personaGrid.innerHTML = '';
+            analysisProgress.style.display = 'block'; 
+            analysisProgress.querySelector('p').textContent = 'Generating Buyer Personas...';
 
             await new Promise(resolve => setTimeout(resolve, 1500));
-            analysisProgress.style.display = 'none'; personaSelectorSection.style.display = 'block';
-            const selectedPersonas = ['Security Guardian', 'Tech Evaluator'];
+            
+            analysisProgress.style.display = 'none'; 
+            personaSelectorSection.style.display = 'block';
+            
+            const selectedPersonas = ['Security Guardian', 'Tech Evaluator', 'Economic Buyer', 'Champion', 'End User'];
             allPersonas.forEach(p => {
-                const card = document.createElement('div'); card.className = 'persona-selector-card';
+                const card = document.createElement('div'); 
+                card.className = 'persona-selector-card';
                 if (selectedPersonas.includes(p.name)) { card.classList.add('selected'); }
                 card.innerHTML = `<div class="persona-selector-icon">${p.icon}</div><div class="persona-selector-name">${p.name}</div><p class="persona-selector-role">${p.role}</p>`;
                 personaGrid.appendChild(card);
             });
             
             await new Promise(resolve => setTimeout(resolve, 1500));
-            briefSection.style.display = 'block'; briefSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
+            briefSection.style.display = 'block'; 
             resultsGrid.innerHTML = `<div class="master-brief-card" id="masterBriefCard"></div>`;
             const masterCard = document.getElementById('masterBriefCard');
             
-            // CORRECTED: Sequence no longer contains a generic strategic narrative section.
-            const elementSequence = [
-                { html: executiveSummaryHTML, id: 'executiveSummarySection' },
-                { html: heatMapHTML, id: 'heatMapSection' },
-                { html: createPersonaCardHTML(detailedPersonaData.SecurityGuardian), id: 'SecurityGuardian', monologue: detailedPersonaData.SecurityGuardian.monologue },
-                { html: createPersonaCardHTML(detailedPersonaData.TechEvaluator), id: 'TechEvaluator', monologue: detailedPersonaData.TechEvaluator.monologue },
-                { html: diagnosticsPlaybookSectionHTML, id: 'diagnosticsPlaybookSection' },
-                { html: shareBadgeHTML, id: 'shareBadgeSection' }
-            ];
+            const executiveSummaryHeaderHTML = createExecutiveSummaryHeaderHTML();
+            const performanceSummaryHTML = createPerformanceSummaryHTML();
+            const pathAnalysisHTML = createPathAnalysisTableHTML();
+            const heatMapHTML = createHeatMapHTML();
+            const playbookHTML = createPlaybookHTML();
+            const personaTabsHTML = `
+                <div class="brief-section" id="personaDashboards">
+                    <div class="section-header" style="margin-bottom: 24px; text-align:left;">
+                        <h3 style="font-size: 24px;">6. Detailed Persona Dashboards</h3>
+                    </div>
+                    <div class="persona-tabs">
+                        <div class="tab-link active" data-tab="SecurityGuardian">🛡️ Security Guardian</div>
+                        <div class="tab-link" data-tab="TechEvaluator">⚙️ Tech Evaluator</div>
+                    </div>
+                    <div class="tab-content-wrapper">
+                        <div class="tab-content active" id="tab-SecurityGuardian">
+                            ${createPersonaDashboardHTML(personaDetails.SecurityGuardian)}
+                        </div>
+                        <div class="tab-content" id="tab-TechEvaluator">
+                            ${createPersonaDashboardHTML(personaDetails.TechEvaluator)}
+                        </div>
+                    </div>
+                </div>`;
+            const shareBadgeHTML = createShareBadgeHTML();
+            const confidenceHTML = createConfidenceMethodologyHTML();
+
+            const reportHTML = [
+                executiveSummaryHeaderHTML,
+                performanceSummaryHTML,
+                pathAnalysisHTML,
+                heatMapHTML,
+                playbookHTML,
+                personaTabsHTML,
+                shareBadgeHTML,
+                confidenceHTML
+            ].join(briefDividerHTML);
             
+            masterCard.innerHTML = reportHTML;
+
+            await new Promise(resolve => setTimeout(resolve, 100));
             masterCard.classList.add('visible');
 
-            for (let i = 0; i < elementSequence.length; i++) {
-                const el = elementSequence[i];
-                if (i > 0) { masterCard.innerHTML += briefDividerHTML; }
-                masterCard.innerHTML += el.html;
-                
-                await new Promise(resolve => setTimeout(resolve, 50));
-                
-                const section = document.getElementById(el.id);
-                if (section) {
-                    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    section.classList.add('visible');
-                }
-                
-                if (el.monologue) {
-                    typeMonologue('monologue-' + el.id, el.monologue);
-                }
-                
-                await new Promise(resolve => setTimeout(resolve, 1000));
-            }
-            
-            // **CORRECTED SCRIPT**
-            // This now runs ONCE after the entire report is rendered, ensuring all elements exist.
-            const tabContainer = document.getElementById('diagnosticsPlaybookSection');
-            if(tabContainer) {
-                const tabNav = tabContainer.querySelector('.tab-navigation');
-                const tabContents = tabContainer.querySelectorAll('.tab-content');
-                const shareBadge = {
-                    title: document.getElementById('shareBadgeTitle'),
-                    score: document.getElementById('shareBadgeScore'),
-                    percentile: document.getElementById('shareBadgePercentile')
-                };
-
-                if (tabNav) {
-                    tabNav.addEventListener('click', (e) => {
-                        const clickedButton = e.target.closest('.tab-btn');
-                        if (!clickedButton) return;
-                        
-                        const targetPersona = clickedButton.dataset.persona;
-
-                        tabNav.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                        clickedButton.classList.add('active');
-
-                        tabContents.forEach(content => {
-                            content.classList.toggle('active', content.dataset.persona === targetPersona);
-                        });
-
-                        if (targetPersona === 'SecurityGuardian') {
-                            shareBadge.title.textContent = 'GUARDIAN TRUST SCORE';
-                            shareBadge.score.textContent = '31 / 100';
-                            shareBadge.score.style.color = 'var(--error)';
-                            shareBadge.percentile.textContent = 'Bottom 12th %tile in Security';
-                        } else if (targetPersona === 'TechEvaluator') {
-                            shareBadge.title.textContent = 'TECH CREDIBILITY SCORE';
-                            shareBadge.score.textContent = '45 / 100';
-                            shareBadge.score.style.color = 'var(--warning)';
-                            shareBadge.percentile.textContent = 'Bottom 30th %tile for Dev Tools';
-                        }
-                    });
-                }
-            }
+            setupUIInteractions();
+            briefSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             analyzeBtn.disabled = false;
+            analyzeBtn.textContent = 'Analyze My Page';
         }
+
+        function setupUIInteractions() {
+            document.addEventListener('click', function(event) {
+                const clickedTab = event.target.closest('.tab-link');
+                if (!clickedTab) return;
+                
+                const tabId = clickedTab.getAttribute('data-tab');
+                if (!tabId) return;
+                
+                const tabContainer = clickedTab.closest('.persona-tabs');
+                const tabContentWrapper = tabContainer.nextElementSibling;
+                
+                tabContainer.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+                tabContentWrapper.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                clickedTab.classList.add('active');
+
+                const activeContent = document.getElementById(`tab-${tabId}`);
+                if (activeContent) {
+                    activeContent.classList.add('active');
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', setupUIInteractions);
     </script>
 </body>
 </html>
