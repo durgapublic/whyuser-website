@@ -344,7 +344,7 @@
         .master-brief-card {
             background: white;
             border-radius: 16px;
-            box-schadow: 0 16px 50px var(--shadow);
+            box-shadow: 0 16px 50px var(--shadow);
             padding: 40px;
             max-width: 900px;
             margin: 0 auto;
@@ -365,10 +365,18 @@
         }
 
         /* Executive Summary & Scoreboard */
+        .executive-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center; }
+        .summary-card { padding: 24px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-primary); }
+        .summary-card .stat { font-size: 40px; font-weight: 600; line-height: 1; }
+        .summary-card .stat.critical { color: var(--error); }
+        .summary-card .label { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+        .summary-card .description { font-size: 14px; color: var(--text-tertiary); }
+
         .executive-summary-list { list-style: none; padding-left: 0; }
         .executive-summary-list li { font-size: 18px; color: var(--text-secondary); margin-bottom: 16px; padding-left: 30px; position: relative; }
         .executive-summary-list li:last-child { margin-bottom: 0; }
         .executive-summary-list li::before { content: '⚡'; position: absolute; left: 0; top: 2px; font-size: 18px; }
+        
         .scoreboard-table, .details-table, .path-analysis-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 24px; }
         .scoreboard-table th, .scoreboard-table td, .details-table th, .details-table td, .path-analysis-table th, .path-analysis-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
         .scoreboard-table th, .details-table th, .path-analysis-table th { color: var(--text-secondary); font-weight: 500; font-size: 14px; }
@@ -511,6 +519,7 @@
             .share-badge-grid { grid-template-columns: 1fr; }
             .persona-tabs { flex-wrap: wrap; }
             .tab-link { flex-grow: 1; text-align: center; }
+            .executive-summary-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -729,48 +738,34 @@
                 icon: '👩‍💻',
                 name: 'End User',
                 fictional_name: 'Maria, Senior Analyst',
+                intent_stage: 'Top-of-Funnel (Discovery)',
                 mental_model: 'Will this make my daily job easier, or is it just another tool I have to learn and ignore?',
                 non_negotiable_needs: ['Must show the UI, not just abstract benefits.', 'Must have a clear "how it works" or video demo.'],
-                vitals: { traffic: '35%', conv: '12%', friction: '45', goal: 'To see if the product solves a tangible, daily frustration.', skepticism: 'Marketing jargon like "synergize workflows" is an immediate red flag.' },
-                narrative: { intended: 'Our product is powerful and feature-rich.', verdict: 'PARTIAL FAIL. The page talks about power but doesn\'t show how it makes my specific tasks faster. It feels like it was written for my boss.' },
-                messaging_critique: {
-                    summary: 'The page uses high-level business benefit language that alienates the person who has to use the software every day.',
-                    issues: [
-                        { current: '"Unlock new efficiencies"', problem: 'Abstract and meaningless to a user', fix: '"Complete your weekly report in 10 minutes instead of 2 hours"' },
-                        { current: 'Stock photo of people in an office', problem: 'Shows nothing about the actual product interface', fix: 'Replace with an animated GIF of the main dashboard workflow' },
-                        { current: '"Seamless Integration"', problem: 'Doesn\'t address my personal pain', fix: '"Connects to your existing Google Sheet or Excel file in two clicks"' }
-                    ]
-                },
-                variance: { score: 25, label: 'Variable' },
                 playbook: [
-                    { rank: 1, rec: 'Add an animated GIF of the core product workflow in the hero', score: 88, outcome: '+10% Conversion, -20pts Friction' },
-                    { rank: 2, rec: 'Change headline from benefits to a specific, relatable outcome', score: 75, outcome: '-15pts Friction' },
-                    { rank: 3, rec: 'Add a 90-second "Day in the Life" video tutorial', score: 62, outcome: 'Increase engagement (time on page)' }
+                    { rank: 1, rec: 'Add animated GIF of core product workflow in the hero', stage: 'ToFu', outcome: '+10% Goal Completion'}, 
+                    { rank: 2, rec: 'Change headline to a specific, relatable outcome', stage: 'ToFu', outcome: '-15pts Friction'}
+                ],
+                path_distribution: [
+                    { path: 'HOME → /features → BOUNCE', stage: 'ToFu', outcome: 'Abandon'}, 
+                    { path: 'HOME → /features → /demo → BOUNCE', stage: 'ToFu', outcome: 'Abandon'}
+                ],
+                messaging_critique: [
+                    { current: '"Unlock new efficiencies"', stage: 'ToFu', problem: 'Abstract and meaningless to a user', fix: '"Complete your weekly report in 10 minutes"' }
                 ],
                 monologue: [
                     { time: '00:02', thought: 'Okay, my boss sent me this. Let\'s see. "Revolutionize your workflow"... ugh, marketing speak.' },
                     { time: '00:06', thought: 'I\'m just trying to see what it *looks* like. Is there a screenshot? A video?' },
-                    { time: '00:10', thought: 'Scrolling... lots of text about business value. I don\'t care about that right now.' },
-                    { time: '00:15', thought: 'Found a "Watch Demo" button. Clicks.' },
-                    { time: '00:18', thought: 'It\'s a 15-minute webinar recording. No thanks. I just want to see the UI.' },
-                    { time: '00:22', thought: '<strong>Decision: I can\'t tell if this is useful.</strong> I\'ll tell my boss it "looks interesting" but I have no idea if it actually helps me. I\'m not going to champion this.' }
+                    { time: '00:15', thought: 'Found a "Watch Demo" button. It\'s a 15-minute webinar recording. No thanks.' },
+                    { time: '00:22', thought: '<strong>Decision: I can\'t tell if this is useful.</strong> I\'ll tell my boss it "looks interesting" but I have no idea if it actually helps me.' }
                 ],
                 triggers: [
-                    { text: 'Lack of product screenshots or GIFs', sig: 'Critical', runs: 88 },
-                    { text: 'Headline was vague marketing-speak', sig: 'High', runs: 75 },
-                    { text: 'Demo was a long video, not interactive or short', sig: 'Medium', runs: 61 }
+                    { text: 'Lack of product screenshots or GIFs', sig: 'Critical', runs: 88, intent: 'ToFu' },
+                    { text: 'Headline was vague marketing-speak', sig: 'High', runs: 75, intent: 'ToFu' },
+                    { text: 'Demo was a long webinar, not a short video', sig: 'Medium', runs: 61, intent: 'ToFu' }
                 ],
                 drivers: [
-                    { text: 'Testimonials from other "Analysts"', sig: 'High', runs: 65 },
-                    { text: '"How it Works" diagram was clear', sig: 'Medium', runs: 55 }
-                ],
-                path: [
-                    { path: 'HOME → /features → /demo → BOUNCE', weight: '80%', outcome: 'Abandon', variance: 25 },
-                    { path: 'HOME → CONVERT', weight: '20%', outcome: 'Demo Request', variance: 22 }
-                ],
-                benchmarks: [
-                    { metric: 'Time to find UI Visual', site: 'Not Found', median: '8 seconds', delta: 'FAIL', percentile: '<10th' },
-                    { metric: 'Clarity of Value Prop (for User)', site: 'Low', median: 'High', delta: 'FAIL', percentile: '20th' }
+                    { text: 'Testimonials from other "Analysts"', sig: 'High', runs: 65, intent: 'ToFu' },
+                    { text: '"How it Works" diagram was clear', sig: 'Medium', runs: 55, intent: 'ToFu' }
                 ],
             },
             EconomicBuyer: {
@@ -778,76 +773,65 @@
                 icon: '💰',
                 name: 'Economic Buyer',
                 fictional_name: 'Ari, Chief Financial Officer',
-                mental_model: 'Every purchase is an investment that must have a clear, quantifiable return. Time is my most valuable asset; do not waste it.',
-                non_negotiable_needs: ['Must see pricing or a clear path to it.', 'Must understand the business impact in terms of cost savings, revenue generation, or risk reduction.'],
-                vitals: { traffic: '10%', conv: '1%', friction: '92', goal: 'To determine if this solution has a plausible ROI and is worth my team\'s time to evaluate.', skepticism: 'Vague claims of "improving ROI" are worthless. Show me the numbers.' },
-                narrative: { intended: 'We are a powerful solution that drives business value.', verdict: 'FAIL. The page completely fails to provide the economic proof points required for a budget holder to approve evaluation. It creates more questions than answers.' },
-                messaging_critique: {
-                    summary: 'The page is written for users, not buyers. It focuses on features and ease of use, while completely ignoring the financial justification needed for a purchase.',
-                    issues: [
-                        { current: '"The Leading Platform"', problem: 'Meaningless claim without market data or financial proof.', fix: '"The G2 Leader in TCO for Mid-Market Teams"' },
-                        { current: 'Pricing: "Contact Us"', problem: 'The single biggest deal-killer for a financial buyer. It signals a painful, high-friction sales process.', fix: 'Show a clear pricing table with tiers, even if "Enterprise" is a contact CTA.' },
-                        { current: 'Case studies focus on user happiness', problem: 'Happiness is not a line item on my budget.', fix: 'Revise case studies to lead with: "ACME saved Globex Corp $1.2M in wasted spend."' }
-                    ]
-                },
-                variance: { score: 10, label: 'Highly Consistent' },
+                intent_stage: 'Bottom-of-Funnel (Purchase)',
+                mental_model: 'Every purchase is an investment that must have a clear, quantifiable return. Do not waste my time.',
+                non_negotiable_needs: ['Must see pricing or a clear path to it.', 'Must understand the business impact in terms of cost, revenue, or risk.'],
                 playbook: [
-                    { rank: 1, rec: 'Add a clear, public pricing page or a prominent "Pricing" link in the navigation', score: 95, outcome: 'Increase EB Conversion from 1% to ~4%' },
-                    { rank: 2, rec: 'Create an interactive ROI calculator', score: 80, outcome: 'Increase qualified lead flow by 20%' },
-                    { rank: 3, rec: 'Feature customer testimonials that mention financial impact (e.g., cost savings, revenue increase)', score: 72, outcome: '-25pts Friction' }
+                    { rank: 1, rec: 'Add a clear, public pricing page or link in nav', stage: 'BoFu', outcome: '+3% EB Conversion'}, 
+                    { rank: 2, rec: 'Create an interactive ROI calculator', stage: 'BoFu', outcome: 'Increase qualified lead flow'}
+                ],
+                path_distribution: [
+                    { path: 'HOME → BOUNCE', stage: 'BoFu', outcome: 'Veto'}, 
+                    { path: 'HOME → /case-studies → BOUNCE', stage: 'BoFu', outcome: 'Veto'}
+                ],
+                messaging_critique: [
+                    { current: 'Pricing: "Contact Us"', stage: 'BoFu', problem: 'The single biggest deal-killer for a financial buyer.', fix: 'Show a clear pricing table with tiers.' }
                 ],
                 monologue: [
                     { time: '00:02', thought: 'Okay, the team wants to evaluate this. First question: what does it cost?' },
-                    { time: '00:04', thought: 'Scanning the navigation. No "Pricing" link. That\'s a major red flag.' },
-                    { time: '00:08', thought: 'Maybe it\'s at the bottom of the page. Scrolling... scrolling... CTA is "Book a Demo".' },
-                    { time: '00:12', thought: 'I will not "Book a Demo" to find out the price. This tells me their sales process is inefficient and they are afraid to be transparent.' },
-                    { time: '00:15', thought: 'Looking for an ROI case study. Found one, but it talks about "increased team morale". That\'s not a business metric.' },
-                    { time: '00:18', thought: '<strong>Decision: This is a non-starter.</strong> No transparent pricing, no clear ROI. My team is not to waste any more time on this. Vetoed.' }
+                    { time: '00:04', thought: 'Scanning the navigation. No "Pricing" link. Red flag.' },
+                    { time: '00:12', thought: 'I will not "Book a Demo" to find out the price. This tells me their sales process is inefficient.'},
+                    { time: '00:18', thought: '<strong>Decision: This is a non-starter.</strong> No transparent pricing, no clear ROI. Vetoed.' }
                 ],
                 triggers: [
-                    { text: 'No "Pricing" in main navigation or visible on page', sig: 'Critical', runs: 95 },
-                    { text: 'Case study lacked quantifiable financial outcomes', sig: 'High', runs: 72 },
-                    { text: 'Value proposition was not framed in terms of ROI', sig: 'Medium', runs: 65 }
+                    { text: 'No "Pricing" in main navigation', sig: 'Critical', runs: 95, intent: 'BoFu' },
+                    { text: 'Case study lacked financial outcomes', sig: 'High', runs: 72, intent: 'BoFu' },
+                    { text: 'Value prop not framed in ROI', sig: 'High', runs: 68, intent: 'BoFu' },
+                    { text: 'Vague "Contact Us" CTA', sig: 'Medium', runs: 55, intent: 'BoFu' }
                 ],
                 drivers: [
-                    { text: 'Gartner/Forrester logo (if present)', sig: 'High', runs: 70 },
-                    { text: '"ROI Calculator" (if present)', sig: 'Critical', runs: 90 }
-                ],
-                path: [
-                    { path: 'HOME → BOUNCE', weight: '95%', outcome: 'Veto', variance: 10 },
-                    { path: 'HOME → /case-studies → BOUNCE', weight: '5%', outcome: 'Veto', variance: 15 }
-                ],
-                benchmarks: [
-                    { metric: 'Time to Find Pricing', site: 'Not Found', median: '12 seconds', delta: 'FAIL', percentile: '<5th' },
-                    { metric: 'Presence of ROI Proof', site: '0', median: '2 (case study, calculator)', delta: '-2 signals', percentile: '10th' }
+                    { text: 'ROI Calculator', sig: 'Critical', runs: 90, intent: 'BoFu' },
+                    { text: 'Gartner/Forrester logo', sig: 'High', runs: 70, intent: 'BoFu' },
+                    { text: 'Customer logos from Fortune 500', sig: 'Medium', runs: 62, intent: 'BoFu' }
                 ],
             }
         };        
         
         const briefDividerHTML = `<div class="brief-divider"></div>`;
 
-        function createExecutiveSummaryHeaderHTML() {
-            const personaData = [
-                { name: 'End User', traffic: 0.35, conv: 0.12 },
-                { name: 'Economic Buyer', traffic: 0.10, conv: 0.01 },
-                { name: 'Champion', traffic: 0.22, conv: 0.18 },
-                { name: 'Tech Evaluator', traffic: 0.18, conv: 0.04 },
-                { name: 'Security Guardian', traffic: 0.15, conv: 0.00 }
-            ];
-            
-            const overallConv = personaData.reduce((sum, p) => sum + (p.traffic * p.conv), 0);
-            const overallConvPercent = (overallConv * 100).toFixed(1);
-
+        function createExecutiveSummaryHTML() {
             return `
             <div class="brief-section" id="executiveSummarySection">
-                <div class="section-header" style="margin-bottom: 24px; text-align: left;">
+                <div class="section-header" style="margin-bottom: 32px; text-align: left;">
                     <h3 style="font-size: 24px;">1. Executive Summary</h3>
                 </div>
-                <ul class="executive-summary-list">
-                    <li>The page fails to build trust with the <strong>Economic Buyer</strong>, resulting in a near-zero conversion rate (<strong>1%</strong>) due to a lack of transparent pricing and clear ROI.</li>
-                    <li>While the page has some appeal for <strong>End Users</strong>, it relies on marketing jargon over tangible product visuals, creating confusion and friction.</li>
-                    <li><strong>Traffic-weighted overall conversion: ${overallConvPercent}%</strong> (vs. industry median of 2.3% for B2B SaaS)</li>
-                </ul>
+                <div class="executive-summary-grid">
+                    <div class="summary-card">
+                        <div class="stat critical">1%</div>
+                        <div class="label">Economic Buyer Conversion</div>
+                        <p class="description">A critical lack of pricing and ROI proof causes immediate abandonment for BoFu decision-makers.</p>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat" style="color: var(--warning);">88%</div>
+                        <div class="label">End User Friction</div>
+                        <p class="description">Abstract jargon and a lack of UI visuals prevent ToFu users from understanding the product's value.</p>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat">#1</div>
+                        <div class="label">Structural Flaw</div>
+                        <p class="description">The page fails because it doesn't serve the distinct needs of users in different buying stages.</p>
+                    </div>
+                </div>
             </div>`;
         }
 
@@ -855,68 +839,110 @@
             return `
             <div class="brief-section" id="performanceSummarySection">
                 <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">2. Performance Summary</h3>
+                    <h3 style="font-size: 24px;">2. Holistic Performance Scoreboard</h3>
                 </div>
-                <h4>Persona Performance Scoreboard</h4>
+                <p style="font-size: 16px; color: var(--text-tertiary);">High-level summary across all key buyer personas and their simulated intent stages.</p>
                 <table class="scoreboard-table">
-                <thead><tr><th>Persona</th><th>Traffic Weight</th><th>Simulated Conv. Rate</th><th>Friction Score (0-100)</th><th>Key Blocker</th></tr></thead>
+                <thead><tr><th>Persona / Intent Stage</th><th>Traffic Weight</th><th>Simulated Goal Completion</th><th>Friction Score (Consistency)</th><th>Key Blocker</th></tr></thead>
                 <tbody>
-                    <tr><td>💰 Economic Buyer</td><td>10%</td><td><strong>1%</strong></td><td><strong class="critical-blocker">92 (Critical)</strong></td><td class="critical-blocker">No Transparent Pricing/ROI</td></tr>
-                    <tr><td>👩‍💻 End User</td><td>35%</td><td>12%</td><td><strong class="critical-blocker" style="color:var(--warning)">45 (Medium)</strong></td><td>Abstract Jargon, No UI Visuals</td></tr>
-                    <tr><td>🏆 Champion</td><td>22%</td><td>18%</td><td>35 (Low)</td><td>-</td></tr>
-                    <tr><td>⚙️ Tech Evaluator</td><td>18%</td><td>4%</td><td>65 (High)</td><td>Form Friction & Vague Copy</td></tr>
-                    <tr><td>🛡️ Security Guardian</td><td>15%</td><td><strong>0%</strong></td><td>88 (Critical)</td><td>Missing Trust Signals</td></tr>
+                    <tr><td>💰 Economic Buyer / BoFu</td><td>10%</td><td><strong>1%</strong></td><td><strong class="critical-blocker">92</strong> (95/100 runs)</td><td class="critical-blocker">No Transparent Pricing/ROI</td></tr>
+                    <tr><td>👩‍💻 End User / ToFu</td><td>35%</td><td>12%</td><td><strong class="critical-blocker" style="color:var(--warning)">45</strong> (88/100 runs)</td><td>Abstract Jargon, No UI Visuals</td></tr>
+                    <tr><td>🏆 Champion / MoFu</td><td>22%</td><td>18%</td><td>35 (40/100 runs)</td><td>-</td></tr>
+                    <tr><td>⚙️ Tech Evaluator / MoFu</td><td>18%</td><td>4%</td><td>65 (86/100 runs)</td><td>Form Friction & Vague Copy</td></tr>
+                    <tr><td>🛡️ Security Guardian / BoFu</td><td>15%</td><td><strong>0%</strong></td><td>88 (93/100 runs)</td><td>Missing Trust Signals</td></tr>
                 </tbody>
                 </table>
-                ${briefDividerHTML}
-                <h4>CTA Performance Summary</h4>
+            </div>
+            `;
+        }
+
+        function createJourneyAnalysisHTML() {
+            return `
+            <div class="brief-section" id="journeyAnalysisSection">
+                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
+                    <h3 style="font-size: 24px;">3. Journey Analysis: Expected vs. Actual</h3>
+                </div>
                 <table class="details-table">
-                    <thead><tr><th>Persona</th><th>Primary CTA</th><th>Result</th><th>Core Reason from Simulation</th></tr></thead>
+                    <thead>
+                        <tr><th>Persona & Intent</th><th>Canonical (Expected) Path</th><th>Simulated (Actual) Path</th><th>Diagnosis</th></tr>
+                    </thead>
                     <tbody>
-                        <tr><td>💰 Economic Buyer</td><td>Book a Demo</td><td><strong>Ignored (95%)</strong></td><td>Refused to engage without pricing; vetoed further evaluation.</td></tr>
-                        <tr><td>👩‍💻 End User</td><td>Book a Demo</td><td><strong style="color:var(--warning)">Skipped (60%)</strong></td><td>Could not determine if product was useful due to lack of UI visuals.</td></tr>
-                        <tr><td>🏆 Champion</td><td>Book a Demo</td><td><strong style="color:var(--success)">Clicked (80%)</strong></td><td>Recognized value and was motivated to engage further.</td></tr>
+                        <tr>
+                            <td><strong>💰 Economic Buyer</strong><br><em style="color:var(--text-tertiary)">Bottom-of-Funnel</em></td>
+                            <td>Home → Pricing → ROI Calculator → Demo CTA</td>
+                            <td>Home → <strong class="critical-blocker">BOUNCE</strong></td>
+                            <td><strong class="fail-verdict">FAIL:</strong> Page failed to surface a "Pricing" link, breaking the justification journey at step 2.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>👩‍💻 End User</strong><br><em style="color:var(--text-tertiary)">Top-of-Funnel</em></td>
+                            <td>Home → Features → Watch 2-min Video → Blog</td>
+                            <td>Home → Features → <strong class="critical-blocker">BOUNCE</strong></td>
+                            <td><strong class="fail-verdict">FAIL:</strong> The "Features" page used abstract jargon, causing user to abandon before finding the video proof.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>`;
+        }
+        
+        function createAbandonmentPointsHTML() {
+             return `
+            <div class="brief-section" id="abandonmentPointsSection">
+                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
+                    <h3 style="font-size: 24px;">4. Key Journey Abandonment Points</h3>
+                </div>
+                 <table class="path-analysis-table">
+                    <thead><tr><th>Journey Step (Path)</th><th>💰 EB / BoFu</th><th>👩‍💻 EU / ToFu</th><th>🏆 CH / MoFu</th><th>⚙️ TE / MoFu</th><th>🛡️ SG / BoFu</th></tr></thead>
+                    <tbody>
+                        <tr><td>Home Page</td><td><strong class="critical-blocker">95% Abd.</strong></td><td>15% Abd.</td><td>0% Abd.</td><td>0% Abd.</td><td><strong class="critical-blocker">93% Abd.</strong></td></tr>
+                        <tr><td style="padding-left: 24px;">→ Product Page</td><td>-</td><td>25% Abd.</td><td>2% Abd.</td><td>5% Abd.</td><td>-</td></tr>
+                        <tr><td style="padding-left: 24px;">→ Pricing Page</td><td>-</td><td>10% Abd.</td><td>5% Abd.</td><td>15% Abd.</td><td>-</td></tr>
+                        <tr><td style="padding-left: 24px;">→ Demo Form</td><td>-</td><td><strong class="critical-blocker">50% Abd.</strong></td><td>10% Abd.</td><td><strong class="critical-blocker">85% Abd.</strong></td><td>-</td></tr>
                     </tbody>
                 </table>
             </div>
             `;
         }
 
-        function createPathAnalysisTableHTML() {
-             return `
-            <div class="brief-section" id="pathAnalysisSection">
+        function createSequencingFlawsHTML() {
+            return `
+            <div class="brief-section" id="sequencingFlawsSection">
                 <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">3. Key Journey Abandonment Points</h3>
+                    <h3 style="font-size: 24px;">5. Content Sequencing Violations</h3>
                 </div>
-                 <table class="path-analysis-table">
-                    <thead><tr><th>Journey Step (Path)</th><th>💰 Econ Buyer</th><th>👩‍💻 End User</th><th>🏆 Champion</th><th>⚙️ Tech Eval</th><th>🛡️ Guardian</th></tr></thead>
+                <table class="details-table">
+                    <thead>
+                        <tr><th>Persona / Stage</th><th>Sequencing Error</th><th>The Fix</th></tr>
+                    </thead>
                     <tbody>
-                        <tr><td>Home Page</td><td><strong class="critical-blocker">95% Abd.</strong></td><td>15% Abd.</td><td>0% Abd.</td><td>0% Abd.</td><td><strong class="critical-blocker">93% Abd.</strong></td></tr>
-                        <tr><td style="padding-left: 24px;">→ Product Page</td><td>-</td><td>25% Abd.</td><td>2% Abd.</td><td>5% Abd.</td><td>-</td></tr>
-                        <tr><td style="padding-left: 24px;">→ Pricing Page</td><td>-</td><td>10% Abd.</td><td>5% Abd.</td><td>15% Abd.</td><td>-</td></tr>
-                        <tr><td style="padding-left: 24px;">→ Demo Form</td><td>-</td><td><strong class="critical-blocker">50% Abd.</strong></td><td>10% Abd.</td><td><strong class="critical-blocker">85% Abd.</strong></td><td>-</td></tr>
-                        <tr><td><strong>Final Conv.</strong></td><td><strong>1%</strong></td><td><strong>12%</strong></td><td><strong>18%</strong></td><td><strong>4%</strong></td><td><strong>0%</strong></td></tr>
+                        <tr>
+                            <td><strong>💰 Economic Buyer</strong><br><em style="color:var(--text-tertiary)">BoFu</em></td>
+                            <td>🚨 Presented "Book a Demo" (The Ask) before "Pricing" (The Justification).</td>
+                            <td style="color: var(--success)">Surface pricing information before a high-friction CTA.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>👩‍💻 End User</strong><br><em style="color:var(--text-tertiary)">ToFu</em></td>
+                            <td>⚠️ Presented "Benefits" copy before a "Product UI Visual" (The Proof).</td>
+                             <td style="color: var(--success)">Show the product in action (GIF/video) in the hero.</td>
+                        </tr>
                     </tbody>
                 </table>
-            </div>
-            `;
+            </div>`;
         }
 
         function createHeatMapHTML() {
             return `
             <div class="brief-section" id="heatMapSection">
                 <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">4. Page-Level Friction Hotspots</h3>
+                    <h3 style="font-size: 24px;">6. Page-Level Friction Hotspots</h3>
                 </div>
-                <p style="font-size: 16px; color: var(--text-tertiary);">Friction Score (from 100 simulations) by page for each persona. Lower is better.</p>
                 <table class="heat-map-table">
-                    <thead> <tr> <th>Persona</th> <th>HOME</th> <th>/PRODUCT</th> <th>/PRICING</th> <th>/DEMO FORM</th> </tr> </thead>
+                    <thead> <tr> <th>Persona / Intent Stage</th> <th>HOME</th> <th>/PRODUCT</th> <th>/PRICING</th> <th>/DEMO FORM</th> </tr> </thead>
                     <tbody>
-                        <tr> <td>💰 Economic Buyer</td> <td class="friction-cell"><span class="friction-high">█ 92</span></td> <td class="friction-cell"><span class="friction-high">█ 85</span></td> <td>-</td> <td>-</td> </tr>
-                        <tr> <td>👩‍💻 End User</td> <td class="friction-cell"><span class="friction-low">█ 35</span></td> <td class="friction-cell"><span class="friction-med">█ 48</span></td> <td class="friction-cell"><span class="friction-low">█ 30</span></td> <td class="friction-cell"><span class="friction-med">█ 55</span></td> </tr>
-                        <tr> <td>🏆 Champion</td> <td class="friction-cell"><span class="friction-low">█ 15</span></td> <td class="friction-cell"><span class="friction-low">█ 20</span></td> <td class="friction-cell"><span class="friction-low">█ 25</span></td> <td class="friction-cell"><span class="friction-low">█ 35</span></td> </tr>
-                        <tr> <td>⚙️ Tech Evaluator</td> <td class="friction-cell"><span class="friction-low">█ 25</span></td> <td class="friction-cell"><span class="friction-med">█ 55</span></td> <td class="friction-cell"><span class="friction-med">█ 61</span></td> <td class="friction-cell"><span class="friction-high">█ 91</span></td> </tr>
-                        <tr> <td>🛡️ Security Guardian</td> <td class="friction-cell"><span class="friction-high">█ 88</span></td> <td class="friction-cell"><span class="friction-med">█ 45</span></td> <td>-</td> <td>-</td> </tr>
+                        <tr> <td>💰 EB / BoFu</td> <td class="friction-cell"><span class="friction-high">█ 92</span></td> <td class="friction-cell"><span class="friction-high">█ 85</span></td> <td>-</td> <td>-</td> </tr>
+                        <tr> <td>👩‍💻 EU / ToFu</td> <td class="friction-cell"><span class="friction-low">█ 35</span></td> <td class="friction-cell"><span class="friction-med">█ 48</span></td> <td class="friction-cell"><span class="friction-low">█ 30</span></td> <td class="friction-cell"><span class="friction-med">█ 55</span></td> </tr>
+                        <tr> <td>🏆 CH / MoFu</td> <td class="friction-cell"><span class="friction-low">█ 15</span></td> <td class="friction-cell"><span class="friction-low">█ 20</span></td> <td class="friction-cell"><span class="friction-low">█ 25</span></td> <td class="friction-cell"><span class="friction-low">█ 35</span></td> </tr>
+                        <tr> <td>⚙️ TE / MoFu</td> <td class="friction-cell"><span class="friction-low">█ 25</span></td> <td class="friction-cell"><span class="friction-med">█ 55</span></td> <td class="friction-cell"><span class="friction-med">█ 61</span></td> <td class="friction-cell"><span class="friction-high">█ 91</span></td> </tr>
+                        <tr> <td>🛡️ SG / BoFu</td> <td class="friction-cell"><span class="friction-high">█ 88</span></td> <td class="friction-cell"><span class="friction-med">█ 45</span></td> <td>-</td> <td>-</td> </tr>
                     </tbody>
                 </table>
                 <div class="heat-map-legend"><span>Friction Score: <span class="friction-high">High</span>, <span class="friction-med">Medium</span>, <span class="friction-low">Low</span></span></div>
@@ -927,15 +953,15 @@
             return `
             <div class="brief-section playbook-section" id="playbookSection">
                 <div class="playbook-title">
-                    <h3 style="font-size: 24px;">5. Prioritized Quick-Win Playbook</h3>
-                    <p style="font-size: 16px; color: var(--text-secondary);">This is your data-driven backlog. Fix these to win over your key personas.</p>
+                    <h3 style="font-size: 24px;">7. Top 3 Prioritized Quick-Win Playbook</h3>
+                    <p style="font-size: 16px; color: var(--text-secondary);">This is your data-driven backlog. Fix these structural issues to win over your key personas.</p>
                 </div>
                 <table class="playbook-table">
                     <thead><tr><th>Rank</th><th>Recommendation</th><th>Value Score</th><th>Persona / Stage</th></tr></thead>
                     <tbody>
-                        <tr><td>1</td><td><strong>Add a clear, public pricing page or link in nav</strong></td><td class="value-score" style="color:var(--success)">95</td><td>Economic Buyer / Homepage</td></tr>
-                        <tr><td>2</td><td>Add an animated GIF of the core product workflow in the hero banner</td><td class="value-score" style="color:var(--success)">88</td><td>End User / Homepage</td></tr>
-                        <tr><td>3</td><td>Create an interactive ROI calculator</td><td class="value-score" style="color:var(--warning)">80</td><td>Economic Buyer / Product Page</td></tr>
+                        <tr><td>1</td><td><strong>Add a clear, public pricing page or link in nav</strong></td><td class="value-score" style="color:var(--success)">95</td><td>Economic Buyer / BoFu</td></tr>
+                        <tr><td>2</td><td>Add an animated GIF of the core product workflow in the hero banner</td><td class="value-score" style="color:var(--success)">88</td><td>End User / ToFu</td></tr>
+                        <tr><td>3</td><td>Create an interactive ROI calculator accessible from the main navigation</td><td class="value-score" style="color:var(--warning)">80</td><td>Economic Buyer / BoFu</td></tr>
                     </tbody>
                 </table>
             </div>`;
@@ -947,11 +973,107 @@
                  <div class="detail-card">
                     <h4>Persona-Specific Playbook</h4>
                      <table class="details-table">
-                       <thead><tr><th>Rank</th><th>Recommendation</th><th>Value Score</th><th>Expected Outcome</th></tr></thead>
-                       <tbody>${persona.playbook.map(p => `<tr><td>${p.rank}</td><td><strong>${p.rec}</strong></td><td>${p.score}</td><td>${p.outcome}</td></tr>`).join('')}</tbody>
+                       <thead><tr><th>Rank</th><th>Recommendation</th><th>Relevant Stage</th><th>Expected Outcome</th></tr></thead>
+                       <tbody>${persona.playbook.map(p => `<tr><td>${p.rank}</td><td><strong>${p.rec}</strong></td><td>${p.stage}</td><td>${p.outcome}</td></tr>`).join('')}</tbody>
                     </table>
-                    <p class="playbook-note"><strong>Note on Value Score:</strong> Represents the percentage of simulation runs where this friction point caused abandonment or frustration for this specific persona.</p>
                 </div>`;
+        }
+
+        function createPathDistributionHTML(persona) {
+            if (!persona.path_distribution) return '';
+            return `
+                <div class="detail-card">
+                    <h4>Path Distribution</h4>
+                    <table class="details-table">
+                    <thead><tr><th>Path</th><th>Stage</th><th>Outcome</th></tr></thead>
+                    <tbody>${persona.path_distribution.map(p => `
+                        <tr>
+                            <td>${p.path}</td>
+                            <td>${p.stage}</td>
+                            <td>${p.outcome}</td>
+                        </tr>
+                    `).join('')}</tbody>
+                    </table>
+                </div>`;
+        }
+
+        function createMessagingCritiqueHTML(persona) {
+            if (!persona.messaging_critique) return '';
+            return `
+                <div class="detail-card">
+                    <h4>Messaging Critique & Copy Fixes</h4>
+                    <table class="details-table">
+                        <thead>
+                            <tr><th>Current Copy</th><th>Relevant Stage</th><th>The Problem</th><th>The Fix</th></tr>
+                        </thead>
+                        <tbody>
+                            ${persona.messaging_critique.map(issue => `
+                                <tr>
+                                    <td style="color: var(--error);">${issue.current}</td>
+                                    <td>${issue.stage}</td>
+                                    <td>${issue.problem}</td>
+                                    <td style="color: var(--success); font-weight: 600;">${issue.fix}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>`;
+        }
+        
+        function createBehavioralTriggersAndDriversHTML(persona) {
+            return `
+             <div class="detail-card">
+                <p style="font-size:14px; color:var(--text-tertiary); margin-top:-12px; margin-bottom:16px;">
+                    Analysis of the most impactful events across 100 simulations. High consistency indicates a reliable and predictable behavioral pattern.
+                </p>
+                <div class="two-column-grid">
+                    <div>
+                        <h4>Top 5 Abandonment Triggers</h4>
+                        <table class="details-table">
+                         <thead><tr><th>Trigger Event</th><th>Intent Stage</th><th>Consistency</th></tr></thead>
+                        <tbody>${persona.triggers.map(t => `<tr><td>${t.text} <em style="color:var(--text-tertiary)">(${t.sig})</em></td><td>${t.intent}</td><td><strong>${t.runs}%</strong></td></tr>`).join('')}</tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h4>Top 5 Engagement Drivers</h4>
+                        <table class="details-table">
+                         <thead><tr><th>Driver Event</th><th>Intent Stage</th><th>Consistency</th></tr></thead>
+                        <tbody>${persona.drivers.map(d => `<tr><td>${d.text} <em style="color:var(--text-tertiary)">(${d.sig})</em></td><td>${d.intent}</td><td><strong>${d.runs}%</strong></td></tr>`).join('')}</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+        
+        function createPersonaScoreBadgeHTML(persona) {
+            if (persona.id === 'EconomicBuyer') {
+                return `
+                <div class="persona-score-badge">
+                    <div class="score-title">Financial Readiness Score</div>
+                    <div class="score" style="color: var(--error);">8 / 100</div>
+                    <div class="score-subtitle">Bottom 5th %tile for ROI Clarity</div>
+                </div>`;
+            } else {
+                return `
+                <div class="persona-score-badge">
+                    <div class="score-title">Usability & Proof Score</div>
+                    <div class="score" style="color: var(--warning);">38 / 100</div>
+                    <div class="score-subtitle">Bottom 20th %tile for UI Clarity</div>
+                </div>`;
+            }
+        }
+        
+        function createPersonaProfileHTML(persona) {
+             return `
+                <div class="detail-card">
+                    <h4>A. Persona Profile</h4>
+                     <p style="margin-bottom: 16px;"><strong>Mental Model:</strong> <em>"${persona.mental_model}"</em></p>
+                    <ul class="worldview-list">
+                       ${persona.non_negotiable_needs.map(need => `<li><strong>Non-Negotiable:</strong> ${need}</li>`).join('')}
+                    </ul>
+                </div>
+             `;
         }
 
         function createInnerMonologueHTML(persona) {
@@ -971,133 +1093,8 @@
                     </table>
                 </div>`;
         }
-
-        function createMessagingCritiqueHTML(persona) {
-            if (!persona.messaging_critique) return '';
-            const { summary, issues } = persona.messaging_critique;
-            
-            return `
-                <div class="detail-card">
-                    <h4>Messaging Critique & Copy Fixes</h4>
-                    <p style="margin-bottom: 16px; color: var(--text-secondary);">${summary}</p>
-                    <table class="details-table">
-                        <thead>
-                            <tr><th>Current Copy</th><th>The Problem</th><th>Fix It To</th></tr>
-                        </thead>
-                        <tbody>
-                            ${issues.map(issue => `
-                                <tr>
-                                    <td style="color: var(--error);">${issue.current}</td>
-                                    <td>${issue.problem}</td>
-                                    <td style="color: var(--success); font-weight: 600;">${issue.fix}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>`;
-        }
-
-        function createPathDistributionHTML(paths) {
-            return `
-                <div class="detail-card">
-                    <h4>Path Distribution</h4>
-                    <table class="details-table">
-                    <thead><tr><th>Path Distribution</th><th>Weight</th><th>Outcome</th><th>Variance Score</th></tr></thead>
-                    <tbody>${paths.map(p => `
-                        <tr>
-                            <td>${p.path}</td>
-                            <td>${p.weight}</td>
-                            <td>${p.outcome}</td>
-                            <td>${p.variance}/100 <span style="color: var(--text-tertiary)">(${p.variance < 10 ? 'Highly Consistent' : p.variance < 20 ? 'Moderately Consistent' : 'Variable'})</span></td>
-                        </tr>
-                    `).join('')}</tbody>
-                    </table>
-                </div>`;
-        }
-
-        function createBehavioralTriggersAndDriversHTML(persona) {
-            return `
-             <div class="detail-card">
-                <h4>Behavioral Analysis</h4>
-                <div class="two-column-grid">
-                    <div>
-                        <h5>Abandonment Triggers</h5>
-                        <table class="details-table">
-                         <thead><tr><th>Trigger Event</th><th>Significance</th><th>Weight</th></tr></thead>
-                        <tbody>${persona.triggers.map(t => `<tr><td>${t.text}</td><td><strong class="critical-blocker">${t.sig}</strong></td><td>${t.runs}/100</td></tr>`).join('')}</tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <h5>Engagement Drivers</h5>
-                        <table class="details-table">
-                         <thead><tr><th>Driver Event</th><th>Significance</th><th>Weight</th></tr></thead>
-                        <tbody>${persona.drivers.map(d => `<tr><td>${d.text}</td><td>${d.sig}</td><td>${d.runs}/100</td></tr>`).join('')}</tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            `;
-        }
         
-        function createBenchmarksHTML(benchmarks) {
-            return `
-                <div class="detail-card">
-                    <h4>Persona-Specific Benchmark</h4>
-                    <table class="details-table">
-                    <thead><tr><th>Persona-Specific Benchmark</th><th>Your Site</th><th>Industry Median</th><th>Percentile Rank</th></tr></thead>
-                    <tbody>${benchmarks.map(b => `
-                        <tr>
-                            <td>${b.metric}</td>
-                            <td><strong>${b.site}</strong></td>
-                            <td>${b.median}</td>
-                            <td><strong class="${b.percentile.includes('<') ? 'critical-blocker' : ''}">${b.percentile}</strong></td>
-                        </tr>
-                    `).join('')}</tbody>
-                    </table>
-                </div>`;
-        }
-
-        function createPersonaScoreBadgeHTML(persona) {
-            if (persona.id === 'EconomicBuyer') {
-                return `
-                <div class="persona-score-badge">
-                    <div class="score-title">Financial Readiness Score</div>
-                    <div class="score" style="color: var(--error);">8 / 100</div>
-                    <div class="score-subtitle">Bottom 5th %tile for ROI Clarity</div>
-                </div>`;
-            } else {
-                const friction = parseInt(persona.vitals.friction);
-                let scoreColor = 'var(--success)';
-                if (friction >= 80) scoreColor = 'var(--error)';
-                else if (friction >= 60) scoreColor = 'var(--warning)';
-                
-                return `
-                <div class="persona-score-badge">
-                    <div class="score-title">${persona.name} Friction Score</div>
-                    <div class="score" style="color: ${scoreColor};">${friction} / 100</div>
-                    <div class="score-subtitle">Lower is better</div>
-                </div>`;
-            }
-        }
-        
-        function createPersonaProfileHTML(persona) {
-             return `
-                <div class="detail-card">
-                    <h4>A. Persona Profile</h4>
-                     <p style="margin-bottom: 16px;"><strong>Mental Model:</strong> <em>"${persona.mental_model}"</em></p>
-                    <ul class="worldview-list">
-                       ${persona.non_negotiable_needs.map(need => `<li><strong>Non-Negotiable:</strong> ${need}</li>`).join('')}
-                    </ul>
-                </div>
-             `;
-        }
-
         function createPersonaDashboardHTML(persona) {
-            const { variance } = persona;
-            let varianceClass = 'variance-variable';
-            if (variance.score < 10) varianceClass = 'variance-consistent';
-            else if (variance.score < 20) varianceClass = 'variance-moderate';
-
             return `
             <div class="persona-dashboard-grid">
                 <div class="persona-header">
@@ -1105,8 +1102,7 @@
                     <div class="persona-title-group">
                         <h3 class="persona-name">${persona.name}</h3>
                         <p class="persona-fictional-name">${persona.fictional_name}</p>
-                        <div class="persona-variance-bar-container"><div class="persona-variance-bar ${varianceClass}" style="width: ${variance.score}%;"></div></div>
-                        <p style="margin-top: 8px; color: var(--text-tertiary);">Behavior Variance: ${variance.score}/100 (${variance.label})</p>
+                        <p style="font-weight: 600; color: var(--accent); margin-top: 8px;">Simulated Intent: ${persona.intent_stage}</p>
                     </div>
                 </div>
 
@@ -1115,28 +1111,26 @@
                     ${createPersonaScoreBadgeHTML(persona)}
                 </div>
                 ${createPersonaPlaybookHTML(persona)}
-                ${createPathDistributionHTML(persona.path)}
+                ${createPathDistributionHTML(persona)}
                 ${createMessagingCritiqueHTML(persona)}
                 ${createBehavioralTriggersAndDriversHTML(persona)}
                 ${createInnerMonologueHTML(persona)}
-                ${briefDividerHTML}
-                ${createBenchmarksHTML(persona.benchmarks)}
             </div>`;
         }
         
         function createShareBadgeHTML() {
             const mailtoSubject = "Evidence to unblock our landing page";
-            const mailtoBody = "Team,%0A%0AI ran our landing page through an AI buyer simulation. The results for our 'Security Guardian' persona are concerning.%0A%0AOur Guardian Trust Score is 31/100 (Bottom 12th percentile). This is likely a key reason our enterprise deals are stalling.%0A%0ALet's discuss the recommended fixes from the attached brief.";
+            const mailtoBody = "Team,%0A%0AI ran our landing page through an AI buyer simulation. The results for our 'Economic Buyer' persona are critical.%0A%0AThe page completely fails to provide pricing or ROI information, causing a 95% bounce rate for this persona. This is likely a key reason our enterprise deals are stalling.%0A%0ALet's discuss the recommended fixes from the attached brief.";
             const mailtoLink = `mailto:?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(mailtoBody)}`;
 
             return `
             <div class="brief-section" id="shareBadgeSection">
                  <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">7. Shareable Evidence</h3>
+                    <h3 style="font-size: 24px;">9. Shareable Evidence</h3>
                 </div>
                 <div class="share-badge-container">
                     <div class="share-badge-text">
-                        <p><strong>Arm your team with objective evidence.</strong> Use the pre-filled email to end subjective debates about compliance and get stakeholder buy-in.</p>
+                        <p><strong>Arm your team with objective evidence.</strong> Use the pre-filled email to end subjective debates and get stakeholder buy-in to fix structural flaws.</p>
                         <a href="${mailtoLink}" class="predict-button" style="font-size: 15px; padding: 12px 24px;">Share Report Internally</a>
                     </div>
                 </div>
@@ -1147,24 +1141,18 @@
             return `
             <div class="brief-section" id="confidenceSection">
                 <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">8. Report Confidence & Methodology</h3>
+                    <h3 style="font-size: 24px;">10. Report Confidence & Methodology</h3>
                 </div>
                 <div style="background: rgba(139, 107, 71, 0.05); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
-                    <h4 style="margin-bottom: 16px;">Simulation Confidence: <span style="color: var(--success);">High (9/10 runs)</span></h4>
-                    <p style="margin-bottom: 16px;">The primary abandonment signals for the Security Guardian and Tech Evaluator personas were consistent across >90% of simulations, indicating stable and reliable results.</p>
+                    <h4 style="margin-bottom: 16px;">Simulation Confidence: <span style="color: var(--success);">High</span></h4>
+                    <p style="margin-bottom: 16px;">The primary abandonment signals for the Economic Buyer were consistent across >90% of simulations, indicating a stable and reliable result.</p>
                     
                     <h4 style="margin-bottom: 8px;">Methodology</h4>
                     <ul style="list-style: none; padding-left: 0;">
-                        <li style="margin-bottom: 8px;">• <strong>Simulations:</strong> 100 AI buyer journeys across 8 canonical B2B personas</li>
-                        <li style="margin-bottom: 8px;">• <strong>Traffic Weights:</strong> Based on Similarweb data and industry averages for your vertical</li>
-                        <li style="margin-bottom: 8px;">• <strong>Benchmarks:</strong> 2025 B2B SaaS Conversion Index (n=500 companies)</li>
-                        <li style="margin-bottom: 8px;">• <strong>Variance Scoring:</strong> Lower scores indicate more consistent behavior across runs</li>
+                        <li style="margin-bottom: 8px;">• <strong>Intent Modeling:</strong> Each persona is simulated at a specific funnel stage (ToFu/MoFu/BoFu) which dictates their goals and friction tolerance.</li>
+                        <li style="margin-bottom: 8px;">• <strong>Variance Scoring:</strong> "Consistency" shows the percentage of 100 simulations where a specific behavior occurred, adding statistical weight to findings.</li>
+                        <li style="margin-bottom: 8px;">• <strong>Path Analysis:</strong> Simulated journeys are compared against a "Canonical Path" to diagnose structural and sequencing flaws.</li>
                     </ul>
-                    
-                    <p style="margin-top: 16px; font-size: 14px; color: var(--text-tertiary);">
-                        <strong>Note:</strong> This analysis simulates buyer behavior based on page structure, copy, and design patterns. 
-                        Actual conversion rates may vary based on traffic quality, market conditions, and product-market fit.
-                    </p>
                 </div>
             </div>`;
         }
@@ -1206,26 +1194,28 @@
             resultsGrid.innerHTML = `<div class="master-brief-card" id="masterBriefCard"></div>`;
             const masterCard = document.getElementById('masterBriefCard');
             
-            const executiveSummaryHeaderHTML = createExecutiveSummaryHeaderHTML();
+            const executiveSummaryHTML = createExecutiveSummaryHTML();
             const performanceSummaryHTML = createPerformanceSummaryHTML();
-            const pathAnalysisHTML = createPathAnalysisTableHTML();
+            const journeyAnalysisHTML = createJourneyAnalysisHTML();
+            const abandonmentPointsHTML = createAbandonmentPointsHTML();
+            const sequencingFlawsHTML = createSequencingFlawsHTML();
             const heatMapHTML = createHeatMapHTML();
             const playbookHTML = createPlaybookHTML();
             const personaTabsHTML = `
                 <div class="brief-section" id="personaDashboards">
                     <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                        <h3 style="font-size: 24px;">6. Detailed Persona Dashboards</h3>
+                        <h3 style="font-size: 24px;">8. Detailed Persona Dashboards</h3>
                     </div>
                     <div class="persona-tabs">
-                        <div class="tab-link active" data-tab="EndUser">👩‍💻 End User</div>
-                        <div class="tab-link" data-tab="EconomicBuyer">💰 Economic Buyer</div>
+                        <div class="tab-link active" data-tab="EconomicBuyer">💰 Economic Buyer</div>
+                        <div class="tab-link" data-tab="EndUser">👩‍💻 End User</div>
                     </div>
                     <div class="tab-content-wrapper">
-                        <div class="tab-content active" id="tab-EndUser">
-                            ${createPersonaDashboardHTML(personaDetails.EndUser)}
-                        </div>
-                        <div class="tab-content" id="tab-EconomicBuyer">
+                        <div class="tab-content active" id="tab-EconomicBuyer">
                             ${createPersonaDashboardHTML(personaDetails.EconomicBuyer)}
+                        </div>
+                        <div class="tab-content" id="tab-EndUser">
+                            ${createPersonaDashboardHTML(personaDetails.EndUser)}
                         </div>
                     </div>
                 </div>`;
@@ -1233,9 +1223,11 @@
             const confidenceHTML = createConfidenceMethodologyHTML();
 
             const reportHTML = [
-                executiveSummaryHeaderHTML,
+                executiveSummaryHTML,
                 performanceSummaryHTML,
-                pathAnalysisHTML,
+                journeyAnalysisHTML,
+                abandonmentPointsHTML,
+                sequencingFlawsHTML,
                 heatMapHTML,
                 playbookHTML,
                 personaTabsHTML,
