@@ -992,7 +992,7 @@
         function createPerformanceSummaryHTML() {
             return `
             <div class="brief-section" id="performanceSummarySection">
-                <h3 class="section-title">Persona Performance Scoreboard</h3>
+                <h3 class="section-title">Performance Scoreboard</h3>
                 <p style="font-size: 16px; color: var(--text-tertiary); margin-top:-16px; margin-bottom: 24px;">High-level summary across all key buyer personas and their simulated intent stages.</p>
                 <table class="scoreboard-table">
                 <thead><tr><th>Persona / Intent Stage</th><th>Traffic Weight</th><th>Simulated Goal Completion</th><th>Friction Score (Consistency)</th><th>Key Blocker</th></tr></thead>
@@ -1296,7 +1296,7 @@
 
             return `
             <div class="brief-section" id="shareBadgeSection">
-                 <h3 class="section-title">Shareable Evidence</h3>
+                 <h3 class="section-title">Share Evidence</h3>
                 <div class="share-badge-container">
                     <div class="share-badge-text">
                         <p><strong>Arm your team with objective evidence.</strong> Use the pre-filled email to end subjective debates and get stakeholder buy-in to fix structural flaws.</p>
@@ -1384,7 +1384,7 @@
                 createSequencingFlawsHTML(),
                 createHeatMapHTML(),
                 createPlaybookHTML(),
-                createShareBadgeHTML('summary'),
+                // createShareBadgeHTML('summary'),
                 createConfidenceMethodologyHTML()
             ];
             const summaryReportHTML = `
@@ -1398,7 +1398,7 @@
             // Build Persona Report HTML (Section 8 + 9 + footnote)
             const personaSections = [
                 createPersonaDashboardsHTML(),
-                createShareBadgeHTML('persona'),
+                // createShareBadgeHTML('persona'),
                 createConfidenceMethodologyHTML()
             ];
              const personaReportHTML = `
@@ -1417,7 +1417,6 @@
             personaCard.classList.add('visible');
             
             briefSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            setupUIInteractions();
 
             analyzeBtn.disabled = false;
             analyzeBtn.textContent = 'Analyze My Page';
@@ -1444,7 +1443,7 @@
                     if (activeContent) {
                         activeContent.classList.add('active');
                     }
-                    return; // Stop further execution
+                    return; 
                 }
 
                 // Handle Methodology Toggle
@@ -1472,23 +1471,14 @@
                 body.classList.add('printing-persona');
             }
             
-            // Before printing, ensure details are visible if they should be
-            const footnoteSections = document.querySelectorAll('.report-footnote-section');
-            footnoteSections.forEach(section => {
-                const detailsContent = section.querySelector('.methodology-details');
-                // Optional: Decide if details should be expanded for print automatically
-                // detailsContent.style.display = 'block'; 
-            });
-            
             window.print();
-
-            // Cleanup classes after print dialog closes
-            // Use a timeout to ensure cleanup happens after the print job is sent
+            
             setTimeout(() => {
                  body.classList.remove('printing', 'printing-summary', 'printing-persona');
             }, 500);
         }
 
+        // CORRECTED: The event listener is attached only once when the page is ready.
         document.addEventListener('DOMContentLoaded', setupUIInteractions);
     </script>
 </body>
