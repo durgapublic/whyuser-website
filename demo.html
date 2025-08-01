@@ -351,7 +351,6 @@
             background: white;
             border-radius: 16px;
             box-shadow: 0 16px 50px var(--shadow);
-            /* TIGHTER: Reduced vertical and horizontal padding */
             padding: 24px 32px 32px;
             opacity: 0;
             transform: translateY(20px);
@@ -368,7 +367,6 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border);
-            /* TIGHTER: Reduced padding and margin */
             padding-bottom: 16px;
             margin-bottom: 24px;
         }
@@ -397,12 +395,10 @@
             opacity: 1;
         }
         .brief-divider {
-            /* TIGHTER: Reduced space between sections */
             border-top: 1px solid var(--border);
             margin: 24px 0;
         }
         .section-title {
-            /* TIGHTER: Reduced font size, padding, and margin */
             font-size: 22px; 
             font-weight: 600;
             margin-bottom: 20px;
@@ -418,14 +414,12 @@
 
         /* Executive Summary & Scoreboard */
         .executive-summary-grid { 
-            /* TIGHTER: Reduced gap */
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
             gap: 16px; 
             text-align: center; 
         }
         .summary-card { 
-            /* TIGHTER: Reduced padding */
             padding: 20px; 
             border: 1px solid var(--border); 
             border-radius: 12px; 
@@ -441,10 +435,9 @@
         .executive-summary-list li:last-child { margin-bottom: 0; }
         .executive-summary-list li::before { content: '⚡'; position: absolute; left: 0; top: 2px; font-size: 18px; }
         
-        /* TIGHTER: Reduced padding in all tables */
         .scoreboard-table, .details-table, .path-analysis-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 20px; }
         .scoreboard-table th, .scoreboard-table td, .details-table th, .details-table td, .path-analysis-table th, .path-analysis-table td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); }
-        .scoreboard-table th, .details-table th, .path-analysis-table th { color: var(--text-secondary); font-weight: 500; font-size: 13px; }
+        .scoreboard-table th, .details-table th, .path-analysis-table th { color: var(--text-secondary); font-weight: 500; font-size: 13px; text-transform: uppercase; }
         .scoreboard-table td:first-child, .details-table td:first-child, .path-analysis-table td:first-child { font-weight: 600; }
         .path-analysis-table td { font-family: 'SF Mono', monospace; }
         .critical-blocker { color: var(--error); font-weight: 500; }
@@ -483,7 +476,6 @@
             display: flex; 
             align-items: center; 
             gap: 20px; 
-            /* TIGHTER: Reduced padding and margin */
             border-bottom: 1px solid var(--border); 
             padding-bottom: 16px; 
             margin-bottom: 20px;
@@ -496,7 +488,6 @@
         .detail-card h4 { 
             font-size: 18px; 
             font-weight: 600; 
-            /* TIGHTER: Reduced padding and margin */
             margin-bottom: 12px; 
             padding-bottom: 12px; 
             border-bottom: 1px solid var(--border); 
@@ -514,10 +505,9 @@
         .playbook-title h3 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
         .playbook-table { width: 100%; border-collapse: collapse; }
         .playbook-table th, .playbook-table td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--border); }
-        .playbook-table th { color: var(--text-secondary); font-weight: 500; font-size: 13px; }
+        .playbook-table th { color: var(--text-secondary); font-weight: 500; font-size: 13px; text-transform: uppercase; }
         .value-score { font-weight: 700; font-size: 16px; }
-        .playbook-note { font-size: 14px; color: var(--text-tertiary); margin-top: 16px; font-style: italic; }
-
+        
         /* Inner Monologue Section Styling */
         .monologue-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 16px; }
         .monologue-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
@@ -529,6 +519,67 @@
         /* Share Badge Section */
         .share-badge-container { text-align: center; }
         .share-badge-text p { margin: 0 0 16px; font-size: 16px; color: var(--text-secondary);}
+        
+        /* NEW: Methodology Footnote Styling */
+        .report-footnote-section {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            margin-top: 24px;
+        }
+        .footnote-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .details-toggle {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .details-toggle:hover {
+            text-decoration: underline;
+        }
+        .methodology-details {
+            margin-top: 16px;
+            padding: 16px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            line-height: 1.5;
+        }
+        .methodology-details h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .methodology-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .methodology-details li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+        .methodology-details li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        .methodology-details code {
+            background: var(--bg-accent);
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'SF Mono', monospace;
+            font-size: 13px;
+        }
+
 
         /* How it Works Section */
         .how-it-works-section { padding: 80px 0; background: var(--bg-primary); }
@@ -622,6 +673,13 @@
              body.printing .print-button {
                 display: none;
             }
+             body.printing .details-toggle {
+                display: none;
+            }
+             body.printing .methodology-details {
+                display: block !important; /* Ensure details are visible for print */
+                background: #f9f9f9;
+             }
         }
     </style>
 </head>
@@ -934,7 +992,7 @@
         function createPerformanceSummaryHTML() {
             return `
             <div class="brief-section" id="performanceSummarySection">
-                <h3 class="section-title">Personas Performance Scoreboard</h3>
+                <h3 class="section-title">Persona Performance Scoreboard</h3>
                 <p style="font-size: 16px; color: var(--text-tertiary); margin-top:-16px; margin-bottom: 24px;">High-level summary across all key buyer personas and their simulated intent stages.</p>
                 <table class="scoreboard-table">
                 <thead><tr><th>Persona / Intent Stage</th><th>Traffic Weight</th><th>Simulated Goal Completion</th><th>Friction Score (Consistency)</th><th>Key Blocker</th></tr></thead>
@@ -1250,21 +1308,29 @@
         
         function createConfidenceMethodologyHTML() {
             return `
-            <div class="brief-section" id="confidenceSection">
-                <h3 class="section-title">Report Confidence & Methodology</h3>
-                <div style="background: rgba(139, 107, 71, 0.05); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
-                    <h4 style="margin-bottom: 16px;">Simulation Confidence: <span style="color: var(--success);">High</span></h4>
-                    <p style="margin-bottom: 16px;">The primary abandonment signals for the Economic Buyer were consistent across >90% of simulations, indicating a stable and reliable result.</p>
-                    
-                    <h4 style="margin-bottom: 8px;">Methodology</h4>
-                    <ul style="list-style: none; padding-left: 0;">
-                        <li style="margin-bottom: 8px;">• <strong>Intent Modeling:</strong> Each persona is simulated at a specific funnel stage (ToFu/MoFu/BoFu) which dictates their goals and friction tolerance.</li>
-                        <li style="margin-bottom: 8px;">• <strong>Variance Scoring:</strong> "Consistency" shows the percentage of 100 simulations where a specific behavior occurred, adding statistical weight to findings.</li>
-                        <li style="margin-bottom: 8px;">• <strong>Path Analysis:</strong> Simulated journeys are compared against a "Canonical Path" to diagnose structural and sequencing flaws.</li>
+            <div class="brief-section report-footnote-section" id="confidenceSection">
+                <div class="footnote-summary">
+                    <span><strong>Simulation Confidence:</strong> <span style="color: var(--success);">High</span> (Based on 100 runs)</span>
+                    <a href="#" class="details-toggle">Show Details</a>
+                </div>
+                <div class="methodology-details" style="display: none;">
+                    <h4>Core Methodology</h4>
+                    <ul>
+                        <li><strong>Intent Modeling:</strong> Each persona is simulated at a specific funnel stage (ToFu/MoFu/BoFu) which dictates their goals and friction tolerance.</li>
+                        <li><strong>Variance Scoring:</strong> "Consistency" shows the percentage of 100 simulations where a specific behavior occurred, adding statistical weight to findings.</li>
+                        <li><strong>Path Analysis:</strong> Simulated journeys are compared against a "Canonical Path" to diagnose structural and sequencing flaws.</li>
+                    </ul>
+                    <br>
+                    <h4>How Scores Are Calculated</h4>
+                    <ul>
+                        <li><strong>Friction Score:</strong> This is an aggregation of negative events from the simulation. It's calculated by weighting specific <code>Abandonment Triggers</code> (e.g., missing trust signals, high form fields) based on their severity and consistency across all runs. A missing SOC-2 badge for a 'Security Guardian' persona carries a much higher weight than a slow-loading image for an 'End User'.</li>
+                        <li><strong>Goal Completion:</strong> This represents the percentage of the 100 simulation runs for a specific persona that successfully reached a primary conversion goal (e.g., submitting a demo form) without hitting a critical abandonment trigger.</li>
+                        <li><strong>Decision Readiness:</strong> This is a synthetic metric from our engine's Layer 5, calculated before the final conversion decision. A simplified formula is <code>(0.3*Momentum + 0.25*Trust + 0.25*Confidence) - 0.2*Frustration</code>, where each variable is a score from 0-1 derived from dozens of on-page signals.</li>
                     </ul>
                 </div>
             </div>`;
         }
+
 
         async function runAnalysis() {
             const url = document.getElementById('pageUrl').value; 
@@ -1309,7 +1375,7 @@
             const summaryCard = document.getElementById('summaryReportCard');
             const personaCard = document.getElementById('personaReportCard');
             
-            // Build Summary Report HTML (Sections 1-7 + 9-10)
+            // Build Summary Report HTML (Sections 1-7 + 9 + footnote)
             const summarySections = [
                 createExecutiveSummaryHTML(),
                 createPerformanceSummaryHTML(),
@@ -1329,7 +1395,7 @@
                 ${summarySections.join(briefDividerHTML)}
             `;
 
-            // Build Persona Report HTML (Section 8 + 9-10)
+            // Build Persona Report HTML (Section 8 + 9 + footnote)
             const personaSections = [
                 createPersonaDashboardsHTML(),
                 createShareBadgeHTML('persona'),
@@ -1337,7 +1403,7 @@
             ];
              const personaReportHTML = `
                 <div class="report-card-header">
-                    <h2>Persona Reports</h2>
+                    <h2>Persona Report</h2>
                      <button class="print-button" onclick="printReport('persona')">🖨️ Print / Save as PDF</button>
                 </div>
                 ${personaSections.join(briefDividerHTML)}
@@ -1358,24 +1424,41 @@
         }
 
         function setupUIInteractions() {
-            document.addEventListener('click', function(event) {
+            // Use event delegation for dynamically added content
+            document.body.addEventListener('click', function(event) {
+                // Handle Tab switching
                 const clickedTab = event.target.closest('.tab-link');
-                if (!clickedTab) return;
-                
-                const tabId = clickedTab.getAttribute('data-tab');
-                if (!tabId) return;
-                
-                const tabContainer = clickedTab.closest('.persona-tabs');
-                const tabContentWrapper = tabContainer.nextElementSibling;
-                
-                tabContainer.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
-                tabContentWrapper.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                
-                clickedTab.classList.add('active');
+                if (clickedTab) {
+                    const tabId = clickedTab.getAttribute('data-tab');
+                    if (!tabId) return;
+                    
+                    const tabContainer = clickedTab.closest('.persona-tabs');
+                    const tabContentWrapper = tabContainer.nextElementSibling;
+                    
+                    tabContainer.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+                    tabContentWrapper.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    
+                    clickedTab.classList.add('active');
 
-                const activeContent = document.getElementById(`tab-${tabId}`);
-                if (activeContent) {
-                    activeContent.classList.add('active');
+                    const activeContent = document.getElementById(`tab-${tabId}`);
+                    if (activeContent) {
+                        activeContent.classList.add('active');
+                    }
+                    return; // Stop further execution
+                }
+
+                // Handle Methodology Toggle
+                const detailsToggle = event.target.closest('.details-toggle');
+                if(detailsToggle) {
+                    event.preventDefault();
+                    const parentFootnote = detailsToggle.closest('.report-footnote-section');
+                    const detailsContent = parentFootnote.querySelector('.methodology-details');
+                    
+                    if (detailsContent) {
+                        const isVisible = detailsContent.style.display === 'block';
+                        detailsContent.style.display = isVisible ? 'none' : 'block';
+                        detailsToggle.textContent = isVisible ? 'Show Details' : 'Hide Details';
+                    }
                 }
             });
         }
@@ -1389,9 +1472,21 @@
                 body.classList.add('printing-persona');
             }
             
+            // Before printing, ensure details are visible if they should be
+            const footnoteSections = document.querySelectorAll('.report-footnote-section');
+            footnoteSections.forEach(section => {
+                const detailsContent = section.querySelector('.methodology-details');
+                // Optional: Decide if details should be expanded for print automatically
+                // detailsContent.style.display = 'block'; 
+            });
+            
             window.print();
 
-            body.classList.remove('printing', 'printing-summary', 'printing-persona');
+            // Cleanup classes after print dialog closes
+            // Use a timeout to ensure cleanup happens after the print job is sent
+            setTimeout(() => {
+                 body.classList.remove('printing', 'printing-summary', 'printing-persona');
+            }, 500);
         }
 
         document.addEventListener('DOMContentLoaded', setupUIInteractions);
