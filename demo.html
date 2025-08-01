@@ -340,33 +340,97 @@
             margin-top: 64px;
         }
 
-        /* Unified report card styling */
-        .master-brief-card {
+        .results-container {
+            display: grid;
+            gap: 48px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        
+        .report-card {
             background: white;
             border-radius: 16px;
             box-shadow: 0 16px 50px var(--shadow);
-            padding: 40px;
-            max-width: 900px;
-            margin: 0 auto;
+            /* TIGHTER: Reduced vertical and horizontal padding */
+            padding: 24px 32px 32px;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
-        .master-brief-card.visible {
+
+        .report-card.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
+        .report-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            /* TIGHTER: Reduced padding and margin */
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+        .report-card-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .print-button {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .print-button:hover {
+            background: var(--bg-accent);
+            border-color: var(--accent);
+            color: var(--text-primary);
+        }
+        
         .brief-section {
-            opacity: 1; /* Make sections visible by default within the card */
+            opacity: 1;
         }
         .brief-divider {
+            /* TIGHTER: Reduced space between sections */
             border-top: 1px solid var(--border);
-            margin: 40px 0;
+            margin: 24px 0;
+        }
+        .section-title {
+            /* TIGHTER: Reduced font size, padding, and margin */
+            font-size: 22px; 
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(90deg, var(--bg-primary) 0%, transparent 100%);
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-left: -16px;
+            margin-right: -16px;
         }
 
         /* Executive Summary & Scoreboard */
-        .executive-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center; }
-        .summary-card { padding: 24px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-primary); }
+        .executive-summary-grid { 
+            /* TIGHTER: Reduced gap */
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 16px; 
+            text-align: center; 
+        }
+        .summary-card { 
+            /* TIGHTER: Reduced padding */
+            padding: 20px; 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            background: var(--bg-primary); 
+        }
         .summary-card .stat { font-size: 40px; font-weight: 600; line-height: 1; }
         .summary-card .stat.critical { color: var(--error); }
         .summary-card .label { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
@@ -377,9 +441,10 @@
         .executive-summary-list li:last-child { margin-bottom: 0; }
         .executive-summary-list li::before { content: '⚡'; position: absolute; left: 0; top: 2px; font-size: 18px; }
         
-        .scoreboard-table, .details-table, .path-analysis-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 24px; }
-        .scoreboard-table th, .scoreboard-table td, .details-table th, .details-table td, .path-analysis-table th, .path-analysis-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
-        .scoreboard-table th, .details-table th, .path-analysis-table th { color: var(--text-secondary); font-weight: 500; font-size: 14px; }
+        /* TIGHTER: Reduced padding in all tables */
+        .scoreboard-table, .details-table, .path-analysis-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 20px; }
+        .scoreboard-table th, .scoreboard-table td, .details-table th, .details-table td, .path-analysis-table th, .path-analysis-table td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); }
+        .scoreboard-table th, .details-table th, .path-analysis-table th { color: var(--text-secondary); font-weight: 500; font-size: 13px; }
         .scoreboard-table td:first-child, .details-table td:first-child, .path-analysis-table td:first-child { font-weight: 600; }
         .path-analysis-table td { font-family: 'SF Mono', monospace; }
         .critical-blocker { color: var(--error); font-weight: 500; }
@@ -388,7 +453,7 @@
 
         /* Heat Map Section */
         .heat-map-table { width: 100%; border-collapse: collapse; font-family: 'SF Mono', monospace; font-size: 14px; }
-        .heat-map-table th, .heat-map-table td { padding: 12px; text-align: left; }
+        .heat-map-table th, .heat-map-table td { padding: 10px; text-align: left; }
         .heat-map-table th { color: var(--text-tertiary); }
         .heat-map-table td:first-child { font-weight: 600; }
         .heat-map-table .friction-cell { font-weight: bold; }
@@ -399,8 +464,8 @@
         .heat-map-legend span { margin: 0 12px; }
 
         /* Tabs for Personas */
-        .persona-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 32px; }
-        .tab-link { padding: 12px 20px; cursor: pointer; font-weight: 600; font-size: 16px; color: var(--text-tertiary); position: relative; border-bottom: 4px solid transparent; transition: all 0.3s ease; }
+        .persona-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
+        .tab-link { padding: 10px 16px; cursor: pointer; font-weight: 600; font-size: 16px; color: var(--text-tertiary); position: relative; border-bottom: 4px solid transparent; transition: all 0.3s ease; }
         .tab-link:hover { color: var(--text-primary); }
         .tab-link.active { color: var(--text-primary); border-bottom-color: var(--accent); }
         .tab-content { display: none; }
@@ -408,52 +473,62 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Persona Snapshot Section */
-        .persona-variance-bar-container { width: 100%; height: 8px; background: var(--bg-accent); border-radius: 4px; margin-top: 8px; }
-        .persona-variance-bar { height: 100%; border-radius: 4px; transition: width 0.5s ease-out; }
-        .variance-consistent { background: var(--success); }
-        .variance-moderate { background: var(--warning); }
-        .variance-variable { background: var(--error); }
-
         .persona-score-badge { font-family: 'SF Mono', monospace; border: 2px solid var(--border); padding: 24px; border-radius: 8px; background: var(--bg-primary); text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;}
         .persona-score-badge .score { font-size: 32px; font-weight: 600; color: var(--error); }
         .persona-score-badge .score-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase;}
         .persona-score-badge .score-subtitle { font-size: 14px; color: var(--text-tertiary); }
         
-        .persona-dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
-        .persona-vitals-table { width: 100%; margin-bottom: 24px; }
-        .persona-header { display: flex; align-items: center; gap: 24px; border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 24px;}
+        .persona-dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        .persona-header { 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+            /* TIGHTER: Reduced padding and margin */
+            border-bottom: 1px solid var(--border); 
+            padding-bottom: 16px; 
+            margin-bottom: 20px;
+        }
         .persona-icon { font-size: 48px; background: var(--bg-accent); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; }
         .persona-title-group { flex: 1; }
         .persona-name { font-size: 24px; font-weight: 600; color: var(--text-primary); }
         .persona-fictional-name { font-size: 16px; color: var(--text-secondary); }
-        .two-column-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
-        .detail-card h4 { font-size: 20px; font-weight: 600; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+        .two-column-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+        .detail-card h4 { 
+            font-size: 18px; 
+            font-weight: 600; 
+            /* TIGHTER: Reduced padding and margin */
+            margin-bottom: 12px; 
+            padding-bottom: 12px; 
+            border-bottom: 1px solid var(--border); 
+            display: flex; align-items: center; 
+            gap: 8px; 
+        }
         .worldview-list { list-style: none; padding-left: 0; }
-        .worldview-list li { margin-bottom: 12px; padding-left: 24px; position: relative; color: var(--text-secondary); }
+        .worldview-list li { margin-bottom: 8px; padding-left: 24px; position: relative; color: var(--text-secondary); }
         .worldview-list li::before { content: '🧠'; position: absolute; left: 0; top: 1px; }
         .worldview-list li strong { color: var(--text-primary); }
         
         /* Playbook Section */
-        .playbook-section { border: 2px solid var(--success); background: rgba(34, 134, 58, 0.03); border-radius: 12px; padding: 32px; }
-        .playbook-title { text-align: left; margin-bottom: 24px; }
-        .playbook-title h3 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        .playbook-section { border: 2px solid var(--success); background: rgba(34, 134, 58, 0.03); border-radius: 12px; padding: 24px; }
+        .playbook-title { text-align: left; margin-bottom: 20px; }
+        .playbook-title h3 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
         .playbook-table { width: 100%; border-collapse: collapse; }
-        .playbook-table th, .playbook-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border); }
-        .playbook-table th { color: var(--text-secondary); font-weight: 500; font-size: 14px; }
+        .playbook-table th, .playbook-table td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+        .playbook-table th { color: var(--text-secondary); font-weight: 500; font-size: 13px; }
         .value-score { font-weight: 700; font-size: 16px; }
         .playbook-note { font-size: 14px; color: var(--text-tertiary); margin-top: 16px; font-style: italic; }
 
         /* Inner Monologue Section Styling */
-        .monologue-table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 16px; }
-        .monologue-table td { padding: 12px; border-bottom: 1px solid var(--border); }
-        .monologue-time { font-family: 'SF Mono', monospace; color: var(--text-tertiary); width: 80px; vertical-align: top; }
+        .monologue-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 16px; }
+        .monologue-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+        .monologue-time { font-family: 'SF Mono', monospace; color: var(--text-tertiary); width: 70px; vertical-align: top; }
         .monologue-thought { color: var(--text-secondary); }
         .monologue-thought strong { color: var(--error); }
 
 
         /* Share Badge Section */
         .share-badge-container { text-align: center; }
-        .share-badge-text p { margin: 0 0 16px; font-size: 18px; color: var(--text-secondary);}
+        .share-badge-text p { margin: 0 0 16px; font-size: 16px; color: var(--text-secondary);}
 
         /* How it Works Section */
         .how-it-works-section { padding: 80px 0; background: var(--bg-primary); }
@@ -521,11 +596,38 @@
             .tab-link { flex-grow: 1; text-align: center; }
             .executive-summary-grid { grid-template-columns: 1fr; }
         }
+
+        /* Print-specific styles */
+        @media print {
+            body.printing-summary #personaReportCard,
+            body.printing-persona #summaryReportCard,
+            body.printing .no-print {
+                display: none !important;
+            }
+
+            body.printing {
+                background: white;
+            }
+
+            body.printing .report-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                padding: 20px;
+                margin: 0;
+                width: 100%;
+                opacity: 1;
+                transform: none;
+                page-break-inside: avoid;
+            }
+             body.printing .print-button {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <header id="header">
+    <header id="header" class="no-print">
         <div class="container">
             <nav>
                 <div class="logo-container">
@@ -546,7 +648,7 @@
         </div>
     </header>
 
-    <section class="hero" id="heroSection">
+    <section class="hero no-print" id="heroSection">
         <div class="container">
             <div class="hero-content fade-in">
                 <h1> See Your Site Through Your <span class="gradient-text">Buyer's Eyes</span></h1>
@@ -569,18 +671,14 @@
             <div id="personaSelectorSection" style="display:none;">
                 <div class="section-header">
                     <h2>Buyer Personas Identified</h2>
-                    <p>We've identified the key buyer personas for your site. The brief below will be based on these roles.</p>
+                    <p>We've identified the key buyer personas for your site. The briefs below will be based on these roles.</p>
                 </div>
                 <div class="persona-grid" id="personaGrid">
                 </div>
             </div>
 
             <div id="briefSection" style="display:none;">
-                <div class="section-header" id="reportHeader">
-                    <h2>Your Live Buyer Insight Brief</h2>
-                    <p>Here's how your key buyer personas actually see your page. No opinions, just simulated behavior.</p>
-                </div>
-                <div class="results-grid" id="resultsGrid">
+                <div class="results-container" id="resultsContainer">
                 </div>
             </div>
 
@@ -590,7 +688,7 @@
         </div>
     </section>
 
-    <section class="how-it-works-section" id="how-it-works-section">
+    <section class="how-it-works-section no-print" id="how-it-works-section">
         <div class="container">
             <div class="how-header fade-in">
                 <h2>Go From "Guess" to "Evidence" in 3 Steps</h2>
@@ -616,7 +714,7 @@
         </div>
     </section>
 
-    <section class="waitlist-section" id="waitlist">
+    <section class="waitlist-section no-print" id="waitlist">
         <div class="container">
             <div class="waitlist-container">
                 <div class="waitlist-header fade-in">
@@ -648,7 +746,7 @@
         </div>
     </section>
 
-    <footer>
+    <footer class="no-print">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -716,7 +814,7 @@
         const demoSection = document.getElementById('interactiveDemoSection');
         const personaSelectorSection = document.getElementById('personaSelectorSection');
         const briefSection = document.getElementById('briefSection');
-        const resultsGrid = document.getElementById('resultsGrid');
+        const resultsContainer = document.getElementById('resultsContainer');
         const analysisProgress = document.getElementById('analysisProgress');
         const personaGrid = document.getElementById('personaGrid');
 
@@ -812,9 +910,7 @@
         function createExecutiveSummaryHTML() {
             return `
             <div class="brief-section" id="executiveSummarySection">
-                <div class="section-header" style="margin-bottom: 32px; text-align: left;">
-                    <h3 style="font-size: 24px;">1. Executive Summary</h3>
-                </div>
+                <h3 class="section-title">Executive Summary</h3>
                 <div class="executive-summary-grid">
                     <div class="summary-card">
                         <div class="stat critical">1%</div>
@@ -838,10 +934,8 @@
         function createPerformanceSummaryHTML() {
             return `
             <div class="brief-section" id="performanceSummarySection">
-                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">2. Holistic Performance Scoreboard</h3>
-                </div>
-                <p style="font-size: 16px; color: var(--text-tertiary);">High-level summary across all key buyer personas and their simulated intent stages.</p>
+                <h3 class="section-title">Personas Performance Scoreboard</h3>
+                <p style="font-size: 16px; color: var(--text-tertiary); margin-top:-16px; margin-bottom: 24px;">High-level summary across all key buyer personas and their simulated intent stages.</p>
                 <table class="scoreboard-table">
                 <thead><tr><th>Persona / Intent Stage</th><th>Traffic Weight</th><th>Simulated Goal Completion</th><th>Friction Score (Consistency)</th><th>Key Blocker</th></tr></thead>
                 <tbody>
@@ -859,9 +953,7 @@
         function createJourneyAnalysisHTML() {
             return `
             <div class="brief-section" id="journeyAnalysisSection">
-                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">3. Journey Analysis: Expected vs. Actual</h3>
-                </div>
+                 <h3 class="section-title">Journey Analysis: Expected vs. Actual</h3>
                 <table class="details-table">
                     <thead>
                         <tr><th>Persona & Intent</th><th>Canonical (Expected) Path</th><th>Simulated (Actual) Path</th><th>Diagnosis</th></tr>
@@ -887,9 +979,7 @@
         function createAbandonmentPointsHTML() {
              return `
             <div class="brief-section" id="abandonmentPointsSection">
-                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">4. Key Journey Abandonment Points</h3>
-                </div>
+                 <h3 class="section-title">Key Journey Abandonment Points</h3>
                  <table class="path-analysis-table">
                     <thead><tr><th>Journey Step (Path)</th><th>💰 EB / BoFu</th><th>👩‍💻 EU / ToFu</th><th>🏆 CH / MoFu</th><th>⚙️ TE / MoFu</th><th>🛡️ SG / BoFu</th></tr></thead>
                     <tbody>
@@ -906,9 +996,7 @@
         function createSequencingFlawsHTML() {
             return `
             <div class="brief-section" id="sequencingFlawsSection">
-                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">5. Content Sequencing Violations</h3>
-                </div>
+                <h3 class="section-title">Content Sequencing Violations</h3>
                 <table class="details-table">
                     <thead>
                         <tr><th>Persona / Stage</th><th>Sequencing Error</th><th>The Fix</th></tr>
@@ -932,9 +1020,7 @@
         function createHeatMapHTML() {
             return `
             <div class="brief-section" id="heatMapSection">
-                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">6. Page-Level Friction Hotspots</h3>
-                </div>
+                <h3 class="section-title">Page-Level Friction Hotspots</h3>
                 <table class="heat-map-table">
                     <thead> <tr> <th>Persona / Intent Stage</th> <th>HOME</th> <th>/PRODUCT</th> <th>/PRICING</th> <th>/DEMO FORM</th> </tr> </thead>
                     <tbody>
@@ -953,7 +1039,7 @@
             return `
             <div class="brief-section playbook-section" id="playbookSection">
                 <div class="playbook-title">
-                    <h3 style="font-size: 24px;">7. Top 3 Prioritized Quick-Win Playbook</h3>
+                    <h3 style="font-size: 22px;">Top 3 Prioritized Quick-Win Playbook</h3>
                     <p style="font-size: 16px; color: var(--text-secondary);">This is your data-driven backlog. Fix these structural issues to win over your key personas.</p>
                 </div>
                 <table class="playbook-table">
@@ -966,6 +1052,26 @@
                 </table>
             </div>`;
         }
+        
+        function createPersonaDashboardsHTML() {
+            return `
+            <div class="brief-section" id="personaDashboards">
+                <h3 class="section-title">Persona Dashboards</h3>
+                <div class="persona-tabs">
+                    <div class="tab-link active" data-tab="EconomicBuyer">💰 Economic Buyer</div>
+                    <div class="tab-link" data-tab="EndUser">👩‍💻 End User</div>
+                </div>
+                <div class="tab-content-wrapper">
+                    <div class="tab-content active" id="tab-EconomicBuyer">
+                        ${createPersonaDashboardHTML(personaDetails.EconomicBuyer)}
+                    </div>
+                    <div class="tab-content" id="tab-EndUser">
+                        ${createPersonaDashboardHTML(personaDetails.EndUser)}
+                    </div>
+                </div>
+            </div>`;
+        }
+
 
         function createPersonaPlaybookHTML(persona) {
             if (!persona.playbook) return '';
@@ -1118,20 +1224,25 @@
             </div>`;
         }
         
-        function createShareBadgeHTML() {
-            const mailtoSubject = "Evidence to unblock our landing page";
-            const mailtoBody = "Team,%0A%0AI ran our landing page through an AI buyer simulation. The results for our 'Economic Buyer' persona are critical.%0A%0AThe page completely fails to provide pricing or ROI information, causing a 95% bounce rate for this persona. This is likely a key reason our enterprise deals are stalling.%0A%0ALet's discuss the recommended fixes from the attached brief.";
+        function createShareBadgeHTML(cardType) {
+            let mailtoSubject, mailtoBody;
+            if (cardType === 'summary') {
+                mailtoSubject = "Evidence to unblock our landing page (Exec Summary)";
+                mailtoBody = "Team,%0A%0AI ran our landing page through an AI buyer simulation. The executive summary is attached.%0A%0AThe key takeaway is that our page has critical structural flaws that cause a 95% bounce rate for our Economic Buyer persona. This is likely a key reason our enterprise deals are stalling.%0A%0ALet's discuss the recommended 'Quick Win Playbook' from this report.";
+            } else { // persona
+                mailtoSubject = "Deep-Dive: How Buyers See Our Landing Page";
+                mailtoBody = "Team,%0A%0AHere's the detailed persona analysis from the AI buyer simulation. I've attached the full 'Persona Report Card'.%0A%0APay special attention to the 'Inner Monologue' and 'Abandonment Triggers' for the Economic Buyer and End User personas. It shows exactly why they get frustrated and leave.%0A%0AThis qualitative evidence is what we need to make informed copy and design decisions.";
+            }
+            
             const mailtoLink = `mailto:?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(mailtoBody)}`;
 
             return `
             <div class="brief-section" id="shareBadgeSection">
-                 <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">9. Shareable Evidence</h3>
-                </div>
+                 <h3 class="section-title">Shareable Evidence</h3>
                 <div class="share-badge-container">
                     <div class="share-badge-text">
                         <p><strong>Arm your team with objective evidence.</strong> Use the pre-filled email to end subjective debates and get stakeholder buy-in to fix structural flaws.</p>
-                        <a href="${mailtoLink}" class="predict-button" style="font-size: 15px; padding: 12px 24px;">Share Report Internally</a>
+                        <a href="${mailtoLink}" class="predict-button" style="font-size: 15px; padding: 12px 24px;">Share This Report Internally</a>
                     </div>
                 </div>
             </div>`;
@@ -1140,9 +1251,7 @@
         function createConfidenceMethodologyHTML() {
             return `
             <div class="brief-section" id="confidenceSection">
-                <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                    <h3 style="font-size: 24px;">10. Report Confidence & Methodology</h3>
-                </div>
+                <h3 class="section-title">Report Confidence & Methodology</h3>
                 <div style="background: rgba(139, 107, 71, 0.05); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
                     <h4 style="margin-bottom: 16px;">Simulation Confidence: <span style="color: var(--success);">High</span></h4>
                     <p style="margin-bottom: 16px;">The primary abandonment signals for the Economic Buyer were consistent across >90% of simulations, indicating a stable and reliable result.</p>
@@ -1170,7 +1279,7 @@
             briefSection.style.display = 'none';
             personaSelectorSection.style.display = 'none';
             demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            resultsGrid.innerHTML = '';
+            resultsContainer.innerHTML = '';
             personaGrid.innerHTML = '';
             analysisProgress.style.display = 'block'; 
             analysisProgress.querySelector('p').textContent = 'Generating Buyer Personas...';
@@ -1191,57 +1300,58 @@
             
             await new Promise(resolve => setTimeout(resolve, 1500));
             briefSection.style.display = 'block'; 
-            resultsGrid.innerHTML = `<div class="master-brief-card" id="masterBriefCard"></div>`;
-            const masterCard = document.getElementById('masterBriefCard');
-            
-            const executiveSummaryHTML = createExecutiveSummaryHTML();
-            const performanceSummaryHTML = createPerformanceSummaryHTML();
-            const journeyAnalysisHTML = createJourneyAnalysisHTML();
-            const abandonmentPointsHTML = createAbandonmentPointsHTML();
-            const sequencingFlawsHTML = createSequencingFlawsHTML();
-            const heatMapHTML = createHeatMapHTML();
-            const playbookHTML = createPlaybookHTML();
-            const personaTabsHTML = `
-                <div class="brief-section" id="personaDashboards">
-                    <div class="section-header" style="margin-bottom: 24px; text-align:left;">
-                        <h3 style="font-size: 24px;">8. Detailed Persona Dashboards</h3>
-                    </div>
-                    <div class="persona-tabs">
-                        <div class="tab-link active" data-tab="EconomicBuyer">💰 Economic Buyer</div>
-                        <div class="tab-link" data-tab="EndUser">👩‍💻 End User</div>
-                    </div>
-                    <div class="tab-content-wrapper">
-                        <div class="tab-content active" id="tab-EconomicBuyer">
-                            ${createPersonaDashboardHTML(personaDetails.EconomicBuyer)}
-                        </div>
-                        <div class="tab-content" id="tab-EndUser">
-                            ${createPersonaDashboardHTML(personaDetails.EndUser)}
-                        </div>
-                    </div>
-                </div>`;
-            const shareBadgeHTML = createShareBadgeHTML();
-            const confidenceHTML = createConfidenceMethodologyHTML();
 
-            const reportHTML = [
-                executiveSummaryHTML,
-                performanceSummaryHTML,
-                journeyAnalysisHTML,
-                abandonmentPointsHTML,
-                sequencingFlawsHTML,
-                heatMapHTML,
-                playbookHTML,
-                personaTabsHTML,
-                shareBadgeHTML,
-                confidenceHTML
-            ].join(briefDividerHTML);
+            // Create the card skeletons
+            resultsContainer.innerHTML = `
+                <div class="report-card" id="summaryReportCard"></div>
+                <div class="report-card" id="personaReportCard"></div>
+            `;
+            const summaryCard = document.getElementById('summaryReportCard');
+            const personaCard = document.getElementById('personaReportCard');
             
-            masterCard.innerHTML = reportHTML;
+            // Build Summary Report HTML (Sections 1-7 + 9-10)
+            const summarySections = [
+                createExecutiveSummaryHTML(),
+                createPerformanceSummaryHTML(),
+                createJourneyAnalysisHTML(),
+                createAbandonmentPointsHTML(),
+                createSequencingFlawsHTML(),
+                createHeatMapHTML(),
+                createPlaybookHTML(),
+                createShareBadgeHTML('summary'),
+                createConfidenceMethodologyHTML()
+            ];
+            const summaryReportHTML = `
+                <div class="report-card-header">
+                    <h2>Summary Report</h2>
+                    <button class="print-button" onclick="printReport('summary')">🖨️ Print / Save as PDF</button>
+                </div>
+                ${summarySections.join(briefDividerHTML)}
+            `;
+
+            // Build Persona Report HTML (Section 8 + 9-10)
+            const personaSections = [
+                createPersonaDashboardsHTML(),
+                createShareBadgeHTML('persona'),
+                createConfidenceMethodologyHTML()
+            ];
+             const personaReportHTML = `
+                <div class="report-card-header">
+                    <h2>Persona Reports</h2>
+                     <button class="print-button" onclick="printReport('persona')">🖨️ Print / Save as PDF</button>
+                </div>
+                ${personaSections.join(briefDividerHTML)}
+            `;
+
+            summaryCard.innerHTML = summaryReportHTML;
+            personaCard.innerHTML = personaReportHTML;
 
             await new Promise(resolve => setTimeout(resolve, 100));
-            masterCard.classList.add('visible');
-
-            setupUIInteractions();
+            summaryCard.classList.add('visible');
+            personaCard.classList.add('visible');
+            
             briefSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setupUIInteractions();
 
             analyzeBtn.disabled = false;
             analyzeBtn.textContent = 'Analyze My Page';
@@ -1270,6 +1380,20 @@
             });
         }
         
+        function printReport(cardType) {
+            const body = document.body;
+            body.classList.add('printing');
+            if (cardType === 'summary') {
+                body.classList.add('printing-summary');
+            } else {
+                body.classList.add('printing-persona');
+            }
+            
+            window.print();
+
+            body.classList.remove('printing', 'printing-summary', 'printing-persona');
+        }
+
         document.addEventListener('DOMContentLoaded', setupUIInteractions);
     </script>
 </body>
