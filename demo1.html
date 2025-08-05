@@ -250,37 +250,106 @@
             "EconomicBuyer": { personaName: "Economic Buyer", expected_micro_journey: ["Scan Hero for ROI", "Find Pricing Table", "Verify Trust Signals", "Engage CTA"], structural_audit_summary: { findings: [ {id: 'sa1', icon: '🧱', text: "Critical content (Pricing) is not visible above the fold."}, {id: 'sa2', icon: '🎯', text: "Primary CTA is missing from the hero section."}, {id: 'sa3', icon: '🛡️', text: "Key trust signals (SOC-2 Badge) are absent."} ] }, journey_map_steps: [ { icon: '💰', label: 'Enters Page', time: '00:02s' }, { icon: '🔎', label: 'Scans for Price', time: '00:08s' }, { icon: '❌', label: 'ABANDONS', time: '00:15s', abandon: true } ], verdict: { outcome: "JOURNEY ABANDONED", completionRate: 5, impact: "The page fails at the final hurdle for an Economic Buyer. The absence of critical financial data makes the entire value proposition irrelevant, <strong>directly blocking budget approval.</strong>" }, narrative: { who: "Ari, the CFO persona", goal: "validate ROI before approving budget", what: "his evaluation journey", where: "in the hero section", why: "the page fundamentally failed his core job by hiding pricing information.", supporting_evidence: "Evidence is strong: 95 out of 100 simulations exited this page for the same reason—failing to find a price, a Non-Negotiable Need for this persona." }, evidence: { diagnostics: [ { friction: "Absence of a 'Pricing' link or table.", violation: "<strong>Non-Negotiable Need:</strong> Must see pricing.", consistency: 95, severity: "Critical" }, { friction: "Structural Opacity: Repeated scanning detected.", violation: "Critical content (pricing) is not easily findable.", consistency: 82, severity: "High", type: "Structural Opacity" }, { friction: "Headline uses buzzwords ('Revolutionize').", violation: "<strong>Core Skepticism:</strong> Fluffy promises hide weak results.", consistency: 78, severity: "High" } ], monologue: [ { time: '00:02s', thought: "Okay, final check. Goal: find price, calculate ROI." }, { time: '00:08s', thought: "Scanning navigation... no 'Pricing' link. Annoying. Scrolling." }, { time: '00:15s', thought: "<span class='decision'>Decision: Vetoed.</span> Can't find cost info. Failing my financial assessment." } ], drivers: [ { signal: "Logo of a known enterprise customer was visible.", support: "<strong>Goal:</strong> De-risking Investment.", consistency: 65 }, { signal: "Mention of 'predictable costs' in a sub-header.", support: "<strong>Goal:</strong> Financial Stability.", consistency: 45 } ] }, playbook: [ { rank: 1, fix: "Add a three-tier pricing table directly below the hero.", addresses_friction: "Absence of a 'Pricing' link or table", estimated_impact: "+2.5 - 4.0 pp" }, { rank: 2, fix: "Replace headline with a quantifiable outcome, e.g., 'Cut Cloud Waste by 30%.'", addresses_friction: "Headline uses buzzwords", estimated_impact: "+1.0 - 2.0 pp" }, { rank: 3, fix: "Surface the pricing table higher on the page to make it findable in <5s.", addresses_friction: "Structural Opacity", estimated_impact: "+1.5 - 2.5 pp" } ] }, 
             "EndUser": { personaName: "End User", expected_micro_journey: ["Scan Hero for Relevance", "Look for UI/Product Visuals", "Understand Core Workflow", "Find Self-Serve Demo"], structural_audit_summary: { findings: [ {id: 'sa4', icon: '🖼️', text: "No visual proof of product UI in the hero section."}, {id: 'sa5', icon: '🔗', text: "Primary CTA leads to a high-friction gate (webinar form)."}, {id: 'sa6', icon: '📢', text: "Benefit statements are abstract, not user-centric."} ] }, journey_map_steps: [ { icon: '👩‍💻', label: 'Enters Page', time: '00:02s' }, { icon: '🖼️', label: 'Looks for UI', time: '00:11s' }, { icon: '❌', label: 'ABANDONS', time: '00:21s', abandon: true } ], verdict: { outcome: "JOURNEY ABANDONED", completionRate: 12, impact: "The page fails to show the product in action, leaving the End User unable to determine if it will solve their daily problems. This <strong>prevents them from becoming an internal champion.</strong>" }, narrative: { who: "Maria, the Senior Analyst", goal: "see if a tool will make her daily job easier", what: "her product discovery", where: "on the features page", why: "the page was filled with abstract marketing jargon instead of UI visuals.", supporting_evidence: "Evidence is strong: 88 out of 100 simulations abandoned after failing to find a product screenshot or GIF." }, evidence: { diagnostics: [ { friction: "No product screenshots or GIFs in the hero.", violation: "<strong>Non-Negotiable Need:</strong> Must show the UI in action.", consistency: 88, severity: "Critical" }, { friction: "Headline is vague marketing-speak ('Revolutionize').", violation: "<strong>Pain Point:</strong> Hates over-promises.", consistency: 75, severity: "High" }, { friction: "'Watch Demo' leads to a long webinar signup form.", violation: "<strong>Core Skepticism:</strong> Long demos hide clunky software.", consistency: 61, severity: "High" } ], monologue: [ { time: '00:02s', thought: "Boss sent this. 'Revolutionize your workflow'... ugh." }, { time: '00:11s', thought: "Just want to see what it looks like. Where's a screenshot?" }, { time: '00:21s', thought: "<span class='decision'>Useless.</span> 20 seconds, still don't know what it does. Moving on." } ], drivers: [ { signal: "Testimonials from other 'Analysts' were present.", support: "<strong>Goal:</strong> Peer validation.", consistency: 55 } ] }, playbook: [ { rank: 1, fix: "Add an animated GIF of the core product workflow in the hero section.", addresses_friction: "No product screenshots or GIFs", estimated_impact: "+3.0 - 5.0 pp" }, { rank: 2, fix: "Change headline to a specific outcome, e.g., 'Complete Reports in 10 Minutes.'", addresses_friction: "Headline is vague", estimated_impact: "+1.0 - 2.0 pp" }, { rank: 3, fix: "Replace 'Watch Demo' with a 2-minute, self-serve product tour video.", addresses_friction: "'Watch Demo' leads to a form", estimated_impact: "+1.5 - 2.5 pp" } ] } 
         };
+       
         const personaDetailsStore = { 
             "EconomicBuyer": { 
-                icon: '💰', role_name: "The Economic Buyer", fictional_name: "Ari", title: "Chief Financial Officer", age_range: "45-55", industry_vertical: "Financial Services", mental_model: "Purchases must have a clear, quantifiable return on investment.", 
+                icon: '💰', role_name: "The Economic Buyer", fictional_name: "Ari", job_title: "VP of Engineering", age_range: "45-55", industry_vertical: "Technology", mental_model: "Purchases must have a clear, quantifiable return.", 
                 intent_based_behavior: { 
-                    "ToFu": { goals: [], pains: [], needs: [], skepticisms: [] },
+                    "ToFu": { 
+                        goals: [
+                            {id: 'g1', text:"Understand high-level market trends to inform strategy"}, 
+                            {id: 'g2', text:"Identify disruptive technologies with financial impact"}, 
+                            {id: 'g3', text:"Benchmark our current spending against new models"}
+                        ], 
+                        pains: [
+                            {id: 'p1', text:"Wasting time on vague, fluffy marketing content"}, 
+                            {id: 'p2', text:"Analyst reports that are secretly funded by vendors"}, 
+                            {id: 'p3', text:"Content that requires a form fill just to read"}
+                        ], 
+                        needs: [{id: 'n1', text:"Executive summaries with clear takeaways"}], 
+                        skepticisms: [{id: 's1', text:"'Visionary' claims without supporting numbers"}] 
+                    }, 
                     "MoFu": { 
-                        goals: [{id: 'g4', text:"Compare Total Cost of Ownership (TCO)"}, {id: 'g5', text:"Assess the financial viability of implementation"}, {id: 'g6', text:"Build a preliminary business case"}], 
-                        pains: [{id: 'p4', text:"Opaque or complex pricing models"}, {id: 'p5', text:"Difficulty comparing vendors apples-to-apples"}, {id: 'p6', text:"Solutions requiring heavy IT resources"}],
-                        needs: [{id: 'n4', text:"Detailed pricing breakdown"}, {id: 'n5', text:"Verifiable customer case studies"}, {id: 'n6', text:"Implementation timeline and costs"}],
-                        skepticisms: [{id: 's4', text:"Promises of 'fast ROI' without a model"}, {id: 's5', text:"That initial costs will balloon over time"}, {id: 's6', text:"Vendor is not financially stable"}]
-                    },
-                    "BoFu": { goals: [], pains: [], needs: [], skepticisms: [] }
+                        goals: [
+                            {id: 'g4', text:"Compare Total Cost of Ownership (TCO) between vendors"}, 
+                            {id: 'g5', text:"Assess the financial viability of implementation"}, 
+                            {id: 'g6', text:"Build a business case for the executive team"}
+                        ], 
+                        pains: [
+                            {id: 'p4', text:"Opaque or complex pricing models that hide costs"}, 
+                            {id: 'p5', text:"Difficulty comparing vendors with different feature sets"}, 
+                            {id: 'p6', text:"Solutions requiring heavy, unbudgeted IT resources"}
+                        ], 
+                        needs: [{id: 'n4', text:"Detailed pricing breakdown"}], 
+                        skepticisms: [{id: 's4', text:"Promises of 'fast ROI' without a calculator or model"}] 
+                    }, 
+                    "BoFu": { 
+                        goals: [
+                            {id: 'g7', text:"Finalize budget allocation with confidence"}, 
+                            {id: 'g8', text:"Negotiate favorable contract terms (e.g., payment, length)"}, 
+                            {id: 'g9', text:"Ensure the purchase aligns with quarterly financial goals"}
+                        ], 
+                        pains: [
+                            {id: 'p7', text:"Discovering hidden fees during procurement"}, 
+                            {id: 'p8', text:"Committing to a long-term contract without an out-clause"}, 
+                            {id: 'p9', text:"Vendors being inflexible on contract redlines"}
+                        ], 
+                        needs: [{id: 'n7', text:"A clear, public pricing page"}], 
+                        skepticisms: [{id: 's7', text:"That commitments are not backed by the SLA"}] 
+                    } 
                 } 
             }, 
             "EndUser": { 
-                icon: '👩‍💻', role_name: "The End User", fictional_name: "Maria", title: "Senior Marketing Analyst", age_range: "28-38", industry_vertical: "SaaS", mental_model: "Will this make my daily job easier, or is it just more work?", 
+                icon: '👩‍💻', role_name: "The End User", fictional_name: "Devin", job_title: "Senior Software Engineer", age_range: "28-38", industry_vertical: "SaaS", mental_model: "Will this make my daily job easier, or is it just more work?", 
                 intent_based_behavior: { 
-                    "ToFu": { goals: [], pains: [], needs: [], skepticisms: [] },
+                    "ToFu": { 
+                        goals: [
+                            {id: 'g10', text:"Find a tool to solve a nagging daily problem"}, 
+                            {id: 'g11', text:"Discover a faster way to complete a repetitive task"}, 
+                            {id: 'g12', text:"Learn about new techniques from credible peers"}
+                        ], 
+                        pains: [
+                            {id: 'p10', text:"Low-quality blog posts that just repeat documentation"}, 
+                            {id: 'p11', text:"Jumping between too many different apps to get a job done"}, 
+                            {id: 'p12', text:"'Introductory' content that is too basic to be useful"}
+                        ], 
+                        needs: [{id: 'n10', text:"Clear product screenshots & GIFs"}], 
+                        skepticisms: [{id: 's10', text:"That a tool's marketing doesn't match its actual UI"}] 
+                    }, 
                     "MoFu": { 
-                        goals: [{id: 'g13', text:"Evaluate if the workflow is intuitive"}, {id: 'g14', text:"See if it solves my specific problem"}, {id: 'g15', text:"Check if it integrates with my current tools"}], 
-                        pains: [{id: 'p13', text:"Limited free trials that hide key features"}, {id: 'p14', text:"A steep, frustrating learning curve"}, {id: 'p15', text:"Migrating my existing data and workflows"}],
-                        needs: [{id: 'n13', text:"A fully-functional free trial"}, {id: 'n14', text:"Clear, step-by-step tutorials"}, {id: 'n15', text:"A 2-minute product demo video"}],
-                        skepticisms: [{id: 's13', text:"'Easy' workflow will break with real-world data"}, {id: 's14', text:"The tool will be abandoned by my team after a month"}, {id: 's15', text:"'AI-powered' is just marketing fluff"}]
+                        goals: [
+                            {id: 'g13', text:"Evaluate if the core workflow is intuitive"}, 
+                            {id: 'g14', text:"Determine if it solves my specific, real-world use case"}, 
+                            {id: 'g15', text:"Check if it integrates with my current toolchain"}
+                        ], 
+                        pains: [
+                            {id: 'p13', text:"Free trials that are too limited to properly test"}, 
+                            {id: 'p14', text:"Onboarding guides that are poorly written or outdated"}, 
+                            {id: 'p15', text:"Having to talk to sales just to try the product"}
+                        ], 
+                        needs: [{id: 'n13', text:"A fully-functional free trial"}], 
+                        skepticisms: [{id: 's13', text:"That the 'easy' workflow will break with real-world data"}] 
                     },
-                    "BoFu": { goals: [], pains: [], needs: [], skepticisms: [] }
+                    "BoFu": { 
+                        goals: [
+                            {id: 'g16', text:"Confirm my recommendation to my manager with evidence"}, 
+                            {id: 'g17', text:"Ensure I will get adequate technical support if needed"}, 
+                            {id: 'g18', text:"Understand the implementation and data migration process"}
+                        ], 
+                        pains: [
+                            {id: 'p16', text:"Complicated, multi-step onboarding processes"}, 
+                            {id: 'p17', text:"Slow or unhelpful customer support responses"}, 
+                            {id: 'p18', text:"Being blamed by my team if the new tool doesn't work out"}
+                        ], 
+                        needs: [{id: 'n16', text:"A shareable summary of why this tool is best"}], 
+                        skepticisms: [{id: 's16', text:"'Dedicated support' is just a generic email alias"}] 
+                    } 
                 } 
             }, 
-            "TechnicalDecisionMaker": { icon: '⚙️', role_name: "The Technical Evaluator", fictional_name: "David", title: "Lead Engineer", age_range: "35-45", industry_vertical: "Technology", mental_model: "I care about robust architecture, clean APIs, and tech stack impact.", intent_based_behavior: { "MoFu": { goals:[{id:'g19', text:"Validate technical claims"}], pains: [{id:'p19', text:"Poorly written API documentation"}], needs: [{id:'n19', text:"Public, comprehensive API docs"}], skepticisms: [{id:'s19', text:"'Seamless integration' claims"}] } } }, 
-            "SecurityGuardian": { icon: '🛡️', role_name: "The Security Guardian", fictional_name: "Valerie", title: "IT Risk Manager", age_range: "40-50", industry_vertical: "Healthcare", mental_model: "My job is to say 'no'. New vendors are always a risk.", intent_based_behavior: { "MoFu": { goals:[{id:'g20', text:"Conduct preliminary security vetting"}], pains: [{id:'p20', text:"Security info hidden behind sales"}], needs: [{id:'n20', text:"A dedicated trust center"}], skepticisms: [{id:'s20', text:"'Bank-level security' marketing claims"}] } } }, 
-            "Champion": {  icon: '🏆', role_name: "The Champion", fictional_name: "Sarah", title: "Product Manager", age_range: "30-40", industry_vertical: "E-commerce", mental_model: "I need a solution I can successfully advocate for internally.", intent_based_behavior: { "MoFu": { goals: [{id:'g21', text:"Build a business case"}], pains: [{id:'p21', text:"Lack of clear ROI to share"}], needs: [{id:'n21', text:"An ROI calculator or template"}], skepticisms: [{id:'s21', text:"Is the promised value worth the political capital?"}] } } }, 
-            "Influencer": { icon: '🌟', role_name: "The Influencer", fictional_name: "Dr. Reed", title: "Industry Analyst", age_range: "50-65", industry_vertical: "Consulting", mental_model: "My reputation is built on credibility. I only recommend innovative tools.", intent_based_behavior: { "MoFu": { goals:[{id:'g22', text:'Deeply evaluate a tool'}], pains: [{id:'p22', text:"Limited trial accounts"}], needs: [{id:'n22', text:"A full-featured NFR account"}], skepticisms: [{id:'s22', text:"Perfectly curated demos don't reflect reality"}] } } } 
+            "TechnicalDecisionMaker": { icon: '⚙️', role_name: "The Technical Decision Maker", fictional_name: "Thomas", job_title: "Lead Platform Architect", age_range: "40-50", industry_vertical: "Cloud Infrastructure", mental_model: "I care about robust architecture, clean APIs, and tech stack impact.", intent_based_behavior: { "MoFu": { goals:[{id: 'g7', text:"Validate technical claims"}], pains: [{id: 'p7', text:"Poorly written API documentation"}], needs: [{id: 'n7', text:"Public, comprehensive API docs"}], skepticisms: [{id: 's7', text:"'Seamless integration' claims"}] } } }, 
+            "SecurityGuardian": { icon: '🛡️', role_name: "The Security Guardian", fictional_name: "Grace", job_title: "Director of Cloud Security", age_range: "40-50", industry_vertical: "Banking", mental_model: "My job is to say 'no'. New vendors are always a risk.", intent_based_behavior: { "MoFu": { goals:[{id: 'g8', text:"Conduct preliminary security vetting"}], pains: [{id: 'p8', text:"Security info hidden behind sales"}], needs: [{id: 'n8', text:"A dedicated trust center"}], skepticisms: [{id: 's8', text:"'Bank-level security' marketing claims"}] } } }, 
+            "Champion": {  icon: '🏆', role_name: "The Champion", fictional_name: "Charlie", job_title: "DevOps Lead", age_range: "35-45", industry_vertical: "FinTech", mental_model: "I need a solution I can successfully advocate for internally.", intent_based_behavior: { "MoFu": { goals: [{id: 'g9', text:"Build a business case"}], pains: [{id: 'p9', text:"Lack of clear ROI to share"}], needs: [{id: 'n9', text:"An ROI calculator or template"}], skepticisms: [{id: 's9', text:"Is the promised value worth the political capital?"}] } } }, 
+            "Influencer": { icon: '🌟', role_name: "The Influencer", fictional_name: "Isabelle", job_title: "Staff Site Reliability Engineer (SRE)", age_range: "32-42", industry_vertical: "Streaming Services", mental_model: "My reputation is built on credibility. I only recommend innovative tools.", intent_based_behavior: { "MoFu": { goals: [{id: 'g10', text:"Deeply evaluate a tool's capabilities"}], pains: [{id: 'p10', text:"Limited trial accounts"}], needs: [{id: 'n10', text:"A full-featured NFR account"}], skepticisms: [{id: 's10', text:"Perfectly curated demos don't reflect reality"}] } } } 
         };
         const allPersonas = [ { id: 'EconomicBuyer', name: 'Economic Buyer' }, { id: 'EndUser', name: 'End User' }, { id: 'TechnicalDecisionMaker', name: 'Technical Evaluator' }, { id: 'SecurityGuardian', name: 'Security Guardian' }, { id: 'Champion', name: 'Champion' }, { id: 'Influencer', name: 'Industry Influencer' } ];
         
@@ -390,19 +459,51 @@
                             <h4>Details</h4>
                             <div class="editable-field-group">
                                 <label for="persona-title">Title</label>
-                                <input type="text" id="persona-title" value="${persona.title || ''}">
+                                <input type="text" id="persona-title" value="${persona.job_title || ''}">
                             </div>
                             <div class="editable-field-group">
                                 <label for="persona-industry">Industry Vertical</label>
                                 <input type="text" id="persona-industry" value="${persona.industry_vertical || ''}">
                             </div>
-                            <div class="editable-field-group"><label>Age Range</label><p>${persona.age_range || 'N/A'}</p></div>
+                            <div class="editable-field-group">
+                                <label>Age Range</label>
+                                <p>${persona.age_range || 'N/A'}</p>
+                            </div>
+                            <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;">
+                            <h4>Mental Model</h4>
+                            <p class="mental-model">"${persona.mental_model || ''}"</p>
                         </div>
-                        <div class="detail-card"><h4>Mental Model</h4><p class="mental-model">"${persona.mental_model || ''}"</p></div>
                     </div>
                     <div class="modal-right-col">${rightColHTML}</div>
                 </div>
                 <div class="modal-footer"><button class="save-changes-btn" id="savePersonaChanges">Save Changes</button></div>`;
+ 
+            // ui.modalBody.innerHTML = `
+            //     <div class="modal-header"><div class="intent-tag">Persona Details for: ${intentName} Stage</div></div>
+            //     <div class="modal-body-grid">
+            //         <div class="modal-left-col">
+            //             <div class="persona-business-card">
+            //                 <div class="icon">${persona.icon}</div>
+            //                 <h2 class="name">${persona.fictional_name}</h2>
+            //                 <p class="role-name">${persona.role_name}</p>
+            //             </div>
+            //             <div class="detail-card">
+            //                 <h4>Details</h4>
+            //                 <div class="editable-field-group">
+            //                     <label for="persona-title">Title</label>
+            //                     <input type="text" id="persona-title" value="${persona.title || ''}">
+            //                 </div>
+            //                 <div class="editable-field-group">
+            //                     <label for="persona-industry">Industry Vertical</label>
+            //                     <input type="text" id="persona-industry" value="${persona.industry_vertical || ''}">
+            //                 </div>
+            //                 <div class="editable-field-group"><label>Age Range</label><p>${persona.age_range || 'N/A'}</p></div>
+            //             </div>
+            //             <div class="detail-card"><h4>Mental Model</h4><p class="mental-model">"${persona.mental_model || ''}"</p></div>
+            //         </div>
+            //         <div class="modal-right-col">${rightColHTML}</div>
+            //     </div>
+            //     <div class="modal-footer"><button class="save-changes-btn" id="savePersonaChanges">Save Changes</button></div>`;
             
             ui.personaModal.classList.add('visible');
 
