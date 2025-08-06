@@ -562,7 +562,10 @@
                             <div style="text-align:left;"><label style="font-size:14px; color:var(--text-tertiary);">Mental Model</label><p class="mental-model" style="margin-top:4px;">"${persona.mental_model}"</p></div>
                         </div>
                         <div class="detail-card">
-                            <div style="text-align:left;"><label style="font-size:14px; color:var(--text-tertiary);">Job Mandate</label><input type="text" value="${persona.primary_job_mandate}" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary);"></div>
+                            <div style="text-align:left;">
+                                <label style="font-size:14px; color:var(--text-tertiary);">Job Mandate</label>
+                                <textarea rows="4" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary); font-family: inherit; font-size: 15px; line-height: 1.5; margin-top: 4px;">${persona.primary_job_mandate}</textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-right-col">${detailCardsHTML}</div>
