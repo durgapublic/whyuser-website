@@ -17,8 +17,8 @@
             --text-tertiary: #726a5f;
             --accent: #8b6b47;
             --accent-hover: #735639;
-            --success: #22863a;
-            --error: #cb2431;
+            --success: #16a34a;
+            --error: #dc2626;
             --warning: #f59e0b;
             --border: rgba(139, 107, 71, 0.15);
             --shadow: rgba(26, 24, 22, 0.06);
@@ -116,7 +116,8 @@
         .insight-brief.visible { opacity: 1; transform: translateY(0); }
         .brief-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;}
         .brief-header h2 { font-size: 24px; font-weight: 600; flex-shrink: 0; }
-        .intent-tag { display: inline-block; background: var(--bg-accent); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 600; white-space: nowrap; margin-left: 8px; }
+        .brief-header .tags { display: flex; gap: 8px; }
+        .intent-tag { display: inline-block; background: var(--bg-accent); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 600; white-space: nowrap; }
         .brief-actions { display: flex; gap: 12px; position: relative; margin-left: auto; }
         .action-btn { background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
         .action-btn:hover { background: var(--bg-secondary); border-color: var(--accent); color: var(--text-primary); }
@@ -237,36 +238,41 @@
         .add-item-container button { padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 500; cursor: pointer; transition: background-color .2s; }
         .add-item-container button:hover { background: var(--accent-hover); }
 
-        /* --- NEW STYLES FOR STRATEGIC AUDIT --- */
-        .strategic-audit-grid {
+        /* --- NEW STYLES FOR SCORECARD --- */
+        .scorecard-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
             align-items: start;
         }
-        .audit-finding {
-            margin-bottom: 16px;
+        .scorecard-item .score-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
         }
-        .audit-finding:last-child {
-            margin-bottom: 0;
-        }
-        .audit-finding strong {
-            font-size: 15px;
+        .scorecard-item .score-title {
+            font-size: 16px;
             font-weight: 600;
             color: var(--text-primary);
-            display: block;
-            margin-bottom: 4px;
         }
-        .audit-finding p {
+        .scorecard-item .score-value {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .scorecard-item .score-value.error { color: var(--error); }
+        .scorecard-item .score-value.warning { color: var(--warning); }
+        .scorecard-item .score-value.success { color: var(--success); }
+        .scorecard-item .score-text {
             font-size: 15px;
             color: var(--text-secondary);
             margin: 0;
         }
 
-
         /* --- Responsive & Print Styles --- */
         @media print { body, .insight-brief { background: white !important; } .no-print, header, .hero, #interactiveDemoSection > .analysis-container > .section-header, .persona-grid, .progress-container, .upsell-cta-section { display: none !important; } #interactiveDemoSection { padding: 0; } #buyerInsightBriefContainer, .analysis-container { margin: 0; max-width: 100%; } .insight-brief { box-shadow: none; border: 1px solid #ddd; border-radius: 0; padding: 20px; } }
-        @media (max-width: 960px) { .persona-grid { grid-template-columns: repeat(2, 1fr); } .modal-body-grid, .verdict-grid, .strategic-audit-grid { grid-template-columns: 1fr; } .step-label { font-size: 11px; } .journey-analysis-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 960px) { .persona-grid { grid-template-columns: repeat(2, 1fr); } .modal-body-grid, .verdict-grid, .scorecard-grid { grid-template-columns: 1fr; } .step-label { font-size: 11px; } .journey-analysis-grid { grid-template-columns: 1fr; } }
         @media (max-width: 768px) { .analysis-type-buttons, .intent-buttons, .advanced-controls { grid-template-columns: 1fr; } .progress-steps { flex-direction: column; align-items: flex-start; gap: 12px; } .progress-steps::before { left: 16px; top: 0; bottom: 0; width: 2px; height: 100%; } .step { flex-direction: row; align-items: center; text-align: left; width: 100%; } .step-indicator { margin-right: 16px; } .step-label { margin-top: 0; } .step:not(:last-child) { margin-bottom: 16px; } }
         @media (max-width: 640px) { .persona-grid { grid-template-columns: 1fr; } }
     </style>
@@ -362,6 +368,7 @@
                         supporting_evidence: "Evidence is strong: 95 out of 100 simulations exited this page for the same reason—failing to find a price, a Non-Negotiable Need for this persona." 
                     },
                     strategic_messaging_audit: {
+                        scores: { positioning: 4, resonance: 5 },
                         positioning: {
                             differentiation: "Weak differentiation. The message sounds like a cheaper incumbent, not a unique solution, giving no compelling reason to switch.",
                             switching_cost: "Fails to address high switching costs (e.g., data migration, retraining), creating unaddressed buyer anxiety."
@@ -388,6 +395,7 @@
                         supporting_evidence: "Evidence is strong: 88 out of 100 simulations abandoned after failing to find a product screenshot or GIF." 
                     },
                     strategic_messaging_audit: {
+                        scores: { positioning: 3, resonance: 3 },
                         positioning: {
                             differentiation: "Weak differentiation. The message sounds like a cheaper incumbent, not a unique solution, giving no compelling reason to switch.",
                             switching_cost: "Fails to address high switching costs (e.g., data migration, retraining), creating unaddressed buyer anxiety."
@@ -416,6 +424,7 @@
                         supporting_evidence: "<strong>92 out of 100</strong> simulations failed at this exact point for the same reason: there was no clear path from a proof point (Case Study) to a financial validation point (Pricing)." 
                     },
                     strategic_messaging_audit: {
+                        scores: { positioning: 2, resonance: 4 },
                         positioning: {
                             differentiation: "Weak differentiation. The message sounds like a cheaper incumbent, not a unique solution, giving no compelling reason to switch.",
                             switching_cost: "Fails to address high switching costs (e.g., data migration, retraining), creating unaddressed buyer anxiety."
@@ -442,6 +451,7 @@
                         supporting_evidence: "<strong>85 out of 100</strong> End User simulations abandoned after being unable to find a product screenshot, GIF, or interactive demo." 
                     },
                     strategic_messaging_audit: {
+                        scores: { positioning: 4, resonance: 3 },
                         positioning: {
                             differentiation: "Weak differentiation. The message sounds like a cheaper incumbent, not a unique solution, giving no compelling reason to switch.",
                             switching_cost: "Fails to address high switching costs (e.g., data migration, retraining), creating unaddressed buyer anxiety."
@@ -738,7 +748,13 @@
         function handleShareEmail() { const subject = encodeURIComponent("Funnel Analysis from WhyUser"); const body = encodeURIComponent("Team,\n\nI ran our site through a WhyUser simulation. The attached report shows where our funnel breaks for key personas.\n\nLet's discuss the 'Fix-It Plan' to address these issues.\n\n(Report generated by WhyUser)"); window.location.href = `mailto:?subject=${subject}&body=${body}`; ui.sharePopover.style.display = 'none'; }
         function handleShareCopy() { navigator.clipboard.writeText(window.location.href).then(() => { alert('Link copied to clipboard!'); ui.sharePopover.style.display = 'none'; }); }
 
-        function generatePageAuditBrief(data, intentName) { 
+        function getScoreColorClass(score) {
+            if (score <= 4) return 'error';
+            if (score <= 7) return 'warning';
+            return 'success';
+        }
+
+        function generatePageAuditBrief(data, intentName) {
             const severityTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Severity is benchmarked against 1,250+ SaaS page simulations. Thresholds: Critical (≥71), High (51-70).</span></div>`;
             const playbookTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Est. Impact is a statistical forecast based on our dataset of similar fixes, not a guarantee.</span></div>`;
             
@@ -753,34 +769,27 @@
             </ul>`;
 
             const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Your Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation & Impact</th><th style="width:20%; text-align:center;">Est. Impact ${playbookTooltip}</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td><td class="playbook-impact high">${p.estimated_impact}</td></tr>`).join('')}</tbody></table></div>`;
-            const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Friction Points</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 100 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>Thought</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div></div></div>`;
+
             const strategicAuditHTML = `
-                <h3 class="brief-section-header">Strategic & Messaging Audit</h3>
-                <div class="strategic-audit-grid">
-                    <div class="detail-card" style="margin:0;">
-                        <h4>🧭 Positioning & Moat</h4>
-                        <div class="audit-finding">
-                            <strong>Differentiation Clarity:</strong>
-                            <p>${data.strategic_messaging_audit.positioning.differentiation}</p>
+                <h3 class="brief-section-header">Positioning & Resonance Scorecard</h3>
+                <div class="scorecard-grid">
+                    <div class="detail-card scorecard-item" style="margin:0;">
+                        <div class="score-display">
+                            <h4 class="score-title">🧭 Positioning & Moat</h4>
+                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">${data.strategic_messaging_audit.scores.positioning}/10</div>
                         </div>
-                        <div class="audit-finding">
-                            <strong>Switching Cost Acknowledgement:</strong>
-                            <p>${data.strategic_messaging_audit.positioning.switching_cost}</p>
-                        </div>
+                        <p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p>
                     </div>
-                    <div class="detail-card" style="margin:0;">
-                        <h4>🗣️ Persona Resonance</h4>
-                        <div class="audit-finding">
-                            <strong>Tone & Voice Match:</strong>
-                            <p>${data.strategic_messaging_audit.resonance.tone_and_voice}</p>
+                    <div class="detail-card scorecard-item" style="margin:0;">
+                         <div class="score-display">
+                            <h4 class="score-title">🗣️ Persona Resonance</h4>
+                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">${data.strategic_messaging_audit.scores.resonance}/10</div>
                         </div>
-                        <div class="audit-finding">
-                            <strong>Trust & Credibility:</strong>
-                            <p>${data.strategic_messaging_audit.resonance.trust_and_credibility}</p>
-                        </div>
+                        <p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p>
                     </div>
                 </div>`;
 
+            const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Friction Points</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 100 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>Thought</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div></div></div>`;
             const structuralAuditHTML = `<div class="structural-audit-section"><h3 class="brief-section-header">On-Page Structural Audit</h3><div class="structural-audit-grid">${(data.structural_audit_summary.findings || []).map(finding => `<div class="audit-card" data-id="${finding.id}"><div class="audit-card-icon">${finding.icon}</div><div class="audit-card-text">${finding.text}</div></div>`).join('')}</div></div>`;
             const methodologyHTML = `<div class="methodology-notes"><h3 class="brief-section-header">How This Report Is Generated</h3><ul><li><strong>Severity & Consistency:</strong> Severity ranks friction by business impact, combining the psychological driver with its Consistency score (the % of 100 simulations an action was taken).</li><li><strong>Structural Audit:</strong> Identifies architectural flaws in the page's information hierarchy, like burying critical content below the fold.</li><li><strong>Journey Analysis:</strong> Compares the expected path of user attention against the simulated reality to diagnose core usability gaps.</li></ul></div>`;
             const upsellCtaHTML = `<div class="upsell-cta-section"><div class="icon">🔬</div><h4>Ready for the Full Picture?</h4><p>This preview shows the power of a single-page audit. A full Buyer Insight Audit analyzes the entire journey to find the revenue-killing flaws you can't see.</p><button class="upsell-button request-audit-btn">Request Your FREE Buyer Insight Audit</button></div>`;
@@ -791,7 +800,7 @@
                         <img id="company-favicon" src="images/logo1.png" alt="Logo" style="width: 64px; height: 32px; border-radius: 4px;">
                         <h2 id="report-title">Page Audit</h2>
                     </div>
-                    <div>
+                    <div class="tags">
                         <span class="intent-tag">Persona: ${data.personaName}</span>
                         <span class="intent-tag">Intent: ${intentName}</span>
                     </div>
@@ -803,8 +812,8 @@
                 ${verdictHTML}<div class="brief-divider"></div>
                 <h3 class="brief-section-header">Narrative Breakdown</h3>${narrativeHTML}<div class="brief-divider"></div>
                 ${playbookHTML}<div class="brief-divider"></div>
-                ${evidenceLockerHTML}<div class="brief-divider"></div>
                 ${strategicAuditHTML}<div class="brief-divider"></div>
+                ${evidenceLockerHTML}<div class="brief-divider"></div>
                 ${structuralAuditHTML}<div class="brief-divider"></div>
                 ${methodologyHTML}<div class="brief-divider"></div>
                 ${upsellCtaHTML}
@@ -826,34 +835,28 @@
                 <li class="timeline-step"><div class="icon">❓</div><div class="content"><div class="label">Why It Failed</div><div class="value why">${data.narrative.why}</div></div></li>
             </ul>`;
 
-            const verdictHTML = `<div class="verdict-section"><div class="verdict-outcome abandoned">${data.verdict.outcome}</div><div class="verdict-grid"><div class="verdict-metric"><div class="label">Journey Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div><div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div></div><div class="verdict-confidence-summary">${data.narrative.supporting_evidence}</div></div>`;          
-            const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Abandonment Triggers</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.diagnostics || []).map(d => `<tr class="${d.type === 'Architectural Dead-End' ? 'architectural-dead-end' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 100 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>Thought</th></tr></thead><tbody>${(data.evidence.monologue || []).map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div></div></div>`;
+            const verdictHTML = `<div class="verdict-section"><div class="verdict-outcome abandoned">${data.verdict.outcome}</div><div class="verdict-grid"><div class="verdict-metric"><div class="label">Journey Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div><div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div></div><div class="verdict-confidence-summary">${data.narrative.supporting_evidence}</div></div>`;
+            
             const strategicAuditHTML = `
-                <h3 class="brief-section-header">Strategic & Messaging Audit</h3>
-                <div class="strategic-audit-grid">
-                    <div class="detail-card" style="margin:0;">
-                        <h4>🧭 Positioning & Moat</h4>
-                        <div class="audit-finding">
-                            <strong>Differentiation Clarity:</strong>
-                            <p>${data.strategic_messaging_audit.positioning.differentiation}</p>
+                <h3 class="brief-section-header">Positioning & Resonance Scorecard</h3>
+                <div class="scorecard-grid">
+                    <div class="detail-card scorecard-item" style="margin:0;">
+                        <div class="score-display">
+                            <h4 class="score-title">🧭 Positioning & Moat</h4>
+                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">${data.strategic_messaging_audit.scores.positioning}/10</div>
                         </div>
-                        <div class="audit-finding">
-                            <strong>Switching Cost Acknowledgement:</strong>
-                            <p>${data.strategic_messaging_audit.positioning.switching_cost}</p>
-                        </div>
+                        <p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p>
                     </div>
-                    <div class="detail-card" style="margin:0;">
-                        <h4>🗣️ Persona Resonance</h4>
-                        <div class="audit-finding">
-                            <strong>Tone & Voice Match:</strong>
-                            <p>${data.strategic_messaging_audit.resonance.tone_and_voice}</p>
+                    <div class="detail-card scorecard-item" style="margin:0;">
+                         <div class="score-display">
+                            <h4 class="score-title">🗣️ Persona Resonance</h4>
+                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">${data.strategic_messaging_audit.scores.resonance}/10</div>
                         </div>
-                        <div class="audit-finding">
-                            <strong>Trust & Credibility:</strong>
-                            <p>${data.strategic_messaging_audit.resonance.trust_and_credibility}</p>
-                        </div>
+                        <p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p>
                     </div>
-                </div>`;           
+                </div>`;
+            
+            const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Abandonment Triggers</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.diagnostics || []).map(d => `<tr class="${d.type === 'Architectural Dead-End' ? 'architectural-dead-end' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 100 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>Thought</th></tr></thead><tbody>${(data.evidence.monologue || []).map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div></div></div>`;
             const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Your Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation</th><th style="width:20%; text-align:center;">Impact ${playbookTooltip}</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td><td class="playbook-impact ${p.impact.toLowerCase()}">${p.impact}</td></tr>`).join('')}</tbody></table></div>`;
             const structuralAuditHTML = `<div class="structural-audit-section"><h3 class="brief-section-header">Executive Summary: Structural Audit</h3><div class="structural-audit-grid">${(data.structural_audit_summary.findings || []).map(finding => `<div class="audit-card"><div class="audit-card-icon">${finding.icon}</div><div class="audit-card-text">${finding.text}</div></div>`).join('')}</div></div>`;
             const methodologyHTML = `<div class="methodology-notes"><h3 class="brief-section-header">How This Report Is Generated</h3><ul><li><strong>Severity & Consistency:</strong> Severity ranks friction by business impact, combining the psychological driver with its Consistency score (the % of 100 simulations an action was taken).</li><li><strong>Structural Audit:</strong> Identifies architectural flaws in the page's information hierarchy, like burying critical content below the fold.</li><li><strong>Journey Analysis:</strong> Compares the expected path of user attention against the simulated reality to diagnose core usability gaps.</li></ul></div>`;
@@ -865,7 +868,7 @@
                         <img id="company-favicon" src="images/logo1.png" alt="Logo" style="width: 64px; height: 32px; border-radius: 4px;">
                         <h2 id="report-title">Journey Audit</h2>
                     </div>
-                    <div>
+                    <div class="tags">
                         <span class="intent-tag">Persona: ${data.personaName}</span>
                         <span class="intent-tag">Intent: ${intentName}</span>
                     </div>
@@ -878,14 +881,14 @@
                 <h3 class="brief-section-header">Journey Analysis: Expectation vs. Reality</h3>${journeyAnalysisHTML}<div class="brief-divider"></div>
                 <h3 class="brief-section-header">Narrative Breakdown</h3>${narrativeHTML}<div class="brief-divider"></div>
                 ${playbookHTML}<div class="brief-divider"></div>
-                ${evidenceLockerHTML}<div class="brief-divider"></div>
                 ${strategicAuditHTML}<div class="brief-divider"></div>
+                ${evidenceLockerHTML}<div class="brief-divider"></div>
                 ${structuralAuditHTML}<div class="brief-divider"></div>
                 ${methodologyHTML}<div class="brief-divider"></div>
                 ${ctaHTML}
             </div>`;
         }
-
+        
         initializeApp();
     </script>
    
