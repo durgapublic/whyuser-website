@@ -528,7 +528,7 @@
             const intentKey = document.getElementById('advancedControls').style.display === 'grid' ? ui.intentSelect.value : currentIntent;
             const intentData = persona.intent_based_behavior[intentKey] || {};
             const intentName = { ToFu: "Discovery", MoFu: "Evaluation", BoFu: "Purchase" }[intentKey] || "Evaluation";
-            const tooltipHTML = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Our AI generates baseline goals and pain points. Add your own custom insights to tune the analysis for this session.</span></div>`;
+            const tooltipHTML = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Our AI generates baseline goals, pains, and skepticisms. Add your own custom insights to tune the analysis for this session.</span></div>`;
             
             const listToBaselineHtml = (list = []) => {
                 return (list.map(item => `
@@ -538,7 +538,12 @@
                     </li>`).join(''));
             };
 
-            const sections = [ { title: 'Primary Goals', data: intentData.goals, type: 'goals' }, { title: 'Pain Points', data: intentData.pains, type: 'pains' } ];
+            const sections = [
+                { title: 'Primary Goals', data: intentData.goals, type: 'goals' }, 
+                { title: 'Pain Points', data: intentData.pains, type: 'pains' },
+                { title: 'Core Skepticisms', data: intentData.skepticisms, type: 'skepticisms' }
+            ];
+
             const detailCardsHTML = sections.map(sec => `
                 <div class="detail-card"><h4>${sec.title} ${tooltipHTML}</h4>
                     <ul class="baseline-list">${listToBaselineHtml(sec.data)}</ul>
@@ -558,13 +563,21 @@
                         </div>
                         <div class="detail-card">
                             <h4>Details</h4>
-                            <div style="margin-bottom:1rem; text-align:left;"><label style="font-size:14px; color:var(--text-tertiary);">Title</label><input type="text" value="${persona.job_title}" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary);"></div>
-                            <div style="text-align:left;"><label style="font-size:14px; color:var(--text-tertiary);">Mental Model</label><p class="mental-model" style="margin-top:4px;">"${persona.mental_model}"</p></div>
-                        </div>
-                        <div class="detail-card">
+                            <div style="margin-bottom:1rem; text-align:left;">
+                                <label style="font-size:14px; color:var(--text-tertiary);">Title</label>
+                                <input type="text" value="${persona.job_title}" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary); margin-top: 4px;">
+                            </div>
+                            <div style="margin-bottom:1rem; text-align:left;">
+                                <label style="font-size:14px; color:var(--text-tertiary);">Industry Vertical</label>
+                                <input type="text" value="${persona.industry_vertical || ''}" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary); margin-top: 4px;">
+                            </div>
+                            <div style="margin-bottom:1rem; text-align:left;">
+                                <label style="font-size:14px; color:var(--text-tertiary);">Industry Sub-Vertical</label>
+                                <input type="text" value="${persona.industry_subvertical || ''}" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary); margin-top: 4px;">
+                            </div>
                             <div style="text-align:left;">
-                                <label style="font-size:14px; color:var(--text-tertiary);">Job Mandate</label>
-                                <textarea rows="4" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary); font-family: inherit; font-size: 15px; line-height: 1.5; margin-top: 4px;">${persona.primary_job_mandate}</textarea>
+                                <label style="font-size:14px; color:var(--text-tertiary);">Mental Model</label>
+                                <p class="mental-model" style="margin-top:4px;">"${persona.mental_model}"</p>
                             </div>
                         </div>
                     </div>
