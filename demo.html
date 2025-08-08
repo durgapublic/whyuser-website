@@ -133,14 +133,28 @@
         .verdict-confidence-summary { font-size: 14px; padding: 12px; background: var(--bg-accent); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); text-align: center; margin-top: 20px; }
         .brief-divider { border-top: 1px solid var(--border); margin: 32px 0; }
         .brief-section-header { font-size: 22px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-        .narrative-timeline { list-style: none; padding-left: 20px; position: relative; }
-        .narrative-timeline::before { content: ''; position: absolute; left: 29px; top: 10px; bottom: 10px; width: 2px; background: var(--border); }
-        .timeline-step { position: relative; margin-bottom: 24px; }
-        .timeline-step .icon { position: absolute; left: -20px; top: 0; font-size: 20px; background: var(--bg-primary); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 2px solid var(--border); }
-        .timeline-step .content { margin-left: 40px; padding-top: 4px; }
-        .timeline-step .label { font-weight: 600; font-size: 13px; color: var(--text-tertiary); text-transform: uppercase; }
-        .timeline-step .value { font-size: 16px; }
-        .timeline-step .value.why { color: var(--error); font-weight: 600; }
+        .narrative-block {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent);
+            padding: 20px 24px;
+            margin: 0;
+            border-radius: 8px;
+        }
+        .narrative-block p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--text-primary);
+        }
+        .narrative-highlight {
+            font-weight: 600;
+        }
+        .narrative-why {
+            background-color: rgba(220, 38, 38, 0.08);
+            color: var(--error);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
         .evidence-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 24px; flex-wrap: wrap; }
         .tab-link { padding: 10px 16px; cursor: pointer; font-weight: 600; font-size: 16px; color: var(--text-tertiary); position: relative; border-bottom: 4px solid transparent; }
         .tab-link.active { color: var(--text-primary); border-bottom-color: var(--accent); }
@@ -801,13 +815,11 @@
             
             const verdictHTML = `<div class="verdict-section"><div class="verdict-outcome abandoned">${data.verdict.outcome}</div><div class="verdict-grid"><div class="verdict-metric"><div class="label">Journey Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div><div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div></div><div class="verdict-confidence-summary">${data.narrative.supporting_evidence}</div></div>`;
             
-            const narrativeHTML = `<ul class="narrative-timeline">
-                <li class="timeline-step"><div class="icon">👤</div><div class="content"><div class="label">Who</div><div class="value">${data.narrative.who}</div></div></li>
-                <li class="timeline-step"><div class="icon">🎯</div><div class="content"><div class="label">What They Wanted</div><div class="value">${data.narrative.goal}</div></div></li>
-                <li class="timeline-step"><div class="icon">📍</div><div class="content"><div class="label">Where It Failed</div><div class="value">${data.narrative.where}</div></div></li>
-                <li class="timeline-step"><div class="icon">⏱️</div><div class="content"><div class="label">When It Failed</div><div class="value">${data.narrative.when}</div></div></li>
-                <li class="timeline-step"><div class="icon">❓</div><div class="content"><div class="label">Why It Failed</div><div class="value why">${data.narrative.why}</div></div></li>
-            </ul>`;
+            const narrativeHTML = `<div class="narrative-block">
+                <p>
+                    <span class="narrative-highlight">${data.narrative.who}</span> whose goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> during <span class="narrative-highlight">${data.narrative.when}</span> because <span class="narrative-why">${data.narrative.why}</span>
+                </p>
+            </div>`;
 
             const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Your Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation & Impact</th><th style="width:20%; text-align:center;">Est. Impact ${playbookTooltip}</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td><td class="playbook-impact high">${p.estimated_impact}</td></tr>`).join('')}</tbody></table></div>`;
 
@@ -871,7 +883,7 @@
                     </div>
                 </div>
                 ${verdictHTML}<div class="brief-divider"></div>
-                <h3 class="brief-section-header">Narrative Breakdown</h3>${narrativeHTML}<div class="brief-divider"></div>
+                <h3 class="brief-section-header">Diagnostic Narrative</h3>${narrativeHTML}<div class="brief-divider"></div>
                 ${playbookHTML}<div class="brief-divider"></div>
                 ${strategicAuditHTML}<div class="brief-divider"></div>
                 ${evidenceLockerHTML}<div class="brief-divider"></div>
@@ -888,13 +900,11 @@
             const renderPaths = (paths) => paths.map(p => `<div class="path-card"><div class="path-card-header"><span>Path followed by:</span><span class="path-percentage">${p.percentage}%</span></div><div class="path-steps">${p.path.map(step => `<div class="path-step">${step}</div>`).join('<div class="path-arrow">&nbsp;→&nbsp;</div>')}</div>${p.is_failure ? `<div class="path-diagnosis">${p.diagnosis}</div>` : ''}</div>`).join('');
             const journeyAnalysisHTML = `<div class="journey-analysis-grid"><div class="path-column"><h4 class="expected-path-header">✓ Expected Paths</h4>${renderPaths(data.funnel_breakdown.expected_paths)}</div><div class="path-column"><h4 class="actual-path-header">✗ Reality (Actual Paths)</h4>${renderPaths(data.funnel_breakdown.actual_paths)}</div></div>`;
             
-            const narrativeHTML = `<ul class="narrative-timeline">
-                <li class="timeline-step"><div class="icon">👤</div><div class="content"><div class="label">Who</div><div class="value">${data.narrative.who}</div></div></li>
-                <li class="timeline-step"><div class="icon">🎯</div><div class="content"><div class="label">What They Wanted</div><div class="value">${data.narrative.goal}</div></div></li>
-                <li class="timeline-step"><div class="icon">📍</div><div class="content"><div class="label">Where It Failed</div><div class="value">${data.narrative.where}</div></div></li>
-                <li class="timeline-step"><div class="icon">⏱️</div><div class="content"><div class="label">When It Failed</div><div class="value">${data.narrative.when}</div></div></li>
-                <li class="timeline-step"><div class="icon">❓</div><div class="content"><div class="label">Why It Failed</div><div class="value why">${data.narrative.why}</div></div></li>
-            </ul>`;
+            const narrativeHTML = `<div class="narrative-block">
+                <p>
+                    <span class="narrative-highlight">${data.narrative.who}</span> whose goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> during <span class="narrative-highlight">${data.narrative.when}</span> because <span class="narrative-why">${data.narrative.why}</span>
+                </p>
+            </div>`;
 
             const verdictHTML = `<div class="verdict-section"><div class="verdict-outcome abandoned">${data.verdict.outcome}</div><div class="verdict-grid"><div class="verdict-metric"><div class="label">Journey Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div><div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div></div><div class="verdict-confidence-summary">${data.narrative.supporting_evidence}</div></div>`;
             
