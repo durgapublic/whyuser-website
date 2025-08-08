@@ -185,11 +185,6 @@
         .audit-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: flex-start; gap: 16px; }
         .audit-card-icon { font-size: 28px; line-height: 1.5; margin-top: -4px; }
         .audit-card-text { font-size: 15px; font-weight: 500; color: var(--text-secondary); }
-        .brief-footer { text-align: center; font-size: 12px; color: var(--text-tertiary); padding-top: 20px; border-top: 1px solid var(--border); margin-top: 32px; }
-        .methodology-notes { background: var(--bg-secondary); padding: 24px; border-radius: 12px; margin-top: 32px; border: 1px solid var(--border); }
-        .methodology-notes ul { list-style-position: inside; padding-left: 0; color: var(--text-secondary); font-size: 14px; }
-        .methodology-notes li { margin-bottom: 8px; }
-        .methodology-notes strong { color: var(--text-primary); font-weight: 600; }
         
         /* --- Upsell CTA Section --- */
         .upsell-cta-section { background: var(--info-bg); border: 1px solid var(--info-border); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; align-items: center; text-align: center; }
@@ -270,9 +265,33 @@
             margin: 0;
         }
 
+        /* --- METHODOLOGY FOOTNOTE STYLES --- */
+        .brief-footer {
+            font-size: 13px;
+            color: var(--text-tertiary);
+            text-align: left;
+            padding-top: 24px;
+            margin-top: 32px;
+        }
+        .methodology-grid-2x2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px 32px;
+        }
+        .methodology-item p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .methodology-item strong {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
+
         /* --- Responsive & Print Styles --- */
         @media print { body, .insight-brief { background: white !important; } .no-print, header, .hero, #interactiveDemoSection > .analysis-container > .section-header, .persona-grid, .progress-container, .upsell-cta-section { display: none !important; } #interactiveDemoSection { padding: 0; } #buyerInsightBriefContainer, .analysis-container { margin: 0; max-width: 100%; } .insight-brief { box-shadow: none; border: 1px solid #ddd; border-radius: 0; padding: 20px; } }
-        @media (max-width: 960px) { .persona-grid { grid-template-columns: repeat(2, 1fr); } .modal-body-grid, .verdict-grid, .scorecard-grid { grid-template-columns: 1fr; } .step-label { font-size: 11px; } .journey-analysis-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 960px) { .persona-grid { grid-template-columns: repeat(2, 1fr); } .modal-body-grid, .verdict-grid, .scorecard-grid, .methodology-grid-2x2 { grid-template-columns: 1fr; } .step-label { font-size: 11px; } .journey-analysis-grid { grid-template-columns: 1fr; } }
         @media (max-width: 768px) { .analysis-type-buttons, .intent-buttons, .advanced-controls { grid-template-columns: 1fr; } .progress-steps { flex-direction: column; align-items: flex-start; gap: 12px; } .progress-steps::before { left: 16px; top: 0; bottom: 0; width: 2px; height: 100%; } .step { flex-direction: row; align-items: center; text-align: left; width: 100%; } .step-indicator { margin-right: 16px; } .step-label { margin-top: 0; } .step:not(:last-child) { margin-bottom: 16px; } }
         @media (max-width: 640px) { .persona-grid { grid-template-columns: 1fr; } }
     </style>
@@ -341,7 +360,14 @@
                 <div class="section-header"><h2>Select a Persona to Analyze</h2><p>Click a card to see the full report from that buyer's perspective. Only personas with an available report are clickable.</p></div>
                 <div class="persona-grid" id="personaGrid"></div>
             </div>
-            <div id="briefSection" style="display:none;"><div id="buyerInsightBriefContainer"></div></div>
+            <div id="briefSection" style="display:none;">
+                <div id="buyerInsightBriefContainer">
+                    <div id="briefPlaceholder" style="text-align: center; padding: 80px 40px; background: var(--bg-secondary); border-radius: 12px; border: 2px dashed var(--border);">
+                        <h3 style="font-size: 24px; color: var(--text-primary); margin-bottom: 8px;">Analysis Complete</h3>
+                        <p style="font-size: 18px; color: var(--text-secondary);">Select a persona card above to view the detailed Buyer Insight Brief.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -544,6 +570,14 @@
             if (!document.getElementById('pageUrl').value) { alert('Please enter a URL.'); return; }
             currentAnalysisType = type;
             
+            const briefContainer = document.getElementById('buyerInsightBriefContainer');
+            briefContainer.innerHTML = `
+                <div id="briefPlaceholder" style="text-align: center; padding: 80px 40px; background: var(--bg-secondary); border-radius: 12px; border: 2px dashed var(--border);">
+                    <h3 style="font-size: 24px; color: var(--text-primary); margin-bottom: 8px;">Analysis Complete</h3>
+                    <p style="font-size: 18px; color: var(--text-secondary);">Select a persona card above to view the detailed Buyer Insight Brief.</p>
+                </div>
+            `;
+            
             ui.pageAuditBtn.disabled = true;
             ui.journeyAuditBtn.disabled = true;
             
@@ -573,9 +607,6 @@
                 const hasBrief = reportData.hasOwnProperty(p.id); 
                 return `<div class="persona-card ${hasBrief ? 'has-brief' : 'no-brief'} ${p.id === 'EconomicBuyer' ? 'selected' : ''}" data-persona-id="${p.id}"><div class="icon">${persona.icon}</div><div class="name">${persona.role_name}</div><p class="role">${persona.job_title}</p><a href="#" class="view-details-btn" data-persona-id="${p.id}">View Details</a></div>` 
             }).join('');
-            
-            const initialReportData = reportData.EconomicBuyer;
-            renderBrief(initialReportData);
             
             ui.pageAuditBtn.disabled = false;
             ui.journeyAuditBtn.disabled = false;
@@ -608,7 +639,13 @@
                 card.classList.add('selected');
                 const personaId = card.dataset.personaId;
                 const reportData = (currentAnalysisType === 'page') ? reportDataStore.pageAudit[personaId] : reportDataStore.journeyAudit[personaId];
-                if (reportData) { renderBrief(reportData); }
+                if (reportData) { 
+                    renderBrief(reportData); 
+                    const briefElement = document.getElementById('buyerInsightBriefContainer');
+                    if(briefElement) {
+                        briefElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
             }
             else if (tab && tab.dataset.tab) { 
                 const tabContainer = tab.closest('.evidence-tabs'); 
@@ -650,14 +687,18 @@
         }
 
         function renderBrief(data) {
-             const selectedIntentEl = document.querySelector('.intent-button.selected');
-             const intentName = selectedIntentEl ? selectedIntentEl.querySelector('strong').textContent : 'Evaluation';
-             if (currentAnalysisType === 'page') {
+            const briefPlaceholder = document.getElementById('briefPlaceholder');
+            if (briefPlaceholder) {
+                briefPlaceholder.style.display = 'none';
+            }
+            const selectedIntentEl = document.querySelector('.intent-button.selected');
+            const intentName = selectedIntentEl ? selectedIntentEl.querySelector('strong').textContent : 'Evaluation';
+            if (currentAnalysisType === 'page') {
                 ui.briefContainer.innerHTML = generatePageAuditBrief(data, intentName);
-             } else {
+            } else {
                 ui.briefContainer.innerHTML = generateJourneyAuditBrief(data, intentName);
-             }
-             setTimeout(() => document.querySelector('.insight-brief')?.classList.add('visible'), 10);
+            }
+            setTimeout(() => document.querySelector('.insight-brief')?.classList.add('visible'), 10);
         }
 
         function populateAndShowModal(personaId, intent) {
@@ -791,7 +832,27 @@
 
             const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Friction Points</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 100 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>Thought</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div></div></div>`;
             const structuralAuditHTML = `<div class="structural-audit-section"><h3 class="brief-section-header">On-Page Structural Audit</h3><div class="structural-audit-grid">${(data.structural_audit_summary.findings || []).map(finding => `<div class="audit-card" data-id="${finding.id}"><div class="audit-card-icon">${finding.icon}</div><div class="audit-card-text">${finding.text}</div></div>`).join('')}</div></div>`;
-            const methodologyHTML = `<div class="methodology-notes"><h3 class="brief-section-header">How This Report Is Generated</h3><ul><li><strong>Severity & Consistency:</strong> Severity ranks friction by business impact, combining the psychological driver with its Consistency score (the % of 100 simulations an action was taken).</li><li><strong>Structural Audit:</strong> Identifies architectural flaws in the page's information hierarchy, like burying critical content below the fold.</li><li><strong>Journey Analysis:</strong> Compares the expected path of user attention against the simulated reality to diagnose core usability gaps.</li></ul></div>`;
+            const methodologyHTML = `<div class="brief-footer">
+                <div class="footer-divider" style="border-top: 1px solid var(--border); margin: 0 auto 24px; max-width: 400px;"></div>
+                <div class="methodology-grid-2x2">
+                    <div class="methodology-item">
+                        <strong>Persona Simulation</strong>
+                        <p>Each simulation is a forensic audit from the viewpoint of a specific B2B persona. We analyze the page against their unique goals, pain points, and non-negotiable needs for their current buying stage.</p>
+                    </div>
+                    <div class="methodology-item">
+                        <strong>Positioning & Resonance Audit</strong>
+                        <p>The engine audits the page's messaging and tone against the persona's known alternatives and communication preferences. It scores differentiation, value proposition clarity, and trust, turning subjective copy into a measurable signal.</p>
+                    </div>
+                    <div class="methodology-item">
+                        <strong>Structural & Journey Analysis</strong>
+                        <p>Our engine maps the site's information architecture to find structural flaws like buried CTAs or dead-end conversion paths. The journey analysis compares the persona's expected path to their actual path to diagnose abandonment points.</p>
+                    </div>
+                    <div class="methodology-item">
+                        <strong>Severity & Impact Scoring</strong>
+                        <p>Friction points are scored for severity based on which psychological driver was violated (e.g., violating a 'non-negotiable need' is Critical). This data-driven approach turns a list of issues into a prioritized, actionable playbook.</p>
+                    </div>
+                </div>
+            </div>`;
             const upsellCtaHTML = `<div class="upsell-cta-section"><div class="icon">🔬</div><h4>Ready for the Full Picture?</h4><p>This preview shows the power of a single-page audit. A full Buyer Insight Audit analyzes the entire journey to find the revenue-killing flaws you can't see.</p><button class="upsell-button request-audit-btn">Request Your FREE Buyer Insight Audit</button></div>`;
 
             return `<div class="insight-brief">
@@ -859,7 +920,27 @@
             const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Abandonment Triggers</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.diagnostics || []).map(d => `<tr class="${d.type === 'Architectural Dead-End' ? 'architectural-dead-end' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/100</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 100 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>Thought</th></tr></thead><tbody>${(data.evidence.monologue || []).map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div></div></div>`;
             const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Your Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation</th><th style="width:20%; text-align:center;">Impact ${playbookTooltip}</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td><td class="playbook-impact ${p.impact.toLowerCase()}">${p.impact}</td></tr>`).join('')}</tbody></table></div>`;
             const structuralAuditHTML = `<div class="structural-audit-section"><h3 class="brief-section-header">Executive Summary: Structural Audit</h3><div class="structural-audit-grid">${(data.structural_audit_summary.findings || []).map(finding => `<div class="audit-card"><div class="audit-card-icon">${finding.icon}</div><div class="audit-card-text">${finding.text}</div></div>`).join('')}</div></div>`;
-            const methodologyHTML = `<div class="methodology-notes"><h3 class="brief-section-header">How This Report Is Generated</h3><ul><li><strong>Severity & Consistency:</strong> Severity ranks friction by business impact, combining the psychological driver with its Consistency score (the % of 100 simulations an action was taken).</li><li><strong>Structural Audit:</strong> Identifies architectural flaws in the page's information hierarchy, like burying critical content below the fold.</li><li><strong>Journey Analysis:</strong> Compares the expected path of user attention against the simulated reality to diagnose core usability gaps.</li></ul></div>`;
+            const methodologyHTML = `<div class="brief-footer">
+                <div class="footer-divider" style="border-top: 1px solid var(--border); margin: 0 auto 24px; max-width: 400px;"></div>
+                <div class="methodology-grid-2x2">
+                    <div class="methodology-item">
+                        <strong>Persona Simulation</strong>
+                        <p>Each simulation is a forensic audit from the viewpoint of a specific B2B persona. We analyze the page against their unique goals, pain points, and non-negotiable needs for their current buying stage.</p>
+                    </div>
+                    <div class="methodology-item">
+                        <strong>Positioning & Resonance Audit</strong>
+                        <p>The engine audits the page's messaging and tone against the persona's known alternatives and communication preferences. It scores differentiation, value proposition clarity, and trust, turning subjective copy into a measurable signal.</p>
+                    </div>
+                    <div class="methodology-item">
+                        <strong>Structural & Journey Analysis</strong>
+                        <p>Our engine maps the site's information architecture to find structural flaws like buried CTAs or dead-end conversion paths. The journey analysis compares the persona's expected path to their actual path to diagnose abandonment points.</p>
+                    </div>
+                    <div class="methodology-item">
+                        <strong>Severity & Impact Scoring</strong>
+                        <p>Friction points are scored for severity based on which psychological driver was violated (e.g., violating a 'non-negotiable need' is Critical). This data-driven approach turns a list of issues into a prioritized, actionable playbook.</p>
+                    </div>
+                </div>
+            </div>`;
             const ctaHTML = `<div class="upsell-cta-section"><div class="icon">🔬</div><h4>You've Seen the Simulation. Get the Reality.</h4><p>This preview reveals the critical flaws in a simulated funnel. A full Buyer Insight Audit on your live URL will give you the objective evidence needed to de-risk your roadmap and end internal debates.</p><button class="upsell-button request-audit-btn">Request Your FREE Buyer Insight Audit</button></div>`;
 
             return `<div class="insight-brief">
