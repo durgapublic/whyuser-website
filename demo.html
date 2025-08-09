@@ -79,6 +79,87 @@
         .analysis-type-button strong { display: block; font-size: 18px; }
         .analysis-type-button span { font-size: 14px; font-weight: 400; opacity: 0.9; }
 
+        /* --- New Executive Summary Styles --- */
+        .executive-verdict {
+            background: white; 
+            border: 1px solid var(--border); 
+            border-radius: 16px; 
+            padding: 32px; 
+            margin-bottom: 24px;
+        }
+        .verdict-header {
+            display: flex; 
+            align-items: center; 
+            gap: 16px; 
+            margin-bottom: 12px;
+        }
+        .verdict-badge {
+            font-size: 16px; 
+            font-weight: 700; 
+            padding: 10px 18px; 
+            border-radius: 8px; 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .verdict-badge.hold { background-color: var(--error); }
+        .verdict-badge.proceed { background-color: var(--success); }
+        .verdict-badge svg { width: 22px; height: 22px; }
+        .verdict-title { 
+            font-size: 28px; 
+            font-weight: 700; 
+            line-height: 1.2; 
+        }
+        .verdict-details-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 16px;
+        }
+        .verdict-detail-card { 
+            background-color: var(--bg-secondary); 
+            border-radius: 12px; 
+            padding: 20px; 
+            border: 1px solid var(--border);
+        }
+        .verdict-detail-card h5 {
+            font-size: 14px; 
+            font-weight: 600; 
+            color: var(--text-secondary); 
+            margin-bottom: 16px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+        }
+        .verdict-detail-card h5 svg { 
+            width: 20px; 
+            height: 20px; 
+            flex-shrink: 0;
+        }
+        .verdict-detail-card ul {
+            list-style: none; 
+            padding-left: 0; 
+            font-size: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px;
+        }
+        .verdict-detail-card ul li {
+            padding-left: 1.2em;
+            position: relative;
+            line-height: 1.5;
+        }
+        .verdict-detail-card ul li::before {
+            content: '–';
+            position: absolute;
+            left: 0;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
         /* --- Interactive Demo & Progress --- */
         #interactiveDemoSection { display: none; padding: 80px 0; background: var(--bg-secondary); }
         .analysis-container { max-width: 960px; margin: 0 auto; }
@@ -332,6 +413,43 @@
             display: block;
         }
         
+        .scorecard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .scorecard-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .score-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        .score-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding-right: 16px;
+        }
+        .score-value {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.1;
+            flex-shrink: 0;
+        }
+        .score-value.error { color: var(--error); }
+        .score-value.warning { color: var(--warning); }
+        .score-value.success { color: var(--success); }
+        .score-text {
+            font-size: 15px;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
         /* --- Responsive & Print Styles --- */
         @media print { body, .insight-brief { background: white !important; } .no-print, header, .hero, #interactiveDemoSection > .analysis-container > .section-header, .persona-grid, .progress-container, .upsell-cta-section { display: none !important; } #interactiveDemoSection { padding: 0; } #buyerInsightBriefContainer, .analysis-container { margin: 0; max-width: 100%; } .insight-brief { box-shadow: none; border: 1px solid #ddd; border-radius: 0; padding: 20px; } }
         @media (max-width: 960px) { .persona-grid { grid-template-columns: repeat(2, 1fr); } .modal-body-grid, .verdict-grid, .scorecard-grid, .methodology-grid-2x2 { grid-template-columns: 1fr; } .step-label { font-size: 11px; } .journey-analysis-grid, .coherence-content { grid-template-columns: 1fr; } }
@@ -724,15 +842,56 @@
                     <p style="font-size: 18px; color: var(--text-secondary);">Select a persona card above to view their detailed journey analysis.</p>
                 </div>`;
         }
-        
+
+        function switchTab(tabElement) {
+            const tabContainer = tabElement.closest('.evidence-tabs');
+            if (!tabContainer) return;
+
+            // Deactivate all sibling tab links within the same container
+            tabContainer.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+
+            // Determine the scope of content to deactivate. This is the key fix.
+            let contentAreaToClear;
+            if (tabContainer.parentElement.classList.contains('insight-brief')) {
+                // This is a MAIN tab. Clear only the main content panes that are direct children.
+                contentAreaToClear = tabContainer.parentElement;
+                Array.from(contentAreaToClear.children).forEach(child => {
+                    if (child.classList.contains('tab-content')) {
+                        child.classList.remove('active');
+                    }
+                });
+            } else {
+                // This is a NESTED tab. The content is inside a sibling wrapper.
+                const nestedContentWrapper = tabContainer.nextElementSibling;
+                if (nestedContentWrapper && nestedContentWrapper.classList.contains('evidence-content-wrapper')) {
+                    nestedContentWrapper.querySelectorAll('.tab-content').forEach(pane => pane.classList.remove('active'));
+                }
+            }
+
+            // Activate the clicked link
+            tabElement.classList.add('active');
+
+            // Activate the corresponding content pane by its unique ID
+            const contentPane = document.getElementById(tabElement.dataset.tab);
+            if (contentPane) {
+                contentPane.classList.add('active');
+            }
+        }
+
         function handleBodyClick(event) {
+            // --- Modal and Popover Logic ---
             const modalOverlay = event.target.closest('.modal-overlay');
             const modalCloseBtn = event.target.closest('.modal-close-btn');
             if (modalCloseBtn || (modalOverlay && !event.target.closest('.modal-content'))) {
                 document.querySelectorAll('.modal-overlay').forEach(modal => modal.classList.remove('visible'));
                 return;
             }
+            if (!event.target.closest('.share-btn') && !event.target.closest('.share-popover')) {
+                const popover = document.getElementById('sharePopover');
+                if (popover) popover.style.display = 'none';
+            }
             
+            // --- Get all potential clickable elements ---
             const card = event.target.closest('.persona-card');
             const detailsBtn = event.target.closest('.view-details-btn');
             const tab = event.target.closest('.tab-link:not(.disabled)');
@@ -742,80 +901,67 @@
             const removeItemBtn = event.target.closest('.remove-item-btn');
             const requestAuditBtn = event.target.closest('.request-audit-btn');
 
-            if (detailsBtn) { 
-                event.preventDefault(); 
-                event.stopPropagation(); 
-                 const persona = allPersonas.find(p => p.id === detailsBtn.dataset.personaId);
-                 const selectedIntent = document.querySelector(`.advanced-controls [data-persona-id="${persona.id}"]`)?.value || persona.defaultIntent;
-                populateAndShowModal(detailsBtn.dataset.personaId, selectedIntent); 
+            // --- Event Handling Logic ---
+            if (detailsBtn) {
+                event.preventDefault();
+                event.stopPropagation();
+                const persona = allPersonas.find(p => p.id === detailsBtn.dataset.personaId);
+                const selectedIntent = document.querySelector(`.advanced-controls [data-persona-id="${persona.id}"]`)?.value || persona.defaultIntent;
+                populateAndShowModal(detailsBtn.dataset.personaId, selectedIntent);
             }
             else if (card && card.classList.contains('has-brief')) {
-                 if (currentAnalysisType === 'page') {
+                if (currentAnalysisType === 'page') {
                     const personaId = card.dataset.personaId;
-                    const tabButton = document.querySelector(`.tab-link[data-tab="tab-${personaId}"]`);
-                    if(tabButton) {
-                        const tabContainer = tabButton.closest('.evidence-tabs'); 
-                        const contentWrapper = tabContainer.parentElement;
-                        tabContainer.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active')); 
-                        contentWrapper.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
-                        tabButton.classList.add('active'); 
-                        contentWrapper.querySelector(`#${tabButton.dataset.tab}`).classList.add('active'); 
-                        document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
-                        card.classList.add('selected');
+                    // Find the main tab button corresponding to the clicked card
+                    const tabButton = document.querySelector(`.insight-brief > .evidence-tabs > .tab-link[data-tab="tab-${personaId}"]`);
+                    if (tabButton) {
+                        switchTab(tabButton); // Use the new robust function
                     }
-                } else if(currentAnalysisType === 'journey') {
+                    document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                } else if (currentAnalysisType === 'journey') {
                     document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
                     card.classList.add('selected');
                     const personaId = card.dataset.personaId;
                     const reportData = reportDataStore.journeyAudit[personaId];
-                    if (reportData) { 
-                        renderJourneyAuditBrief(reportData); 
+                    if (reportData) {
+                        renderJourneyAuditBrief(reportData);
                         const briefElement = document.getElementById('buyerInsightBriefContainer');
-                        if(briefElement) briefElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        if (briefElement) briefElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
             }
-            else if (tab && tab.dataset.tab) { 
-                const tabContainer = tab.closest('.evidence-tabs'); 
-                if (!tabContainer) return;
-                const contentWrapper = tabContainer.parentElement;
-                tabContainer.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active')); 
-                contentWrapper.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
-                tab.classList.add('active'); 
-                const activeContent = contentWrapper.querySelector(`#${tab.dataset.tab}`);
-                if (activeContent) activeContent.classList.add('active');
+            else if (tab && tab.dataset.tab) {
+                switchTab(tab); // Use the new robust function for all tab clicks
             }
-            else if (saveBtn) { 
-                window.print(); 
+            else if (saveBtn) {
+                window.print();
             }
             else if (shareBtn) {
                 const popover = document.getElementById('sharePopover');
-                const rect = shareBtn.getBoundingClientRect(); 
-                popover.style.top = `${rect.bottom + 8}px`; 
-                popover.style.right = `${window.innerWidth - rect.right}px`; 
-                popover.style.display = 'block'; 
-                
+                const rect = shareBtn.getBoundingClientRect();
+                popover.style.top = `${rect.bottom + 8}px`;
+                popover.style.right = `${window.innerWidth - rect.right}px`;
+                popover.style.display = 'block';
+
                 document.getElementById('shareEmailBtn').onclick = handleShareEmail;
                 document.getElementById('shareCopyBtn').onclick = handleShareCopy;
-
-            } else if (addItemBtn) { 
-                handleAddItem(addItemBtn); 
-            } else if (removeItemBtn) { 
-                handleRemoveItem(removeItemBtn); 
-            } else if (requestAuditBtn) {
+            }
+            else if (addItemBtn) {
+                handleAddItem(addItemBtn);
+            }
+            else if (removeItemBtn) {
+                handleRemoveItem(removeItemBtn);
+            }
+            else if (requestAuditBtn) {
                 const ctaModal = document.getElementById('ctaModal');
                 const ctaModalUrlInput = document.getElementById('ctaModalUrl');
                 const mainUrlInput = document.getElementById('pageUrl');
                 if (mainUrlInput.value) ctaModalUrlInput.value = mainUrlInput.value;
                 if (ctaModal) ctaModal.classList.add('visible');
             }
-            
-            if (!event.target.closest('.share-btn') && !event.target.closest('.share-popover')) {
-                const popover = document.getElementById('sharePopover');
-                if (popover) popover.style.display = 'none'; 
-            }
         }
-        
+
         function populateAndShowModal(personaId, intentKey = 'MoFu') {
             const persona = personaDetailsStore[personaId]; if (!persona) return;
             const intentData = persona.intent_based_behavior[intentKey] || {};
@@ -1075,23 +1221,32 @@
                 Missing: '<svg class="status-icon status-missing" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>'
             };
 
-             const executiveVerdictHTML = `
+            const executiveVerdictHTML = `
                 <div class="executive-verdict">
                     <div class="verdict-header">
                         <div class="verdict-badge ${summaryData.decision.toLowerCase()}">
-                            ${statusIcons.Missing}
-                            ${summaryData.decision}
+                            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+                            <span>${summaryData.decision}</span>
                         </div>
-                        <h3 class="verdict-title">The Bottom Line</h3>
+                        <h3 class="verdict-title">The Bottom Line: Do Not Launch</h3>
                     </div>
+                    <p style="font-size: 16px; color: var(--text-secondary); max-width: 800px; margin-bottom: 24px;">
+                        This page has critical flaws that will cause key buyers to abandon their journey. The following issues must be fixed before committing resources to a launch.
+                    </p>
                     <div class="verdict-details-grid">
                         <div class="verdict-detail-card">
-                            <h5><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Top Veto Drivers</h5>
-                            <ul>${summaryData.why.map(item => `<li>- ${item}</li>`).join('')}</ul>
+                            <h5>
+                                <svg fill="none" stroke="var(--error)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                Top Veto Drivers (The "Why")
+                            </h5>
+                            <ul>${summaryData.why.map(item => `<li>${item}</li>`).join('')}</ul>
                         </div>
                         <div class="verdict-detail-card">
-                            <h5><svg fill="none" stroke="var(--success)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Fix-First Playbook</h5>
-                           <ul>${summaryData.fixFirst.map(item => `<li>- ${item}</li>`).join('')}</ul>
+                            <h5>
+                                <svg fill="none" stroke="var(--success)" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                                Fix-First Playbook (The "How")
+                            </h5>
+                        <ul>${summaryData.fixFirst.map(item => `<li>${item}</li>`).join('')}</ul>
                         </div>
                     </div>
                 </div>
@@ -1099,8 +1254,8 @@
             
             const committeeCoherenceHTML = `
                 <div class="committee-coherence">
-                    <h4>Buying Committee Alignment</h4>
-                    <p>Detects contradictions and unmet expectations across the entire buying committee.</p>
+                    <h4>Buying Committee Conflict</h4>
+                    <p>Pinpoints where your page creates conflicting experiences for key buyers, stalling deals.</p>
                     <div class="coherence-content">
                         <div class="alignment-risk-display">
                             <div class="risk-value medium">${summaryData.committeeCoherence.alignmentRiskIndex}</div>
@@ -1200,7 +1355,7 @@
                         <div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div>
                     </div>
                 </div>`;
-                const narrativeHTML = `<div class="narrative-block"><p>The <span class="narrative-highlight">${data.narrative.who}</span> goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, but they abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> because <span class="narrative-why">${data.narrative.why}</span></p></div>`;
+                const narrativeHTML = `<div class="narrative-block"><p><span class="narrative-highlight">${data.narrative.who}</span> goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, but they abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> because <span class="narrative-why">${data.narrative.why}</span></p></div>`;
                 const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Top Abandonment Triggers</h3><div class="chart-container" style="height: 250px;"><canvas id="frictionChart-${p.id}"></canvas></div>`;
                 const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation & Impact</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td></tr>`).join('')}</tbody></table></div>`;
                 const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${p.id}">Friction Points</div><div class="tab-link" data-tab="tab-monologue-${p.id}">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers-${p.id}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${p.id}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue-${p.id}" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>Thought</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${p.id}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div></div></div>`;
@@ -1241,7 +1396,7 @@
             
             const renderPaths = (paths) => paths.map(p => `<div class="path-card"><div class="path-card-header"><span>Path followed by:</span><span class="path-percentage">${p.percentage}%</span></div><div class="path-steps">${p.path.map(step => `<div class="path-step">${step}</div>`).join('<div class="path-arrow">&nbsp;→&nbsp;</div>')}</div>${p.is_failure ? `<div class="path-diagnosis">${p.diagnosis}</div>` : ''}</div>`).join('');
             const journeyAnalysisHTML = `<div class="journey-analysis-grid"><div class="path-column"><h4 class="expected-path-header">✓ Expected Paths</h4>${renderPaths(data.funnel_breakdown.expected_paths)}</div><div class="path-column"><h4 class="actual-path-header">✗ Reality (Actual Paths)</h4>${renderPaths(data.funnel_breakdown.actual_paths)}</div></div>`;
-            const narrativeHTML = `<div class="narrative-block"><p>The <span class="narrative-highlight">${data.narrative.who}</span> whose goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> because <span class="narrative-why">${data.narrative.why}</span></p></div>`;
+            const narrativeHTML = `<div class="narrative-block"><p><span class="narrative-highlight">${data.narrative.who}</span> whose goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> because <span class="narrative-why">${data.narrative.why}</span></p></div>`;
             const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Funnel Breakdown</h3><div class="chart-container" style="height: 300px;"><canvas id="funnelChart"></canvas></div>`;
             const verdictHTML = `<div class="verdict-section"><div class="verdict-outcome abandoned">${data.verdict.outcome}</div><div class="verdict-grid"><div class="verdict-metric"><div class="label">Journey Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div><div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div></div><div class="verdict-confidence-summary">${data.narrative.supporting_evidence}</div></div>`;
             const strategicAuditHTML = `<h3 class="brief-section-header">Positioning & Resonance Scorecard</h3><div class="scorecard-grid"><div class="scorecard-item"><div class="score-display"><h4 class="score-title">🧭 Positioning & Moat</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">${data.strategic_messaging_audit.scores.positioning}/10</div></div><p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p></div><div class="scorecard-item"><div class="score-display"><h4 class="score-title">🗣️ Persona Resonance</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">${data.strategic_messaging_audit.scores.resonance}/10</div></div><p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p></div></div>`;
