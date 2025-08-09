@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhyUser - Stop Building Blind</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -63,10 +64,13 @@
         .intent-button { flex: 1; padding: 12px; border: 2px solid var(--border); border-radius: 10px; background: rgba(255,255,255,0.4); cursor: pointer; text-align: center; transition: all 0.2s ease-in-out; }
         .intent-button.selected { background: var(--bg-accent); border-color: var(--accent); }
         .intent-button strong, .intent-button span { pointer-events: none; }
-        .advanced-controls { display: none; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 12px; }
-        .advanced-controls select { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 10px; background: rgba(255, 255, 255, 0.7); font-size: 16px; }
+        .advanced-controls { display: none; margin-top: 12px; background: rgba(255,255,255,0.4); border-radius: 10px; padding: 16px; border: 1px solid var(--border); }
+        .advanced-controls .persona-intent-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center; padding: 8px 0; }
+        .advanced-controls .persona-intent-row:not(:last-child) { border-bottom: 1px solid var(--border); }
+        .advanced-controls .persona-name { font-weight: 500; }
+        .advanced-controls select { width: 100%; padding: 8px; border: 2px solid var(--border); border-radius: 8px; background: rgba(255, 255, 255, 0.7); font-size: 14px; }
         .hidden { display: none !important; }
-        .analysis-type-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px; }
+        .analysis-type-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .analysis-type-button { padding: 18px; border: 2px solid var(--accent); border-radius: 12px; background: var(--accent); color: white; cursor: pointer; text-align: center; transition: all 0.3s ease; font-size: 16px; font-weight: 600; }
         .analysis-type-button:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(139, 107, 71, 0.3); }
         .analysis-type-button:disabled { background: var(--text-tertiary); cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.7; }
@@ -91,7 +95,7 @@
         .section-header { text-align: center; margin-bottom: 48px; }
         .section-header h2 { font-size: 48px; font-weight: 600; }
         .section-header p { font-size: 20px; color: var(--text-secondary); max-width: 800px; margin: 0 auto; }
-        #personaSelectorSection, #briefSection { display: none; }
+        #personaSelectorSection { display: none; }
         .persona-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
         .persona-card { border: 2px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; transition: all 0.3s ease; background: white; }
         .persona-card.has-brief { cursor: pointer; }
@@ -102,15 +106,7 @@
         .persona-card .name { font-weight: 600; font-size: 16px;}
         .persona-card .role { font-size: 14px; color: var(--text-tertiary); min-height: 40px; margin-bottom: 16px; }
         .view-details-btn { font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; cursor: pointer; }
-        .non-editable-field {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: var(--bg-secondary);
-            font-size: 16px;
-            color: var(--text-secondary);
-        }
+        
         /* --- Buyer Insight Brief --- */
         #buyerInsightBriefContainer { margin-top: 48px; }
         .insight-brief { background: white; border-radius: 16px; box-shadow: 0 16px 50px var(--shadow); padding: 32px 40px 40px; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
@@ -122,7 +118,8 @@
         .brief-actions { display: flex; gap: 12px; position: relative; margin-left: auto; }
         .action-btn { background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
         .action-btn:hover { background: var(--bg-secondary); border-color: var(--accent); color: var(--text-primary); }
-        .verdict-section { text-align: center; padding: 24px 0; }
+        .verdict-section { text-align: center; padding-top: 24px; }
+        .verdict-section .tags { justify-content: center; margin-bottom: 16px; display: flex; gap: 8px; }
         .verdict-outcome { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
         .verdict-outcome.abandoned { color: var(--error); }
         .verdict-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; text-align: left; align-items: center; margin-bottom: 16px; }
@@ -140,10 +137,11 @@
         .narrative-highlight { font-weight: 600; }
         .narrative-why { background-color: rgba(220, 38, 38, 0.08); color: var(--error); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
 
-        .evidence-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 24px; flex-wrap: wrap; }
-        .tab-link { padding: 10px 16px; cursor: pointer; font-weight: 600; font-size: 16px; color: var(--text-tertiary); position: relative; border-bottom: 4px solid transparent; }
+        .evidence-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 0; flex-wrap: wrap; }
+        .tab-link { padding: 12px 18px; cursor: pointer; font-weight: 600; font-size: 16px; color: var(--text-tertiary); position: relative; border-bottom: 4px solid transparent; margin-bottom: -2px; }
         .tab-link.active { color: var(--text-primary); border-bottom-color: var(--accent); }
-        .tab-content { display: none; }
+        .tab-link.disabled { cursor: not-allowed; color: var(--text-tertiary); opacity: 0.5; }
+        .tab-content { display: none; padding: 24px 0 0; }
         .tab-content.active { display: block; animation: fadeIn 0.5s; } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .evidence-table { width: 100%; border-collapse: collapse; font-size: 15px; }
         .evidence-table th, .evidence-table td { padding: 14px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top;}
@@ -227,7 +225,7 @@
         
         .baseline-list, .custom-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
         .list-item-baseline, .list-item-custom { display: flex; align-items: center; gap: 10px; background-color: var(--bg-secondary); padding: 8px 12px; border-radius: 6px; }
-        .ai-badge, .custom-badge { font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; line-height: 1.2; }
+        .ai-badge, .custom-badge { font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; line-height: 1.2; text-transform: uppercase;}
         .ai-badge { background-color: var(--accent); color: white; }
         .custom-badge { background-color: var(--success); color: white; }
         .list-item-custom .remove-item-btn { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--text-tertiary); font-size: 16px; padding: 4px; }
@@ -237,37 +235,80 @@
         .add-item-container button { padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 500; cursor: pointer; transition: background-color .2s; }
         .add-item-container button:hover { background: var(--accent-hover); }
 
-        .scorecard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            align-items: start;
+        /* --- New Executive Summary Styles --- */
+        .executive-verdict {
+            background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px;
         }
-        .scorecard-item .score-display {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 8px;
+        .verdict-header {
+            display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
         }
-        .scorecard-item .score-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
+        .verdict-badge {
+            font-size: 22px; font-weight: 700; padding: 10px 18px; border-radius: 8px; color: white; display: flex; align-items: center; gap: 10px; line-height: 1;
         }
-        .scorecard-item .score-value {
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 1;
+        .verdict-badge.hold { background-color: var(--error); }
+        .verdict-badge.proceed { background-color: var(--success); }
+        .verdict-badge svg { width: 22px; height: 22px; }
+        .verdict-title { font-size: 28px; font-weight: 700; line-height: 1.1; }
+        .verdict-details-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;
         }
-        .scorecard-item .score-value.error { color: var(--error); }
-        .scorecard-item .score-value.warning { color: var(--warning); }
-        .scorecard-item .score-value.success { color: var(--success); }
-        .scorecard-item .score-text {
-            font-size: 15px;
-            color: var(--text-secondary);
-            margin: 0;
+        .verdict-detail-card { background-color: var(--bg-secondary); border-radius: 12px; padding: 20px; }
+        .verdict-detail-card h5 {
+            font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;
         }
+        .verdict-detail-card h5 svg { width: 18px; height: 18px; }
+        .verdict-detail-card ul {
+            list-style: none; padding-left: 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px;
+        }
+        .committee-coherence, .veto-scanner {
+            background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px;
+        }
+        .committee-coherence h4, .veto-scanner h4 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+        .committee-coherence > p, .veto-scanner > p { font-size: 15px; color: var(--text-secondary); margin-bottom: 20px; }
+        .coherence-content { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: center; }
+        .alignment-risk-display { display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-secondary); border-radius: 12px; padding: 20px; border: 1px solid var(--border); }
+        .alignment-risk-display .risk-value { font-size: 48px; font-weight: 700; line-height: 1; }
+        .alignment-risk-display .risk-value.high { color: var(--error); }
+        .alignment-risk-display .risk-value.medium { color: var(--warning); }
+        .alignment-risk-display .risk-value.low { color: var(--success); }
+        .alignment-risk-display .risk-label { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+        .alignment-risk-display .risk-decision { font-size: 16px; font-weight: 700; margin-top: 8px; }
+        .conflicts-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+        .conflict-item { background-color: var(--bg-secondary); border-radius: 8px; padding: 12px; border: 1px solid var(--border); }
+        .conflict-item .conflict-header { font-size: 16px; margin-bottom: 8px; }
+        .conflict-item .conflict-persona { font-weight: 700; }
+        .conflict-item .conflict-expectation { }
+        .conflict-item .conflict-fix { font-size: 14px; color: var(--text-secondary); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
 
+        .veto-scanner-scores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .scanner-score-card { background: var(--bg-secondary); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border);}
+        .scanner-score-card .label { font-size: 13px; font-weight: 500; color: var(--text-tertiary); margin-bottom: 4px;}
+        .scanner-score-card .value { font-size: 28px; font-weight: 700; }
+        .scanner-matrix-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .scanner-persona-card { background-color: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+        .scanner-persona-card .persona-name { font-weight: 600; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
+        .scanner-persona-card .evidence-list { display: flex; flex-direction: column; gap: 8px; }
+        .evidence-item { display: flex; align-items: center; gap: 8px; background-color: var(--bg-secondary); padding: 6px 10px; border-radius: 6px; font-size: 14px; border: 1px solid var(--border); }
+        .evidence-item .status-icon { width: 18px; height: 18px; }
+        .evidence-item .status-found { color: var(--success); }
+        .evidence-item .status-buried { color: var(--warning); }
+        .evidence-item .status-missing { color: var(--error); }
+        .evidence-name { font-weight: 500; }
+        .evidence-location { color: var(--text-tertiary); margin-left: auto; font-size: 13px; }
+        
+        .executive-chart-container {
+            height: 420px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+        
         .brief-footer {
             font-size: 13px;
             color: var(--text-tertiary);
@@ -290,11 +331,11 @@
             margin-bottom: 6px;
             display: block;
         }
-
+        
         /* --- Responsive & Print Styles --- */
         @media print { body, .insight-brief { background: white !important; } .no-print, header, .hero, #interactiveDemoSection > .analysis-container > .section-header, .persona-grid, .progress-container, .upsell-cta-section { display: none !important; } #interactiveDemoSection { padding: 0; } #buyerInsightBriefContainer, .analysis-container { margin: 0; max-width: 100%; } .insight-brief { box-shadow: none; border: 1px solid #ddd; border-radius: 0; padding: 20px; } }
-        @media (max-width: 960px) { .persona-grid { grid-template-columns: repeat(2, 1fr); } .modal-body-grid, .verdict-grid, .scorecard-grid, .methodology-grid-2x2 { grid-template-columns: 1fr; } .step-label { font-size: 11px; } .journey-analysis-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .analysis-type-buttons, .intent-buttons, .advanced-controls { grid-template-columns: 1fr; } .progress-steps { flex-direction: column; align-items: flex-start; gap: 12px; } .progress-steps::before { left: 16px; top: 0; bottom: 0; width: 2px; height: 100%; } .step { flex-direction: row; align-items: center; text-align: left; width: 100%; } .step-indicator { margin-right: 16px; } .step-label { margin-top: 0; } .step:not(:last-child) { margin-bottom: 16px; } }
+        @media (max-width: 960px) { .persona-grid { grid-template-columns: repeat(2, 1fr); } .modal-body-grid, .verdict-grid, .scorecard-grid, .methodology-grid-2x2 { grid-template-columns: 1fr; } .step-label { font-size: 11px; } .journey-analysis-grid, .coherence-content { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .analysis-type-buttons, .advanced-controls .persona-intent-row, .verdict-details-grid { grid-template-columns: 1fr; } .progress-steps { flex-direction: column; align-items: flex-start; gap: 12px; } .progress-steps::before { left: 16px; top: 0; bottom: 0; width: 2px; height: 100%; } .step { flex-direction: row; align-items: center; text-align: left; width: 100%; } .step-indicator { margin-right: 16px; } .step-label { margin-top: 0; } .step:not(:last-child) { margin-bottom: 16px; } }
         @media (max-width: 640px) { .persona-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -312,24 +353,26 @@
             <h1>See Your Site Through Your <span class="gradient-text">Buyer's Eyes</span></h1>
             <p class="hero-subtitle">Stop building blind. Get objective evidence from AI buyer simulations to end subjective debates and ship what actually converts.</p>
             <div class="analysis-input-section">
-                <div class="input-group"><h3>1. Enter a URL to analyze</h3><div class="url-input"><input type="url" placeholder="https://www.your-company.com" id="pageUrl"></div></div>
+                <div class="input-group">
+                    <h3>1. Enter a URL to analyze</h3>
+                    <div class="url-input"><input type="url" placeholder="https://www.your-company.com" id="pageUrl"></div>
+                </div>
                 
-                <div class="intent-selector">
-                    <div class="input-header"><h3>2. Select Primary Analysis Intent</h3><a class="customize-link" id="customizeAnalysisLink">Customize analysis...</a></div>
-                    <div class="intent-buttons" id="intentButtons">
-                        <div class="intent-button" data-intent="ToFu"><strong>Discovery</strong></div>
-                        <div class="intent-button selected" data-intent="MoFu"><strong>Evaluation</strong></div>
-                        <div class="intent-button" data-intent="BoFu"><strong>Purchase</strong></div>
-                    </div>
-                    <div class="advanced-controls" id="advancedControls">
-                        <div><label for="personaSelect">Persona</label><select id="personaSelect"></select></div>
-                        <div><label for="intentSelect">Intent</label><select id="intentSelect"><option value="ToFu">Discovery (ToFu)</option><option value="MoFu" selected>Evaluation (MoFu)</option><option value="BoFu">Purchase (BoFu)</option></select></div>
+                <div class="input-group">
+                    <h3>2. Choose Analysis Type</h3>
+                    <div class="analysis-type-buttons" style="margin-top: 12px;">
+                        <button class="analysis-type-button" id="runPageAuditBtn"><strong>Analyze Single Page</strong><span>For tactical, on-page fixes.</span></button>
+                        <button class="analysis-type-button secondary" id="runJourneyAuditBtn"><strong>Analyze Buyer Journey</strong><span>For strategic, funnel-wide diagnostics.</span></button>
                     </div>
                 </div>
 
-                <div class="analysis-type-buttons">
-                    <button class="analysis-type-button" id="runPageAuditBtn"><strong>Analyze Single Page</strong><span>For tactical, on-page fixes.</span></button>
-                    <button class="analysis-type-button secondary" id="runJourneyAuditBtn"><strong>Analyze Buyer Journey</strong><span>For strategic, funnel-wide diagnostics.</span></button>
+                <div class="intent-selector">
+                    <div class="input-header">
+                        <h3>3. Review Buyer Intent (Optional)</h3>
+                        <a class="customize-link" id="customizeAnalysisLink">Customize...</a>
+                    </div>
+                    <div class="advanced-controls" id="advancedControls">
+                        </div>
                 </div>
             </div>
             <div class="social-proof-section" style="text-align: center; margin-top: 48px;">
@@ -358,15 +401,17 @@
                     <div class="step" data-step="5"><div class="step-indicator">5</div><div class="step-label">Compiling Evidence</div></div>
                 </div>
             </div>
-            <div id="personaSelectorSection" style="display:none;">
-                <div class="section-header"><h2>Select a Persona to Analyze</h2><p>Click a card to see the full report from that buyer's perspective. Only personas with an available report are clickable.</p></div>
+
+            <div id="personaSelectorSection">
+                <div class="section-header"><h2>The Buying Committee</h2><p>An analysis considers the entire committee. Personas with detailed reports are clickable below.</p></div>
                 <div class="persona-grid" id="personaGrid"></div>
             </div>
-            <div id="briefSection" style="display:none;">
+
+            <div id="briefSection">
                 <div id="buyerInsightBriefContainer">
-                    <div id="briefPlaceholder" style="text-align: center; padding: 80px 40px; background: var(--bg-secondary); border-radius: 12px; border: 2px dashed var(--border);">
+                     <div id="briefPlaceholder" style="text-align: center; padding: 80px 40px; background: var(--bg-secondary); border-radius: 12px; border: 2px dashed var(--border);">
                         <h3 style="font-size: 24px; color: var(--text-primary); margin-bottom: 8px;">Analysis Complete</h3>
-                        <p style="font-size: 18px; color: var(--text-secondary);">Select a persona card above to view the detailed Buyer Insight Brief.</p>
+                        <p style="font-size: 18px; color: var(--text-secondary);">Your Buyer Insight Brief is ready to view below.</p>
                     </div>
                 </div>
             </div>
@@ -379,11 +424,31 @@
     <script>
         // --- DATA STORES & STATE ---
         let currentAnalysisType = null; // 'page' or 'journey'
-        let currentIntent = 'MoFu'; // Default intent: ToFu, MoFu, BoFu
-        let currentChartInstance = null; // To hold the active chart
+        let currentChartInstances = {}; // To hold multiple active charts
+        let currentPersonaIntents = {}; // To store selected intents
 
         const reportDataStore = {
-            pageAudit: { 
+            pageAudit: {
+                executiveSummary: {
+                    decision: "HOLD",
+                    why: ["Missing ROI Proof", "Security Proof Buried", "Pricing Path Blocked"],
+                    fixFirst: ["Add ROI Callout in Hero", "Add SOC 2 Trust Bar", "Expose 'Starts at $X'"],
+                    committeeCoherence: {
+                        alignmentRiskIndex: 68,
+                        decision: "High",
+                        topConflicts: [
+                            { persona: "EB", expectation: "ROI proof missing", fix: "Add ROI calc link in hero; surface 2 case studies with metrics" },
+                            { persona: "GR", expectation: "Security badge absent above fold", fix: "Add SOC 2 badge in hero or sticky trust bar" },
+                            { persona: "EB", expectation: "Pricing path blocked", fix: "Show transparent tiering or publish “starting at” with compare table" }
+                        ]
+                    },
+                    scores: { evidence_coverage: 65, evidence_placement: 40 },
+                    proof_gaps: {
+                        "EconomicBuyer": { "Pricing Access": { status: 'Buried', location: 'via Form' }, "ROI Proof": { status: 'Missing' }, "Customer Logos": { status: 'Found', location: 'Below Fold' } },
+                        "SecurityGuardian": { "SOC-2 Badge": { status: 'Missing' }, "Privacy/DPA": { status: 'Buried', location: 'Footer Link' } },
+                        "EndUser": { "Product UI": { status: 'Missing' }, "Docs": { status: 'Found', location: 'Header Nav' } }
+                    }
+                },
                 "EconomicBuyer": { 
                     personaName: "Economic Buyer", 
                     verdict: { outcome: "JOURNEY ABANDONED", completionRate: 5, impact: "The page fails at the final hurdle for an Economic Buyer. The absence of critical financial data makes the entire value proposition irrelevant, <strong>directly blocking budget approval.</strong>" }, 
@@ -423,7 +488,7 @@
                         why: "the page was filled with abstract marketing jargon instead of UI visuals.", 
                         supporting_evidence: "Evidence is strong: 9 out of 10 simulations abandoned after failing to find a product screenshot or GIF." 
                     },
-                    strategic_messaging_audit: {
+                     strategic_messaging_audit: {
                         scores: { positioning: 3, resonance: 3 },
                         positioning: {
                             differentiation: "Weak differentiation. The message sounds like a cheaper incumbent, not a unique solution, giving no compelling reason to switch.",
@@ -437,7 +502,11 @@
                     structural_audit_summary: { findings: [ {id: 'sa4', icon: '🖼️', text: "No visual proof of product UI in the hero section."}, {id: 'sa5', icon: '🔗', text: "Primary CTA leads to a high-friction gate (webinar form)."}, {id: 'sa6', icon: '📢', text: "Benefit statements are abstract, not user-centric."} ] }, 
                     evidence: { diagnostics: [ { friction: "No product screenshots or GIFs in the hero.", violation: "<strong>Non-Negotiable Need:</strong> Must show the UI in action.", consistency: 9, severity: "Critical" }, { friction: "Headline is vague marketing-speak ('Revolutionize').", violation: "<strong>Pain Point:</strong> Hates over-promises.", consistency: 8, severity: "High" }, { friction: "'Watch Demo' leads to a long webinar signup form.", violation: "<strong>Core Skepticism:</strong> Long demos hide clunky software.", consistency: 6, severity: "High" } ], monologue: [ { time: '00:02s', thought: "Boss sent this. 'Revolutionize your workflow'... ugh." }, { time: '00:11s', thought: "Just want to see what it looks like. Where's a screenshot?" }, { time: '00:18s', thought: "Okay, a 'demo'. Clicks. It's a form for a webinar next week. No thanks." }, { time: '00:25s', thought: "<span style='color:var(--error);font-weight:600;'>Useless.</span> 25 seconds, still don't know what it does. Moving on." } ], drivers: [ { signal: "Testimonials from other 'Analysts' were present.", support: "<strong>Goal:</strong> Peer validation.", consistency: 6 }, { signal: "Link to technical documentation was clearly visible.", support: "<strong>Goal:</strong> Self-serve problem solving.", consistency: 7 }, { signal: "Dark mode screenshot was available.", support: "<strong>Goal:</strong> Tool fits my workflow.", consistency: 4} ] }, 
                     playbook: [ { rank: 1, fix: "Add an animated GIF of the core product workflow in the hero section.", addresses_friction: "No product screenshots or GIFs", estimated_impact: "+3.0 - 5.0 pp" }, { rank: 2, fix: "Change headline to a specific outcome, e.g., 'Complete Reports in 10 Minutes.'", addresses_friction: "Headline is vague", estimated_impact: "+1.0 - 2.0 pp" }, { rank: 3, fix: "Replace 'Watch Demo' with a 2-minute, self-serve product tour video.", addresses_friction: "'Watch Demo' leads to a form", estimated_impact: "+1.5 - 2.5 pp" } ] 
-                } 
+                },
+                 "TechnicalDecisionMaker": { personaName: "Technical Evaluator", verdict: { completionRate: 35 } },
+                 "SecurityGuardian": { personaName: "Security Guardian", verdict: { completionRate: 20 } },
+                 "Champion": { personaName: "Champion", verdict: { completionRate: 65 } },
+                 "Influencer": { personaName: "Influencer", verdict: { completionRate: 50 } }
             },
             journeyAudit: {
                 "EconomicBuyer": { 
@@ -498,125 +567,164 @@
                 }
             }
         };
-        const allPersonas = [ { id: 'EconomicBuyer', name: 'Economic Buyer' }, { id: 'EndUser', name: 'End User' }, { id: 'TechnicalDecisionMaker', name: 'Technical Evaluator' }, { id: 'SecurityGuardian', name: 'Security Guardian' }, { id: 'Champion', name: 'Champion' }, { id: 'Influencer', name: 'Industry Influencer' } ];
-        const personaDetailsStore = { "EconomicBuyer": { icon: '💰', role_name: "The Economic Buyer", fictional_name: "Ari", job_title: "VP of Engineering", age_range: "45-55", industry_vertical: "Technology", mental_model: "Purchases must have a clear, quantifiable return.", primary_job_mandate: "My job is to allocate budget to tools that deliver clear, quantifiable ROI and accelerate our time to market. I say no to 'nice-to-haves'.", intent_based_behavior: { "ToFu": { goals: [{ id: 'g1', text: "Understand high-level market trends to inform strategy" }, { id: 'g2', text: "Identify disruptive technologies with financial impact" }, { id: 'g3', text: "Benchmark our current spending against new models" }], pains: [{ id: 'p1', text: "Wasting time on vague, fluffy marketing content" }, { id: 'p2', text: "Analyst reports that are secretly funded by vendors" }, { id: 'p3', text: "Content that requires a form fill just to read" }], needs: [{ id: 'n1', text: "Executive summaries with clear takeaways" }, { id: 'n2', text: "Data on market size and growth" }, { id: 'n3', text: "High-level ROI potential" }], skepticisms: [{ id: 's1', text: "'Visionary' claims without supporting numbers" }, { id: 's2', text: "Hype cycles with no business case" }, { id: 's3', text: "Solutions looking for a problem" }] }, "MoFu": { goals: [{ id: 'g4', text: "Compare Total Cost of Ownership (TCO) between vendors" }, { id: 'g5', text: "Assess the financial viability of implementation" }, { id: 'g6', text: "Build a business case for the executive team" }], pains: [{ id: 'p4', text: "Opaque or complex pricing models that hide costs" }, { id: 'p5', text: "Difficulty comparing vendors with different feature sets" }, { id: 'p6', text: "Solutions requiring heavy, unbudgeted IT resources" }], needs: [{ id: 'n4', text: "Detailed pricing breakdown" }, { id: 'n5', text: "Verifiable customer case studies with real numbers" }, { id: 'n6', text: "Implementation timeline and costs" }], skepticisms: [{ id: 's4', text: "Promises of 'fast ROI' without a calculator or model" }, { id: 's5', text: "That initial costs will balloon over time" }, { id: 's6', text: "Vendor is not financially stable" }] }, "BoFu": { goals: [{ id: 'g7', text: "Finalize budget allocation with confidence" }, { id: 'g8', text: "Negotiate favorable contract terms (e.g., payment, length)" }, { id: 'g9', text: "Ensure the purchase aligns with quarterly financial goals" }], pains: [{ id: 'p7', text: "Discovering hidden fees during procurement" }, { id: 'p8', text: "Committing to a long-term contract without an out-clause" }, { id: 'p9', text: "Vendors being inflexible on contract redlines" }], needs: [{ id: 'n7', text: "A clear, public pricing page" }, { id: 'n8', text: "An interactive ROI calculator" }, { id: 'n9', text: "Flexible and clear contract terms" }], skepticisms: [{ id: 's7', text: "That commitments are not backed by the SLA" }, { id: 's8', text: "The sales pitch doesn't match the contract" }, { id: 's9', text: "That post-sale support will be costly" }] } } }, 
-        "EndUser": { icon: '👩‍💻', role_name: "The End User", fictional_name: "Devin", job_title: "Senior Software Engineer", age_range: "28-38", industry_vertical: "SaaS", mental_model: "Will this make my daily job easier, or is it just more work?", primary_job_mandate: "My job is to ship clean code that works. I hate getting pulled into meetings about marketing pages and I despise having to do rework based on subjective feedback.", intent_based_behavior: { "ToFu": { goals: [{ id: 'g10', text: "Find a tool to solve a nagging daily problem" }, { id: 'g11', text: "Discover a faster way to complete a repetitive task" }, { id: 'g12', text: "Learn about new techniques from credible peers" }], pains: [{ id: 'p10', text: "Low-quality blog posts that just repeat documentation" }, { id: 'p11', text: "Jumping between too many different apps to get a job done" }, { id: 'p12', text: "'Introductory' content that is too basic to be useful" }], needs: [{ id: 'n10', text: "Clear product screenshots & GIFs" }, { id: 'n11', text: "A 2-minute overview video" }, { id: 'n12', text: "Reviews from people with my job title" }], skepticisms: [{ id: 's10', text: "That a tool's marketing doesn't match its actual UI" }, { id: 's11', text: "That it won't work with my real data" }, { id: 's12', text: "It's another tool I'll have to learn and then ignore" }] }, "MoFu": { goals: [{ id: 'g13', text: "Evaluate if the core workflow is intuitive" }, { id: 'g14', text: "Determine if it solves my specific, real-world use case" }, { id: 'g15', text: "Check if it integrates with my current toolchain" }], pains: [{ id: 'p13', text: "Free trials that are too limited to properly test" }, { id: 'p14', text: "Onboarding guides that are poorly written or outdated" }, { id: 'p15', text: "Having to talk to sales just to try the product" }], needs: [{ id: 'n13', text: "A fully-functional free trial" }, { id: 'n14', text: "Clear, step-by-step tutorials" }, { id: 'n15', text: "A short product demo video" }], skepticisms: [{ id: 's13', text: "That the 'easy' workflow will break with real-world data" }, { id: 's14', text: "The tool will be abandoned by my team after a month" }, { id: 's15', text: "'AI-powered' is just marketing fluff" }] }, "BoFu": { goals: [{ id: 'g16', text: "Confirm my recommendation to my manager with evidence" }, { id: 'g17', text: "Ensure I will get adequate technical support if needed" }, { id: 'g18', text: "Understand the implementation and data migration process" }], pains: [{ id: 'p16', text: "Complicated, multi-step onboarding processes" }, { id: 'p17', text: "Slow or unhelpful customer support responses" }, { id: 'p18', text: "Being blamed by my team if the new tool doesn't work out" }], needs: [{ id: 'n16', text: "A shareable summary of why this tool is best" }, { id: 'n17', text: "Access to a community or knowledge base" }, { id: 'n18', text: "A clear onboarding plan" }], skepticisms: [{ id: 's16', text: "'Dedicated support' is just a generic email alias" }, { id: 's17', text: "The tool will change drastically after we buy it" }, { id: 's18', text: "The price will suddenly increase next year" }] } } }, 
-        "TechnicalDecisionMaker": { icon: '⚙️', role_name: "The Technical Decision Maker", fictional_name: "Thomas", job_title: "Lead Platform Architect", age_range: "40-50", industry_vertical: "Cloud Infrastructure", mental_model: "I care about robust architecture, clean APIs, and tech stack impact.", primary_job_mandate: "I care about robust architecture, clean APIs, and tech stack impact.", intent_based_behavior: { "MoFu": { goals: [{ id: 'g7a', text: "Validate technical claims" }, { id: 'g7b', text: "Assess scalability and performance" }, { id: 'g7c', text: "Review security architecture" }], pains: [{ id: 'p7a', text: "Poorly written API documentation" }, { id: 'p7b', text: "Vague performance benchmarks" }, { id: 'p7c', text: "Lack of architectural diagrams" }], needs: [{ id: 'n7a', text: "Public, comprehensive API docs" }, { id: 'n7b', text: "Load testing results" }, { id: 'n7c', text: "Detailed architectural diagrams" }], skepticisms: [{ id: 's7a', text: "'Seamless integration' claims" }, { id: 's7b', text: "That it scales to our level" }, { id: 's7c', text: "It will add too much latency" }] } } }, 
-        "SecurityGuardian": { icon: '🛡️', role_name: "The Security Guardian", fictional_name: "Grace", job_title: "Director of Cloud Security", age_range: "40-50", industry_vertical: "Banking", mental_model: "My job is to say 'no'. New vendors are always a risk.", primary_job_mandate: "My job is to say 'no'. New vendors are always a risk.", intent_based_behavior: { "MoFu": { goals: [{ id: 'g8a', text: "Conduct preliminary security vetting" }, { id: 'g8b', text: "Check for compliance certifications (SOC-2, ISO)" }, { id: 'g8c', text: "Understand data residency and handling" }], pains: [{ id: 'p8a', text: "Security info hidden behind sales" }, { id: 'p8b', text: "No public-facing compliance documents" }, { id: 'p8c', text: "Unclear data processing agreements (DPA)" }], needs: [{ id: 'n8a', text: "A dedicated trust center" }, { id: 'n8b', text: "Visible SOC-2 Type II badge" }, { id: 'n8c', text: "Clear info on data storage locations" }], skepticisms: [{ id: 's8a', text: "'Bank-level security' marketing claims" }, { id: 's8b', text: "That compliance is 'in progress'" }, { id: 's8c', text: "The vendor will be the source of our next breach" }] } } }, 
-        "Champion": { icon: '🏆', role_name: "The Champion", fictional_name: "Charlie", job_title: "DevOps Lead", age_range: "35-45", industry_vertical: "FinTech", mental_model: "I need a solution I can successfully advocate for internally.",  primary_job_mandate: "I need a solution I can successfully advocate for internally.", intent_based_behavior: { "MoFu": { goals: [{ id: 'g9a', text: "Build a business case for my team" }, { id: 'g9b', text: "Find evidence to convince my boss" }, { id: 'g9c', text: "Create a pilot plan for evaluation" }], pains: [{ id: 'p9a', text: "Lack of clear ROI to share" }, { id: 'p9b', text: "No shareable assets for internal selling" }, { id: 'p9c', text: "Difficulty articulating the value to non-technical stakeholders" }], needs: [{ id: 'n9a', text: "An ROI calculator or template" }, { id: 'n9b', text: "A shareable one-page PDF summary" }, { id: 'n9c', text: "A pre-written business case template" }], skepticisms: [{ id: 's9a', text: "Is the promised value worth the political capital?" }, { id: 's9b', text: "Will my boss see this as a 'nice-to-have'?" }, { id: 's9c', text: "That the implementation will be too difficult" }] } } }, 
-        "Influencer": { icon: '🌟', role_name: "The Influencer", fictional_name: "Isabelle", job_title: "Staff Site Reliability Engineer (SRE)", age_range: "32-42", industry_vertical: "Streaming Services", mental_model: "My reputation is built on credibility. I only recommend innovative tools.", primary_job_mandate: "My reputation is built on credibility. I only recommend innovative tools.", intent_based_behavior: { "MoFu": { goals: [{ id: 'g10a', text: "Deeply evaluate a tool's capabilities" }, { id: 'g10b', text: "Find the 'sharp edges' of the product" }, { id: 'g10c', text: "Compare it against the market incumbents" }], pains: [{ id: 'p10a', text: "Limited trial accounts that hide flaws" }, { id: 'p10b', text: "Poorly designed APIs" }, { id: 'p10c', text: "Marketing that doesn't match the product reality" }], needs: [{ id: 'n10a', text: "A full-featured NFR account" }, { id: 'n10b', text: "Direct access to a product engineer" }, { id: 'n10c', text: "A clear understanding of the product roadmap" }], skepticisms: [{ id: 's10a', text: "Perfectly curated demos don't reflect reality" }, { id: 's10b', text: "The tool is just a thin wrapper over an open-source project" }, { id: 's10c', text: "The company won't exist in two years" }] } } } };
+        const allPersonas = [ { id: 'EconomicBuyer', name: 'Economic Buyer', defaultIntent: 'BoFu' }, { id: 'EndUser', name: 'End User', defaultIntent: 'MoFu' }, { id: 'TechnicalDecisionMaker', name: 'Technical Evaluator', defaultIntent: 'MoFu' }, { id: 'SecurityGuardian', name: 'Security Guardian', defaultIntent: 'MoFu' }, { id: 'Champion', name: 'Champion', defaultIntent: 'ToFu' }, { id: 'Influencer', name: 'Industry Influencer', defaultIntent: 'ToFu' } ];
+        const personaDetailsStore = { 
+            "EconomicBuyer": { icon: '💰', role_name: "The Economic Buyer", fictional_name: "Ari", job_title: "VP of Engineering", industry_vertical: "Technology", industry_subvertical: "E-Commerce", mental_model: "Purchases must have a clear, quantifiable return.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Benchmark spending against new models"},{"id":"g2","text":"Identify disruptive financial technologies"},{"id":"g3","text":"Understand high-level market trends"}],"pains":[{"id":"p1","text":"Wasting time on vague marketing content"},{"id":"p2","text":"Gated content requiring a form fill"},{"id":"p3","text":"Secretly vendor-funded analyst reports"}],"skepticisms":[{"id":"s1","text":"'Visionary' claims without supporting numbers"},{"id":"s2","text":"Hype cycles with no real business case"},{"id":"s3","text":"Solutions looking for a problem"}]},"MoFu":{"goals":[{"id":"g1","text":"Compare TCO between vendors"},{"id":"g2","text":"Assess financial viability of implementation"},{"id":"g3","text":"Build a business case for the executive team"}],"pains":[{"id":"p1","text":"Opaque or complex pricing models"},{"id":"p2","text":"Difficulty comparing vendors with different features"},{"id":"p3","text":"Solutions requiring heavy, unbudgeted IT resources"}],"skepticisms":[{"id":"s1","text":"Promises of 'fast ROI' without a model"},{"id":"s2","text":"That initial costs will balloon over time"},{"id":"s3","text":"The vendor is not financially stable"}]},"BoFu":{"goals":[{"id":"g7","text":"Finalize budget allocation with confidence"},{"id":"g8","text":"Negotiate favorable contract terms"},{"id":"g9","text":"Ensure purchase aligns with financial goals"}],"pains":[{"id":"p7","text":"Discovering hidden fees during procurement"},{"id":"p8","text":"Committing to a long-term contract without an out-clause"},{"id":"p9","text":"Inflexible vendors on contract redlines"}],"skepticisms":[{"id":"s7","text":"That commitments are not backed by the SLA"},{"id":"s8","text":"The sales pitch doesn't match the contract"},{"id":"s9","text":"That post-sale support will be costly"}]}} },
+            "EndUser": { icon: '👩‍💻', role_name: "The End User", fictional_name: "Devin", job_title: "Senior Software Engineer", industry_vertical: "SaaS", industry_subvertical: "Developer Tools", mental_model: "Will this make my daily job easier, or is it just more work?", intent_based_behavior: {"ToFu":{"goals":[{"id":"g10","text":"Find a tool to solve a nagging daily problem"},{"id":"g11","text":"Discover a faster way to complete a repetitive task"},{"id":"g12","text":"Learn about new techniques from credible peers"}],"pains":[{"id":"p10","text":"Low-quality blog posts that just repeat documentation"},{"id":"p11","text":"Jumping between too many different apps to get a job done"},{"id":"p12","text":"'Introductory' content that is too basic to be useful"}],"skepticisms":[{"id":"s10","text":"That a tool's marketing doesn't match its actual UI"},{"id":"s11","text":"That it won't work with my real data"},{"id":"s12","text":"It's another tool I'll have to learn and then ignore"}]},"MoFu":{"goals":[{"id":"g4","text":"Evaluate if the core workflow is intuitive"},{"id":"g5","text":"Determine if it solves my specific use case"},{"id":"g6","text":"Check if it integrates with my current toolchain"}],"pains":[{"id":"p4","text":"Free trials that are too limited to test"},{"id":"p5","text":"Poorly written or outdated onboarding guides"},{"id":"p6","text":"Having to talk to sales just to try the product"}],"skepticisms":[{"id":"s4","text":"'Easy' workflow will break with real data"},{"id":"s5","text":"The tool will be abandoned by my team after a month"},{"id":"s6","text":"'AI-powered' is just marketing fluff"}]},"BoFu":{"goals":[{"id":"g16","text":"Confirm my recommendation to my manager with evidence"},{"id":"g17","text":"Ensure I will get adequate technical support if needed"},{"id":"g18","text":"Understand the implementation and data migration process"}],"pains":[{"id":"p16","text":"Complicated, multi-step onboarding processes"},{"id":"p17","text":"Slow or unhelpful customer support responses"},{"id":"p18","text":"Being blamed by my team if the new tool doesn't work out"}],"skepticisms":[{"id":"s16","text":"'Dedicated support' is just a generic email alias"},{"id":"s17","text":"The tool will change drastically after we buy it"},{"id":"s18","text":"The price will suddenly increase next year"}]}}} , 
+            "TechnicalDecisionMaker": { icon: '⚙️', role_name: "The Technical Evaluator", fictional_name: "Thomas", job_title: "Lead Platform Architect", industry_vertical: "Cloud Infrastructure", industry_subvertical: "Managed Hosting", mental_model: "I care about robust architecture, clean APIs, and tech stack impact.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Explore new architectural patterns"},{"id":"g2","text":"Assess emerging technologies for future projects"},{"id":"g3","text":"Understand a tool's core technical principles"}],"pains":[{"id":"p1","text":"Overly simplistic diagrams that hide complexity"},{"id":"p2","text":"Content that is all marketing and no substance"},{"id":"p3","text":"Lack of a public-facing engineering blog"}],"skepticisms":[{"id":"s1","text":"Claims of 'infinite scalability'"},{"id":"s2","text":"That a 'simple' tool can handle enterprise complexity"},{"id":"s3","text":"Any platform that claims to be 'zero-ops'"}]},"MoFu":{"goals":[{"id":"g7","text":"Validate technical and performance claims"},{"id":"g8","text":"Assess scalability and architectural impact"},{"id":"g9","text":"Review security architecture and integration points"}],"pains":[{"id":"p7","text":"Poorly written or incomplete API documentation"},{"id":"p8","text":"Vague or non-existent performance benchmarks"},{"id":"p9","text":"Lack of detailed architectural diagrams"}],"skepticisms":[{"id":"s7","text":"'Seamless integration' is never seamless"},{"id":"s8","text":"That it will actually scale to our production load"},{"id":"s9","text":"It will add unacceptable latency or complexity"}]},"BoFu":{"goals":[{"id":"g1","text":"Finalize the technical implementation plan"},{"id":"g2","text":"Confirm SLAs for uptime and performance"},{"id":"g3","text":"Vet the vendor's technical support capabilities"}],"pains":[{"id":"p1","text":"Unclear data migration and onboarding processes"},{"id":"p2","text":"Lack of a dedicated technical account manager"},{"id":"p3","text":"Getting locked into a proprietary ecosystem"}],"skepticisms":[{"id":"s1","text":"That the sales engineer's promises will be met by support"},{"id":"s2","text":"The product roadmap is vaporware"},{"id":"s3","text":"The 'easy' setup will require extensive professional services"}]}} }, 
+            "SecurityGuardian": { icon: '🛡️', role_name: "The Security Guardian", fictional_name: "Grace", job_title: "Director of Cloud Security", industry_vertical: "Financial Services", industry_subvertical: "Banking", mental_model: "My job is to say 'no'. New vendors are always a risk.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Understand emerging threats in our space"},{"id":"g2","text":"Maintain compliance with evolving regulations"},{"id":"g3","text":"Find vendors who prioritize security from day one"}],"pains":[{"id":"p1","text":"Low-quality security blogs with generic advice"},{"id":"p2","text":"Webinars that are just sales pitches"},{"id":"p3","text":"Vendors with no public security posture"}],"skepticisms":[{"id":"s1","text":"That a 'new' approach is just a rehash of old ideas"},{"id":"s2","text":"A free tool is secretly harvesting our data"},{"id":"s3","text":"A company's marketing is disconnected from its engineering"}]},"MoFu":{"goals":[{"id":"g10","text":"Conduct preliminary security and compliance vetting"},{"id":"g11","text":"Check for required certifications (SOC-2, ISO)"},{"id":"g12","text":"Understand data residency and handling policies"}],"pains":[{"id":"p10","text":"Security and compliance info is hidden behind a sales call"},{"id":"p11","text":"No public-facing trust center or documentation"},{"id":"p12","text":"Unclear or unfavorable data processing agreements (DPA)"}],"skepticisms":[{"id":"s10","text":"Vague 'Bank-level security' marketing claims"},{"id":"s11","text":"That compliance is 'in progress' but not complete"},{"id":"s12","text":"The vendor will be the source of our next breach"}]},"BoFu":{"goals":[{"id":"g1","text":"Finalize the security review for procurement"},{"id":"g2","text":"Ensure contract terms protect our data and limit liability"},{"id":"g3","text":"Approve a vendor who will be a long-term security partner"}],"pains":[{"id":"p1","text":"Discovering hidden security flaws during legal review"},{"id":"p2","text":"Inflexible vendors on security clauses"},{"id":"p3","text":"A slow procurement process delaying a critical project"}],"skepticisms":[{"id":"s1","text":"The vendor's security promises won't be in the contract"},{"id":"s2","text":"Post-sale support can't handle enterprise security queries"},{"id":"s3","text":"The price will increase dramatically upon renewal"}]}} }, 
+            "Champion": { icon: '🏆', role_name: "The Champion", fictional_name: "Charlie", job_title: "DevOps Lead", industry_vertical: "FinTech", industry_subvertical: "Payments", mental_model: "I need a solution I can successfully advocate for internally.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Find a solution to a problem my boss has"},{"id":"g2","text":"Make my team's life easier"},{"id":"g3","text":"Get recognized for finding an innovative solution"}],"pains":[{"id":"p1","text":"Manual, repetitive work that could be automated"},{"id":"p2","text":"Tools that are powerful but impossible for the team to adopt"},{"id":"p3","text":"My boss not understanding the scale of a problem"}],"skepticisms":[{"id":"s1","text":"That a tool is just a 'nice-to-have' vitamin"},{"id":"s2","text":"The solution is too expensive to get approved"},{"id":"s3","text":"The time to implement will be longer than the time saved"}]},"MoFu":{"goals":[{"id":"g13","text":"Build a strong business case for my team"},{"id":"g14","text":"Find clear evidence to convince my boss"},{"id":"g15","text":"Create a pilot plan for a controlled evaluation"}],"pains":[{"id":"p13","text":"Lack of clear ROI data or case studies to share"},{"id":"p14","text":"No shareable assets for internal selling"},{"id":"p15","text":"Difficulty articulating the value to non-technical leaders"}],"skepticisms":[{"id":"s13","text":"Is the promised value worth the political capital to fight for it?"},{"id":"s14","text":"Will my boss just see this as another 'nice-to-have'?"},{"id":"s15","text":"That the implementation will be far more difficult than promised"}]},"BoFu":{"goals":[{"id":"g1","text":"Get final sign-off from my boss and finance"},{"id":"g2","text":"Ensure a smooth rollout and adoption for my team"},{"id":"g3","text":"Demonstrate the tool's value within the first quarter"}],"pains":[{"id":"p1","text":"A painful procurement process killing momentum"},{"id":"p2","text":"Lack of support during the onboarding phase"},{"id":"p3","text":"The tool failing to deliver on its promise after purchase"}],"skepticisms":[{"id":"s1","text":"The vendor will disappear after the contract is signed"},{"id":"s2","text":"Hidden costs for training and implementation"},{"id":"s3","text":"My reputation is on the line if this fails"}]}} }, 
+            "Influencer": { icon: '🌟', role_name: "The Influencer", fictional_name: "Isabelle", job_title: "Staff SRE", industry_vertical: "Media", industry_subvertical: "Streaming Services", mental_model: "My reputation is built on credibility. I only recommend innovative, solid tools.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Stay ahead of industry trends"},{"id":"g2","text":"Discover truly novel technologies"},{"id":"g3","text":"Find interesting content to share with my network"}],"pains":[{"id":"p1","text":"Superficial content that rehashes common knowledge"},{"id":"p2","text":"Clickbait headlines with no substance"},{"id":"p3","text":"Companies trying to co-opt community spaces for marketing"}],"skepticisms":[{"id":"s1","text":"'Thought leadership' that is just a veiled sales pitch"},{"id":"s2","text":"Bold claims on social media that aren't backed by data"},{"id":"s3","text":"Astroturfing and fake reviews"}]},"MoFu":{"goals":[{"id":"g16","text":"Deeply evaluate a tool's unique capabilities"},{"id":"g17","text":"Find the 'sharp edges' and limitations of the product"},{"id":"g18","text":"Compare it rigorously against market incumbents"}],"pains":[{"id":"p16","text":"Limited trial accounts that hide flaws or scale issues"},{"id":"p17","text":"Poorly designed APIs and abstractions"},{"id":"p18","text":"Marketing that doesn't match the product's reality"}],"skepticisms":[{"id":"s16","text":"Perfectly curated demos don't reflect real-world use"},{"id":"s17","text":"The tool is just a thin wrapper over an open-source project"},{"id":"s18","text":"The company and its product won't exist in two years"}]},"BoFu":{"goals":[{"id":"g1","text":"Get direct access to the founding/engineering team"},{"id":"g2","text":"Secure a not-for-resale (NFR) license for deep testing"},{"id":"g3","text":"Validate the company's long-term vision"}],"pains":[{"id":"p1","text":"Being stonewalled by a sales-led organization"},{"id":"p2","text":"Companies that are hostile to critical feedback"},{"id":"p3","text":"Lack of transparency about product limitations"}],"skepticisms":[{"id":"s1","text":"The company is not truly 'developer-first'"},{"id":"s2","text":"The founders don't have a deep understanding of the problem"},{"id":"s3","text":"The product is a feature, not a company"}]}} } 
+        };
            
         const ui = { 
             pageAuditBtn: document.getElementById('runPageAuditBtn'),
             journeyAuditBtn: document.getElementById('runJourneyAuditBtn'),
             demoSection: document.getElementById('interactiveDemoSection'), 
             progressContainer: document.getElementById('progressContainer'),
-            personaSelectorSection: document.getElementById('personaSelectorSection'), 
+            personaSelectorSection: document.getElementById('personaSelectorSection'),
+            personaGrid: document.getElementById('personaGrid'),
             briefSection: document.getElementById('briefSection'), 
-            personaGrid: document.getElementById('personaGrid'), 
             briefContainer: document.getElementById('buyerInsightBriefContainer'), 
             personaModal: document.getElementById('personaModal'), 
             modalBody: document.getElementById('modalBody'), 
             sharePopover: document.getElementById('sharePopover'),
             customizeLink: document.getElementById('customizeAnalysisLink'), 
-            intentButtons: document.getElementById('intentButtons'), 
             advancedControls: document.getElementById('advancedControls'), 
-            personaSelect: document.getElementById('personaSelect'),
-            intentSelect: document.getElementById('intentSelect')
         };
 
         function initializeApp() {
-            allPersonas.forEach(p => { 
-                const persona = personaDetailsStore[p.id]; 
-                if(persona) { 
-                    const option = document.createElement('option'); 
-                    option.value = p.id; 
-                    option.textContent = persona.role_name; 
-                    ui.personaSelect.appendChild(option); 
-                } 
-            });
+            setupSmartDefaults();
             
             ui.pageAuditBtn.addEventListener('click', () => runAnalysis('page'));
             ui.journeyAuditBtn.addEventListener('click', () => runAnalysis('journey'));
             
             ui.customizeLink.addEventListener('click', toggleAdvancedControls);
-            ui.intentButtons.addEventListener('click', handleIntentSelection);
             
             document.body.addEventListener('click', handleBodyClick);
-            
-            document.getElementById('shareEmailBtn').addEventListener('click', handleShareEmail);
-            document.getElementById('shareCopyBtn').addEventListener('click', handleShareCopy);
-            
-            const ctaForm = document.getElementById('ctaForm');
-            if (ctaForm) {
-                ctaForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const email = document.getElementById('ctaModalEmail').value;
-                    alert(`Thanks! Your forensic audit will be sent to ${email} shortly.`);
-                    document.getElementById('ctaModal').classList.remove('visible');
-                    ctaForm.reset();
-                });
-            }
         }
 
-        function toggleAdvancedControls(e) { e.preventDefault(); const isAdvanced = ui.advancedControls.style.display === 'grid'; ui.advancedControls.style.display = isAdvanced ? 'none' : 'grid'; ui.intentButtons.classList.toggle('hidden'); ui.customizeLink.textContent = isAdvanced ? 'Customize analysis...' : 'Use simple view'; }
-        
-        function handleIntentSelection(e) {
-            const button = e.target.closest('.intent-button'); 
-            if (button) { 
-                document.querySelectorAll('.intent-button').forEach(btn => btn.classList.remove('selected')); 
-                button.classList.add('selected');
-                currentIntent = button.dataset.intent;
-                ui.intentSelect.value = currentIntent;
-            }
+        function setupSmartDefaults() {
+            const controlsContainer = ui.advancedControls;
+            controlsContainer.innerHTML = ''; // Clear previous
+            allPersonas.forEach(p => {
+                const persona = personaDetailsStore[p.id];
+                if(persona && persona.icon) {
+                    const row = document.createElement('div');
+                    row.className = 'persona-intent-row';
+                    row.innerHTML = `
+                        <div class="persona-name">${persona.icon} ${persona.role_name}</div>
+                        <select data-persona-id="${p.id}">
+                            <option value="ToFu">Discovery</option>
+                            <option value="MoFu">Evaluation</option>
+                            <option value="BoFu">Purchase</option>
+                        </select>
+                    `;
+                    const select = row.querySelector('select');
+                    select.value = p.defaultIntent;
+                    controlsContainer.appendChild(row);
+                }
+            });
+        }
+
+        function toggleAdvancedControls(e) { 
+            e.preventDefault(); 
+            const isAdvanced = ui.advancedControls.style.display === 'block'; 
+            ui.advancedControls.style.display = isAdvanced ? 'none' : 'block'; 
+            ui.customizeLink.textContent = isAdvanced ? 'Customize...' : 'Hide Customizations'; 
         }
 
         async function runAnalysis(type) {
             if (!document.getElementById('pageUrl').value) { alert('Please enter a URL.'); return; }
             currentAnalysisType = type;
+
+            currentPersonaIntents = {};
+            document.querySelectorAll('#advancedControls select').forEach(select => {
+                const personaId = select.dataset.personaId;
+                if (personaId) {
+                    currentPersonaIntents[personaId] = select.value;
+                }
+            });
             
-            const briefContainer = document.getElementById('buyerInsightBriefContainer');
-            briefContainer.innerHTML = `
-                <div id="briefPlaceholder" style="text-align: center; padding: 80px 40px; background: var(--bg-secondary); border-radius: 12px; border: 2px dashed var(--border);">
-                    <h3 style="font-size: 24px; color: var(--text-primary); margin-bottom: 8px;">Analysis Complete</h3>
-                    <p style="font-size: 18px; color: var(--text-secondary);">Select a persona card above to view the detailed Buyer Insight Brief.</p>
-                </div>
-            `;
+            clearBrief();
             
             ui.pageAuditBtn.disabled = true;
             ui.journeyAuditBtn.disabled = true;
             
             ui.demoSection.style.display = 'block'; 
             ui.demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            ui.personaSelectorSection.style.display = 'none'; 
-            ui.briefSection.style.display = 'none'; 
             
             document.querySelectorAll('.step').forEach(step => step.classList.remove('completed', 'active'));
             ui.progressContainer.style.display = 'block';
             const steps = document.querySelectorAll('.step');
+            
             for (let i = 0; i < steps.length; i++) { 
                 steps[i].classList.add('active'); 
-                await new Promise(res => setTimeout(res, 700)); 
+                await new Promise(res => setTimeout(res, 600)); 
                 steps[i].classList.remove('active'); 
                 steps[i].classList.add('completed'); 
             }
             
-            ui.personaSelectorSection.style.display = 'block'; 
-            ui.briefSection.style.display = 'block';
-            
-            const reportData = (currentAnalysisType === 'page') ? reportDataStore.pageAudit : reportDataStore.journeyAudit;
-            
-            ui.personaGrid.innerHTML = allPersonas.map(p => { 
-                const persona = personaDetailsStore[p.id]; 
-                if (!persona) return ''; 
-                const hasBrief = reportData.hasOwnProperty(p.id); 
-                return `<div class="persona-card ${hasBrief ? 'has-brief' : 'no-brief'} ${p.id === 'EconomicBuyer' ? 'selected' : ''}" data-persona-id="${p.id}"><div class="icon">${persona.icon}</div><div class="name">${persona.role_name}</div><p class="role">${persona.job_title}</p><a href="#" class="view-details-btn" data-persona-id="${p.id}">View Details</a></div>` 
-            }).join('');
+            if (type === 'page') {
+                ui.personaSelectorSection.style.display = 'block';
+                ui.briefSection.style.display = 'block';
+                renderPageAuditPersonaGrid();
+                renderPageAuditBrief();
+            } else if (type === 'journey') {
+                ui.briefSection.style.display = 'block';
+                ui.personaSelectorSection.style.display = 'block';
+                renderJourneyPersonaGrid();
+            }
             
             ui.pageAuditBtn.disabled = false;
             ui.journeyAuditBtn.disabled = false;
         }
 
+        function clearBrief() {
+            ui.briefContainer.innerHTML = '';
+            ui.personaGrid.innerHTML = '';
+            ui.briefSection.style.display = 'none';
+            ui.personaSelectorSection.style.display = 'none';
+            Object.values(currentChartInstances).forEach(chart => chart.destroy());
+            currentChartInstances = {};
+        }
+        
+        function renderPageAuditPersonaGrid() {
+            const reportData = reportDataStore.pageAudit;
+            ui.personaGrid.innerHTML = allPersonas.map(p => { 
+                const persona = personaDetailsStore[p.id]; 
+                if (!persona || !persona.icon) return ''; 
+                const hasBrief = reportData.hasOwnProperty(p.id) && reportData[p.id].narrative;
+                return `<div class="persona-card ${hasBrief ? 'has-brief' : 'no-brief'}" data-persona-id="${p.id}">
+                            <div class="icon">${persona.icon}</div>
+                            <div class="name">${persona.role_name}</div>
+                            <p class="role">${persona.job_title}</p>
+                            <a href="#" class="view-details-btn" data-persona-id="${p.id}">View Details</a>
+                        </div>` 
+            }).join('');
+        }
+
+        function renderJourneyPersonaGrid() {
+            const reportData = reportDataStore.journeyAudit;
+            ui.personaGrid.innerHTML = allPersonas.map(p => { 
+                const persona = personaDetailsStore[p.id]; 
+                if (!persona || !persona.icon) return ''; 
+                const hasBrief = reportData.hasOwnProperty(p.id); 
+                return `<div class="persona-card ${hasBrief ? 'has-brief' : 'no-brief'}" data-persona-id="${p.id}">
+                            <div class="icon">${persona.icon}</div>
+                            <div class="name">${persona.role_name}</div>
+                            <p class="role">${persona.job_title}</p>
+                            <a href="#" class="view-details-btn" data-persona-id="${p.id}">View Details</a>
+                        </div>` 
+            }).join('');
+
+            ui.briefContainer.innerHTML = `
+                <div id="briefPlaceholder" style="text-align: center; padding: 80px 40px; background: var(--bg-secondary); border-radius: 12px; border: 2px dashed var(--border);">
+                    <h3 style="font-size: 24px; color: var(--text-primary); margin-bottom: 8px;">Analysis Complete</h3>
+                    <p style="font-size: 18px; color: var(--text-secondary);">Select a persona card above to view their detailed journey analysis.</p>
+                </div>`;
+        }
+        
         function handleBodyClick(event) {
             const modalOverlay = event.target.closest('.modal-overlay');
             const modalCloseBtn = event.target.closest('.modal-close-btn');
@@ -627,7 +735,7 @@
             
             const card = event.target.closest('.persona-card');
             const detailsBtn = event.target.closest('.view-details-btn');
-            const tab = event.target.closest('.tab-link');
+            const tab = event.target.closest('.tab-link:not(.disabled)');
             const saveBtn = event.target.closest('.save-btn');
             const shareBtn = event.target.closest('.share-btn');
             const addItemBtn = event.target.closest('.add-item-btn-confirm');
@@ -637,110 +745,103 @@
             if (detailsBtn) { 
                 event.preventDefault(); 
                 event.stopPropagation(); 
-                populateAndShowModal(detailsBtn.dataset.personaId, currentIntent); 
+                 const persona = allPersonas.find(p => p.id === detailsBtn.dataset.personaId);
+                 const selectedIntent = document.querySelector(`.advanced-controls [data-persona-id="${persona.id}"]`)?.value || persona.defaultIntent;
+                populateAndShowModal(detailsBtn.dataset.personaId, selectedIntent); 
             }
             else if (card && card.classList.contains('has-brief')) {
-                document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected');
-                const personaId = card.dataset.personaId;
-                const reportData = (currentAnalysisType === 'page') ? reportDataStore.pageAudit[personaId] : reportDataStore.journeyAudit[personaId];
-                if (reportData) { 
-                    renderBrief(reportData); 
-                    const briefElement = document.getElementById('buyerInsightBriefContainer');
-                    if(briefElement) {
-                        briefElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 if (currentAnalysisType === 'page') {
+                    const personaId = card.dataset.personaId;
+                    const tabButton = document.querySelector(`.tab-link[data-tab="tab-${personaId}"]`);
+                    if(tabButton) {
+                        const tabContainer = tabButton.closest('.evidence-tabs'); 
+                        const contentWrapper = tabContainer.parentElement;
+                        tabContainer.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active')); 
+                        contentWrapper.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
+                        tabButton.classList.add('active'); 
+                        contentWrapper.querySelector(`#${tabButton.dataset.tab}`).classList.add('active'); 
+                        document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                    }
+                } else if(currentAnalysisType === 'journey') {
+                    document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    const personaId = card.dataset.personaId;
+                    const reportData = reportDataStore.journeyAudit[personaId];
+                    if (reportData) { 
+                        renderJourneyAuditBrief(reportData); 
+                        const briefElement = document.getElementById('buyerInsightBriefContainer');
+                        if(briefElement) briefElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
             }
             else if (tab && tab.dataset.tab) { 
                 const tabContainer = tab.closest('.evidence-tabs'); 
-                const contentWrapper = tabContainer.nextElementSibling; 
+                if (!tabContainer) return;
+                const contentWrapper = tabContainer.parentElement;
                 tabContainer.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active')); 
                 contentWrapper.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
                 tab.classList.add('active'); 
-                contentWrapper.querySelector(`#${tab.dataset.tab}`).classList.add('active'); 
+                const activeContent = contentWrapper.querySelector(`#${tab.dataset.tab}`);
+                if (activeContent) activeContent.classList.add('active');
             }
             else if (saveBtn) { 
                 window.print(); 
             }
-            else if (shareBtn) { 
+            else if (shareBtn) {
+                const popover = document.getElementById('sharePopover');
                 const rect = shareBtn.getBoundingClientRect(); 
-                ui.sharePopover.style.top = `${rect.bottom + 8}px`; 
-                ui.sharePopover.style.right = `${window.innerWidth - rect.right}px`; 
-                ui.sharePopover.style.display = 'block'; 
-            }
-            else if (addItemBtn) { 
+                popover.style.top = `${rect.bottom + 8}px`; 
+                popover.style.right = `${window.innerWidth - rect.right}px`; 
+                popover.style.display = 'block'; 
+                
+                document.getElementById('shareEmailBtn').onclick = handleShareEmail;
+                document.getElementById('shareCopyBtn').onclick = handleShareCopy;
+
+            } else if (addItemBtn) { 
                 handleAddItem(addItemBtn); 
-            }
-            else if (removeItemBtn) { 
+            } else if (removeItemBtn) { 
                 handleRemoveItem(removeItemBtn); 
-            }
-            else if (requestAuditBtn) {
+            } else if (requestAuditBtn) {
                 const ctaModal = document.getElementById('ctaModal');
                 const ctaModalUrlInput = document.getElementById('ctaModalUrl');
                 const mainUrlInput = document.getElementById('pageUrl');
-
-                if (mainUrlInput.value) {
-                    ctaModalUrlInput.value = mainUrlInput.value;
-                }
-                
-                ctaModal.classList.add('visible');
+                if (mainUrlInput.value) ctaModalUrlInput.value = mainUrlInput.value;
+                if (ctaModal) ctaModal.classList.add('visible');
             }
-            else if (!event.target.closest('.share-popover')) { 
-                ui.sharePopover.style.display = 'none'; 
+            
+            if (!event.target.closest('.share-btn') && !event.target.closest('.share-popover')) {
+                const popover = document.getElementById('sharePopover');
+                if (popover) popover.style.display = 'none'; 
             }
         }
-
-        function renderBrief(data) {
-            if (currentChartInstance) {
-                currentChartInstance.destroy();
-            }
-
-            const briefPlaceholder = document.getElementById('briefPlaceholder');
-            if (briefPlaceholder) {
-                briefPlaceholder.style.display = 'none';
-            }
-            const selectedIntentEl = document.querySelector('.intent-button.selected');
-            const intentName = selectedIntentEl ? selectedIntentEl.querySelector('strong').textContent : 'Evaluation';
-            if (currentAnalysisType === 'page') {
-                ui.briefContainer.innerHTML = generatePageAuditBrief(data, intentName);
-                setTimeout(() => renderFrictionChart(data.evidence.diagnostics), 50);
-            } else {
-                ui.briefContainer.innerHTML = generateJourneyAuditBrief(data, intentName);
-                setTimeout(() => renderFunnelChart(data.funnel_breakdown), 50);
-            }
-            setTimeout(() => document.querySelector('.insight-brief')?.classList.add('visible'), 10);
-        }
-
-        function populateAndShowModal(personaId, intent) {
+        
+        function populateAndShowModal(personaId, intentKey = 'MoFu') {
             const persona = personaDetailsStore[personaId]; if (!persona) return;
-            const intentKey = document.getElementById('advancedControls').style.display === 'grid' ? ui.intentSelect.value : currentIntent;
             const intentData = persona.intent_based_behavior[intentKey] || {};
             const intentName = { ToFu: "Discovery", MoFu: "Evaluation", BoFu: "Purchase" }[intentKey] || "Evaluation";
             const tooltipHTML = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Our AI generates baseline goals, pains, and skepticisms. Add your own custom insights to tune the analysis for this session.</span></div>`;
             
-            const listToBaselineHtml = (list = []) => {
-                return (list.map(item => `
-                    <li class="list-item-baseline">
-                        <span class="ai-badge">AI</span>
-                        <span>${item.text}</span>
-                    </li>`).join(''));
+            const listToHtml = (list = [], type) => {
+                let html = list.map(item => `<li class="list-item-baseline"><span class="ai-badge">AI</span><span>${item.text}</span></li>`).join('');
+                html += `<ul class="custom-list" id="custom-list-${type}"></ul>`;
+                return html;
             };
 
             const sections = [
-                { title: 'Primary Goals', data: intentData.goals, type: 'goals' }, 
-                { title: 'Pain Points', data: intentData.pains, type: 'pains' },
-                { title: 'Core Skepticisms', data: intentData.skepticisms, type: 'skepticisms' }
+                { title: 'Primary Goals', data: (intentData.goals || []), type: 'goals' }, 
+                { title: 'Pain Points', data: (intentData.pains || []), type: 'pains' },
+                { title: 'Core Skepticisms', data: (intentData.skepticisms || []), type: 'skepticisms' }
             ];
 
             const detailCardsHTML = sections.map(sec => `
-                <div class="detail-card"><h4>${sec.title} ${tooltipHTML}</h4>
-                    <ul class="baseline-list">${listToBaselineHtml(sec.data)}</ul>
+                <div class="detail-card">
+                    <h4>${sec.title} ${tooltipHTML}</h4>
+                    <ul class="baseline-list">${listToHtml(sec.data, sec.type)}</ul>
                     <div class="add-item-container">
                         <input type="text" placeholder="Add custom ${sec.type.slice(0, -1)}..." id="add-input-${sec.type}" />
-                        <button class="add-item-btn-confirm" data-type="${sec.type}" data-persona-id="${personaId}" data-intent-key="${intentKey}">Add</button>
+                        <button class="add-item-btn-confirm" data-type="${sec.type}">Add</button>
                     </div>
-                    <ul class="custom-list" id="custom-list-${sec.type}"></ul>
                 </div>`).join('');
 
             ui.modalBody.innerHTML = `
@@ -754,15 +855,11 @@
                             <h4>Details</h4>
                             <div style="margin-bottom:1rem; text-align:left;">
                                 <label style="font-size:14px; color:var(--text-tertiary);">Title</label>
-                                <input type="text" value="${persona.job_title}" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary); margin-top: 4px;">
+                                <div class="non-editable-field" style="padding: 8px; margin-top: 4px; background:var(--bg-secondary); border-radius:6px; border:1px solid var(--border); color:var(--text-secondary);">${persona.job_title}</div>
                             </div>
                             <div style="margin-bottom:1rem; text-align:left;">
-                                <label style="font-size:14px; color:var(--text-tertiary);">Industry Vertical</label>
-                                <input type="text" value="${persona.industry_vertical || ''}" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary); margin-top: 4px;">
-                            </div>
-                            <div style="margin-bottom:1rem; text-align:left;">
-                                <label style="font-size:14px; color:var(--text-tertiary);">Industry Sub-Vertical</label>
-                                <input type="text" value="${persona.industry_subvertical || ''}" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-secondary); margin-top: 4px;">
+                                <label style="font-size:14px; color:var(--text-tertiary);">Industry</label>
+                                 <div class="non-editable-field" style="padding: 8px; margin-top: 4px; background:var(--bg-secondary); border-radius:6px; border:1px solid var(--border); color:var(--text-secondary);">${persona.industry_vertical} / ${persona.industry_subvertical}</div>
                             </div>
                             <div style="text-align:left;">
                                 <label style="font-size:14px; color:var(--text-tertiary);">Mental Model</label>
@@ -797,48 +894,69 @@
             if(listItem) listItem.remove();
         }
 
-        function handleShareEmail() { const subject = encodeURIComponent("Funnel Analysis from WhyUser"); const body = encodeURIComponent("Team,\n\nI ran our site through a WhyUser simulation. The attached report shows where our funnel breaks for key personas.\n\nLet's discuss the 'Fix-It Plan' to address these issues.\n\n(Report generated by WhyUser)"); window.location.href = `mailto:?subject=${subject}&body=${body}`; ui.sharePopover.style.display = 'none'; }
-        function handleShareCopy() { navigator.clipboard.writeText(window.location.href).then(() => { alert('Link copied to clipboard!'); ui.sharePopover.style.display = 'none'; }); }
-
-        function getScoreColorClass(score) {
-            if (score <= 4) return 'error';
-            if (score <= 7) return 'warning';
-            return 'success';
+        function renderPageAuditBrief() {
+            Object.values(currentChartInstances).forEach(chart => chart.destroy());
+            currentChartInstances = {};
+            
+            const allData = reportDataStore.pageAudit;
+            ui.briefContainer.innerHTML = generatePageAuditBriefHTML(allData);
+            
+            setTimeout(() => {
+                renderExecutiveBarChart(allData);
+                 Object.keys(allData).forEach(id => {
+                    if(allData[id] && allData[id].evidence) {
+                        renderFrictionChart(allData[id].evidence.diagnostics, `frictionChart-${id}`);
+                    }
+                });
+                document.querySelector('.insight-brief')?.classList.add('visible');
+            }, 50);
         }
 
-        function renderFrictionChart(diagnosticsData) {
-            const ctx = document.getElementById('frictionChart');
-            if (!ctx) return;
+        function renderJourneyAuditBrief(data) {
+             Object.values(currentChartInstances).forEach(chart => chart.destroy());
+             currentChartInstances = {};
+             ui.briefContainer.innerHTML = generateJourneyAuditBriefHTML(data, "Evaluation");
+             setTimeout(() => {
+                 renderFunnelChart(data.funnel_breakdown);
+                 document.querySelector('.insight-brief')?.classList.add('visible');
+            }, 50);
+        }
 
-            const sortedData = [...diagnosticsData].sort((a, b) => b.consistency - a.consistency).slice(0, 4).reverse();
+        function handleShareEmail() { const subject = encodeURIComponent("Funnel Analysis from WhyUser"); const body = encodeURIComponent("Team,\n\nI ran our site through a WhyUser simulation. The attached report shows where our funnel breaks for key personas.\n\nLet's discuss the 'Fix-It Plan' to address these issues.\n\n(Report generated by WhyUser)"); window.location.href = `mailto:?subject=${subject}&body=${body}`; document.getElementById('sharePopover').style.display = 'none'; }
+        function handleShareCopy() { navigator.clipboard.writeText(window.location.href).then(() => { alert('Link copied to clipboard!'); document.getElementById('sharePopover').style.display = 'none'; }); }
 
-            const labels = sortedData.map(d => d.friction);
-            const data = sortedData.map(d => d.consistency);
-
-            const createGradient = (ctx, color1, color2) => {
-                const gradient = ctx.createLinearGradient(0, 0, 500, 0);
-                gradient.addColorStop(0, color1);
-                gradient.addColorStop(1, color2);
-                return gradient;
+        function getScoreColorClass(score, reverse=false) {
+            if (!reverse) {
+                if (score <= 4) return 'error';
+                if (score <= 7) return 'warning';
+                return 'success';
+            } else {
+                if (score <= 40) return 'error';
+                if (score <= 70) return 'warning';
+                return 'success';
             }
-
-            const chartCtx = ctx.getContext('2d');
-            const backgroundColors = data.map(val => {
-                if (val >= 9) return createGradient(chartCtx, 'rgba(220, 38, 38, 0.5)', 'rgba(220, 38, 38, 0.8)');
-                if (val >= 7) return createGradient(chartCtx, 'rgba(245, 158, 11, 0.5)', 'rgba(245, 158, 11, 0.8)');
-                return createGradient(chartCtx, 'rgba(139, 107, 71, 0.5)', 'rgba(139, 107, 71, 0.8)');
-            });
-
-            currentChartInstance = new Chart(ctx, {
+        }
+        
+        function renderExecutiveBarChart(allPersonaData) {
+            const chartId = 'executiveSummaryChart';
+            const ctx = document.getElementById(chartId);
+            if (!ctx) return;
+            
+            const personaKeys = Object.keys(allPersonaData).filter(k => k !== 'executiveSummary');
+            const labels = personaKeys.map(id => personaDetailsStore[id].role_name);
+            const data = personaKeys.map(id => allPersonaData[id].verdict.completionRate);
+            
+            currentChartInstances[chartId] = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Consistency Score',
+                        label: 'Completion Rate',
                         data: data,
-                        backgroundColor: backgroundColors,
+                        backgroundColor: data.map(d => d > 50 ? 'rgba(22, 163, 74, 0.7)' : d > 20 ? 'rgba(245, 158, 11, 0.7)' : 'rgba(220, 38, 38, 0.7)'),
+                        borderColor: data.map(d => d > 50 ? 'rgba(22, 163, 74, 1)' : d > 20 ? 'rgba(245, 158, 11, 1)' : 'rgba(220, 38, 38, 1)'),
+                        borderWidth: 1,
                         borderRadius: 4,
-                        borderSkipped: false,
                     }]
                 },
                 options: {
@@ -846,34 +964,51 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        x: {
-                            beginAtZero: true,
-                            max: 10,
-                            grid: { color: 'rgba(0,0,0,0.05)' },
-                            ticks: { color: 'var(--text-tertiary)' }
-                        },
-                        y: {
-                            grid: { display: false },
-                            ticks: { 
-                                color: 'var(--text-primary)',
-                                font: { weight: 500 },
-                                autoSkip: false
-                            }
-                        }
+                        x: { beginAtZero: true, max: 100, ticks: { callback: (value) => value + '%' } },
+                        y: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Persona Completion Rates', font: {size: 18, weight: '600'}, padding: {bottom: 20}, color: 'var(--text-primary)' },
+                        tooltip: { callbacks: { label: (context) => `${context.label}: ${context.raw}% Completion` } }
+                    }
+                }
+            });
+        }
+
+
+        function renderFrictionChart(diagnosticsData, chartId) {
+            const ctx = document.getElementById(chartId);
+            if (!ctx) return;
+
+            const sortedData = [...diagnosticsData].sort((a, b) => b.consistency - a.consistency).slice(0, 4).reverse();
+            const labels = sortedData.map(d => d.friction);
+            const data = sortedData.map(d => d.consistency);
+
+            const chartCtx = ctx.getContext('2d');
+            const backgroundColors = data.map(val => {
+                if (val >= 9) return 'rgba(220, 38, 38, 0.8)';
+                if (val >= 7) return 'rgba(245, 158, 11, 0.8)';
+                return 'rgba(139, 107, 71, 0.8)';
+            });
+
+            currentChartInstances[chartId] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: 'Consistency Score', data: data, backgroundColor: backgroundColors, borderRadius: 4, borderSkipped: false, }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        x: { beginAtZero: true, max: 10, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: 'var(--text-tertiary)' } },
+                        y: { grid: { display: false }, ticks: { color: 'var(--text-primary)', font: { weight: 500 }, autoSkip: false } }
                     },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: 'var(--text-primary)',
-                            titleFont: { size: 14, weight: 'bold' },
-                            bodyFont: { size: 12 },
-                            padding: 10,
-                            cornerRadius: 6,
-                            callbacks: {
-                                label: function(context) {
-                                    return `Consistency: ${context.raw}/10 simulations`;
-                                }
-                            }
+                            backgroundColor: 'var(--text-primary)', titleFont: { size: 14, weight: 'bold' }, bodyFont: { size: 12 }, padding: 10, cornerRadius: 6,
+                            callbacks: { label: (context) => `Consistency: ${context.raw}/10 simulations` }
                         }
                     }
                 }
@@ -881,16 +1016,15 @@
         }
 
         function renderFunnelChart(funnelData) {
-            const ctx = document.getElementById('funnelChart');
+            const chartId = 'funnelChart';
+            const ctx = document.getElementById(chartId);
             if (!ctx) return;
             
             const funnelPath = funnelData.actual_paths[0];
             const labels = funnelPath.path;
             const data = [100];
             const dropOffRate = (100 - funnelPath.percentage) / (labels.length - 1);
-            for (let i = 1; i < labels.length - 1; i++) {
-                data.push(Math.round(data[i-1] - dropOffRate));
-            }
+            for (let i = 1; i < labels.length - 1; i++) { data.push(Math.round(data[i-1] - dropOffRate)); }
             data.push(funnelPath.percentage);
             
             const chartCtx = ctx.getContext('2d');
@@ -900,244 +1034,231 @@
 
             const annotations = {
                 id: 'annotations',
-                afterDraw(chart, args, options) {
-                    const { ctx, chartArea: { top, bottom, left, right }, scales: { x, y } } = chart;
+                afterDraw(chart) {
+                    const { ctx } = chart;
                     ctx.save();
-                    
                     chart.data.datasets[0].data.forEach((datapoint, index) => {
                         const bar = chart.getDatasetMeta(0).data[index];
                         const yPos = bar.y;
-                        
-                        // Percentage Annotation (inside bar)
-                        ctx.font = '600 14px Inter';
-                        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-                        ctx.textAlign = 'right';
-                        ctx.textBaseline = 'middle';
+                        ctx.font = '600 14px Inter'; ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
                         ctx.fillText(`${datapoint}%`, bar.x - 10, yPos);
-
-                        // Drop-off Annotation (outside bar)
                         if (index > 0) {
                             const prevDataPoint = chart.data.datasets[0].data[index - 1];
                             const drop = prevDataPoint - datapoint;
                             if (drop > 0) {
-                                ctx.font = '500 13px Inter';
-                                ctx.fillStyle = 'var(--error)';
-                                ctx.textAlign = 'left';
-                                ctx.textBaseline = 'middle';
+                                ctx.font = '500 13px Inter'; ctx.fillStyle = 'var(--error)'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
                                 ctx.fillText(`-${drop}% Drop`, bar.x + 8, yPos);
                             }
                         }
                     });
-
                     ctx.restore();
                 }
             };
 
-            currentChartInstance = new Chart(ctx, {
+            currentChartInstances[chartId] = new Chart(ctx, {
                 type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '% Users Remaining',
-                        data: data,
-                        backgroundColor: gradient,
-                        borderRadius: 4,
-                        barThickness: 30
-                    }]
-                },
+                data: { labels: labels, datasets: [{ label: '% Users Remaining', data: data, backgroundColor: gradient, borderRadius: 4, barThickness: 30 }] },
                 options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            display: false,
-                            max: 110,
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: { display: false },
-                            ticks: { color: 'var(--text-primary)', font: { weight: 500, size: 14 }}
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: false }
-                    }
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: { x: { display: false, max: 110, }, y: { beginAtZero: true, grid: { display: false }, ticks: { color: 'var(--text-primary)', font: { weight: 500, size: 14 }} } },
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } }
                 },
                 plugins: [annotations]
             });
         }
+        
+        function generatePageAuditBriefHTML(allPersonaData) {
+            const summaryData = allPersonaData.executiveSummary;
+            const statusIcons = {
+                Found: '<svg class="status-icon status-found" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>',
+                Buried: '<svg class="status-icon status-buried" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+                Missing: '<svg class="status-icon status-missing" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>'
+            };
 
-        function generatePageAuditBrief(data, intentName) {
-            const severityTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Severity is benchmarked against 1,250+ SaaS page simulations. Thresholds: Critical (≥7), High (5-6).</span></div>`;
-            const playbookTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Est. Impact is a statistical forecast based on our dataset of similar fixes, not a guarantee.</span></div>`;
-            
-            const verdictHTML = `<div class="verdict-section"><div class="verdict-outcome abandoned">${data.verdict.outcome}</div><div class="verdict-grid"><div class="verdict-metric"><div class="label">Journey Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div><div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div></div><div class="verdict-confidence-summary">${data.narrative.supporting_evidence}</div></div>`;
-            
-            const narrativeHTML = `<div class="narrative-block"><p>The <span class="narrative-highlight">${data.narrative.who}</span> whose goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> during <span class="narrative-highlight">${data.narrative.when}</span> because <span class="narrative-why">${data.narrative.why}</span></p></div>`;
-
-            const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Top Abandonment Triggers</h3><div class="chart-container" style="height: 250px;"><canvas id="frictionChart"></canvas></div>`;
-
-            const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Your Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation & Impact</th><th style="width:20%; text-align:center;">Est. Impact ${playbookTooltip}</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td><td class="playbook-impact high">${p.estimated_impact}</td></tr>`).join('')}</tbody></table></div>`;
-
-            const strategicAuditHTML = `
-                <h3 class="brief-section-header">Positioning & Resonance Scorecard</h3>
-                <div class="scorecard-grid">
-                    <div class="detail-card scorecard-item" style="margin:0;">
-                        <div class="score-display">
-                            <h4 class="score-title">🧭 Positioning & Moat</h4>
-                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">${data.strategic_messaging_audit.scores.positioning}/10</div>
+             const executiveVerdictHTML = `
+                <div class="executive-verdict">
+                    <div class="verdict-header">
+                        <div class="verdict-badge ${summaryData.decision.toLowerCase()}">
+                            ${statusIcons.Missing}
+                            ${summaryData.decision}
                         </div>
-                        <p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p>
+                        <h3 class="verdict-title">The Bottom Line</h3>
                     </div>
-                    <div class="detail-card scorecard-item" style="margin:0;">
-                         <div class="score-display">
-                            <h4 class="score-title">🗣️ Persona Resonance</h4>
-                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">${data.strategic_messaging_audit.scores.resonance}/10</div>
+                    <div class="verdict-details-grid">
+                        <div class="verdict-detail-card">
+                            <h5><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Top Veto Drivers</h5>
+                            <ul>${summaryData.why.map(item => `<li>- ${item}</li>`).join('')}</ul>
                         </div>
-                        <p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p>
-                    </div>
-                </div>`;
-
-            const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Friction Points</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>Thought</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div></div></div>`;
-            const structuralAuditHTML = `<div class="structural-audit-section"><h3 class="brief-section-header">On-Page Structural Audit</h3><div class="structural-audit-grid">${(data.structural_audit_summary.findings || []).map(finding => `<div class="audit-card" data-id="${finding.id}"><div class="audit-card-icon">${finding.icon}</div><div class="audit-card-text">${finding.text}</div></div>`).join('')}</div></div>`;
-            const methodologyHTML = `<div class="brief-footer">
-                <div class="footer-divider" style="border-top: 1px solid var(--border); margin: 0 auto 24px; max-width: 400px;"></div>
-                <div class="methodology-grid-2x2">
-                    <div class="methodology-item">
-                        <strong>Persona Simulation</strong>
-                        <p>Each simulation is a forensic audit from the viewpoint of a specific B2B persona. We analyze the page against their unique goals, pain points, and non-negotiable needs for their current buying stage.</p>
-                    </div>
-                    <div class="methodology-item">
-                        <strong>Positioning & Resonance Audit</strong>
-                        <p>The engine audits the page's messaging and tone against the persona's known alternatives and communication preferences. It scores differentiation, value proposition clarity, and trust, turning subjective copy into a measurable signal.</p>
-                    </div>
-                    <div class="methodology-item">
-                        <strong>Structural & Journey Analysis</strong>
-                        <p>Our engine maps the site's information architecture to find structural flaws like buried CTAs or dead-end conversion paths. The journey analysis compares the persona's expected path to their actual path to diagnose abandonment points.</p>
-                    </div>
-                    <div class="methodology-item">
-                        <strong>Severity & Impact Scoring</strong>
-                        <p>Friction points are scored for severity based on which psychological driver was violated (e.g., violating a 'non-negotiable need' is Critical). This data-driven approach turns a list of issues into a prioritized, actionable playbook.</p>
+                        <div class="verdict-detail-card">
+                            <h5><svg fill="none" stroke="var(--success)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Fix-First Playbook</h5>
+                           <ul>${summaryData.fixFirst.map(item => `<li>- ${item}</li>`).join('')}</ul>
+                        </div>
                     </div>
                 </div>
-            </div>`;
+            `;
+            
+            const committeeCoherenceHTML = `
+                <div class="committee-coherence">
+                    <h4>Buying Committee Alignment</h4>
+                    <p>Detects contradictions and unmet expectations across the entire buying committee.</p>
+                    <div class="coherence-content">
+                        <div class="alignment-risk-display">
+                            <div class="risk-value medium">${summaryData.committeeCoherence.alignmentRiskIndex}</div>
+                            <div class="risk-label">Alignment Risk</div>
+                            <div class="risk-decision" style="color: var(--warning)">${summaryData.committeeCoherence.decision}</div>
+                        </div>
+                        <div class="conflicts-list">
+                            ${summaryData.committeeCoherence.topConflicts.map(c => `
+                                <div class="conflict-item">
+                                    <div class="conflict-header">
+                                        <span class="conflict-persona">${c.persona} →</span>
+                                        <span class="conflict-expectation">${c.expectation}</span>
+                                    </div>
+                                    <div class="conflict-fix"><strong>Fix:</strong> ${c.fix}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const vetoScannerHTML = `
+                <div class="veto-scanner">
+                    <h4>Buyer Evidence Scorecard</h4>
+                    <p>Identifies missing or buried proof points that cause specific buyers to abandon the journey.</p>
+                     <div class="veto-scanner-scores">
+                        <div class="scanner-score-card">
+                            <div class="label">Evidence Coverage</div>
+                            <div class="value ${getScoreColorClass(summaryData.scores.evidence_coverage, true)}">${summaryData.scores.evidence_coverage}%</div>
+                        </div>
+                         <div class="scanner-score-card">
+                            <div class="label">Evidence Placement</div>
+                            <div class="value ${getScoreColorClass(summaryData.scores.evidence_placement, true)}">${summaryData.scores.evidence_placement}%</div>
+                        </div>
+                    </div>
+                    <div class="scanner-matrix-grid">
+                        ${Object.keys(summaryData.proof_gaps).map(personaId => {
+                            const personaInfo = personaDetailsStore[personaId];
+                            const gaps = summaryData.proof_gaps[personaId];
+                            return `
+                                <div class="scanner-persona-card">
+                                    <div class="persona-name">${personaInfo.icon} ${personaInfo.role_name}</div>
+                                    <div class="evidence-list">
+                                        ${Object.keys(gaps).map(gapKey => {
+                                            const gap = gaps[gapKey];
+                                            return `
+                                                <div class="evidence-item">
+                                                    ${statusIcons[gap.status]}
+                                                    <span class="evidence-name">${gapKey}</span>
+                                                    ${gap.location ? `<span class="evidence-location">(${gap.location})</span>` : ''}
+                                                </div>
+                                            `
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            `
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+
+            const executiveSummaryHTML = `
+                <div id="tab-summary" class="tab-content active">
+                     ${executiveVerdictHTML}
+                     ${committeeCoherenceHTML}
+                     ${vetoScannerHTML}
+                    <div class="executive-chart-container"><canvas id="executiveSummaryChart"></canvas></div>
+                </div>`;
+            
+            const personaTabsHTML = allPersonas.map(p => {
+                const hasData = allPersonaData[p.id] && allPersonaData[p.id].narrative;
+                const personaInfo = personaDetailsStore[p.id];
+                return `<div class="tab-link ${hasData ? '' : 'disabled'}" data-tab="tab-${p.id}">
+                            ${personaInfo.icon} ${personaInfo.role_name}
+                        </div>`;
+            }).join('');
+            
+            const personaContentHTML = allPersonas.map(p => {
+                const data = allPersonaData[p.id];
+                if (!data || !data.narrative) return `<div id="tab-${p.id}" class="tab-content"></div>`;
+                
+                const personaInfo = allPersonas.find(persona => persona.id === p.id);
+                const intentKey = currentPersonaIntents[p.id] || personaInfo.defaultIntent;
+                const intentDisplayNames = { ToFu: "Discovery", MoFu: "Evaluation", BoFu: "Purchase" };
+                const intentName = intentDisplayNames[intentKey] || "Evaluation";
+
+                const severityTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Severity is benchmarked against 1,250+ SaaS page simulations.</span></div>`;
+                
+                const verdictHTML = `<div class="verdict-section">
+                    <div class="tags">
+                         <span class="intent-tag">Persona: ${data.personaName}</span>
+                         <span class="intent-tag">Intent: ${intentName}</span>
+                    </div>
+                    <div class="verdict-outcome abandoned">${data.verdict.outcome}</div>
+                    <div class="verdict-grid">
+                        <div class="verdict-metric"><div class="label">Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div>
+                        <div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div>
+                    </div>
+                </div>`;
+                const narrativeHTML = `<div class="narrative-block"><p>The <span class="narrative-highlight">${data.narrative.who}</span> goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, but they abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> because <span class="narrative-why">${data.narrative.why}</span></p></div>`;
+                const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Top Abandonment Triggers</h3><div class="chart-container" style="height: 250px;"><canvas id="frictionChart-${p.id}"></canvas></div>`;
+                const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation & Impact</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td></tr>`).join('')}</tbody></table></div>`;
+                const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${p.id}">Friction Points</div><div class="tab-link" data-tab="tab-monologue-${p.id}">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers-${p.id}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${p.id}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue-${p.id}" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>Thought</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${p.id}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div></div></div>`;
+                const strategicAuditHTML = `<div class="strategic-audit-section"><h3 class="brief-section-header">Positioning & Resonance Scorecard</h3><div class="scorecard-grid">${data.strategic_messaging_audit ? `<div class="scorecard-item"><div class="score-display"><h4 class="score-title">🧭 Positioning & Moat</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">${data.strategic_messaging_audit.scores.positioning}/10</div></div><p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p></div><div class="scorecard-item"><div class="score-display"><h4 class="score-title">🗣️ Persona Resonance</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">${data.strategic_messaging_audit.scores.resonance}/10</div></div><p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p></div>` : ''}</div></div>`;
+                const structuralAuditHTML = `<div class="structural-audit-section"><h3 class="brief-section-header">On-Page Structural Audit</h3><div class="structural-audit-grid">${(data.structural_audit_summary.findings || []).map(finding => `<div class="audit-card" data-id="${finding.id}"><div class="audit-card-icon">${finding.icon}</div><div class="audit-card-text">${finding.text}</div></div>`).join('')}</div></div>`;
+                
+                return `<div id="tab-${p.id}" class="tab-content">
+                    ${verdictHTML}
+                    <div class="brief-divider"></div><h3 class="brief-section-header">Diagnostic Narrative</h3>${narrativeHTML}
+                    <div class="brief-divider"></div>${playbookHTML}
+                    ${chartHTML}
+                    <div class="brief-divider"></div>${strategicAuditHTML}
+                    <div class="brief-divider"></div>${structuralAuditHTML}
+                    <div class="brief-divider"></div>${evidenceLockerHTML}
+                </div>`;
+            }).join('');
+
+            const methodologyHTML = `<div class="brief-footer"><div class="footer-divider" style="border-top: 1px solid var(--border); margin: 24px auto;"></div><div class="methodology-grid-2x2"><div class="methodology-item"><strong>Persona Simulation</strong><p>Each simulation is a forensic audit from the viewpoint of a specific B2B persona...</p></div><div class="methodology-item"><strong>Positioning & Resonance Audit</strong><p>The engine audits the page's messaging and tone against the persona's known alternatives...</p></div><div class="methodology-item"><strong>Structural & Journey Analysis</strong><p>Our engine maps the site's information architecture to find structural flaws...</p></div><div class="methodology-item"><strong>Severity & Impact Scoring</strong><p>Friction points are scored for severity based on which psychological driver was violated...</p></div></div></div>`;
             const upsellCtaHTML = `<div class="upsell-cta-section"><div class="icon">🔬</div><h4>Ready for the Full Picture?</h4><p>This preview shows the power of a single-page audit. A full Buyer Insight Audit analyzes the entire journey to find the revenue-killing flaws you can't see.</p><button class="upsell-button request-audit-btn">Request Your FREE Buyer Insight Audit</button></div>`;
 
             return `<div class="insight-brief">
-                <div class="brief-header">
-                    <div id="personalization-header" style="display: flex; align-items: center; gap: 12px;">
-                        <img id="company-favicon" src="images/logo1.png" alt="Logo" style="width: 64px; height: 32px; border-radius: 4px;">
-                        <h2 id="report-title">Page Audit</h2>
-                    </div>
-                    <div class="tags">
-                        <span class="intent-tag">Persona: ${data.personaName}</span>
-                        <span class="intent-tag">Intent: ${intentName}</span>
-                    </div>
-                    <div class="brief-actions">
-                        <button class="action-btn share-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg> Share</button>
-                        <button class="action-btn save-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> Save as PDF</button>
-                    </div>
+                <div class="brief-header"><h2 id="report-title">Page Audit: Buying Committee Report</h2><div class="brief-actions"><button class="action-btn share-btn"><svg width="16" height="16" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg> Share</button><button class="action-btn save-btn"><svg width="16" height="16" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> Save as PDF</button></div></div>
+                <div class="evidence-tabs">
+                    <div class="tab-link active" data-tab="tab-summary">Executive Summary</div>
+                    ${personaTabsHTML}
                 </div>
-                ${verdictHTML}<div class="brief-divider"></div>
-                <h3 class="brief-section-header">Diagnostic Narrative</h3>${narrativeHTML}
-                ${chartHTML}
+                ${executiveSummaryHTML}
+                ${personaContentHTML}
                 <div class="brief-divider"></div>
-                ${playbookHTML}<div class="brief-divider"></div>
-                ${strategicAuditHTML}<div class="brief-divider"></div>
-                ${evidenceLockerHTML}<div class="brief-divider"></div>
-                ${structuralAuditHTML}<div class="brief-divider"></div>
                 ${methodologyHTML}<div class="brief-divider"></div>
                 ${upsellCtaHTML}
             </div>`;
         }
 
-        function generateJourneyAuditBrief(data, intentName) {
-            const severityTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Severity is benchmarked against 1,250+ SaaS journeys. Thresholds: Critical (≥7), High (5-6).</span></div>`;
-            const playbookTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Est. Impact is a statistical forecast based on our dataset of similar fixes, not a guarantee.</span></div>`;
+        function generateJourneyAuditBriefHTML(data, intentName) {
+            const severityTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Severity is benchmarked against 1,250+ SaaS journeys.</span></div>`;
+            const playbookTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Est. Impact is a statistical forecast based on our dataset of similar fixes.</span></div>`;
             
             const renderPaths = (paths) => paths.map(p => `<div class="path-card"><div class="path-card-header"><span>Path followed by:</span><span class="path-percentage">${p.percentage}%</span></div><div class="path-steps">${p.path.map(step => `<div class="path-step">${step}</div>`).join('<div class="path-arrow">&nbsp;→&nbsp;</div>')}</div>${p.is_failure ? `<div class="path-diagnosis">${p.diagnosis}</div>` : ''}</div>`).join('');
             const journeyAnalysisHTML = `<div class="journey-analysis-grid"><div class="path-column"><h4 class="expected-path-header">✓ Expected Paths</h4>${renderPaths(data.funnel_breakdown.expected_paths)}</div><div class="path-column"><h4 class="actual-path-header">✗ Reality (Actual Paths)</h4>${renderPaths(data.funnel_breakdown.actual_paths)}</div></div>`;
-            
-            const narrativeHTML = `<div class="narrative-block"><p>The <span class="narrative-highlight">${data.narrative.who}</span> whose goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> during <span class="narrative-highlight">${data.narrative.when}</span> because <span class="narrative-why">${data.narrative.why}</span></p></div>`;
-
+            const narrativeHTML = `<div class="narrative-block"><p>The <span class="narrative-highlight">${data.narrative.who}</span> whose goal was to <span class="narrative-highlight">${data.narrative.goal}</span>, abandoned ${data.narrative.what} <span class="narrative-highlight">${data.narrative.where}</span> because <span class="narrative-why">${data.narrative.why}</span></p></div>`;
             const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Funnel Breakdown</h3><div class="chart-container" style="height: 300px;"><canvas id="funnelChart"></canvas></div>`;
-
             const verdictHTML = `<div class="verdict-section"><div class="verdict-outcome abandoned">${data.verdict.outcome}</div><div class="verdict-grid"><div class="verdict-metric"><div class="label">Journey Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div><div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div></div><div class="verdict-confidence-summary">${data.narrative.supporting_evidence}</div></div>`;
-            
-            const strategicAuditHTML = `
-                <h3 class="brief-section-header">Positioning & Resonance Scorecard</h3>
-                <div class="scorecard-grid">
-                    <div class="detail-card scorecard-item" style="margin:0;">
-                        <div class="score-display">
-                            <h4 class="score-title">🧭 Positioning & Moat</h4>
-                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">${data.strategic_messaging_audit.scores.positioning}/10</div>
-                        </div>
-                        <p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p>
-                    </div>
-                    <div class="detail-card scorecard-item" style="margin:0;">
-                         <div class="score-display">
-                            <h4 class="score-title">🗣️ Persona Resonance</h4>
-                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">${data.strategic_messaging_audit.scores.resonance}/10</div>
-                        </div>
-                        <p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p>
-                    </div>
-                </div>`;
-            
+            const strategicAuditHTML = `<h3 class="brief-section-header">Positioning & Resonance Scorecard</h3><div class="scorecard-grid"><div class="scorecard-item"><div class="score-display"><h4 class="score-title">🧭 Positioning & Moat</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">${data.strategic_messaging_audit.scores.positioning}/10</div></div><p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p></div><div class="scorecard-item"><div class="score-display"><h4 class="score-title">🗣️ Persona Resonance</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">${data.strategic_messaging_audit.scores.resonance}/10</div></div><p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p></div></div>`;
             const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Abandonment Triggers</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Persona Driver Violation</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.diagnostics || []).map(d => `<tr class="${d.type === 'Architectural Dead-End' ? 'architectural-dead-end' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Driver Supported</th><th style="width:15%; text-align:center;">Consistency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>Thought</th></tr></thead><tbody>${(data.evidence.monologue || []).map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div></div></div>`;
             const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Your Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation</th><th style="width:20%; text-align:center;">Impact ${playbookTooltip}</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td><td class="playbook-impact ${p.impact.toLowerCase()}">${p.impact}</td></tr>`).join('')}</tbody></table></div>`;
             const structuralAuditHTML = `<div class="structural-audit-section"><h3 class="brief-section-header">Executive Summary: Structural Audit</h3><div class="structural-audit-grid">${(data.structural_audit_summary.findings || []).map(finding => `<div class="audit-card"><div class="audit-card-icon">${finding.icon}</div><div class="audit-card-text">${finding.text}</div></div>`).join('')}</div></div>`;
-            const methodologyHTML = `<div class="brief-footer">
-                <div class="footer-divider" style="border-top: 1px solid var(--border); margin: 0 auto 24px; max-width: 400px;"></div>
-                <div class="methodology-grid-2x2">
-                    <div class="methodology-item">
-                        <strong>Persona Simulation</strong>
-                        <p>Each simulation is a forensic audit from the viewpoint of a specific B2B persona. We analyze the page against their unique goals, pain points, and non-negotiable needs for their current buying stage.</p>
-                    </div>
-                    <div class="methodology-item">
-                        <strong>Positioning & Resonance Audit</strong>
-                        <p>The engine audits the page's messaging and tone against the persona's known alternatives and communication preferences. It scores differentiation, value proposition clarity, and trust, turning subjective copy into a measurable signal.</p>
-                    </div>
-                    <div class="methodology-item">
-                        <strong>Structural & Journey Analysis</strong>
-                        <p>Our engine maps the site's information architecture to find structural flaws like buried CTAs or dead-end conversion paths. The journey analysis compares the persona's expected path to their actual path to diagnose abandonment points.</p>
-                    </div>
-                    <div class="methodology-item">
-                        <strong>Severity & Impact Scoring</strong>
-                        <p>Friction points are scored for severity based on which psychological driver was violated (e.g., violating a 'non-negotiable need' is Critical). This data-driven approach turns a list of issues into a prioritized, actionable playbook.</p>
-                    </div>
-                </div>
-            </div>`;
-            const ctaHTML = `<div class="upsell-cta-section"><div class="icon">🔬</div><h4>You've Seen the Simulation. Get the Reality.</h4><p>This preview reveals the critical flaws in a simulated funnel. A full Buyer Insight Audit on your live URL will give you the objective evidence needed to de-risk your roadmap and end internal debates.</p><button class="upsell-button request-audit-btn">Request Your FREE Buyer Insight Audit</button></div>`;
-
+            
             return `<div class="insight-brief">
-                <div class="brief-header">
-                    <div id="personalization-header" style="display: flex; align-items: center; gap: 12px;">
-                        <img id="company-favicon" src="images/logo1.png" alt="Logo" style="width: 64px; height: 32px; border-radius: 4px;">
-                        <h2 id="report-title">Journey Audit</h2>
-                    </div>
-                    <div class="tags">
-                        <span class="intent-tag">Persona: ${data.personaName}</span>
-                        <span class="intent-tag">Intent: ${intentName}</span>
-                    </div>
-                    <div class="brief-actions">
-                        <button class="action-btn share-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg> Share</button>
-                        <button class="action-btn save-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> Save as PDF</button>
-                    </div>
-                </div>
+                <div class="brief-header"><h2 id="report-title">Journey Audit</h2><div class="tags"><span class="intent-tag">Persona: ${data.personaName}</span><span class="intent-tag">Intent: ${intentName}</span></div><div class="brief-actions"><button class="action-btn share-btn">Share</button><button class="action-btn save-btn">Save as PDF</button></div></div>
                 ${verdictHTML}<div class="brief-divider"></div>
                 <h3 class="brief-section-header">Diagnostic Narrative</h3>${narrativeHTML}
-                <div class="brief-divider"></div>
-                <h3 class="brief-section-header">Journey Analysis: Expectation vs. Reality</h3>${journeyAnalysisHTML}
-                ${chartHTML}
-                <div class="brief-divider"></div>
+                <div class="brief-divider"></div><h3 class="brief-section-header">Journey Analysis: Expectation vs. Reality</h3>${journeyAnalysisHTML}
+                ${chartHTML}<div class="brief-divider"></div>
                 ${playbookHTML}<div class="brief-divider"></div>
                 ${strategicAuditHTML}<div class="brief-divider"></div>
                 ${evidenceLockerHTML}<div class="brief-divider"></div>
-                ${structuralAuditHTML}<div class="brief-divider"></div>
-                ${methodologyHTML}<div class="brief-divider"></div>
-                ${ctaHTML}
+                ${structuralAuditHTML}
             </div>`;
         }
         
