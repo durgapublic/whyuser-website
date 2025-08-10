@@ -523,7 +523,7 @@
             <div id="personaSelectorSection">
                 <div class="section-header">
                     <h2>The Buying Committee</h2>
-                    <p id="personaSelectorDescription">See how your page resonates with the entire buying committee—from the Economic Buyer to the Security Guardian. Click any persona to view their verdict.</p>
+                    <p>See how your page resonates with the entire buying committee—from the Economic Buyer to the Security Guardian. Click any persona to view their verdict.</p>
                 </div>
                 <div class="persona-grid" id="personaGrid"></div>
             </div>
@@ -758,14 +758,6 @@
         async function runAnalysis(type) {
             if (!document.getElementById('pageUrl').value) { alert('Please enter a URL.'); return; }
             currentAnalysisType = type;
-
-            const pageAuditText = "See how your page resonates with the entire buying committee—from the <strong>Economic Buyer</strong> to the <strong>Security Guardian</strong>. Click any persona to view their verdict.";
-            const journeyAuditText = "See where the buyer journey breaks for key personas—from the <strong>Economic Buyer</strong> to the <strong>Security Guardian</strong>. Select a persona to view their path.";
-
-            const descriptionElement = document.getElementById('personaSelectorDescription');
-            if (descriptionElement) {
-                descriptionElement.innerHTML = (type === 'journey') ? journeyAuditText : pageAuditText;
-            }
 
             currentPersonaIntents = {};
             document.querySelectorAll('#advancedControls select').forEach(select => {
