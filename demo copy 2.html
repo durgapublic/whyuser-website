@@ -22,7 +22,6 @@
             --success: #16a34a;
             --error: #dc2626;
             --warning: #f59e0b;
-            --info: #0ea5e9;
             --border: rgba(139, 107, 71, 0.15);
             --shadow: rgba(26, 24, 22, 0.06);
             --shadow-hover: rgba(26, 24, 22, 0.1);
@@ -185,10 +184,8 @@
         .evidence-table tr:last-child td { border: none; }
         .severity-cell { font-weight: 600; text-align: center; }
         .severity-badge { display: inline-block; padding: 4px 10px; border-radius: 16px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .severity-badge.high { background: rgba(220, 38, 38, 0.1); color: var(--error); border: 1px solid rgba(220, 38, 38, 0.2); }
-        .severity-badge.medium { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
-        .severity-badge.low { background: rgba(14, 165, 233, 0.1); color: var(--info); border: 1px solid rgba(14, 165, 233, 0.3); }
-        
+        .severity-badge.critical { background: rgba(203, 36, 49, 0.1); color: var(--error); border: 1px solid rgba(203, 36, 49, 0.2); }
+        .severity-badge.high { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
         .playbook-table td { padding: 16px 10px; }
         .playbook-rank { font-weight: 700; font-size: 24px; color: var(--accent); text-align: center; }
         .playbook-details { display: flex; flex-direction: column; gap: 8px; }
@@ -196,11 +193,16 @@
         .playbook-meta { display: flex; gap: 16px; align-items: center; font-size: 13px; color: var(--text-secondary); }
         .playbook-meta-item { display: flex; align-items: center; gap: 4px; }
         .playbook-meta-item strong { color: var(--text-primary); font-weight: 600; }
-        .playbook-impact-desc { font-style: italic; font-size: 14px; }
-        .playbook-uplift { font-weight: 700; font-size: 18px; text-align: center; color: var(--success); }
-        
+        .playbook-impact { font-weight: 700; font-size: 16px; text-align: center; }
+        .playbook-impact.critical { color: var(--error); }
+        .playbook-impact.high { color: var(--warning); }
         .monologue-disclaimer { font-size: 14px; color: var(--text-tertiary); margin-bottom: 12px; padding: 8px; background: var(--bg-secondary); border-radius: 6px; }
-        .chart-container { padding: 24px 0px; background-color: transparent; margin-top: 12px; }
+        
+        .chart-container {
+            padding: 24px 0px;
+            background-color: transparent;
+            margin-top: 12px;
+        }
 
         /* --- Journey & Structural Audit Specific --- */
         .architectural-dead-end td, .opacity-friction td { background: rgba(26, 24, 22, 0.03); }
@@ -217,6 +219,10 @@
         .path-step { background: var(--bg-secondary); border-radius: 6px; padding: 4px 10px; font-size: 14px; white-space: nowrap; }
         .path-arrow { color: var(--text-tertiary); font-weight: bold; }
         .path-diagnosis { margin-top: 16px; padding: 12px; background: rgba(203, 36, 49, 0.05); border-left: 3px solid var(--error); font-size: 15px; }
+        .structural-audit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .audit-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: flex-start; gap: 16px; }
+        .audit-card-icon { font-size: 28px; line-height: 1.5; margin-top: -4px; }
+        .audit-card-text { font-size: 15px; font-weight: 500; color: var(--text-secondary); }
         
         /* --- Upsell CTA Section --- */
         .upsell-cta-section { background: var(--info-bg); border: 1px solid var(--info-border); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; align-items: center; text-align: center; }
@@ -229,7 +235,7 @@
         /* --- Modal & Tooltip Styles --- */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 24, 22, 0.7); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.visible { display: flex; opacity: 1; }
-        .modal-content { background: var(--bg-primary); border-radius: 16px; width: 90%; max-width: 900px; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.95); transition: transform 0.3s ease; padding: 0;}
+        .modal-content { background: var(--bg-primary); border-radius: 16px; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.95); transition: transform 0.3s ease; padding: 0;}
         .modal-overlay.visible .modal-content { transform: scale(1); }
         .modal-close-btn { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-tertiary); z-index: 10; }
         .modal-header { padding: 24px; border-bottom: 1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
@@ -237,19 +243,16 @@
         .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); text-align: right;}
         .modal-body-grid { display: grid; grid-template-columns: 320px 1fr; gap: 32px; padding: 32px; align-items: start; }
         .modal-left-col, .modal-right-col { display: flex; flex-direction: column; gap: 24px; }
-        .persona-business-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; }
+        .persona-business-card, .detail-card, .editable-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+        .persona-business-card { text-align: center; }
         .persona-business-card .icon { font-size: 40px; }
         .persona-business-card .name { font-size: 24px; font-weight: 600; }
         .persona-business-card .title { font-size: 16px; color: var(--text-secondary); }
-        
-        .editable-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
-        .editable-card h4 { font-size: 18px; font-weight: 600; margin-bottom: 16px; display:flex; align-items: center; gap: 6px;}
+        .editable-card h4, .detail-card h4 { font-size: 18px; font-weight: 600; margin-bottom: 16px; display:flex; align-items: center; gap: 6px;}
         .editable-card .form-group { margin-bottom: 12px; }
         .editable-card label { font-size: 14px; font-weight: 500; color: var(--text-secondary); display: block; margin-bottom: 4px; }
-        .editable-card input[type="text"], .editable-card textarea, .editable-card select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: rgba(255,255,255,0.7); font-size: 15px; }
+        .editable-card input[type="text"], .editable-card textarea, .editable-card select { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(255,255,255,0.7); font-size: 15px; }
         .editable-card textarea { min-height: 80px; resize: vertical; }
-
-        .detail-subcard { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
 
         .tooltip { position: relative; display: inline-block; cursor: pointer; }
         .info-icon { font-size: 14px; color: var(--text-tertiary); border: 1px solid var(--text-tertiary); border-radius: 50%; width: 18px; height: 18px; display: inline-flex; justify-content: center; align-items: center; font-weight: 700; line-height: 1; }
@@ -261,16 +264,13 @@
         .share-popover button:hover { background: var(--bg-secondary); }
         #ctaModal .modal-content { max-width: 550px; }
         
-        .editable-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-        .list-item-editable { display: flex; align-items: center; gap: 8px; background-color: var(--bg-secondary); padding: 6px; border-radius: 6px; }
+        .baseline-list, .custom-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+        .list-item-baseline, .list-item-custom { display: flex; align-items: center; gap: 10px; background-color: var(--bg-secondary); padding: 8px 12px; border-radius: 6px; }
         .ai-badge, .custom-badge { font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; line-height: 1.2; text-transform: uppercase;}
         .ai-badge { background-color: var(--accent); color: white; }
         .custom-badge { background-color: var(--success); color: white; }
-        .list-item-editable input[type="text"] { flex-grow: 1; border: 1px solid transparent; background: transparent; padding: 4px 6px; border-radius: 4px; }
-        .list-item-editable input[type="text"]:focus { background: white; border-color: var(--accent); }
-        .list-item-editable .remove-item-btn { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--text-tertiary); font-size: 16px; padding: 4px; flex-shrink: 0; }
-        .list-item-editable .remove-item-btn:hover { color: var(--error); }
-
+        .list-item-custom .remove-item-btn { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--text-tertiary); font-size: 16px; padding: 4px; }
+        .list-item-custom .remove-item-btn:hover { color: var(--error); }
         .add-item-container { display: flex; gap: 8px; margin-top: 16px; }
         .add-item-container input { flex-grow: 1; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: rgba(255,255,255,0.7); font-size: 15px; }
         .add-item-container button { padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 500; cursor: pointer; transition: background-color .2s; }
@@ -388,7 +388,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
         }
         .score-title {
             font-size: 16px;
@@ -401,23 +401,10 @@
             font-weight: 700;
             line-height: 1.1;
             flex-shrink: 0;
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-        }
-        .score-value .score-total {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--text-tertiary);
         }
         .score-value.error { color: var(--error); }
         .score-value.warning { color: var(--warning); }
         .score-value.success { color: var(--success); }
-        .score-subtext {
-             font-size: 14px;
-             color: var(--text-secondary);
-             margin-bottom: 12px;
-        }
         .score-text {
             font-size: 15px;
             color: var(--text-primary);
@@ -551,8 +538,9 @@
                             trust_and_credibility: "Buzzwords kill credibility. Terms like 'synergistic platform' are red flags for technical buyers, suggesting a lack of substance."
                         }
                     },
-                    evidence: { diagnostics: [ { friction: "Absence of a 'Pricing' link or table.", violation: "<strong>Non-Negotiable Need:</strong> Must see pricing.", consistency: 10, severity: "High" }, { friction: "Structural Opacity: Repeated scanning detected.", violation: "Critical content (pricing) is not easily findable.", consistency: 8, severity: "Medium", type: "Structural Opacity" }, { friction: "Headline uses buzzwords ('Revolutionize').", violation: "<strong>Core Skepticism:</strong> Fluffy promises hide weak results.", consistency: 8, severity: "Medium" }, { friction: "Vague 'Learn More' CTA with no info scent.", violation: "<strong>Pain Point:</strong> Hates wasting clicks on paths that lead nowhere.", consistency: 7, severity: "Medium"}, { friction: "No customer logos above the fold.", violation: "<strong>Pain Point:</strong> Needs to see social proof immediately.", consistency: 5, severity: "Low"} ], monologue: [ { time: '00:02s', thought: "Okay, final check. Goal: find price, calculate ROI." }, { time: '00:08s', thought: "Scanning navigation... no 'Pricing' link. Annoying. Scrolling." }, { time: '00:15s', thought: "Still no pricing. This is a sales-led trap. I don't have time for a demo just to get a price." }, { time: '00:22s', thought: "<span style='color:var(--error);font-weight:600;'>Decision: Vetoed.</span> Can't find cost info. Failing my financial assessment." } ], drivers: [ { signal: "Logo of a known enterprise customer was visible.", support: "<strong>Goal:</strong> De-risking Investment.", consistency: 7 }, { signal: "Mention of 'predictable costs' in a sub-header.", support: "<strong>Goal:</strong> Financial Stability.", consistency: 5 }, { signal: "Data point on '30% cost reduction'.", support: "<strong>Goal:</strong> Build a business case.", consistency: 7} ] }, 
-                    playbook: [ { rank: 1, fix: "Add a three-tier pricing table directly below the hero.", addresses_friction: "Absence of a 'Pricing' link or table", impact: "High", impact_desc: "Reduces financial uncertainty and accelerates decision-making.", uplift: 10 }, { rank: 2, fix: "Replace headline with a quantifiable outcome, e.g., 'Cut Cloud Waste by 30%.'", addresses_friction: "Headline uses buzzwords", impact: "Medium", impact_desc: "Builds credibility by focusing on tangible outcomes.", uplift: 8 }, { rank: 3, fix: "Change 'Learn More' CTA to 'View Pricing'.", addresses_friction: "Vague CTA", impact: "Medium", impact_desc: "Improves navigation clarity and reduces user frustration.", uplift: 7 } ] 
+                    structural_audit_summary: { findings: [ {id: 'sa1', icon: '🧱', text: "Critical content (Pricing) is not visible above the fold."}, {id: 'sa2', icon: '🎯', text: "Primary CTA is missing from the hero section."}, {id: 'sa3', icon: '🛡️', text: "Key trust signals (SOC-2 Badge) are absent."} ] }, 
+                    evidence: { diagnostics: [ { friction: "Absence of a 'Pricing' link or table.", violation: "<strong>Non-Negotiable Need:</strong> Must see pricing.", consistency: 10, severity: "Critical" }, { friction: "Structural Opacity: Repeated scanning detected.", violation: "Critical content (pricing) is not easily findable.", consistency: 8, severity: "High", type: "Structural Opacity" }, { friction: "Headline uses buzzwords ('Revolutionize').", violation: "<strong>Core Skepticism:</strong> Fluffy promises hide weak results.", consistency: 8, severity: "High" }, { friction: "Vague 'Learn More' CTA with no info scent.", violation: "<strong>Pain Point:</strong> Hates wasting clicks on paths that lead nowhere.", consistency: 7, severity: "High"} ], monologue: [ { time: '00:02s', thought: "Okay, final check. Goal: find price, calculate ROI." }, { time: '00:08s', thought: "Scanning navigation... no 'Pricing' link. Annoying. Scrolling." }, { time: '00:15s', thought: "Still no pricing. This is a sales-led trap. I don't have time for a demo just to get a price." }, { time: '00:22s', thought: "<span style='color:var(--error);font-weight:600;'>Decision: Vetoed.</span> Can't find cost info. Failing my financial assessment." } ], drivers: [ { signal: "Logo of a known enterprise customer was visible.", support: "<strong>Goal:</strong> De-risking Investment.", consistency: 7 }, { signal: "Mention of 'predictable costs' in a sub-header.", support: "<strong>Goal:</strong> Financial Stability.", consistency: 5 }, { signal: "Data point on '30% cost reduction'.", support: "<strong>Goal:</strong> Build a business case.", consistency: 7} ] }, 
+                    playbook: [ { rank: 1, fix: "Add a three-tier pricing table directly below the hero.", addresses_friction: "Absence of a 'Pricing' link or table", impact: "Critical" }, { rank: 2, fix: "Replace headline with a quantifiable outcome, e.g., 'Cut Cloud Waste by 30%.'", addresses_friction: "Headline uses buzzwords", impact: "High" }, { rank: 3, fix: "Change 'Learn More' CTA to 'View Pricing'.", addresses_friction: "Vague CTA", impact: "High" } ] 
                 }, 
                 "EndUser": { 
                     personaName: "End User", 
@@ -569,8 +557,9 @@
                             trust_and_credibility: "Buzzwords kill credibility. Terms like 'synergistic platform' are red flags for technical buyers, suggesting a lack of substance."
                         }
                     },
-                    evidence: { diagnostics: [ { friction: "No product screenshots or GIFs in the hero.", violation: "<strong>Non-Negotiable Need:</strong> Must show the UI in action.", consistency: 9, severity: "High" }, { friction: "Headline is vague marketing-speak ('Revolutionize').", violation: "<strong>Pain Point:</strong> Hates over-promises.", consistency: 8, severity: "Medium" }, { friction: "'Watch Demo' leads to a long webinar signup form.", violation: "<strong>Core Skepticism:</strong> Long demos hide clunky software.", consistency: 6, severity: "Medium" } ], monologue: [ { time: '00:02s', thought: "Boss sent this. 'Revolutionize your workflow'... ugh." }, { time: '00:11s', thought: "Just want to see what it looks like. Where's a screenshot?" }, { time: '00:18s', thought: "Okay, a 'demo'. Clicks. It's a form for a webinar next week. No thanks." }, { time: '00:25s', thought: "<span style='color:var(--error);font-weight:600;'>Useless.</span> 25 seconds, still don't know what it does. Moving on." } ], drivers: [ { signal: "Testimonials from other 'Analysts' were present.", support: "<strong>Goal:</strong> Peer validation.", consistency: 6 }, { signal: "Link to technical documentation was clearly visible.", support: "<strong>Goal:</strong> Self-serve problem solving.", consistency: 7 }, { signal: "Dark mode screenshot was available.", support: "<strong>Goal:</strong> Tool fits my workflow.", consistency: 4} ] }, 
-                    playbook: [ { rank: 1, fix: "Add an animated GIF of the core product workflow in the hero section.", addresses_friction: "No product screenshots or GIFs", impact: "High", impact_desc: "Provides immediate proof of the product's existence and value.", uplift: 9 }, { rank: 2, fix: "Change headline to a specific outcome, e.g., 'Complete Reports in 10 Minutes.'", addresses_friction: "Headline is vague", impact: "Medium", impact_desc: "Connects features to tangible user benefits.", uplift: 8 }, { rank: 3, fix: "Replace 'Watch Demo' with a 2-minute, self-serve product tour video.", addresses_friction: "'Watch Demo' leads to a form", impact: "Medium", impact_desc: "Removes friction for users who want to see the product without talking to sales.", uplift: 6 } ] 
+                    structural_audit_summary: { findings: [ {id: 'sa4', icon: '🖼️', text: "No visual proof of product UI in the hero section."}, {id: 'sa5', icon: '🔗', text: "Primary CTA leads to a high-friction gate (webinar form)."}, {id: 'sa6', icon: '📢', text: "Benefit statements are abstract, not user-centric."} ] }, 
+                    evidence: { diagnostics: [ { friction: "No product screenshots or GIFs in the hero.", violation: "<strong>Non-Negotiable Need:</strong> Must show the UI in action.", consistency: 9, severity: "Critical" }, { friction: "Headline is vague marketing-speak ('Revolutionize').", violation: "<strong>Pain Point:</strong> Hates over-promises.", consistency: 8, severity: "High" }, { friction: "'Watch Demo' leads to a long webinar signup form.", violation: "<strong>Core Skepticism:</strong> Long demos hide clunky software.", consistency: 6, severity: "High" } ], monologue: [ { time: '00:02s', thought: "Boss sent this. 'Revolutionize your workflow'... ugh." }, { time: '00:11s', thought: "Just want to see what it looks like. Where's a screenshot?" }, { time: '00:18s', thought: "Okay, a 'demo'. Clicks. It's a form for a webinar next week. No thanks." }, { time: '00:25s', thought: "<span style='color:var(--error);font-weight:600;'>Useless.</span> 25 seconds, still don't know what it does. Moving on." } ], drivers: [ { signal: "Testimonials from other 'Analysts' were present.", support: "<strong>Goal:</strong> Peer validation.", consistency: 6 }, { signal: "Link to technical documentation was clearly visible.", support: "<strong>Goal:</strong> Self-serve problem solving.", consistency: 7 }, { signal: "Dark mode screenshot was available.", support: "<strong>Goal:</strong> Tool fits my workflow.", consistency: 4} ] }, 
+                    playbook: [ { rank: 1, fix: "Add an animated GIF of the core product workflow in the hero section.", addresses_friction: "No product screenshots or GIFs", impact: "Critical" }, { rank: 2, fix: "Change headline to a specific outcome, e.g., 'Complete Reports in 10 Minutes.'", addresses_friction: "Headline is vague", impact: "High" }, { rank: 3, fix: "Replace 'Watch Demo' with a 2-minute, self-serve product tour video.", addresses_friction: "'Watch Demo' leads to a form", impact: "High" } ] 
                 },
                  "TechnicalDecisionMaker": { personaName: "Technical Evaluator", verdict: { completionRate: 35 } },
                  "SecurityGuardian": { personaName: "Security Guardian", verdict: { completionRate: 20 } },
@@ -594,8 +583,9 @@
                             trust_and_credibility: "Buzzwords kill credibility. Terms like 'synergistic platform' are red flags for technical buyers, suggesting a lack of substance."
                         }
                     },
-                    evidence: { diagnostics: [ { friction: "No CTA from `/case-studies` or `/solutions` to `/pricing`.", violation: "<strong>Pain Point:</strong> Wasting time on vendors who are not transparent about cost.", consistency: 9, severity: "High", type: "Architectural Dead-End" }, { friction: "Main navigation does not have a 'Pricing' link.", violation: "<strong>Non-Negotiable Need:</strong> Must see pricing or a clear path to it.", consistency: 9, severity: "High" }, { friction: "Content on `/solutions` page is redundant after reading a case study.", violation: "Violates expectation of a logical next step.", consistency: 7, severity: "Medium" } ], drivers: [ { signal: "Specific financial outcomes in case study were highly compelling.", support: "<strong>Goal:</strong> Validate ROI before approving budget.", consistency: 9 }, { signal: "Clear 'Request a Quote' CTA was visible on homepage.", support: "<strong>Goal:</strong> Direct path to financial discussion.", consistency: 5 }, { signal: "Inclusion of TCO calculator on a sub-page.", support: "<strong>Goal:</strong> Build a business case.", consistency: 5} ], monologue: [ { time: '00:45s (/case-studies/acme-corp)', thought: "This 40% reduction in overhead is compelling. The numbers seem real." }, { time: '01:50s', thought: "Okay, the case study ended. The only CTA is 'Explore Our Solutions.' Fine. Let's see if that leads to pricing." }, { time: '02:05s (/solutions)', thought: "This is just more marketing content. Where is the price? This is a maze." }, { time: '02:25s', thought: "<span style='color:var(--error); font-weight:600;'>Decision: Abandoning.</span> I don't have time for this scavenger hunt. They're hiding the price, which means it's complicated and expensive." } ] }, 
-                    playbook: [  { rank: 1, fix: "Add a persistent, high-visibility 'Pricing' link to the main site navigation.", addresses_friction: "Main navigation does not have a 'Pricing' link.", impact: "High", impact_desc: "Fixes a critical break in the buyer's financial validation journey.", uplift: 9 }, { rank: 2, fix: "Add a 'View Pricing & Tiers' CTA banner to the bottom of all case study and solution pages.", addresses_friction: "No CTA from `/case-studies` to `/pricing`.", impact: "High", impact_desc: "Creates a clear next step for users with high commercial intent.", uplift: 9 }, { rank: 3, fix: "Ensure every marketing page (solutions, features) has a secondary CTA leading to a commercial action (Pricing, Demo).", addresses_friction: "Architectural dead-ends", impact: "Medium", impact_desc: "Prevents journey abandonment by providing logical conversion paths.", uplift: 7 } ] 
+                    structural_audit_summary: { findings: [ { id: 'sa1', icon: '🗺️', text: "Critical conversion path (Pricing) is unreachable from primary proof pages like Case Studies." }, { id: 'sa2', icon: '🧱', text: "A major architectural dead-end was detected on the `/solutions` page, forcing abandonment." }, { id: 'sa3', icon: '🚫', text: "Main navigation is missing a 'Pricing' link, violating a non-negotiable need for this persona." } ] }, 
+                    evidence: { diagnostics: [ { friction: "No CTA from `/case-studies` or `/solutions` to `/pricing`.", violation: "<strong>Pain Point:</strong> Wasting time on vendors who are not transparent about cost.", consistency: 9, severity: "Critical", type: "Architectural Dead-End" }, { friction: "Main navigation does not have a 'Pricing' link.", violation: "<strong>Non-Negotiable Need:</strong> Must see pricing or a clear path to it.", consistency: 9, severity: "Critical" }, { friction: "Content on `/solutions` page is redundant after reading a case study.", violation: "Violates expectation of a logical next step.", consistency: 7, severity: "High" } ], drivers: [ { signal: "Specific financial outcomes in case study were highly compelling.", support: "<strong>Goal:</strong> Validate ROI before approving budget.", consistency: 9 }, { signal: "Clear 'Request a Quote' CTA was visible on homepage.", support: "<strong>Goal:</strong> Direct path to financial discussion.", consistency: 5 }, { signal: "Inclusion of TCO calculator on a sub-page.", support: "<strong>Goal:</strong> Build a business case.", consistency: 5} ], monologue: [ { time: '00:45s (/case-studies/acme-corp)', thought: "This 40% reduction in overhead is compelling. The numbers seem real." }, { time: '01:50s', thought: "Okay, the case study ended. The only CTA is 'Explore Our Solutions.' Fine. Let's see if that leads to pricing." }, { time: '02:05s (/solutions)', thought: "This is just more marketing content. Where is the price? This is a maze." }, { time: '02:25s', thought: "<span style='color:var(--error); font-weight:600;'>Decision: Abandoning.</span> I don't have time for this scavenger hunt. They're hiding the price, which means it's complicated and expensive." } ] }, 
+                    playbook: [  { rank: 1, fix: "Add a persistent, high-visibility 'Pricing' link to the main site navigation.", addresses_friction: "Main navigation does not have a 'Pricing' link.", impact: "Critical" },  { rank: 2, fix: "Add a 'View Pricing & Tiers' CTA banner to the bottom of all case study and solution pages.", addresses_friction: "No CTA from `/case-studies` to `/pricing`.", impact: "Critical" }, { rank: 3, fix: "Ensure every marketing page (solutions, features) has a secondary CTA leading to a commercial action (Pricing, Demo).", addresses_friction: "Architectural dead-ends", impact: "High"} ] 
                 },
                 "EndUser": { 
                     personaName: "End User", 
@@ -613,8 +603,9 @@
                             trust_and_credibility: "Buzzwords kill credibility. Terms like 'synergistic platform' are red flags for technical buyers, suggesting a lack of substance."
                         }
                     },
-                    evidence: { diagnostics: [ { friction: "No product screenshots or GIFs on the Features page.", violation: "<strong>Non-Negotiable Need:</strong> Must show the UI in action.", consistency: 9, severity: "High", type: "Architectural Dead-End" }, { friction: "'Learn More' CTA leads to a blog post, not a product view.", violation: "<strong>Pain Point:</strong> Hates abstract marketing promises.", consistency: 8, severity: "High" }, { friction: "Interactive demo is behind a 'Contact Us' wall.", violation: "<strong>Pain Point:</strong> Does not want to talk to sales to try software.", consistency: 8, severity: "High"} ], drivers: [ { signal: "Integration logos for tools I use were visible.", support: "<strong>Goal:</strong> Fits into my workflow.", consistency: 6 }, { signal: "A 'Changelog' link was visible in the footer.", support: "<strong>Goal:</strong> Active product development.", consistency: 7 }, { signal: "An 'API Status' page was linked in the footer.", support: "<strong>Goal:</strong> Service reliability.", consistency: 5 } ], monologue: [ { time: '00:30s (/features)', thought: "Okay, the features sound good. Now show me what it looks like." }, { time: '00:45s', thought: "The main CTA is 'Read the full story'. Clicks." }, { time: '00:55s (/blog/related-article)', thought: "A blog post? I don't want to read an article, I want to see the tool." }, { time: '01:10s', thought: "<span style='color:var(--error); font-weight:600;'>Decision: Abandoning.</span> I've clicked twice and I'm further away from seeing the product. This is a waste of time." } ] }, 
-                    playbook: [ { rank: 1, fix: "Replace 'Learn More' CTA with 'See It In Action', linking to an embedded 2-min product tour video.", addresses_friction: "'Learn More' CTA leads to a blog post", impact: "High", impact_desc: "Directly satisfies user intent for product visualization.", uplift: 8 }, { rank: 2, fix: "Add an animated GIF of the core product workflow in the hero section of the features page.", addresses_friction: "No product screenshots on Features page", impact: "High", impact_desc: "Provides immediate visual proof, reducing uncertainty.", uplift: 9 }, { rank: 3, fix: "Create a self-serve, interactive demo sandbox and link to it from all evaluation pages.", addresses_friction: "Interactive demo is gated", impact: "Medium", impact_desc: "Enables deep evaluation without sales friction, building user trust.", uplift: 8 } ] 
+                    structural_audit_summary: { findings: [ { id: 'sa4', icon: '🖼️', text: "No visual proof of product UI (screenshots, GIFs) on key evaluation pages." }, { id: 'sa5', icon: '↪️', text: "Primary CTA on features page leads to a blog post, breaking user intent and causing frustration." }, { id: 'sa6', icon: ' gated', text: "The path to a 'demo' is gated by a high-friction form, deterring exploration."} ] }, 
+                    evidence: { diagnostics: [ { friction: "No product screenshots or GIFs on the Features page.", violation: "<strong>Non-Negotiable Need:</strong> Must show the UI in action.", consistency: 9, severity: "Critical", type: "Architectural Dead-End" }, { friction: "'Learn More' CTA leads to a blog post, not a product view.", violation: "<strong>Pain Point:</strong> Hates abstract marketing promises.", consistency: 8, severity: "Critical" }, { friction: "Interactive demo is behind a 'Contact Us' wall.", violation: "<strong>Pain Point:</strong> Does not want to talk to sales to try software.", consistency: 8, severity: "Critical"} ], drivers: [ { signal: "Integration logos for tools I use were visible.", support: "<strong>Goal:</strong> Fits into my workflow.", consistency: 6 }, { signal: "A 'Changelog' link was visible in the footer.", support: "<strong>Goal:</strong> Active product development.", consistency: 7 }, { signal: "An 'API Status' page was linked in the footer.", support: "<strong>Goal:</strong> Service reliability.", consistency: 5 } ], monologue: [ { time: '00:30s (/features)', thought: "Okay, the features sound good. Now show me what it looks like." }, { time: '00:45s', thought: "The main CTA is 'Read the full story'. Clicks." }, { time: '00:55s (/blog/related-article)', thought: "A blog post? I don't want to read an article, I want to see the tool." }, { time: '01:10s', thought: "<span style='color:var(--error); font-weight:600;'>Decision: Abandoning.</span> I've clicked twice and I'm further away from seeing the product. This is a waste of time." } ] }, 
+                    playbook: [ { rank: 1, fix: "Replace 'Learn More' CTA with 'See It In Action', linking to an embedded 2-min product tour video.", addresses_friction: "'Learn More' CTA leads to a blog post", impact: "Critical" }, { rank: 2, fix: "Add an animated GIF of the core product workflow in the hero section of the features page.", addresses_friction: "No product screenshots on Features page", impact: "Critical" }, { rank: 3, fix: "Create a self-serve, interactive demo sandbox and link to it from all evaluation pages.", addresses_friction: "Interactive demo is gated", impact: "High" } ] 
                 }
             }
         };
@@ -623,7 +614,7 @@
             "EconomicBuyer": { icon: '💰', role_name: "The Economic Buyer", fictional_name: "Ari", job_title: "VP of Engineering", industry_vertical: "Technology", industry_subvertical: "E-Commerce", mental_model: "Purchases must have a clear, quantifiable return.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Benchmark spending against new models"},{"id":"g2","text":"Identify disruptive financial technologies"},{"id":"g3","text":"Understand high-level market trends"}],"pains":[{"id":"p1","text":"Wasting time on vague marketing content"},{"id":"p2","text":"Gated content requiring a form fill"},{"id":"p3","text":"Secretly vendor-funded analyst reports"}],"skepticisms":[{"id":"s1","text":"'Visionary' claims without supporting numbers"},{"id":"s2","text":"Hype cycles with no real business case"},{"id":"s3","text":"Solutions looking for a problem"}],"non_negotiable_needs": [{"text": "Clear pricing or ROI calculator"}, {"text": "Case studies with real numbers"}, {"text":"A clear path to a sales conversation"}]},"MoFu":{"goals":[{"id":"g1","text":"Compare TCO between vendors"},{"id":"g2","text":"Assess financial viability of implementation"},{"id":"g3","text":"Build a business case for the executive team"}],"pains":[{"id":"p1","text":"Opaque or complex pricing models"},{"id":"p2","text":"Difficulty comparing vendors with different features"},{"id":"p3","text":"Solutions requiring heavy, unbudgeted IT resources"}],"skepticisms":[{"id":"s1","text":"Promises of 'fast ROI' without a model"},{"id":"s2","text":"That initial costs will balloon over time"},{"id":"s3","text":"The vendor is not financially stable"}],"non_negotiable_needs": [{"text": "Transparent pricing page"}, {"text": "Detailed comparison charts"}, {"text":"Customer testimonials from same industry"}]},"BoFu":{"goals":[{"id":"g7","text":"Finalize budget allocation with confidence"},{"id":"g8","text":"Negotiate favorable contract terms"},{"id":"g9","text":"Ensure purchase aligns with financial goals"}],"pains":[{"id":"p7","text":"Discovering hidden fees during procurement"},{"id":"p8","text":"Committing to a long-term contract without an out-clause"},{"id":"p9","text":"Inflexible vendors on contract redlines"}],"skepticisms":[{"id":"s7","text":"That commitments are not backed by the SLA"},{"id":"s8","text":"The sales pitch doesn't match the contract"},{"id":"s9","text":"That post-sale support will be costly"}],"non_negotiable_needs": [{"text": "A clear, itemized quote"}, {"text": "MSA and SLA documents for review"}, {"text":"Direct line to a sales rep"}]}} },
             "EndUser": { icon: '👩‍💻', role_name: "The End User", fictional_name: "Devin", job_title: "Senior Software Engineer", industry_vertical: "SaaS", industry_subvertical: "Developer Tools", mental_model: "Will this make my daily job easier, or is it just more work?", intent_based_behavior: {"ToFu":{"goals":[{"id":"g10","text":"Find a tool to solve a nagging daily problem"},{"id":"g11","text":"Discover a faster way to complete a repetitive task"},{"id":"g12","text":"Learn about new techniques from credible peers"}],"pains":[{"id":"p10","text":"Low-quality blog posts that just repeat documentation"},{"id":"p11","text":"Jumping between too many different apps to get a job done"},{"id":"p12","text":"'Introductory' content that is too basic to be useful"}],"skepticisms":[{"id":"s10","text":"That a tool's marketing doesn't match its actual UI"},{"id":"s11","text":"That it won't work with my real data"},{"id":"s12","text":"It's another tool I'll have to learn and then ignore"}],"non_negotiable_needs": [{"text": "Live demo or sandbox environment"}, {"text": "Clear 'Getting Started' guide"}, {"text":"Code snippets and examples"}]},"MoFu":{"goals":[{"id":"g4","text":"Evaluate if the core workflow is intuitive"},{"id":"g5","text":"Determine if it solves my specific use case"},{"id":"g6","text":"Check if it integrates with my current toolchain"}],"pains":[{"id":"p4","text":"Free trials that are too limited to test"},{"id":"p5","text":"Poorly written or outdated onboarding guides"},{"id":"p6","text":"Having to talk to sales just to try the product"}],"skepticisms":[{"id":"s4","text":"'Easy' workflow will break with real data"},{"id":"s5","text":"The tool will be abandoned by my team after a month"},{"id":"s6","text":"'AI-powered' is just marketing fluff"}],"non_negotiable_needs": [{"text": "Screenshots and GIFs of the UI"}, {"text": "Well-documented API reference"}, {"text":"List of integrations"}]},"BoFu":{"goals":[{"id":"g16","text":"Confirm my recommendation to my manager with evidence"},{"id":"g17","text":"Ensure I will get adequate technical support if needed"},{"id":"g18","text":"Understand the implementation and data migration process"}],"pains":[{"id":"p16","text":"Complicated, multi-step onboarding processes"},{"id":"p17","text":"Slow or unhelpful customer support responses"},{"id":"p18","text":"Being blamed by my team if the new tool doesn't work out"}],"skepticisms":[{"id":"s16","text":"'Dedicated support' is just a generic email alias"},{"id":"s17","text":"The tool will change drastically after we buy it"},{"id":"s18","text":"The price will suddenly increase next year"}],"non_negotiable_needs": [{"text": "Clear onboarding documentation"}, {"text": "Access to community or support forum"}, {"text":"A shareable summary for my boss"}]}}} , 
             "TechnicalDecisionMaker": { icon: '⚙️', role_name: "The Technical Evaluator", fictional_name: "Thomas", job_title: "Lead Platform Architect", industry_vertical: "Cloud Infrastructure", industry_subvertical: "Managed Hosting", mental_model: "I care about robust architecture, clean APIs, and tech stack impact.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Explore new architectural patterns"},{"id":"g2","text":"Assess emerging technologies for future projects"},{"id":"g3","text":"Understand a tool's core technical principles"}],"pains":[{"id":"p1","text":"Overly simplistic diagrams that hide complexity"},{"id":"p2","text":"Content that is all marketing and no substance"},{"id":"p3","text":"Lack of a public-facing engineering blog"}],"skepticisms":[{"id":"s1","text":"Claims of 'infinite scalability'"},{"id":"s2","text":"That a 'simple' tool can handle enterprise complexity"},{"id":"s3","text":"Any platform that claims to be 'zero-ops'"}],"non_negotiable_needs": [{"text": "High-level architecture diagram"}, {"text": "Link to engineering blog"}, {"text":"Clearly stated core technologies"}]},"MoFu":{"goals":[{"id":"g7","text":"Validate technical and performance claims"},{"id":"g8","text":"Assess scalability and architectural impact"},{"id":"g9","text":"Review security architecture and integration points"}],"pains":[{"id":"p7","text":"Poorly written or incomplete API documentation"},{"id":"p8","text":"Vague or non-existent performance benchmarks"},{"id":"p9","text":"Lack of detailed architectural diagrams"}],"skepticisms":[{"id":"s7","text":"'Seamless integration' is never seamless"},{"id":"s8","text":"That it will actually scale to our production load"},{"id":"s9","text":"It will add unacceptable latency or complexity"}],"non_negotiable_needs": [{"text": "Full API documentation"}, {"text": "Performance benchmarks"}, {"text":"Security compliance details"}]},"BoFu":{"goals":[{"id":"g1","text":"Finalize the technical implementation plan"},{"id":"g2","text":"Confirm SLAs for uptime and performance"},{"id":"g3","text":"Vet the vendor's technical support capabilities"}],"pains":[{"id":"p1","text":"Unclear data migration and onboarding processes"},{"id":"p2","text":"Lack of a dedicated technical account manager"},{"id":"p3","text":"Getting locked into a proprietary ecosystem"}],"skepticisms":[{"id":"s1","text":"That the sales engineer's promises will be met by support"},{"id":"s2","text":"The product roadmap is vaporware"},{"id":"s3","text":"The 'easy' setup will require extensive professional services"}],"non_negotiable_needs": [{"text": "Detailed implementation guide"}, {"text": "Uptime SLA guarantees"}, {"text":"Access to a technical support engineer"}]}} }, 
-            "SecurityGuardian": { icon: '🛡️', role_name: "The Security Guardian", fictional_name: "Grace", job_title: "Director of Cloud Security", industry_vertical: "Financial Services", industry_subvertical: "Banking", mental_model: "My job is to say 'no'. New vendors are always a risk.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Understand emerging threats in our space"},{"id":"g2","text":"Maintain compliance with evolving regulations"},{"id":"g3","text":"Find vendors who prioritize security from day one"}],"pains":[{"id":"p1","text":"Low-quality security blogs with generic advice"},{"id":"p2","text":"Webinars that are just a sales pitch"},{"id":"p3","text":"Vendors with no public security posture"}],"skepticisms":[{"id":"s1","text":"That a 'new' approach is just a rehash of old ideas"},{"id":"s2","text":"A free tool is secretly harvesting our data"},{"id":"s3","text":"A company's marketing is disconnected from its engineering"}]},"MoFu":{"goals":[{"id":"g10","text":"Conduct preliminary security and compliance vetting"},{"id":"g11","text":"Check for required certifications (SOC-2, ISO)"},{"id":"g12","text":"Understand data residency and handling policies"}],"pains":[{"id":"p10","text":"Security and compliance info is hidden behind a sales call"},{"id":"p11","text":"No public-facing trust center or documentation"},{"id":"p12","text":"Unclear or unfavorable data processing agreements (DPA)"}],"skepticisms":[{"id":"s10","text":"Vague 'Bank-level security' marketing claims"},{"id":"s11","text":"That compliance is 'in progress' but not complete"},{"id":"s12","text":"The vendor will be the source of our next breach"}],"non_negotiable_needs": [{"text": "Public-facing Trust Center"}, {"text": "SOC 2 Type II or ISO 27001 certification"}, {"text":"Clear Data Processing Agreement (DPA)"}]},"BoFu":{"goals":[{"id":"g1","text":"Finalize the security review for procurement"},{"id":"g2","text":"Ensure contract terms protect our data and limit liability"},{"id":"g3","text":"Approve a vendor who will be a long-term security partner"}],"pains":[{"id":"p1","text":"Discovering hidden security flaws during legal review"},{"id":"p2","text":"Inflexible vendors on security clauses"},{"id":"p3","text":"A slow procurement process delaying a critical project"}],"skepticisms":[{"id":"s1","text":"The vendor's security promises won't be in the contract"},{"id":"s2","text":"Post-sale support can't handle enterprise security queries"},{"id":"s3","text":"The price will increase dramatically upon renewal"}]}} }, 
+            "SecurityGuardian": { icon: '🛡️', role_name: "The Security Guardian", fictional_name: "Grace", job_title: "Director of Cloud Security", industry_vertical: "Financial Services", industry_subvertical: "Banking", mental_model: "My job is to say 'no'. New vendors are always a risk.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Understand emerging threats in our space"},{"id":"g2","text":"Maintain compliance with evolving regulations"},{"id":"g3","text":"Find vendors who prioritize security from day one"}],"pains":[{"id":"p1","text":"Low-quality security blogs with generic advice"},{"id":"p2","text":"Webinars that are just sales pitches"},{"id":"p3","text":"Vendors with no public security posture"}],"skepticisms":[{"id":"s1","text":"That a 'new' approach is just a rehash of old ideas"},{"id":"s2","text":"A free tool is secretly harvesting our data"},{"id":"s3","text":"A company's marketing is disconnected from its engineering"}]},"MoFu":{"goals":[{"id":"g10","text":"Conduct preliminary security and compliance vetting"},{"id":"g11","text":"Check for required certifications (SOC-2, ISO)"},{"id":"g12","text":"Understand data residency and handling policies"}],"pains":[{"id":"p10","text":"Security and compliance info is hidden behind a sales call"},{"id":"p11","text":"No public-facing trust center or documentation"},{"id":"p12","text":"Unclear or unfavorable data processing agreements (DPA)"}],"skepticisms":[{"id":"s10","text":"Vague 'Bank-level security' marketing claims"},{"id":"s11","text":"That compliance is 'in progress' but not complete"},{"id":"s12","text":"The vendor will be the source of our next breach"}],"non_negotiable_needs": [{"text": "Public-facing Trust Center"}, {"text": "SOC 2 Type II or ISO 27001 certification"}, {"text":"Clear Data Processing Agreement (DPA)"}]},"BoFu":{"goals":[{"id":"g1","text":"Finalize the security review for procurement"},{"id":"g2","text":"Ensure contract terms protect our data and limit liability"},{"id":"g3","text":"Approve a vendor who will be a long-term security partner"}],"pains":[{"id":"p1","text":"Discovering hidden security flaws during legal review"},{"id":"p2","text":"Inflexible vendors on security clauses"},{"id":"p3","text":"A slow procurement process delaying a critical project"}],"skepticisms":[{"id":"s1","text":"The vendor's security promises won't be in the contract"},{"id":"s2","text":"Post-sale support can't handle enterprise security queries"},{"id":"s3","text":"The price will increase dramatically upon renewal"}]}}} , 
             "Champion": { icon: '🏆', role_name: "The Champion", fictional_name: "Charlie", job_title: "DevOps Lead", industry_vertical: "FinTech", industry_subvertical: "Payments", mental_model: "I need a solution I can successfully advocate for internally.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Find a solution to a problem my boss has"},{"id":"g2","text":"Make my team's life easier"},{"id":"g3","text":"Get recognized for finding an innovative solution"}],"pains":[{"id":"p1","text":"Manual, repetitive work that could be automated"},{"id":"p2","text":"Tools that are powerful but impossible for the team to adopt"},{"id":"p3","text":"My boss not understanding the scale of a problem"}],"skepticisms":[{"id":"s1","text":"That a tool is just a 'nice-to-have' vitamin"},{"id":"s2","text":"The solution is too expensive to get approved"},{"id":"s3","text":"The time to implement will be longer than the time saved"}],"non_negotiable_needs": [{"text": "A clear, concise value proposition"}, {"text": "A shareable demo or one-pager"}, {"text":"Evidence of success from other companies"}]},"MoFu":{"goals":[{"id":"g13","text":"Build a strong business case for my team"},{"id":"g14","text":"Find clear evidence to convince my boss"},{"id":"g15","text":"Create a pilot plan for a controlled evaluation"}],"pains":[{"id":"p13","text":"Lack of clear ROI data or case studies to share"},{"id":"p14","text":"No shareable assets for internal selling"},{"id":"p15","text":"Difficulty articulating the value to non-technical leaders"}],"skepticisms":[{"id":"s13","text":"Is the promised value worth the political capital to fight for it?"},{"id":"s14","text":"Will my boss just see this as another 'nice-to-have'?"},{"id":"s15","text":"That the implementation will be far more difficult than promised"}]},"BoFu":{"goals":[{"id":"g1","text":"Get final sign-off from my boss and finance"},{"id":"g2","text":"Ensure a smooth rollout and adoption for my team"},{"id":"g3","text":"Demonstrate the tool's value within the first quarter"}],"pains":[{"id":"p1","text":"A painful procurement process killing momentum"},{"id":"p2","text":"Lack of support during the onboarding phase"},{"id":"p3","text":"The tool failing to deliver on its promise after purchase"}],"skepticisms":[{"id":"s1","text":"The vendor will disappear after the contract is signed"},{"id":"s2","text":"Hidden costs for training and implementation"},{"id":"s3","text":"My reputation is on the line if this fails"}]}} }, 
             "Influencer": { icon: '🌟', role_name: "The Influencer", fictional_name: "Isabelle", job_title: "Staff SRE", industry_vertical: "Media", industry_subvertical: "Streaming Services", mental_model: "My reputation is built on credibility. I only recommend innovative, solid tools.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Stay ahead of industry trends"},{"id":"g2","text":"Discover truly novel technologies"},{"id":"g3","text":"Find interesting content to share with my network"}],"pains":[{"id":"p1","text":"Superficial content that rehashes common knowledge"},{"id":"p2","text":"Clickbait headlines with no substance"},{"id":"p3","text":"Companies trying to co-opt community spaces for marketing"}],"skepticisms":[{"id":"s1","text":"'Thought leadership' that is just a veiled sales pitch"},{"id":"s2","text":"Bold claims on social media that aren't backed by data"},{"id":"s3","text":"Astroturfing and fake reviews"}],"non_negotiable_needs": [{"text": "Deep, technical content"}, {"text": "Access to raw data or benchmarks"}, {"text":"A unique, non-obvious point of view"}]},"MoFu":{"goals":[{"id":"g16","text":"Deeply evaluate a tool's unique capabilities"},{"id":"g17","text":"Find the 'sharp edges' and limitations of the product"},{"id":"g18","text":"Compare it rigorously against market incumbents"}],"pains":[{"id":"p16","text":"Limited trial accounts that hide flaws or scale issues"},{"id":"p17","text":"Poorly designed APIs and abstractions"},{"id":"p18","text":"Marketing that doesn't match the product's reality"}],"skepticisms":[{"id":"s16","text":"Perfectly curated demos don't reflect real-world use"},{"id":"s17","text":"The tool is just a thin wrapper over an open-source project"},{"id":"s18","text":"The company and its product won't exist in two years"}]},"BoFu":{"goals":[{"id":"g1","text":"Get direct access to the founding/engineering team"},{"id":"g2","text":"Secure a not-for-resale (NFR) license for deep testing"},{"id":"g3","text":"Validate the company's long-term vision"}],"pains":[{"id":"p1","text":"Being stonewalled by a sales-led organization"},{"id":"p2","text":"Companies that are hostile to critical feedback"},{"id":"p3","text":"Lack of transparency about product limitations"}],"skepticisms":[{"id":"s1","text":"The company is not truly 'developer-first'"},{"id":"s2","text":"The founders don't have a deep understanding of the problem"},{"id":"s3","text":"The product is a feature, not a company"}]}} } 
         };
@@ -802,7 +793,7 @@
                 const personaId = card.dataset.personaId;
                 const tabButton = document.querySelector(`.insight-brief > .evidence-tabs > .tab-link[data-tab="tab-${personaId}"]`);
                 if (tabButton) switchTab(tabButton);
-                document.querySelectorAll('#pageAuditPersonaGrid .persona-card').forEach(c => c.classList.remove('selected'));
+                document.querySelectorAll('#personaSelectorSection .persona-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
             }
              else if (card && currentAnalysisType === 'journey' && card.closest('#journeyPersonaSelectorGrid')) {
@@ -846,7 +837,7 @@
                     <button class="modal-close-btn">&times;</button>
                 </div>
                 <div class="modal-body-grid" id="personaEditorBody" data-persona-id="${personaId}">
-                </div>
+                    </div>
                 <div class="modal-footer">
                     <button class="action-btn" id="savePersonaChangesBtn">Save Changes</button>
                 </div>`;
@@ -867,16 +858,13 @@
         function renderPersonaEditor(personaId, intentKey) {
             const persona = personaDetailsStore[personaId];
             const intentData = persona.intent_based_behavior[intentKey] || {};
-            const tooltipHTML = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Our AI generates baseline drivers. Edit them or add your own to tune the analysis for this session.</span></div>`;
+            const intentName = { ToFu: "Discovery", MoFu: "Evaluation", BoFu: "Purchase" }[intentKey] || "Evaluation";
+            const tooltipHTML = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Our AI generates baseline goals, pains, and skepticisms. Add your own custom insights to tune the analysis for this session.</span></div>`;
             
-            const listToHtml = (list = [], type, isCustom = false) => {
-                return (list || []).map((item, index) => `
-                    <li class="list-item-editable" data-index="${index}" data-type="${type}" data-is-custom="${isCustom}">
-                        <span class="${isCustom ? 'custom-badge' : 'ai-badge'}">${isCustom ? 'YOU' : 'AI'}</span>
-                        <input type="text" value="${item.text || item}" />
-                        <button class="remove-item-btn" title="Remove">🗑️</button>
-                    </li>
-                `).join('');
+            const listToHtml = (list = [], type) => {
+                let html = (list || []).map(item => `<li class="list-item-baseline"><span class="ai-badge">AI</span><span>${item.text || item}</span></li>`).join('');
+                html += `<ul class="custom-list" id="custom-list-${type}"></ul>`;
+                return html;
             };
 
             const sections = [
@@ -888,22 +876,18 @@
             const detailCardsHTML = sections.map(sec => `
                 <div class="editable-card">
                     <h4>${sec.title}</h4>
-                    <ul class="editable-list" id="list-${sec.type}">${listToHtml(sec.data, sec.type)}</ul>
-                     <div class="add-item-container">
-                        <input type="text" placeholder="Add custom ${sec.type.slice(0, -1)}..." id="add-input-${sec.type}" />
-                        <button class="add-item-btn-confirm" data-type="${sec.type}">Add</button>
-                    </div>
+                    <ul class="baseline-list">${listToHtml(sec.data, sec.type)}</ul>
                 </div>`).join('');
             
             const evidenceChecklistHTML = `
                 <div class="editable-card">
                     <h4>Evidence Checklist ${tooltipHTML}</h4>
-                    <ul class="editable-list" id="list-non_negotiable_needs">
-                        ${listToHtml(intentData.non_negotiable_needs, 'non_negotiable_needs')}
+                    <ul class="baseline-list" id="evidence-checklist-container">
+                        ${listToHtml(intentData.non_negotiable_needs, 'evidence')}
                     </ul>
                      <div class="add-item-container">
-                        <input type="text" placeholder="Add custom evidence..." id="add-input-non_negotiable_needs" />
-                        <button class="add-item-btn-confirm" data-type="non_negotiable_needs">Add</button>
+                        <input type="text" placeholder="Add custom evidence..." id="add-input-evidence" />
+                        <button class="add-item-btn-confirm" data-type="evidence">Add</button>
                     </div>
                 </div>
             `;
@@ -918,15 +902,17 @@
                     </div>
                     <div class="editable-card">
                         <h4>Details</h4>
-                        <div class="form-group"><label for="fictional_name">Name</label><input type="text" id="fictional_name" value="${persona.fictional_name}"></div>
-                        <div class="form-group"><label for="job_title">Job Title</label><input type="text" id="job_title" value="${persona.job_title}"></div>
-                        <div class="form-group"><label for="industry_vertical">Industry</label><input type="text" id="industry_vertical" value="${persona.industry_vertical}"></div>
-                        <div class="form-group"><label for="industry_subvertical">Sub-Industry</label><input type="text" id="industry_subvertical" value="${persona.industry_subvertical}"></div>
-                    </div>
-                    <div class="editable-card">
-                        <h4>Mental Model</h4>
-                        <div class="detail-subcard">
-                             <div class="form-group"><textarea id="mental_model">${persona.mental_model}</textarea></div>
+                        <div class="form-group">
+                            <label for="fictional_name">Name</label>
+                            <input type="text" id="fictional_name" value="${persona.fictional_name}">
+                        </div>
+                        <div class="form-group">
+                            <label for="job_title">Job Title</label>
+                            <input type="text" id="job_title" value="${persona.job_title}">
+                        </div>
+                         <div class="form-group">
+                            <label for="mental_model">Mental Model</label>
+                            <textarea id="mental_model">${persona.mental_model}</textarea>
                         </div>
                     </div>
                 </div>
@@ -950,26 +936,17 @@
         function savePersonaChanges(personaId) {
             const editorBody = document.getElementById('personaEditorBody');
             
+            // Save simple text fields
             personaDetailsStore[personaId].fictional_name = editorBody.querySelector('#fictional_name').value;
             personaDetailsStore[personaId].job_title = editorBody.querySelector('#job_title').value;
-            personaDetailsStore[personaId].industry_vertical = editorBody.querySelector('#industry_vertical').value;
-            personaDetailsStore[personaId].industry_subvertical = editorBody.querySelector('#industry_subvertical').value;
             personaDetailsStore[personaId].mental_model = editorBody.querySelector('#mental_model').value;
 
+            // Save the selected intent
             const selectedIntent = editorBody.querySelector('#intentSelector').value;
             allPersonas.find(p => p.id === personaId).defaultIntent = selectedIntent;
-            
-            ['goals', 'pains', 'skepticisms', 'non_negotiable_needs'].forEach(type => {
-                const listContainer = editorBody.querySelector(`#list-${type}`);
-                if (listContainer) {
-                    const items = Array.from(listContainer.querySelectorAll('.list-item-editable')).map(li => {
-                        return { text: li.querySelector('input').value };
-                    });
-                     if (personaDetailsStore[personaId].intent_based_behavior[selectedIntent]) {
-                        personaDetailsStore[personaId].intent_based_behavior[selectedIntent][type] = items;
-                    }
-                }
-            });
+
+            // Note: For this demo, we are not saving the added/removed checklist items back to the main data store.
+            // A full implementation would update the personaDetailsStore object with these changes.
 
             alert(`${personaDetailsStore[personaId].fictional_name}'s persona has been updated for this session.`);
             ui.personaModal.classList.remove('visible');
@@ -980,14 +957,12 @@
             const input = document.getElementById(`add-input-${type}`);
             const text = input.value.trim();
             if (!text) return;
-            
-            const listContainer = document.getElementById(`list-${type}`);
 
+            const list = document.querySelector(`#custom-list-${type}`) || document.getElementById(`evidence-checklist-container`);
             const li = document.createElement('li');
-            li.className = 'list-item-editable';
-            li.dataset.isCustom = 'true';
-            li.innerHTML = `<span class="custom-badge">YOU</span><input type="text" value="${text}" /><button class="remove-item-btn" title="Remove">🗑️</button>`;
-            listContainer.appendChild(li);
+            li.className = 'list-item-custom';
+            li.innerHTML = `<span class="custom-badge">YOU</span><span>${text}</span><button class="remove-item-btn" title="Remove">🗑️</button>`;
+            list.appendChild(li);
             
             input.value = '';
             input.focus();
@@ -1036,6 +1011,7 @@
                     }
                 });
                 document.querySelector('.insight-brief')?.classList.add('visible');
+                // Select the first available persona by default
                 const firstValidCard = document.querySelector('#pageAuditPersonaGrid .persona-card.has-brief');
                 if(firstValidCard) {
                     firstValidCard.click();
@@ -1120,14 +1096,14 @@
             const backgroundColors = data.map(val => {
                 if (val >= 9) return 'rgba(220, 38, 38, 0.8)';
                 if (val >= 7) return 'rgba(245, 158, 11, 0.8)';
-                return 'rgba(14, 165, 233, 0.8)';
+                return 'rgba(139, 107, 71, 0.8)';
             });
 
             currentChartInstances[chartId] = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
-                    datasets: [{ label: 'Observed', data: data, backgroundColor: backgroundColors, borderRadius: 4, borderSkipped: false, }]
+                    datasets: [{ label: 'Consistency Score', data: data, backgroundColor: backgroundColors, borderRadius: 4, borderSkipped: false, }]
                 },
                 options: {
                     indexAxis: 'y', responsive: true, maintainAspectRatio: false,
@@ -1139,7 +1115,7 @@
                         legend: { display: false },
                         tooltip: {
                             backgroundColor: 'var(--text-primary)', titleFont: { size: 14, weight: 'bold' }, bodyFont: { size: 12 }, padding: 10, cornerRadius: 6,
-                            callbacks: { label: (context) => `Observed: ${context.raw} out of 10 simulations` }
+                            callbacks: { label: (context) => `Frequency: ${context.raw}/10 simulations` }
                         }
                     }
                 }
@@ -1327,7 +1303,6 @@
                 const intentName = intentDisplayNames[intentKey] || "Evaluation";
 
                 const severityTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Severity is benchmarked against 1,250+ SaaS page simulations.</span></div>`;
-                const upliftTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Estimated improvement score. Correlates to the number of simulations that failed due to this friction point.</span></div>`;
                 
                 const verdictHTML = `<div class="verdict-section">
                     <div class="tags">
@@ -1342,47 +1317,10 @@
                 </div>`;
                 const narrativeHTML = `<div class="narrative-block"><p>${data.narrative}</p></div>`;
                 const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Top Abandonment Triggers</h3><div class="chart-container" style="height: 250px;"><canvas id="frictionChart-${p.id}"></canvas></div>`;
-                const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Prioritized Fix-It Plan</h3>
-                    <table class="evidence-table playbook-table">
-                        <thead><tr>
-                            <th style="width:5%">Rank</th>
-                            <th>Recommendation</th>
-                            <th style="width:25%">Impact</th>
-                            <th style="width:15%; text-align:center;">Est. Uplift ${upliftTooltip}</th>
-                        </tr></thead>
-                        <tbody>${(data.playbook || []).map(p => `<tr>
-                            <td class="playbook-rank">${p.rank}</td>
-                            <td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td>
-                            <td><p class="playbook-impact-desc">${p.impact_desc}</p></td>
-                            <td class="playbook-uplift">+${p.uplift} pts</td>
-                        </tr>`).join('')}</tbody>
-                    </table>
-                </div>`;
-                const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${p.id}">Friction Points</div><div class="tab-link" data-tab="tab-monologue-${p.id}">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers-${p.id}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${p.id}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue-${p.id}" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>Thought</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${p.id}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div></div></div>`;
-                const strategicAuditHTML = `<div class="strategic-audit-section"><h3 class="brief-section-header">Positioning & Resonance Scorecard</h3>
-                    <div class="scorecard-grid">${data.strategic_messaging_audit ? `
-                        <div class="scorecard-item">
-                            <div class="score-display">
-                                <h4 class="score-title">🧭 Positioning & Moat</h4>
-                                <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">
-                                    ${data.strategic_messaging_audit.scores.positioning}<span class="score-total">/ 10</span>
-                                </div>
-                            </div>
-                            <p class="score-subtext">Based on ${data.strategic_messaging_audit.scores.positioning} out of 10 simulations.</p>
-                            <p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p>
-                        </div>
-                        <div class="scorecard-item">
-                            <div class="score-display">
-                                <h4 class="score-title">🗣️ Persona Resonance</h4>
-                                <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">
-                                     ${data.strategic_messaging_audit.scores.resonance}<span class="score-total">/ 10</span>
-                                </div>
-                            </div>
-                            <p class="score-subtext">Based on ${data.strategic_messaging_audit.scores.resonance} out of 10 simulations.</p>
-                            <p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p>
-                        </div>` : ''}
-                    </div>
-                </div>`;
+                const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation & Impact</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td></tr>`).join('')}</tbody></table></div>`;
+                const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${p.id}">Friction Points</div><div class="tab-link" data-tab="tab-monologue-${p.id}">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers-${p.id}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${p.id}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters</th><th style="width:15%; text-align:center;">Frequency</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue-${p.id}" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>Thought</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${p.id}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered</th><th style="width:15%; text-align:center;">Frequency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div></div></div>`;
+                const strategicAuditHTML = `<div class="strategic-audit-section"><h3 class="brief-section-header">Positioning & Resonance Scorecard</h3><div class="scorecard-grid">${data.strategic_messaging_audit ? `<div class="scorecard-item"><div class="score-display"><h4 class="score-title">🧭 Positioning & Moat</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">${data.strategic_messaging_audit.scores.positioning}/10</div></div><p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p></div><div class="scorecard-item"><div class="score-display"><h4 class="score-title">🗣️ Persona Resonance</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">${data.strategic_messaging_audit.scores.resonance}/10</div></div><p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p></div>` : ''}</div></div>`;
+                const structuralAuditHTML = `<div class="structural-audit-section"><h3 class="brief-section-header">On-Page Structural Audit</h3><div class="structural-audit-grid">${(data.structural_audit_summary.findings || []).map(finding => `<div class="audit-card" data-id="${finding.id}"><div class="audit-card-icon">${finding.icon}</div><div class="audit-card-text">${finding.text}</div></div>`).join('')}</div></div>`;
                 
                 return `<div id="tab-${p.id}" class="tab-content">
                     ${verdictHTML}
@@ -1390,6 +1328,7 @@
                     <div class="brief-divider"></div>${playbookHTML}
                     ${chartHTML}
                     <div class="brief-divider"></div>${strategicAuditHTML}
+                    <div class="brief-divider"></div>${structuralAuditHTML}
                     <div class="brief-divider"></div>${evidenceLockerHTML}
                 </div>`;
             }).join('');
@@ -1420,31 +1359,10 @@
             const narrativeHTML = `<div class="narrative-block"><p>${data.narrative}</p></div>`;
             const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Funnel Breakdown</h3><div class="chart-container" style="height: 300px;"><canvas id="funnelChart"></canvas></div>`;
             const verdictHTML = `<div class="verdict-section"><div class="verdict-outcome abandoned">${data.verdict.outcome}</div><div class="verdict-grid"><div class="verdict-metric"><div class="label">Journey Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div><div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div></div></div>`;
-            const strategicAuditHTML = `<h3 class="brief-section-header">Positioning & Resonance Scorecard</h3>
-                <div class="scorecard-grid">
-                    <div class="scorecard-item">
-                        <div class="score-display">
-                            <h4 class="score-title">🧭 Positioning & Moat</h4>
-                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">
-                                ${data.strategic_messaging_audit.scores.positioning}<span class="score-total">/ 10</span>
-                            </div>
-                        </div>
-                        <p class="score-subtext">Based on ${data.strategic_messaging_audit.scores.positioning} out of 10 simulations.</p>
-                        <p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p>
-                    </div>
-                    <div class="scorecard-item">
-                        <div class="score-display">
-                            <h4 class="score-title">🗣️ Persona Resonance</h4>
-                            <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">
-                                 ${data.strategic_messaging_audit.scores.resonance}<span class="score-total">/ 10</span>
-                            </div>
-                        </div>
-                        <p class="score-subtext">Based on ${data.strategic_messaging_audit.scores.resonance} out of 10 simulations.</p>
-                        <p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p>
-                    </div>
-                </div>`;
-            const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Abandonment Triggers</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.diagnostics || []).map(d => `<tr class="${d.type === 'Architectural Dead-End' ? 'architectural-dead-end' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>Thought</th></tr></thead><tbody>${(data.evidence.monologue || []).map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div></div></div>`;
+            const strategicAuditHTML = `<h3 class="brief-section-header">Positioning & Resonance Scorecard</h3><div class="scorecard-grid"><div class="scorecard-item"><div class="score-display"><h4 class="score-title">🧭 Positioning & Moat</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">${data.strategic_messaging_audit.scores.positioning}/10</div></div><p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p></div><div class="scorecard-item"><div class="score-display"><h4 class="score-title">🗣️ Persona Resonance</h4><div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">${data.strategic_messaging_audit.scores.resonance}/10</div></div><p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p></div></div>`;
+            const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics">Abandonment Triggers</div><div class="tab-link" data-tab="tab-drivers">Engagement Drivers</div><div class="tab-link" data-tab="tab-monologue">Inner Monologue</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters</th><th style="width:15%; text-align:center;">Frequency</th></tr></thead><tbody>${(data.evidence.diagnostics || []).map(d => `<tr class="${d.type === 'Architectural Dead-End' ? 'architectural-dead-end' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered</th><th style="width:15%; text-align:center;">Frequency</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency}/10</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>Thought</th></tr></thead><tbody>${(data.evidence.monologue || []).map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div></div></div>`;
             const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Your Prioritized Fix-It Plan</h3><table class="evidence-table playbook-table"><thead><tr><th style="width:5%">Rank</th><th>Recommendation</th><th style="width:20%; text-align:center;">Impact ${playbookTooltip}</th></tr></thead><tbody>${(data.playbook || []).map(p => `<tr><td class="playbook-rank">${p.rank}</td><td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td><td class="playbook-impact ${p.impact.toLowerCase()}">${p.impact}</td></tr>`).join('')}</tbody></table></div>`;
+            const structuralAuditHTML = `<div class="structural-audit-section"><h3 class="brief-section-header">Executive Summary: Structural Audit</h3><div class="structural-audit-grid">${(data.structural_audit_summary.findings || []).map(finding => `<div class="audit-card"><div class="audit-card-icon">${finding.icon}</div><div class="audit-card-text">${finding.text}</div></div>`).join('')}</div></div>`;
             
             return `<div class="insight-brief">
                 <div class="brief-header"><h2 id="report-title">Journey Audit</h2><div class="tags"><span class="intent-tag">Persona: ${data.personaName}</span><span class="intent-tag">Intent: ${intentName}</span></div><div class="brief-actions"><button class="action-btn share-btn">Share</button><button class="action-btn save-btn">Save as PDF</button></div></div>
@@ -1454,7 +1372,8 @@
                 ${chartHTML}<div class="brief-divider"></div>
                 ${playbookHTML}<div class="brief-divider"></div>
                 ${strategicAuditHTML}<div class="brief-divider"></div>
-                ${evidenceLockerHTML}
+                ${evidenceLockerHTML}<div class="brief-divider"></div>
+                ${structuralAuditHTML}
             </div>`;
         }
         
