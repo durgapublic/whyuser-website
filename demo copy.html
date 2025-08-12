@@ -1234,40 +1234,14 @@
                 options: {
                     indexAxis: 'y', responsive: true, maintainAspectRatio: false,
                     scales: {
-                        x: { 
-                            beginAtZero: true, 
-                            max: 10, 
-                            grid: { color: 'rgba(0,0,0,0.05)' }, 
-                            ticks: { 
-                                color: 'var(--text-tertiary)',
-                                // Convert 0-10 scale to 0-100% for the label
-                                callback: function(value) {
-                                    return (value / 10) * 100 + '%'
-                                }
-                            },
-                            // This is the new section that adds the axis title
-                            title: {
-                                display: true,
-                                text: '% of runs from total simulation runs',
-                                color: 'var(--text-tertiary)',
-                                font: {
-                                    size: 14
-                                },
-                                padding: { top: 10 }
-                            }
-                        },
-                        y: { 
-                            grid: { display: false }, 
-                            ticks: { color: 'var(--text-primary)', font: { weight: 500 }, autoSkip: false } 
-                        }
+                        x: { beginAtZero: true, max: 10, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: 'var(--text-tertiary)' } },
+                        y: { grid: { display: false }, ticks: { color: 'var(--text-primary)', font: { weight: 500 }, autoSkip: false } }
                     },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
                             backgroundColor: 'var(--text-primary)', titleFont: { size: 14, weight: 'bold' }, bodyFont: { size: 12 }, padding: 10, cornerRadius: 6,
-                            callbacks: { 
-                                label: (context) => `Observed in ${context.raw * 10}% of simulations`
-                            }
+                            callbacks: { label: (context) => `Observed: ${context.raw} out of 10 simulations` }
                         }
                     }
                 }
@@ -1512,7 +1486,7 @@
                 const verdictHTML = `
                 <div class="story-verdict-grid">
                     <div class="narrative-block">
-                        <h3 class="brief-section-header" style="color: var(--info-text); margin-bottom: 12px;">Why I Left</h3>
+                        <h3 class="brief-section-header" style="color: var(--info-text); margin-bottom: 12px;">My Story: Why I Left</h3>
                         <p>${data.verdict.impact}</p>
                     </div>
                     <div class="verdict-section" style="padding: 0; display: flex; flex-direction: column; justify-content: center;">
@@ -1577,8 +1551,8 @@
                 </div>`;
                 
                 // FIX 2: Add Inner Monologue with multiple runs
-                const monologueHTML = `<div class="inner-monologue-section"><h3 class="brief-section-header">My Inner Monologue</h3><div class="monologue-tabs">${Array.from({length: 5}, (_, i) => `<div class="monologue-tab-link ${i < (data.evidence.monologue || []).length ? (i === 0 ? 'active' : '') : 'disabled'}" data-tab="monologue-run-${p.id}-${i+1}">Run ${i+1}</div>`).join('')}</div><div class="monologue-content-wrapper">${(data.evidence.monologue || []).map((run, index) => `<div id="monologue-run-${p.id}-${index+1}" class="monologue-tab-content ${index === 0 ? 'active' : ''}"><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>My Thought Process</th></tr></thead><tbody>${run.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div></div>`;
-
+                const monologueHTML = `<div class="inner-monologue-section"><h3 class="brief-section-header">My Inner Monologue</h3><div class="monologue-tabs">${Array.from({length: 5}, (_, i) => `<div class="monologue-tab-link ${i < (data.evidence.monologue || []).length ? 'active' : 'disabled'}" data-tab="monologue-run-${p.id}-${i+1}">Run ${i+1}</div>`).join('')}</div><div class="monologue-content-wrapper">${(data.evidence.monologue || []).map((run, index) => `<div id="monologue-run-${p.id}-${index+1}" class="monologue-tab-content ${index === 0 ? 'active' : ''}"><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>My Thought Process</th></tr></thead><tbody>${run.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div></div>`;
+                
                 return `<div id="tab-${p.id}" class="tab-content">
                     ${verdictHTML}
                     <div class="brief-divider"></div>${playbookHTML}
@@ -1714,7 +1688,7 @@
             const severityTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Severity is benchmarked against 1,250+ SaaS journeys.</span></div>`;
 
             const storyAndVerdictHTML = `<div class="story-verdict-grid">
-                <div class="narrative-block"><h3 class="brief-section-header" style="color: var(--info-text); margin-bottom: 12px;">Why I Left</h3><p>${data.narrative}</p></div>
+                <div class="narrative-block"><h3 class="brief-section-header" style="color: var(--info-text); margin-bottom: 12px;">My Story: Why I Left</h3><p>${data.narrative}</p></div>
                 <div class="verdict-section" style="padding: 0; display: flex; flex-direction: column; justify-content: center;">
                     <div class="verdict-outcome abandoned">${data.verdict.outcome}</div>
                     <div class="verdict-grid">
@@ -1775,7 +1749,7 @@
                 <div class="scorecard-grid">${data.strategic_messaging_audit ? `
                     <div class="scorecard-item">
                         <div class="score-display">
-                            <h4 class="score-title">🧭 Positioning</h4>
+                            <h4 class="score-title">🧭 Positioning & Moat</h4>
                             <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">
                                 ${data.strategic_messaging_audit.scores.positioning}<span class="score-total">/ 10</span>
                             </div>
@@ -1795,8 +1769,8 @@
             
             const evidenceLockerHTML = `<div class="evidence-locker-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${personaId}">Abandonment Triggers</div><div class="tab-link" data-tab="tab-drivers-${personaId}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${personaId}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.diagnostics || []).map(d => `<tr class="${d.type === 'Architectural Dead-End' ? 'architectural-dead-end' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${personaId}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div></div></div>`;
 
-            const monologueHTML = `<div class="inner-monologue-section"><h3 class="brief-section-header">My Inner Monologue</h3><div class="monologue-tabs">${Array.from({length: 5}, (_, i) => `<div class="monologue-tab-link ${i < (data.evidence.monologue || []).length ? (i === 0 ? 'active' : '') : 'disabled'}" data-tab="monologue-run-${personaId}-${i+1}">Run ${i+1}</div>`).join('')}</div><div class="monologue-content-wrapper">${(data.evidence.monologue || []).map((run, index) => `<div id="monologue-run-${personaId}-${index+1}" class="monologue-tab-content ${index === 0 ? 'active' : ''}"><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>My Thought Process</th></tr></thead><tbody>${run.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div></div>`;
-            
+            const monologueHTML = `<div class="inner-monologue-section"><h3 class="brief-section-header">My Inner Monologue</h3><div class="monologue-tabs">${Array.from({length: 5}, (_, i) => `<div class="monologue-tab-link ${i < (data.evidence.monologue || []).length ? 'active' : 'disabled'}" data-tab="monologue-run-${personaId}-${i+1}">Run ${i+1}</div>`).join('')}</div><div class="monologue-content-wrapper">${(data.evidence.monologue || []).map((run, index) => `<div id="monologue-run-${personaId}-${index+1}" class="monologue-tab-content ${index === 0 ? 'active' : ''}"><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>My Thought Process</th></tr></thead><tbody>${run.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div></div>`;
+
             return `<div id="tab-journey-${personaId}" class="tab-content">
                 ${storyAndVerdictHTML}
                 <div class="brief-divider"></div>
