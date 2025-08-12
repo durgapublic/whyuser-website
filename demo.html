@@ -119,7 +119,7 @@
 
         /* --- Interactive Demo & Progress --- */
         #interactiveDemoSection { display: none; padding: 80px 0; background: var(--bg-primary); }
-        .analysis-container { max-width: 960px; margin: 0 auto; }
+        .analysis-container { max-width: 1100px; margin: 0 auto; }
         .progress-container { margin-bottom: 48px; display: none; }
         .progress-steps { display: flex; justify-content: space-between; align-items: center; position: relative; }
         .progress-steps::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: var(--border); transform: translateY(-50%); z-index: 1; }
@@ -153,6 +153,12 @@
         .brief-header .tags { display: flex; gap: 8px; }
         .intent-tag { display: inline-block; background: var(--bg-accent); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 600; white-space: nowrap; }
         .brief-actions { display: flex; gap: 12px; position: relative; margin-left: auto; }
+        .observed-text {
+            font-size: 13px;
+            color: var(--text-tertiary);
+            font-style: italic;
+            margin-top: 8px;
+        }
         .action-btn { background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
         .action-btn:hover { background: var(--bg-secondary); border-color: var(--accent); color: var(--text-primary); }
         .verdict-section { text-align: center; padding-top: 24px; }
@@ -251,9 +257,9 @@
 
         .detail-subcard { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
 
-        .tooltip { position: relative; display: inline-block; cursor: pointer; }
+        .tooltip { position: relative; display: inline-flex; align-items: center; gap: 6px; cursor: help; }
         .info-icon { font-size: 14px; color: var(--text-tertiary); border: 1px solid var(--text-tertiary); border-radius: 50%; width: 18px; height: 18px; display: inline-flex; justify-content: center; align-items: center; font-weight: 700; line-height: 1; }
-        .tooltip .tooltiptext { visibility: hidden; width: 250px; background-color: var(--text-primary); color: #fff; text-align: left; border-radius: 6px; padding: 10px; position: absolute; z-index: 100; bottom: 125%; left: 50%; margin-left: -125px; opacity: 0; transition: opacity 0.3s; font-size: 13px; font-weight: 400; line-height: 1.5; }
+        .tooltip .tooltiptext { visibility: hidden; width: 280px; background-color: var(--text-primary); color: #fff; text-align: left; border-radius: 6px; padding: 10px 14px; position: absolute; z-index: 100; bottom: 140%; left: 50%; margin-left: -140px; opacity: 0; transition: opacity 0.3s; font-size: 13px; font-weight: 400; line-height: 1.5; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
         .tooltip .tooltiptext::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: var(--text-primary) transparent transparent transparent; }
         .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
         .share-popover { position: absolute; background: white; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); width: 220px; z-index: 10; padding: 8px; display: none; }
@@ -276,71 +282,61 @@
         .add-item-container button { padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 500; cursor: pointer; transition: background-color .2s; }
         .add-item-container button:hover { background: var(--accent-hover); }
 
-        /* --- Executive Summary Styles --- */
-        .executive-verdict {
-            background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px;
-        }
-        .verdict-header {
-            display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-        }
+        /* --- NEW & UPDATED: Executive Summary Styles --- */
+        .executive-summary-grid { display: grid; gap: 24px; grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;}
+        .summary-card { background-color: transparent; border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+        .summary-card-header { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+        .summary-card-header.engagement { color: var(--success); }
+        .summary-card-header.abandonment { color: var(--error); }
+        .summary-card-header.playbook { color: var(--accent); }
+        .summary-card-header svg { width: 20px; height: 20px; flex-shrink: 0;}
+        .summary-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+        .summary-list-item { font-size: 14px; line-height: 1.5; }
+        .summary-list-item .item-text { display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+        .summary-list-item .item-meta { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 13px; }
+        .summary-list-item .persona-icon { font-size: 18px; }
+        .summary-list-item .item-meta .persona-tag { font-weight: 400; color: var(--text-secondary); }
+        .what-we-found-section > p { font-size: 16px; color: var(--text-secondary); max-width: 800px; margin: 0 auto 24px; text-align: center; }
+        
+        .executive-verdict { display: flex; gap: 16px; align-items: center; }
+        .verdict-title { font-size: 28px; font-weight: 700; }
         .verdict-badge {
             font-size: 22px; font-weight: 700; padding: 10px 18px; border-radius: 8px; color: white; display: flex; align-items: center; gap: 10px; line-height: 1;
         }
         .verdict-badge.hold { background-color: var(--error); }
         .verdict-badge.proceed { background-color: var(--success); }
         .verdict-badge svg { width: 22px; height: 22px; }
-        .verdict-title { font-size: 28px; font-weight: 700; line-height: 1.1; }
-        .verdict-details-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;
+        
+        .summary-section-container {
+            background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-top: 24px;
         }
-        .verdict-detail-card { background-color: var(--bg-secondary); border-radius: 12px; padding: 20px; }
-        .verdict-detail-card h5 {
-            font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .verdict-detail-card h5 svg { width: 18px; height: 18px; }
-        .verdict-detail-card ul {
-            list-style: none; padding-left: 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px;
-        }
-        .committee-coherence, .veto-scanner {
-            background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px;
-        }
-        .committee-coherence h4, .veto-scanner h4 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
-        .committee-coherence > p, .veto-scanner > p { font-size: 15px; color: var(--text-secondary); margin-bottom: 20px; }
+        .summary-section-container h4 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+        .summary-section-container > p { font-size: 15px; color: var(--text-secondary); margin-bottom: 20px; }
+
         .coherence-content { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: center; }
-        .alignment-risk-display { display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-secondary); border-radius: 12px; padding: 20px; border: 1px solid var(--border); }
+        .alignment-risk-display { display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: white; border-radius: 12px; padding: 20px; border: 1px solid var(--border); }
         .alignment-risk-display .risk-value { font-size: 48px; font-weight: 700; line-height: 1; }
         .alignment-risk-display .risk-value.high { color: var(--error); }
         .alignment-risk-display .risk-value.medium { color: var(--warning); }
         .alignment-risk-display .risk-value.low { color: var(--success); }
-        .alignment-risk-display .risk-label { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
-        .alignment-risk-display .risk-decision { font-size: 16px; font-weight: 700; margin-top: 8px; }
-        .conflicts-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-        .conflict-item { background-color: var(--bg-secondary); border-radius: 8px; padding: 12px; border: 1px solid var(--border); }
-        .conflict-item .conflict-header { font-size: 16px; margin-bottom: 8px; }
-        .conflict-item .conflict-persona { font-weight: 700; }
-        .conflict-item .conflict-expectation { }
-        .conflict-item .conflict-fix { font-size: 14px; color: var(--text-secondary); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
-
+        .alignment-risk-display .risk-label { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-top: 4px; }
+        
+        .summary-table { width: 100%; font-size: 14px; border-collapse: collapse; background-color: white; border-radius: 8px; border: 1px solid var(--border); }
+        .summary-table th, .summary-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+        .summary-table th { font-weight: 600; color: var(--text-secondary); font-size: 13px; text-transform: uppercase; background-color: var(--bg-secondary); }
+        .summary-table tr:last-child td { border-bottom: none; }
+        .summary-table td .persona-tag { font-weight: 600; }
+        
         .veto-scanner-scores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-        .scanner-score-card { background: var(--bg-secondary); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border);}
+        .scanner-score-card { background: white; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border);}
         .scanner-score-card .label { font-size: 13px; font-weight: 500; color: var(--text-tertiary); margin-bottom: 4px;}
         .scanner-score-card .value { font-size: 28px; font-weight: 700; }
-        .scanner-matrix-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-        }
-        .scanner-persona-card { background-color: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-        .scanner-persona-card .persona-name { font-weight: 600; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
-        .scanner-persona-card .evidence-list { display: flex; flex-direction: column; gap: 8px; }
-        .evidence-item { display: flex; align-items: center; gap: 8px; background-color: var(--bg-secondary); padding: 6px 10px; border-radius: 6px; font-size: 14px; border: 1px solid var(--border); }
-        .evidence-item .status-icon { width: 18px; height: 18px; }
-        .evidence-item .status-found { color: var(--success); }
-        .evidence-item .status-buried { color: var(--warning); }
-        .evidence-item .status-missing { color: var(--error); }
-        .evidence-name { font-weight: 500; }
-        .evidence-location { color: var(--text-tertiary); margin-left: auto; font-size: 13px; }
         
+        .status-icon { width: 18px; height: 18px; vertical-align: middle; margin-right: 8px; }
+        .status-found { color: var(--success); }
+        .status-buried { color: var(--warning); }
+        .status-missing { color: var(--error); }
+
         .executive-chart-container {
             height: 420px;
             background: white;
@@ -348,29 +344,6 @@
             border-radius: 16px;
             padding: 24px;
             margin-top: 24px;
-        }
-        
-        .brief-footer {
-            font-size: 13px;
-            color: var(--text-tertiary);
-            text-align: left;
-            padding-top: 24px;
-            margin-top: 32px;
-        }
-        .methodology-grid-2x2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px 32px;
-        }
-        .methodology-item p {
-            font-size: 13px;
-            line-height: 1.5;
-        }
-        .methodology-item strong {
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: block;
         }
         
         .scorecard-grid {
@@ -425,8 +398,9 @@
         }
         /* --- Responsive & Print Styles --- */
         @media print { body, .insight-brief { background: white !important; } .no-print, header, .hero, #personaConfigSection, #interactiveDemoSection > .analysis-container > .section-header, .progress-container, .upsell-cta-section { display: none !important; } #interactiveDemoSection { padding: 0; } #buyerInsightBriefContainer, .analysis-container { margin: 0; max-width: 100%; } .insight-brief { box-shadow: none; border: 1px solid #ddd; border-radius: 0; padding: 20px; } }
+        @media (max-width: 1024px) { .executive-summary-grid { grid-template-columns: 1fr; } }
         @media (max-width: 960px) { .persona-grid { grid-template-columns: repeat(2, 1fr); } .modal-body-grid, .verdict-grid, .scorecard-grid, .methodology-grid-2x2 { grid-template-columns: 1fr; } .step-label { font-size: 11px; } .journey-analysis-grid, .coherence-content { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .analysis-type-buttons, .verdict-details-grid { grid-template-columns: 1fr; } .progress-steps { flex-direction: column; align-items: flex-start; gap: 12px; } .progress-steps::before { left: 16px; top: 0; bottom: 0; width: 2px; height: 100%; } .step { flex-direction: row; align-items: center; text-align: left; width: 100%; } .step-indicator { margin-right: 16px; } .step-label { margin-top: 0; } .step:not(:last-child) { margin-bottom: 16px; } }
+        @media (max-width: 768px) { .analysis-type-buttons, .veto-scanner-scores { grid-template-columns: 1fr; } .progress-steps { flex-direction: column; align-items: flex-start; gap: 12px; } .progress-steps::before { left: 16px; top: 0; bottom: 0; width: 2px; height: 100%; } .step { flex-direction: row; align-items: center; text-align: left; width: 100%; } .step-indicator { margin-right: 16px; } .step-label { margin-top: 0; } .step:not(:last-child) { margin-bottom: 16px; } }
         @media (max-width: 640px) { .persona-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -518,23 +492,40 @@
             pageAudit: {
                 executiveSummary: {
                     decision: "HOLD",
-                    why: ["Missing ROI Proof", "Security Proof Buried", "Pricing Path Blocked"],
-                    fixFirst: ["Add ROI Callout in Hero", "Add SOC 2 Trust Bar", "Expose 'Starts at $X'"],
+                    top_engagement_drivers: [
+                        { driver: "Data point on '30% cost reduction'", personaId: "EconomicBuyer", observed: 7 },
+                        { driver: "Logo of a known enterprise customer was visible", personaId: "EconomicBuyer", observed: 7 },
+                        { driver: "Link to technical documentation was clearly visible", personaId: "EndUser", observed: 7 }
+                    ],
+                    top_abandonment_drivers: [
+                        { driver: "Absence of a 'Pricing' link or table", personaId: "EconomicBuyer", observed: 10 },
+                        { driver: "No product screenshots or GIFs in the hero", personaId: "EndUser", observed: 9 },
+                        { driver: "Vague 'Learn More' CTA with no info scent", personaId: "EconomicBuyer", observed: 7 }
+                    ],
+                    top_fixes: [
+                        { fix: "Add a three-tier pricing table directly below the hero", addresses: "Absence of a 'Pricing' link" },
+                        { fix: "Add an animated GIF of the core product workflow in the hero", addresses: "No product screenshots or GIFs" },
+                        { fix: "Replace headline with a quantifiable outcome", addresses: "Headline uses buzzwords" }
+                    ],
                     committeeCoherence: {
                         alignmentRiskIndex: 68,
-                        decision: "High",
                         topConflicts: [
-                            { persona: "EB", expectation: "ROI proof missing", fix: "Add ROI calc link in hero; surface 2 case studies with metrics" },
-                            { persona: "GR", expectation: "Security badge absent above fold", fix: "Add SOC 2 badge in hero or sticky trust bar" },
-                            { persona: "EB", expectation: "Pricing path blocked", fix: "Show transparent tiering or publish “starting at” with compare table" }
+                            { persona: "Economic Buyer", conflict: "Needs clear ROI proof", why: "The page offers only vague marketing claims.", impact: "Stalls budget approval." },
+                            { persona: "Security Guardian", conflict: "Requires a SOC-2 badge above the fold", why: "Security signals are buried in the footer.", impact: "Triggers immediate vendor veto." },
+                            { persona: "End User", conflict: "Wants to see the product UI", why: "The page has zero screenshots or GIFs.", impact: "Prevents internal adoption." }
                         ]
                     },
                     scores: { evidence_coverage: 65, evidence_placement: 40 },
-                    proof_gaps: {
-                        "EconomicBuyer": { "Pricing Access": { status: 'Buried', location: 'via Form' }, "ROI Proof": { status: 'Missing' }, "Customer Logos": { status: 'Found', location: 'Below Fold' } },
-                        "SecurityGuardian": { "SOC-2 Badge": { status: 'Missing' }, "Privacy/DPA": { status: 'Buried', location: 'Footer Link' } },
-                        "EndUser": { "Product UI": { status: 'Missing' }, "Docs": { status: 'Found', location: 'Header Nav' } }
-                    }
+                    proof_gaps: [
+                        { persona: "Economic Buyer", evidence: "ROI Proof", location: 'Missing', observed: "10/10" },
+                        { persona: "Security Guardian", evidence: "SOC-2 Badge", location: 'Missing', observed: "8/10" },
+                        { persona: "Economic Buyer", evidence: "Pricing Access", location: 'Buried', observed: "9/10" },
+                        { persona: "End User", evidence: "Product UI Screenshot", location: 'Missing', observed: "9/10" }
+                    ],
+                    positioning_resonance: [
+                         { persona: "Economic Buyer", positioning: "You feel like a cheaper copy, not a better solution. It's not worth the risk to switch.",  positioning_observed: "4/10", resonance: "Your casual tone undermined your credibility. I'm buying a business solution, not a gadget.", resonance_observed: "5/10" },
+                         { persona: "End User", positioning: "You ignored the pain of switching—data migration, team retraining—so I ignored your product.",  positioning_observed: "3/10", resonance: "Your marketing buzzwords made me assume your tech is weak.", resonance_observed: "3/10" }
+                    ]
                 },
                 "EconomicBuyer": { 
                     personaName: "Economic Buyer", 
@@ -543,10 +534,12 @@
                     strategic_messaging_audit: {
                         scores: { positioning: 4, resonance: 5 },
                         positioning: {
+                            summary: "Weak differentiation; sounds like a cheaper incumbent, not a unique solution.",
                             differentiation: "Weak differentiation. The message sounds like a cheaper incumbent, not a unique solution, giving no compelling reason to switch.",
                             switching_cost: "Fails to address high switching costs (e.g., data migration, retraining), creating unaddressed buyer anxiety."
                         },
                         resonance: {
+                            summary: "Tone mismatch; casual language alienates a risk-averse, data-driven buyer.",
                             tone_and_voice: "Tone mismatch. Casual, sales-focused language alienates a risk-averse persona who expects a formal, data-driven style.",
                             trust_and_credibility: "Buzzwords kill credibility. Terms like 'synergistic platform' are red flags for technical buyers, suggesting a lack of substance."
                         }
@@ -561,10 +554,12 @@
                      strategic_messaging_audit: {
                         scores: { positioning: 3, resonance: 3 },
                         positioning: {
+                            summary: "Fails to address high switching costs like data migration or retraining.",
                             differentiation: "Weak differentiation. The message sounds like a cheaper incumbent, not a unique solution, giving no compelling reason to switch.",
                             switching_cost: "Fails to address high switching costs (e.g., data migration, retraining), creating unaddressed buyer anxiety."
                         },
                         resonance: {
+                            summary: "Marketing buzzwords like 'synergistic platform' kill credibility with technical users.",
                             tone_and_voice: "Tone mismatch. Casual, sales-focused language alienates a risk-averse persona who expects a formal, data-driven style.",
                             trust_and_credibility: "Buzzwords kill credibility. Terms like 'synergistic platform' are red flags for technical buyers, suggesting a lack of substance."
                         }
@@ -674,9 +669,6 @@
 
         async function triggerAnalysis(type) {
             currentAnalysisType = type;
-            
-            // This is the fix: Do not hide the persona configuration section.
-            // ui.personaConfigSection.style.display = 'none';
             
             clearBrief();
             
@@ -1046,10 +1038,7 @@
                     }
                 });
                 document.querySelector('.insight-brief')?.classList.add('visible');
-                const firstValidCard = document.querySelector('#pageAuditPersonaGrid .persona-card.has-brief');
-                if(firstValidCard) {
-                    firstValidCard.click();
-                }
+                // The code that previously clicked the first card has been removed.
             }, 50);
         }
 
@@ -1067,15 +1056,17 @@
         function handleShareCopy() { navigator.clipboard.writeText(window.location.href).then(() => { alert('Link copied to clipboard!'); document.getElementById('sharePopover').style.display = 'none'; }); }
 
         function getScoreColorClass(score, reverse=false) {
-            if (!reverse) {
-                if (score <= 4) return 'error';
-                if (score <= 7) return 'warning';
-                return 'success';
-            } else {
-                if (score <= 40) return 'error';
-                if (score <= 70) return 'warning';
-                return 'success';
-            }
+            let threshold1 = reverse ? 40 : 4;
+            let threshold2 = reverse ? 70 : 7;
+            if (score <= threshold1) return 'error';
+            if (score <= threshold2) return 'warning';
+            return 'success';
+        }
+
+        function getAlignmentRiskClass(score) {
+            if (score >= 60) return 'high';
+            if (score >= 40) return 'medium';
+            return 'low';
         }
         
         function renderExecutiveBarChart(allPersonaData) {
@@ -1083,7 +1074,7 @@
             const ctx = document.getElementById(chartId);
             if (!ctx) return;
             
-            const personaKeys = Object.keys(allPersonaData).filter(k => k !== 'executiveSummary');
+            const personaKeys = Object.keys(allPersonaData).filter(k => allPersonaData[k] && typeof allPersonaData[k].verdict === 'object');
             const labels = personaKeys.map(id => personaDetailsStore[id].role_name);
             const data = personaKeys.map(id => allPersonaData[id].verdict.completionRate);
             
@@ -1105,7 +1096,17 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        x: { beginAtZero: true, max: 100, ticks: { callback: (value) => value + '%' } },
+                        x: { 
+                            beginAtZero: true, 
+                            max: 100, 
+                            ticks: { callback: (value) => value + '%' },
+                            title: {
+                                display: true,
+                                text: '% of simulations completed',
+                                color: 'var(--text-tertiary)',
+                                font: { size: 14 }
+                            }
+                        },
                         y: { grid: { display: false } }
                     },
                     plugins: {
@@ -1216,108 +1217,157 @@
                 Missing: '<svg class="status-icon status-missing" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>'
             };
 
-            const executiveVerdictHTML = `
+            const executiveSummaryDashboardHTML = `
                 <div class="executive-verdict">
-                    <div class="verdict-header">
-                        <div class="verdict-badge ${summaryData.decision.toLowerCase()}">
-                            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
-                            <span>${summaryData.decision}</span>
-                        </div>
-                        <h3 class="verdict-title">The Bottom Line</h3>
+                    <div class="verdict-badge ${summaryData.decision.toLowerCase()}">
+                        ${summaryData.decision === 'HOLD' ? '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>' : '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'}
+                        <span>${summaryData.decision}</span>
                     </div>
-                    <p style="font-size: 16px; color: var(--text-secondary); max-width: 800px; margin-bottom: 24px;">
-                        This page has critical flaws that will cause key buyers to abandon their journey. The following issues must be fixed before committing resources to a launch.
-                    </p>
-                    <div class="verdict-details-grid">
-                        <div class="verdict-detail-card">
-                            <h5>
-                                <svg fill="none" stroke="var(--error)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                                Top Veto Drivers (The "Why")
-                            </h5>
-                            <ul>${summaryData.why.map(item => `<li>${item}</li>`).join('')}</ul>
+                    <h3 class="verdict-title">Executive Summary</h3>
+                </div>
+                
+                <div class="what-we-found-section summary-section-container">
+                    <p>Here’s the 30-second summary of what YOUR buyer personas found when they reviewed your page. </p>
+                    <div class="executive-summary-grid">
+                        <div class="summary-card">
+                            <div class="summary-card-header engagement">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                <span>What I Liked</span>
+                            </div>
+                            <ul class="summary-list">${summaryData.top_engagement_drivers.map(d => {
+                                const personaInfo = personaDetailsStore[d.personaId];
+                                return `<li class="summary-list-item">
+                                    <span class="item-text">${d.driver}</span>
+                                    <div class="item-meta">
+                                        <span class="persona-icon">${personaInfo.icon}</span>
+                                        <span class="persona-tag">${personaInfo.role_name}</span>
+                                    </div>
+                                </li>`
+                            }).join('')}
+                            </ul>
                         </div>
-                        <div class="verdict-detail-card">
-                            <h5>
-                                <svg fill="none" stroke="var(--success)" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-                                Fix-First Playbook (The "How")
-                            </h5>
-                        <ul>${summaryData.fixFirst.map(item => `<li>${item}</li>`).join('')}</ul>
+                        <div class="summary-card">
+                            <div class="summary-card-header abandonment">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                                <span>What Made Me Leave</span>
+                            </div>
+                            <ul class="summary-list">${summaryData.top_abandonment_drivers.map(d => {
+                                 const personaInfo = personaDetailsStore[d.personaId];
+                                 return `<li class="summary-list-item">
+                                    <span class="item-text">${d.driver}</span>
+                                    <div class="item-meta">
+                                        <span class="persona-icon">${personaInfo.icon}</span>
+                                        <span class="persona-tag">${personaInfo.role_name}</span>
+                                    </div>
+                                </li>`
+                            }).join('')}
+                            </ul>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-header playbook">
+                               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                                <span>What to Fix & Why</span>
+                            </div>
+                            <ul class="summary-list">${summaryData.top_fixes.map(f => `
+                                 <li class="summary-list-item">
+                                    <span class="item-text">${f.fix}</span>
+                                    <div class="item-meta">
+                                        <span>Addresses: ${f.addresses}</span>
+                                    </div>
+                                </li>`).join('')}
+                            </ul>
                         </div>
                     </div>
                 </div>
-            `;
-            
-            const committeeCoherenceHTML = `
-                <div class="committee-coherence">
+
+                <div class="executive-chart-container"><canvas id="executiveSummaryChart"></canvas></div>
+
+                <div class="summary-section-container">
                     <h4>Buying Committee Conflict</h4>
-                    <p>Pinpoints where your page creates conflicting experiences for key buyers, stalling deals.</p>
+                    <p>Here's where your page creates conflicting experiences for key buyers, stalling your deals.</p>
                     <div class="coherence-content">
                         <div class="alignment-risk-display">
-                            <div class="risk-value medium">${summaryData.committeeCoherence.alignmentRiskIndex}</div>
-                            <div class="risk-label">Alignment Risk</div>
-                            <div class="risk-decision" style="color: var(--warning)">${summaryData.committeeCoherence.decision}</div>
+                             <div class="risk-value ${getAlignmentRiskClass(summaryData.committeeCoherence.alignmentRiskIndex)}">${summaryData.committeeCoherence.alignmentRiskIndex}</div>
+                             <div class="tooltip">
+                                <span class="risk-label">Alignment Risk Score</span>
+                                <span class="info-icon">i</span>
+                                <span class="tooltiptext">This score measures how much your page's messaging creates conflicting or negative experiences for different members of the buying committee. A high score indicates significant misalignment.</span>
+                            </div>
                         </div>
-                        <div class="conflicts-list">
-                            ${summaryData.committeeCoherence.topConflicts.map(c => `
-                                <div class="conflict-item">
-                                    <div class="conflict-header">
-                                        <span class="conflict-persona">${c.persona} →</span>
-                                        <span class="conflict-expectation">${c.expectation}</span>
-                                    </div>
-                                    <div class="conflict-fix"><strong>Fix:</strong> ${c.fix}</div>
-                                </div>
-                            `).join('')}
-                        </div>
+                        <table class="summary-table">
+                            <thead><tr><th>Persona</th><th>Their Goal (The Conflict)</th><th>Why It Fails</th><th>The Impact</th></tr></thead>
+                            <tbody>${summaryData.committeeCoherence.topConflicts.map(c => `
+                                <tr>
+                                    <td><span class="persona-tag">${c.persona}</span></td>
+                                    <td>${c.conflict}</td>
+                                    <td>${c.why}</td>
+                                    <td>${c.impact}</td>
+                                </tr>
+                            `).join('')}</tbody>
+                        </table>
                     </div>
                 </div>
-            `;
 
-            const vetoScannerHTML = `
-                <div class="veto-scanner">
+                <div class="summary-section-container">
                     <h4>Buyer Evidence Scorecard</h4>
-                    <p>Identifies missing or buried proof points that cause specific buyers to abandon the journey.</p>
+                    <p>I scanned your page for the specific proof points each persona needs to see. Here's what I found missing.</p>
                      <div class="veto-scanner-scores">
                         <div class="scanner-score-card">
-                            <div class="label">Evidence Coverage</div>
+                             <div class="tooltip">
+                                <div class="label">Evidence Coverage</div>
+                                <span class="info-icon">i</span>
+                                <span class="tooltiptext">Measures what percentage of the required proof points for all key personas were found *anywhere* on the page.</span>
+                            </div>
                             <div class="value ${getScoreColorClass(summaryData.scores.evidence_coverage, true)}">${summaryData.scores.evidence_coverage}%</div>
                         </div>
                          <div class="scanner-score-card">
-                            <div class="label">Evidence Placement</div>
+                             <div class="tooltip">
+                                <div class="label">Evidence Placement</div>
+                                <span class="info-icon">i</span>
+                                <span class="tooltiptext">Measures what percentage of required proof points were found *above the fold*, where they are immediately visible without scrolling.</span>
+                            </div>
                             <div class="value ${getScoreColorClass(summaryData.scores.evidence_placement, true)}">${summaryData.scores.evidence_placement}%</div>
                         </div>
                     </div>
-                    <div class="scanner-matrix-grid">
-                        ${Object.keys(summaryData.proof_gaps).map(personaId => {
-                            const personaInfo = personaDetailsStore[personaId];
-                            const gaps = summaryData.proof_gaps[personaId];
-                            return `
-                                <div class="scanner-persona-card">
-                                    <div class="persona-name">${personaInfo.icon} ${personaInfo.role_name}</div>
-                                    <div class="evidence-list">
-                                        ${Object.keys(gaps).map(gapKey => {
-                                            const gap = gaps[gapKey];
-                                            return `
-                                                <div class="evidence-item">
-                                                    ${statusIcons[gap.status]}
-                                                    <span class="evidence-name">${gapKey}</span>
-                                                    ${gap.location ? `<span class="evidence-location">(${gap.location})</span>` : ''}
-                                                </div>
-                                            `
-                                        }).join('')}
-                                    </div>
-                                </div>
-                            `
-                        }).join('')}
-                    </div>
+                    <table class="summary-table">
+                         <thead><tr><th>Persona</th><th>Evidence They Needed</th><th>My Finding</th><th>Observed In</th></tr></thead>
+                         <tbody>${summaryData.proof_gaps.map(gap => `
+                            <tr>
+                                <td><span class="persona-tag">${gap.persona}</span></td>
+                                <td>${gap.evidence}</td>
+                                <td>
+                                    ${gap.location === 'Missing' ? statusIcons.Missing : statusIcons.Buried}
+                                    ${gap.location}
+                                </td>
+                                <td>${gap.observed} Runs</td>
+                            </tr>
+                         `).join('')}</tbody>
+                    </table>
+                </div>
+
+                <div class="summary-section-container">
+                    <h4>Buyer Positioning & Resonance</h4>
+                    <p>This is how your core message and tone of voice are being perceived by your key buyers.</p>
+                     <table class="summary-table">
+                         <thead><tr><th>Persona</th><th>Positioning Critique</th><th>Resonance Critique</th></tr></thead>
+                         <tbody>${summaryData.positioning_resonance.map(item => `
+                            <tr>
+                                <td><span class="persona-tag">${item.persona}</span></td>
+                                <td>
+                                    ${item.positioning}
+                                    <p class="observed-text">(Observed: ${item.positioning_observed} simulations)</p>
+                                </td>
+                                <td>
+                                    ${item.resonance}
+                                    <p class="observed-text">(Observed: ${item.resonance_observed} simulations)</p>
+                                </td>
+                            </tr>
+                         `).join('')}</tbody>
+                    </table>
                 </div>
             `;
-
-            const executiveSummaryHTML = `<div id="tab-summary" class="tab-content active">
-                     ${executiveVerdictHTML}
-                     ${committeeCoherenceHTML}
-                     ${vetoScannerHTML}
-                    <div class="executive-chart-container"><canvas id="executiveSummaryChart"></canvas></div>
-                </div>`;
+            
+            const executiveSummaryHTML = `<div id="tab-summary" class="tab-content active">${executiveSummaryDashboardHTML}</div>`;
             
             const personaTabsHTML = allPersonas.map(p => {
                 const hasData = allPersonaData[p.id] && allPersonaData[p.id].narrative;
@@ -1403,8 +1453,7 @@
                     <div class="brief-divider"></div>${evidenceLockerHTML}
                 </div>`;
             }).join('');
-
-            const methodologyHTML = `<div class="brief-footer"><div class="footer-divider" style="border-top: 1px solid var(--border); margin: 24px auto;"></div><div class="methodology-grid-2x2"><div class="methodology-item"><strong>Persona Simulation</strong><p>Each simulation is a forensic audit from the viewpoint of a specific B2B persona...</p></div><div class="methodology-item"><strong>Positioning & Resonance Audit</strong><p>The engine audits the page's messaging and tone against the persona's known alternatives...</p></div><div class="methodology-item"><strong>Structural & Journey Analysis</strong><p>Our engine maps the site's information architecture to find structural flaws...</p></div><div class="methodology-item"><strong>Severity & Impact Scoring</strong><p>Friction points are scored for severity based on which psychological driver was violated...</p></div></div></div>`;
+            
             const upsellCtaHTML = `<div class="upsell-cta-section"><div class="icon">🔬</div><h4>Ready for the Full Picture?</h4><p>This preview shows the power of a single-page audit. A full Buyer Insight Audit analyzes the entire journey to find the revenue-killing flaws you can't see.</p><button class="upsell-button request-audit-btn">Request Your FREE Buyer Insight Audit</button></div>`;
 
             return `<div class="insight-brief">
@@ -1416,7 +1465,6 @@
                 ${executiveSummaryHTML}
                 ${personaContentHTML}
                 <div class="brief-divider"></div>
-                ${methodologyHTML}<div class="brief-divider"></div>
                 ${upsellCtaHTML}
             </div>`;
         }
