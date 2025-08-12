@@ -1529,9 +1529,9 @@
                 const severityTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Severity is benchmarked against 1,250+ SaaS page simulations.</span></div>`;
                 const upliftTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Estimated improvement score. Correlates to the number of simulations that failed due to this friction point.</span></div>`;
                 
-                const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: My Top Abandonment Triggers</h3><div class="chart-container" style="height: 250px;"><canvas id="frictionChart-${p.id}"></canvas></div>`;
+                const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Top Abandonment Triggers</h3><div class="chart-container" style="height: 250px;"><canvas id="frictionChart-${p.id}"></canvas></div>`;
                 
-                const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">My Prioritized Fix-It Plan</h3>
+                const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Prioritized Fix-It Plan</h3>
                     <table class="evidence-table playbook-table">
                         <thead><tr>
                             <th style="width:5%">Rank</th>
@@ -1551,7 +1551,7 @@
                 // FIX 1: Add Evidence Locker
                 const evidenceLockerHTML = `<div class="evidence-locker-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${p.id}">Friction Points</div><div class="tab-link" data-tab="tab-drivers-${p.id}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${p.id}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters to Me</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${p.id}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered to Me</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div></div></div>`;
 
-                const strategicAuditHTML = `<div class="strategic-audit-section"><h3 class="brief-section-header">My Take on Your Positioning & Resonance</h3>
+                const strategicAuditHTML = `<div class="strategic-audit-section"><h3 class="brief-section-header">Positioning & Resonance</h3>
                     <div class="scorecard-grid">${data.strategic_messaging_audit ? `
                         <div class="scorecard-item">
                             <div class="score-display">
@@ -1577,7 +1577,7 @@
                 </div>`;
                 
                 // FIX 2: Add Inner Monologue with multiple runs
-                const monologueHTML = `<div class="inner-monologue-section"><h3 class="brief-section-header">My Inner Monologue</h3><div class="monologue-tabs">${Array.from({length: 5}, (_, i) => `<div class="monologue-tab-link ${i < (data.evidence.monologue || []).length ? (i === 0 ? 'active' : '') : 'disabled'}" data-tab="monologue-run-${p.id}-${i+1}">Run ${i+1}</div>`).join('')}</div><div class="monologue-content-wrapper">${(data.evidence.monologue || []).map((run, index) => `<div id="monologue-run-${p.id}-${index+1}" class="monologue-tab-content ${index === 0 ? 'active' : ''}"><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>My Thought Process</th></tr></thead><tbody>${run.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div></div>`;
+                const monologueHTML = `<div class="inner-monologue-section"><h3 class="brief-section-header">Inner Monologue</h3><div class="monologue-tabs">${Array.from({length: 5}, (_, i) => `<div class="monologue-tab-link ${i < (data.evidence.monologue || []).length ? (i === 0 ? 'active' : '') : 'disabled'}" data-tab="monologue-run-${p.id}-${i+1}">Run ${i+1}</div>`).join('')}</div><div class="monologue-content-wrapper">${(data.evidence.monologue || []).map((run, index) => `<div id="monologue-run-${p.id}-${index+1}" class="monologue-tab-content ${index === 0 ? 'active' : ''}"><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>My Thought Process</th></tr></thead><tbody>${run.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div></div>`;
 
                 return `<div id="tab-${p.id}" class="tab-content">
                     ${verdictHTML}
@@ -1613,7 +1613,7 @@
                              ${summary.decision === 'HOLD' ? '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>' : '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'}
                             <span>${summary.decision}</span>
                         </div>
-                        <h3 class="verdict-title">Journey Executive Summary</h3>
+                        <h3 class="verdict-title">Journey</h3>
                     </div>
                     <div class="what-we-found-section summary-section-container">
                         <p>Your buyer personas followed multiple paths through your site. Overall, the journey is failing due to critical architectural dead-ends that prevent users from finding the evidence they need.</p>
@@ -1625,7 +1625,7 @@
                             </div>
                             <div class="verdict-metric">
                                 <div class="label">Primary Failure Reason</div>
-                                <div class="value" style="font-size: 20px; font-weight: 600; color: var(--text-primary); line-height: 1.3;">Architectural Dead-Ends</div>
+                                <div class="value" style="font-size: 20px; font-weight: 600; color: var(--text-primary); line-height: 1.3;">Structural Dead-Ends</div>
                                  <div class="observed-text" style="margin-top:8px;">Key personas could not find a path to critical pages like Pricing or Demos.</div>
                             </div>
                         </div>
@@ -1656,7 +1656,7 @@
                          <div class="summary-section-container" style="background:transparent; border:none; padding:0; margin-top: 24px;">
                             <h4 class="brief-section-header" style="justify-content:center; font-size: 20px;">What to Fix</h4>
                             <table class="summary-table">
-                                <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>To Whom It Fixes the Issue</th></tr></thead>
+                                <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Who Needs It</th></tr></thead>
                                 <tbody>
                                 ${summary.top_fixes.map(f => {
                                     const personaInfo = personaDetailsStore[f.personaId];
@@ -1755,13 +1755,13 @@
                     </div>
                 </div>`;
                 
-            const playbookHTML = `<h3 class="brief-section-header">My Prioritized Fix-It Plan</h3>
+            const playbookHTML = `<h3 class="brief-section-header">Prioritized Fix-It Plan</h3>
                 <table class="evidence-table playbook-table">
                     <thead><tr>
                         <th style="width:5%">Rank</th>
                         <th>My Recommendation</th>
                         <th style="width:15%">Impact</th>
-                        <th style="width:20%; text-align:center;">Potential Uplift ${upliftTooltip}</th>
+                        <th style="width:20%; text-align:center;">Uplift ${upliftTooltip}</th>
                     </tr></thead>
                     <tbody>${(data.playbook || []).map(p => `<tr>
                         <td class="playbook-rank">${p.rank}</td>
@@ -1771,7 +1771,7 @@
                     </tr>`).join('')}</tbody>
                 </table>`;
 
-            const strategicAuditHTML = `<h3 class="brief-section-header">My Take on Your Positioning & Resonance</h3>
+            const strategicAuditHTML = `<h3 class="brief-section-header">Positioning & Resonance</h3>
                 <div class="scorecard-grid">${data.strategic_messaging_audit ? `
                     <div class="scorecard-item">
                         <div class="score-display">
@@ -1795,7 +1795,7 @@
             
             const evidenceLockerHTML = `<div class="evidence-locker-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${personaId}">Abandonment Triggers</div><div class="tab-link" data-tab="tab-drivers-${personaId}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${personaId}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.diagnostics || []).map(d => `<tr class="${d.type === 'Architectural Dead-End' ? 'architectural-dead-end' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${personaId}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div></div></div>`;
 
-            const monologueHTML = `<div class="inner-monologue-section"><h3 class="brief-section-header">My Inner Monologue</h3><div class="monologue-tabs">${Array.from({length: 5}, (_, i) => `<div class="monologue-tab-link ${i < (data.evidence.monologue || []).length ? (i === 0 ? 'active' : '') : 'disabled'}" data-tab="monologue-run-${personaId}-${i+1}">Run ${i+1}</div>`).join('')}</div><div class="monologue-content-wrapper">${(data.evidence.monologue || []).map((run, index) => `<div id="monologue-run-${personaId}-${index+1}" class="monologue-tab-content ${index === 0 ? 'active' : ''}"><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>My Thought Process</th></tr></thead><tbody>${run.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div></div>`;
+            const monologueHTML = `<div class="inner-monologue-section"><h3 class="brief-section-header">Inner Monologue</h3><div class="monologue-tabs">${Array.from({length: 5}, (_, i) => `<div class="monologue-tab-link ${i < (data.evidence.monologue || []).length ? (i === 0 ? 'active' : '') : 'disabled'}" data-tab="monologue-run-${personaId}-${i+1}">Run ${i+1}</div>`).join('')}</div><div class="monologue-content-wrapper">${(data.evidence.monologue || []).map((run, index) => `<div id="monologue-run-${personaId}-${index+1}" class="monologue-tab-content ${index === 0 ? 'active' : ''}"><table class="evidence-table monologue-table"><thead><tr><th>Time & Location</th><th>My Thought Process</th></tr></thead><tbody>${run.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div></div>`;
             
             return `<div id="tab-journey-${personaId}" class="tab-content">
                 ${storyAndVerdictHTML}
