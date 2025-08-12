@@ -523,13 +523,18 @@
                         { persona: "End User", evidence: "Product UI Screenshot", location: 'Missing', observed: "9/10" }
                     ],
                     positioning_resonance: [
-                         { persona: "Economic Buyer", positioning: "You feel like a cheaper copy, not a better solution. It's not worth the risk to switch.",  positioning_observed: "4/10", resonance: "Your casual tone undermined your credibility. I'm buying a business solution, not a gadget.", resonance_observed: "5/10" },
-                         { persona: "End User", positioning: "You ignored the pain of switching—data migration, team retraining—so I ignored your product.",  positioning_observed: "3/10", resonance: "Your marketing buzzwords made me assume your tech is weak.", resonance_observed: "3/10" }
+                         { persona: "Economic Buyer", positioning: "Weak differentiation; sounds like a cheaper incumbent, not a unique solution.", positioning_observed: "4/10", resonance: "Tone mismatch; casual language alienates a risk-averse, data-driven buyer.", resonance_observed: "5/10" },
+                         { persona: "End User", positioning: "Fails to address high switching costs like data migration or retraining.", positioning_observed: "3/10", resonance: "Marketing buzzwords like 'synergistic platform' kill credibility with technical users.", resonance_observed: "3/10" }
                     ]
                 },
                 "EconomicBuyer": { 
                     personaName: "Economic Buyer", 
-                    verdict: { outcome: "JOURNEY ABANDONED", completionRate: 5, impact: "The page fails at the final hurdle for an Economic Buyer. The absence of critical financial data makes the entire value proposition irrelevant, <strong>directly blocking budget approval.</strong>" }, 
+                    verdict: { 
+                        outcome: "JOURNEY ABANDONED", 
+                        completionRate: 5, 
+                        impact: "The page fails at the final hurdle for an Economic Buyer. The absence of critical financial data makes the entire value proposition irrelevant, <strong>directly blocking budget approval.</strong>",
+                        concise_narrative: "As the VP of Engineering, my job is to find ROI. I left in 22 seconds because I couldn't find a price, a calculator, or a single customer metric. For me, hiding the price is an immediate 'no'."
+                    }, 
                     narrative: "My name is Ari, and as the VP of Engineering, my job is to find ROI. I landed on this page to see if this tool was financially viable for my team. But I couldn't find a price, a calculator, or a single customer metric. <strong>I left in 22 seconds.</strong> If you hide the price, you're hiding a bad deal. It's an immediate 'no' from me.",
                     strategic_messaging_audit: {
                         scores: { positioning: 4, resonance: 5 },
@@ -549,7 +554,12 @@
                 }, 
                 "EndUser": { 
                     personaName: "End User", 
-                    verdict: { outcome: "JOURNEY ABANDONED", completionRate: 12, impact: "The page fails to show the product in action, leaving the End User unable to determine if it will solve their daily problems. This <strong>prevents them from becoming an internal champion.</strong>" }, 
+                    verdict: { 
+                        outcome: "JOURNEY ABANDONED", 
+                        completionRate: 12, 
+                        impact: "The page fails to show the product in action, leaving the End User unable to determine if it will solve their daily problems. This <strong>prevents them from becoming an internal champion.</strong>",
+                        concise_narrative: "As a Senior Engineer, my only question is: 'Will this make my life easier?' Your page had no screenshots, GIFs, or code snippets—just abstract promises. It was useless, so I left."
+                    }, 
                     narrative: "I'm Devin, a Senior Engineer. My boss told me to check this out. My only question is: 'Will this make my life easier?' But this page is all marketing jargon. There are no screenshots, no GIFs, no code snippets. <strong>It's just abstract promises.</strong> I clicked 'Watch Demo' and it led to a webinar form. I'm not signing up for a sales pitch next week to find out what your product does today. I'm out.",
                      strategic_messaging_audit: {
                         scores: { positioning: 3, resonance: 3 },
@@ -567,52 +577,26 @@
                     evidence: { diagnostics: [ { friction: "No product screenshots or GIFs in the hero.", violation: "<strong>Non-Negotiable Need:</strong> Must show the UI in action.", consistency: 9, severity: "High" }, { friction: "Headline is vague marketing-speak ('Revolutionize').", violation: "<strong>Pain Point:</strong> Hates over-promises.", consistency: 8, severity: "Medium" }, { friction: "'Watch Demo' leads to a long webinar signup form.", violation: "<strong>Core Skepticism:</strong> Long demos hide clunky software.", consistency: 6, severity: "Medium" } ], monologue: [ { time: '00:02s', thought: "Boss sent this. 'Revolutionize your workflow'... ugh." }, { time: '00:11s', thought: "Just want to see what it looks like. Where's a screenshot?" }, { time: '00:18s', thought: "Okay, a 'demo'. Clicks. It's a form for a webinar next week. No thanks." }, { time: '00:25s', thought: "<span style='color:var(--error);font-weight:600;'>Useless.</span> 25 seconds, still don't know what it does. Moving on." } ], drivers: [ { signal: "Testimonials from other 'Analysts' were present.", support: "<strong>Goal:</strong> Peer validation.", consistency: 6 }, { signal: "Link to technical documentation was clearly visible.", support: "<strong>Goal:</strong> Self-serve problem solving.", consistency: 7 }, { signal: "Dark mode screenshot was available.", support: "<strong>Goal:</strong> Tool fits my workflow.", consistency: 4} ] }, 
                     playbook: [ { rank: 1, fix: "Add an animated GIF of the core product workflow in the hero section.", addresses_friction: "No product screenshots or GIFs", impact: "High", impact_desc: "Provides immediate proof of the product's existence and value.", uplift: 9 }, { rank: 2, fix: "Change headline to a specific outcome, e.g., 'Complete Reports in 10 Minutes.'", addresses_friction: "Headline is vague", impact: "Medium", impact_desc: "Connects features to tangible user benefits.", uplift: 8 }, { rank: 3, fix: "Replace 'Watch Demo' with a 2-minute, self-serve product tour video.", addresses_friction: "'Watch Demo' leads to a form", impact: "Medium", impact_desc: "Removes friction for users who want to see the product without talking to sales.", uplift: 6 } ] 
                 },
-                 "TechnicalDecisionMaker": { personaName: "Technical Evaluator", verdict: { completionRate: 35 } },
-                 "SecurityGuardian": { personaName: "Security Guardian", verdict: { completionRate: 20 } },
-                 "Champion": { personaName: "Champion", verdict: { completionRate: 65 } },
-                 "Influencer": { personaName: "Influencer", verdict: { completionRate: 50 } }
-            },
-            journeyAudit: {
-                "EconomicBuyer": { 
-                    personaName: "Economic Buyer", 
-                    verdict: { outcome: "JOURNEY FAILURE", completionRate: 8, impact: "The website's architecture creates a dead-end for buyers transitioning from research to purchase, making it nearly impossible to build a business case." }, 
-                    funnel_breakdown: { expected_paths: [ { path: ["Home", "Case Studies", "Pricing", "Demo Request"], percentage: 65 }, { path: ["Home", "Solutions", "Pricing", "Contact"], percentage: 35 } ], actual_paths: [ { path: ["Home", "Case Studies", "Solutions", "EXIT"], percentage: 70, is_failure: true, diagnosis: "The journey breaks because the `/solutions` page is a dead-end for a user with financial intent. It offers <strong>no path to the `/pricing` page.</strong>" }, { path: ["Home", "About Us", "Leadership", "EXIT"], percentage: 21, is_failure: true, diagnosis: "User with high financial intent got lost in non-commercial content, indicating confusing information architecture." } ] }, 
-                    narrative: "My journey started on a case study page with a great 40% cost reduction metric. My goal was simple: find the price to build a business case. Instead of a 'Pricing' button, the only option was 'Explore Solutions.' That page was just more marketing. It was a dead end. <strong>I abandoned the journey because they made it a scavenger hunt to find the price.</strong> This tells me their pricing is complex and they aren't confident in their value.",
-                    strategic_messaging_audit: {
-                        scores: { positioning: 2, resonance: 4 },
-                        positioning: {
-                            differentiation: "Weak differentiation. The message sounds like a cheaper incumbent, not a unique solution, giving no compelling reason to switch.",
-                            switching_cost: "Fails to address high switching costs (e.g., data migration, retraining), creating unaddressed buyer anxiety."
-                        },
-                        resonance: {
-                            tone_and_voice: "Tone mismatch. Casual, sales-focused language alienates a risk-averse persona who expects a formal, data-driven style.",
-                            trust_and_credibility: "Buzzwords kill credibility. Terms like 'synergistic platform' are red flags for technical buyers, suggesting a lack of substance."
-                        }
-                    },
-                    evidence: { diagnostics: [ { friction: "No CTA from `/case-studies` or `/solutions` to `/pricing`.", violation: "<strong>Pain Point:</strong> Wasting time on vendors who are not transparent about cost.", consistency: 9, severity: "High", type: "Architectural Dead-End" }, { friction: "Main navigation does not have a 'Pricing' link.", violation: "<strong>Non-Negotiable Need:</strong> Must see pricing or a clear path to it.", consistency: 9, severity: "High" }, { friction: "Content on `/solutions` page is redundant after reading a case study.", violation: "Violates expectation of a logical next step.", consistency: 7, severity: "Medium" } ], drivers: [ { signal: "Specific financial outcomes in case study were highly compelling.", support: "<strong>Goal:</strong> Validate ROI before approving budget.", consistency: 9 }, { signal: "Clear 'Request a Quote' CTA was visible on homepage.", support: "<strong>Goal:</strong> Direct path to financial discussion.", consistency: 5 }, { signal: "Inclusion of TCO calculator on a sub-page.", support: "<strong>Goal:</strong> Build a business case.", consistency: 5} ], monologue: [ { time: '00:45s (/case-studies/acme-corp)', thought: "This 40% reduction in overhead is compelling. The numbers seem real." }, { time: '01:50s', thought: "Okay, the case study ended. The only CTA is 'Explore Our Solutions.' Fine. Let's see if that leads to pricing." }, { time: '02:05s (/solutions)', thought: "This is just more marketing content. Where is the price? This is a maze." }, { time: '02:25s', thought: "<span style='color:var(--error); font-weight:600;'>Decision: Abandoning.</span> I don't have time for this scavenger hunt. They're hiding the price, which means it's complicated and expensive." } ] }, 
-                    playbook: [  { rank: 1, fix: "Add a persistent, high-visibility 'Pricing' link to the main site navigation.", addresses_friction: "Main navigation does not have a 'Pricing' link.", impact: "High", impact_desc: "Fixes a critical break in the buyer's financial validation journey.", uplift: 9 }, { rank: 2, fix: "Add a 'View Pricing & Tiers' CTA banner to the bottom of all case study and solution pages.", addresses_friction: "No CTA from `/case-studies` to `/pricing`.", impact: "High", impact_desc: "Creates a clear next step for users with high commercial intent.", uplift: 9 }, { rank: 3, fix: "Ensure every marketing page (solutions, features) has a secondary CTA leading to a commercial action (Pricing, Demo).", addresses_friction: "Architectural dead-ends", impact: "Medium", impact_desc: "Prevents journey abandonment by providing logical conversion paths.", uplift: 7 } ] 
+                 "TechnicalDecisionMaker": { 
+                    personaName: "Technical Evaluator", 
+                    verdict: { outcome: "JOURNEY PROGRESSED", completionRate: 35, impact: "This persona has a moderate completion rate, suggesting some technical needs are met while others are not.", concise_narrative: "", evidence: {} }
                 },
-                "EndUser": { 
-                    personaName: "End User", 
-                    verdict: { outcome: "JOURNEY FAILURE", completionRate: 15, impact: "The journey fails to provide any visual evidence of the product in action, preventing the End User from validating its utility for their daily tasks." }, 
-                    funnel_breakdown: { expected_paths: [ { path: ["Home", "Features", "Live Demo", "Signup"], percentage: 70 }, { path: ["Home", "Product Tour", "Signup"], percentage: 30 } ], actual_paths: [ { path: ["Home", "Features", "Blog/Related Article", "EXIT"], percentage: 88, is_failure: true, diagnosis: "The journey breaks when a user seeking product validation is redirected to content marketing (`/blog`) instead of a product visualization (`/live-demo`)." }, { path: ["Home", "Integrations", "Documentation", "EXIT"], percentage: 12, is_failure: true, diagnosis: "Path indicates user is trying to self-validate technical fit but finds no visual proof, leading to abandonment." } ] }, 
-                    narrative: "I started on the 'Features' page trying to see what this thing actually looks like. The page sounded good, but when I clicked the main CTA ('Read the full story'), it took me to a blog post. <strong>A blog post!</strong> I don't want to read an article, I want to see the product. I've clicked twice and I'm further from my goal than when I started. This company doesn't respect my time.",
-                    strategic_messaging_audit: {
-                        scores: { positioning: 4, resonance: 3 },
-                        positioning: {
-                            differentiation: "Weak differentiation. The message sounds like a cheaper incumbent, not a unique solution, giving no compelling reason to switch.",
-                            switching_cost: "Fails to address high switching costs (e.g., data migration, retraining), creating unaddressed buyer anxiety."
-                        },
-                        resonance: {
-                            tone_and_voice: "Tone mismatch. Casual, sales-focused language alienates a risk-averse persona who expects a formal, data-driven style.",
-                            trust_and_credibility: "Buzzwords kill credibility. Terms like 'synergistic platform' are red flags for technical buyers, suggesting a lack of substance."
-                        }
-                    },
-                    evidence: { diagnostics: [ { friction: "No product screenshots or GIFs on the Features page.", violation: "<strong>Non-Negotiable Need:</strong> Must show the UI in action.", consistency: 9, severity: "High", type: "Architectural Dead-End" }, { friction: "'Learn More' CTA leads to a blog post, not a product view.", violation: "<strong>Pain Point:</strong> Hates abstract marketing promises.", consistency: 8, severity: "High" }, { friction: "Interactive demo is behind a 'Contact Us' wall.", violation: "<strong>Pain Point:</strong> Does not want to talk to sales to try software.", consistency: 8, severity: "High"} ], drivers: [ { signal: "Integration logos for tools I use were visible.", support: "<strong>Goal:</strong> Fits into my workflow.", consistency: 6 }, { signal: "A 'Changelog' link was visible in the footer.", support: "<strong>Goal:</strong> Active product development.", consistency: 7 }, { signal: "An 'API Status' page was linked in the footer.", support: "<strong>Goal:</strong> Service reliability.", consistency: 5 } ], monologue: [ { time: '00:30s (/features)', thought: "Okay, the features sound good. Now show me what it looks like." }, { time: '00:45s', thought: "The main CTA is 'Read the full story'. Clicks." }, { time: '00:55s (/blog/related-article)', thought: "A blog post? I don't want to read an article, I want to see the tool." }, { time: '01:10s', thought: "<span style='color:var(--error); font-weight:600;'>Decision: Abandoning.</span> I've clicked twice and I'm further away from seeing the product. This is a waste of time." } ] }, 
-                    playbook: [ { rank: 1, fix: "Replace 'Learn More' CTA with 'See It In Action', linking to an embedded 2-min product tour video.", addresses_friction: "'Learn More' CTA leads to a blog post", impact: "High", impact_desc: "Directly satisfies user intent for product visualization.", uplift: 8 }, { rank: 2, fix: "Add an animated GIF of the core product workflow in the hero section of the features page.", addresses_friction: "No product screenshots on Features page", impact: "High", impact_desc: "Provides immediate visual proof, reducing uncertainty.", uplift: 9 }, { rank: 3, fix: "Create a self-serve, interactive demo sandbox and link to it from all evaluation pages.", addresses_friction: "Interactive demo is gated", impact: "Medium", impact_desc: "Enables deep evaluation without sales friction, building user trust.", uplift: 8 } ] 
+                 "SecurityGuardian": { 
+                    personaName: "Security Guardian", 
+                    verdict: { outcome: "JOURNEY ABANDONED", completionRate: 20, impact: "This persona abandoned the journey early due to a lack of critical trust signals.", concise_narrative: "", evidence: {} }
+                },
+                 "Champion": { 
+                    personaName: "Champion", 
+                    verdict: { outcome: "JOURNEY COMPLETED", completionRate: 65, impact: "This persona completed their journey, finding enough value to consider advocating for the product.", concise_narrative: "", evidence: {} }
+                },
+                 "Influencer": { 
+                    personaName: "Influencer", 
+                    verdict: { outcome: "JOURNEY PROGRESSED", completionRate: 50, impact: "This persona found the content interesting enough to continue exploring but did not reach a final conversion goal.", concise_narrative: "", evidence: {} }
                 }
-            }
+            },
+            // ... rest of reportDataStore
         };
+
         const allPersonas = [ { id: 'EconomicBuyer', name: 'Economic Buyer', defaultIntent: 'BoFu' }, { id: 'EndUser', name: 'End User', defaultIntent: 'MoFu' }, { id: 'TechnicalDecisionMaker', name: 'Technical Evaluator', defaultIntent: 'MoFu' }, { id: 'SecurityGuardian', name: 'Security Guardian', defaultIntent: 'MoFu' }, { id: 'Champion', name: 'Champion', defaultIntent: 'ToFu' }, { id: 'Influencer', name: 'Industry Influencer', defaultIntent: 'ToFu' } ];
         let personaDetailsStore = { 
             "EconomicBuyer": { icon: '💰', role_name: "The Economic Buyer", fictional_name: "Ari Kaplan", job_title: "VP of Engineering", industry_vertical: "Technology", industry_subvertical: "E-Commerce", mental_model: "Purchases must have a clear, quantifiable return.", intent_based_behavior: {"ToFu":{"goals":[{"id":"g1","text":"Benchmark spending against new models"},{"id":"g2","text":"Identify disruptive financial technologies"},{"id":"g3","text":"Understand high-level market trends"}],"pains":[{"id":"p1","text":"Wasting time on vague marketing content"},{"id":"p2","text":"Gated content requiring a form fill"},{"id":"p3","text":"Secretly vendor-funded analyst reports"}],"skepticisms":[{"id":"s1","text":"'Visionary' claims without supporting numbers"},{"id":"s2","text":"Hype cycles with no real business case"},{"id":"s3","text":"Solutions looking for a problem"}],"non_negotiable_needs": [{"text": "Clear pricing or ROI calculator"}, {"text": "Case studies with real numbers"}, {"text":"A clear path to a sales conversation"}]},"MoFu":{"goals":[{"id":"g1","text":"Compare TCO between vendors"},{"id":"g2","text":"Assess financial viability of implementation"},{"id":"g3","text":"Build a business case for the executive team"}],"pains":[{"id":"p1","text":"Opaque or complex pricing models"},{"id":"p2","text":"Difficulty comparing vendors with different features"},{"id":"p3","text":"Solutions requiring heavy, unbudgeted IT resources"}],"skepticisms":[{"id":"s1","text":"Promises of 'fast ROI' without a model"},{"id":"s2","text":"That initial costs will balloon over time"},{"id":"s3","text":"The vendor is not financially stable"}],"non_negotiable_needs": [{"text": "Transparent pricing page"}, {"text": "Detailed comparison charts"}, {"text":"Customer testimonials from same industry"}]},"BoFu":{"goals":[{"id":"g7","text":"Finalize budget allocation with confidence"},{"id":"g8","text":"Negotiate favorable contract terms"},{"id":"g9","text":"Ensure purchase aligns with financial goals"}],"pains":[{"id":"p7","text":"Discovering hidden fees during procurement"},{"id":"p8","text":"Committing to a long-term contract without an out-clause"},{"id":"p9","text":"Inflexible vendors on contract redlines"}],"skepticisms":[{"id":"s7","text":"That commitments are not backed by the SLA"},{"id":"s8","text":"The sales pitch doesn't match the contract"},{"id":"s9","text":"That post-sale support will be costly"}],"non_negotiable_needs": [{"text": "A clear, itemized quote"}, {"text": "MSA and SLA documents for review"}, {"text":"Direct line to a sales rep"}]}} },
@@ -1208,7 +1192,7 @@
                 plugins: [annotations]
             });
         }
-        
+
         function generatePageAuditBriefHTML(allPersonaData) {
             const summaryData = allPersonaData.executiveSummary;
             const statusIcons = {
@@ -1227,7 +1211,7 @@
                 </div>
                 
                 <div class="what-we-found-section summary-section-container">
-                    <p>Here’s the 30-second summary of what YOUR buyer personas found when they reviewed your page. </p>
+                    <p>Here’s the 30-second summary of what your AI buyer personas found when they reviewed your page. </p>
                     <div class="executive-summary-grid">
                         <div class="summary-card">
                             <div class="summary-card-header engagement">
@@ -1386,23 +1370,55 @@
                 const intentDisplayNames = { ToFu: "Discovery", MoFu: "Evaluation", BoFu: "Purchase" };
                 const intentName = intentDisplayNames[intentKey] || "Evaluation";
 
+                const topDrivers = data.evidence.drivers.slice(0, 2);
+                const topFriction = data.evidence.diagnostics.slice(0, 2);
+
+                const verdictHTML = `
+                <div class="summary-section-container persona-verdict-summary">
+                    <p style="text-align:center; max-width: 800px; margin: 0 auto 24px;">Here's a quick summary of my experience on your page and what stood out to me as the <strong>${data.personaName}</strong>.</p>
+                    <div class="verdict-grid" style="align-items: flex-start;">
+                        <div class="verdict-metric">
+                            <div class="label">My Journey Completion Rate</div>
+                            <div class="value fail">${data.verdict.completionRate}%</div>
+                        </div>
+                        <div class="verdict-impact">
+                            <strong style="display: block; font-size: 18px; margin-bottom: 8px;">My Verdict: ${data.verdict.outcome}</strong>
+                            <p>${data.verdict.concise_narrative || ''}</p>
+                        </div>
+                    </div>
+                    <div class="executive-summary-grid" style="grid-template-columns: 1fr 1fr; margin-top: 24px;">
+                        <div class="summary-card">
+                            <div class="summary-card-header engagement">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                <span>What I Liked</span>
+                            </div>
+                            <ul class="summary-list">${topDrivers.map(d => `
+                                <li class="summary-list-item">
+                                    <span class="item-text">${d.signal}</span>
+                                    <div class="item-meta"><span>Supports My Goal: ${d.support.replace(/<strong>.*?<\/strong>/g, '')}</span></div>
+                                </li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="summary-card">
+                             <div class="summary-card-header abandonment">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                                <span>What Made Me Leave</span>
+                            </div>
+                             <ul class="summary-list">${topFriction.map(f => `
+                                <li class="summary-list-item">
+                                    <span class="item-text">${f.friction}</span>
+                                    <div class="item-meta"><span>Severity: <span class="severity-badge ${f.severity.toLowerCase()}">${f.severity}</span></span></div>
+                                </li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>`;
+
                 const severityTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Severity is benchmarked against 1,250+ SaaS page simulations.</span></div>`;
                 const upliftTooltip = `<div class="tooltip"><span class="info-icon">i</span><span class="tooltiptext">Estimated improvement score. Correlates to the number of simulations that failed due to this friction point.</span></div>`;
                 
-                const verdictHTML = `<div class="verdict-section">
-                    <div class="tags">
-                         <span class="intent-tag">Persona: ${data.personaName}</span>
-                         <span class="intent-tag">Intent: ${intentName}</span>
-                    </div>
-                    <div class="verdict-outcome abandoned">${data.verdict.outcome}</div>
-                    <div class="verdict-grid">
-                        <div class="verdict-metric"><div class="label">Completion Rate</div><div class="value fail">${data.verdict.completionRate}%</div></div>
-                        <div class="verdict-impact"><strong>Business Impact:</strong> ${data.verdict.impact}</div>
-                    </div>
-                </div>`;
-                const narrativeHTML = `<div class="narrative-block"><p>${data.narrative}</p></div>`;
-                const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Top Abandonment Triggers</h3><div class="chart-container" style="height: 250px;"><canvas id="frictionChart-${p.id}"></canvas></div>`;
-                const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Prioritized Fix-It Plan</h3>
+                const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: My Top Abandonment Triggers</h3><div class="chart-container" style="height: 250px;"><canvas id="frictionChart-${p.id}"></canvas></div>`;
+                const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">My Prioritized Fix-It Plan</h3>
                     <table class="evidence-table playbook-table">
                         <thead><tr>
                             <th style="width:5%">Rank</th>
@@ -1418,12 +1434,12 @@
                         </tr>`).join('')}</tbody>
                     </table>
                 </div>`;
-                const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${p.id}">Friction Points</div><div class="tab-link" data-tab="tab-monologue-${p.id}">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers-${p.id}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${p.id}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue-${p.id}" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>Thought</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${p.id}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div></div></div>`;
-                const strategicAuditHTML = `<div class="strategic-audit-section"><h3 class="brief-section-header">Positioning & Resonance Scorecard</h3>
+                const evidenceLockerHTML = `<div class="evidence-section"><h3 class="brief-section-header">The Evidence Locker: My Full Analysis</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${p.id}">Friction Points</div><div class="tab-link" data-tab="tab-monologue-${p.id}">Inner Monologue</div><div class="tab-link" data-tab="tab-drivers-${p.id}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${p.id}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters to Me</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div><div id="tab-monologue-${p.id}" class="tab-content"><div class="monologue-disclaimer">This is a sample from one of 10 simulated journeys.</div><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>My Thought Process</th></tr></thead><tbody>${data.evidence.monologue.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${p.id}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered to Me</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div></div></div>`;
+                const strategicAuditHTML = `<div class="strategic-audit-section"><h3 class="brief-section-header">My Take on Your Positioning & Resonance</h3>
                     <div class="scorecard-grid">${data.strategic_messaging_audit ? `
                         <div class="scorecard-item">
                             <div class="score-display">
-                                <h4 class="score-title">🧭 Positioning & Moat</h4>
+                                <h4 class="score-title">🧭 Positioning</h4>
                                 <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.positioning)}">
                                     ${data.strategic_messaging_audit.scores.positioning}<span class="score-total">/ 10</span>
                                 </div>
@@ -1446,7 +1462,6 @@
                 
                 return `<div id="tab-${p.id}" class="tab-content">
                     ${verdictHTML}
-                    <div class="brief-divider"></div><h3 class="brief-section-header">The Story</h3>${narrativeHTML}
                     <div class="brief-divider"></div>${playbookHTML}
                     ${chartHTML}
                     <div class="brief-divider"></div>${strategicAuditHTML}
