@@ -42,7 +42,19 @@
         .no-print { }
 
         /* --- Header --- */
-        header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(253, 252, 251, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        header { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            z-index: 1000; 
+            /* The Glass Effect */
+            background: rgba(253, 252, 251, 0.75); /* Slightly less opaque */
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); /* For Safari compatibility */
+            border-bottom: 1px solid rgba(139, 107, 71, 0.1); /* Softer border */
+        }
+
         nav { display: flex; justify-content: space-between; align-items: center; height: 72px; }
         .logo-image { height: 48px; }
         .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
@@ -54,7 +66,17 @@
         h1 { font-size: clamp(36px, 7vw, 60px); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 24px; }
         .gradient-text { background: linear-gradient(135deg, var(--accent) 0%, #d97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .hero-subtitle { font-size: 24px; font-weight: 400; color: var(--text-secondary); margin-bottom: 48px; line-height: 1.5; }
-        .analysis-input-section { padding: 40px; background: rgba(255,255,255,0.5); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 10px 40px var(--shadow); backdrop-filter: blur(10px); }
+        .analysis-input-section { 
+            padding: 40px; 
+            border-radius: 24px; /* A larger radius looks better with glass */
+            box-shadow: 0 10px 40px var(--shadow); 
+            
+            /* The Glass Effect */
+            background: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); /* For Safari compatibility */
+            border: 1px solid rgba(255, 255, 255, 0.7); /* Adds a subtle light edge */
+        }
         .input-group { margin-bottom: 24px; }
         .input-group h3, .intent-selector h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; text-align: left; color: var(--text-primary);}
         .input-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -266,7 +288,24 @@
         .upsell-cta-section .upsell-button:hover { background: var(--accent-hover); transform: translateY(-2px); }
 
         /* --- Modal & Tooltip Styles --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 24, 22, 0.7); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            z-index: 2000; 
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+            opacity: 0; 
+            transition: opacity 0.3s ease;
+            
+            /* The Glass Effect for the background */
+            background: rgba(26, 24, 22, 0.3); /* Dark, semi-transparent backdrop */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
         .modal-overlay.visible { display: flex; opacity: 1; }
         .modal-content { background: var(--bg-primary); border-radius: 16px; width: 90%; max-width: 900px; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.95); transition: transform 0.3s ease; padding: 0;}
         .modal-overlay.visible .modal-content { transform: scale(1); }
@@ -572,7 +611,7 @@
                     verdict: { 
                         outcome: "JOURNEY ABANDONED", 
                         completionRate: 5, 
-                        impact: "My name is Ari, and as the VP of Engineering, my job is to find ROI. I landed on this page to see if this tool was financially viable for my team. But I couldn't find a price, a calculator, or a single customer metric. <strong>I left in 22 seconds.</strong> If you hide the price, you're hiding a bad deal. It's an immediate 'no' from me.",
+                        impact: "<strong>As the VP of Engineering</strong>, I came to your page to find its price and build a business case. I left within 22 seconds from the hero section because the complete absence of ROI proof signals you are hiding a bad deal. It's an immediate 'no'.",
                         concise_narrative: "As the VP of Engineering, my job is to find ROI. I left in 22 seconds because I couldn't find a price, a calculator, or a single customer metric. For me, hiding the price is an immediate 'no'."
                     }, 
                     narrative: "My name is Ari, and as the VP of Engineering, my job is to find ROI. I landed on this page to see if this tool was financially viable for my team. But I couldn't find a price, a calculator, or a single customer metric. <strong>I left in 22 seconds.</strong> If you hide the price, you're hiding a bad deal. It's an immediate 'no' from me.",
@@ -604,7 +643,7 @@
                     verdict: { 
                         outcome: "JOURNEY ABANDONED", 
                         completionRate: 12, 
-                        impact: "I'm Devin, a Senior Engineer. My boss told me to check this out. My only question is: 'Will this make my life easier?' But this page is all marketing jargon. There are no screenshots, no GIFs, no code snippets. <strong>It's just abstract promises.</strong> I clicked 'Watch Demo' and it led to a webinar form. I'm not signing up for a sales pitch next week to find out what your product does today. I'm out.",
+                        impact: "<strong>As a Senior Engineer</strong>, I came here to see if your product would make my job easier. I left your features page during my initial evaluation because it was full of marketing promises instead of product screenshots. Your 'demo' was a bait-and-switch to a webinar form, which immediately killed my trust.",
                         concise_narrative: "As a Senior Engineer, my only question is: 'Will this make my life easier?' Your page had no screenshots, GIFs, or code snippets—just abstract promises. It was useless, so I left."
                     }, 
                     narrative: "I'm Devin, a Senior Engineer. My boss told me to check this out. My only question is: 'Will this make my life easier?' But this page is all marketing jargon. There are no screenshots, no GIFs, no code snippets. <strong>It's just abstract promises.</strong> I clicked 'Watch Demo' and it led to a webinar form. I'm not signing up for a sales pitch next week to find out what your product does today. I'm out.",
@@ -678,7 +717,7 @@
                 "EconomicBuyer": { 
                     personaName: "Economic Buyer", 
                     verdict: { outcome: "JOURNEY FAILURE", completionRate: 8 }, 
-                    narrative: "My journey started on a case study with a great 40% cost reduction metric. My goal was simple: find your price to build my business case. Instead of a 'Pricing' button, my only option was 'Explore Solutions.' That page was just more marketing. It was a dead end. <strong>I abandoned my journey because you made it a scavenger hunt to find the price.</strong> This tells me your pricing is complex and you aren't confident in your value.",
+                    narrative: "<strong>As the Economic Buyer</strong>, I was ready to evaluate your cost after a compelling case study. I abandoned my journey on your /solutions page because you provided no path to pricing. This architectural dead-end made it impossible to build a business case and suggests you aren't confident in your value.",
                     evidence_sought: ["A clear, high-visibility 'Pricing' link in the main navigation.", "A path from a case study directly to pricing information.", "A self-serve TCO or ROI calculator."],
                     funnel_breakdown: {  
                         actual_paths: [ 
@@ -701,7 +740,7 @@
                 "EndUser": { 
                     personaName: "End User", 
                     verdict: { outcome: "JOURNEY FAILURE", completionRate: 15 }, 
-                    narrative: "I started on your 'Features' page trying to see what your tool actually looks like. The page sounded good, but when I clicked the main CTA ('Read the full story'), it took me to a blog post. <strong>A blog post!</strong> I don't want to read an article, I want to see the product. I've clicked twice and I'm further from my goal than when I started. You didn't respect my time.",
+                    narrative: "<strong>As an End User</strong>, I was trying to see your product in action. I left your site after being redirected from the /features page to a blog post. You sent me away from product validation to read marketing content, breaking my trust and wasting my time.",
                     evidence_sought: ["Screenshots, GIFs, or an animated demo of the UI in action.", "A self-serve, interactive sandbox environment.", "A short, 2-minute product tour video."],
                     funnel_breakdown: {
                         actual_paths: [ 
@@ -1385,7 +1424,7 @@
                      <div class="summary-section-container" style="background:transparent; border:none; padding:0; margin-top: 24px;">
                         <h4 class="brief-section-header" style="justify-content:center; font-size: 20px;">What to Fix</h4>
                         <table class="summary-table">
-                            <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>To Whom It Fixes the Issue</th></tr></thead>
+                            <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Fixes For</th></tr></thead>
                             <tbody>
                             ${summaryData.top_fixes.map(f => {
                                 const personaInfo = personaDetailsStore[f.personaId];
@@ -1656,7 +1695,7 @@
                          <div class="summary-section-container" style="background:transparent; border:none; padding:0; margin-top: 24px;">
                             <h4 class="brief-section-header" style="justify-content:center; font-size: 20px;">What to Fix</h4>
                             <table class="summary-table">
-                                <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Who Needs It</th></tr></thead>
+                                <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Fixes For</th></tr></thead>
                                 <tbody>
                                 ${summary.top_fixes.map(f => {
                                     const personaInfo = personaDetailsStore[f.personaId];
