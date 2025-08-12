@@ -594,6 +594,15 @@
                             { persona: "End User", conflict: "Wants to see the product UI", why: "The page has zero screenshots or GIFs.", impact: "Prevents internal adoption." }
                         ]
                     },
+                    structural_audit_summary: {
+                        title: "Executive Red Flags",
+                        subtitle: "I scanned the page for deal-killing structural flaws. These three issues create immediate friction for key buyers and put your conversion goals at risk.",
+                        findings: [
+                        { id: "sa2", icon: "🗺️", text: "Path to Pricing is Broken", details: "There is no 'Pricing' link in the main navigation, making it impossible for a financial evaluation.", hurts_persona_id: "EconomicBuyer" },
+                        { id: "sa3", icon: "🖼️", text: "No Visual Product Proof", details: "No product UI is visible above the fold, failing the End User's core need to see the tool in action.", hurts_persona_id: "EndUser" },
+                        { id: "sa1", icon: "🚫", text: "Trust Signals are Buried", details: "Critical signals like SOC-2 are in the footer, failing the Security Guardian's immediate visibility test.", hurts_persona_id: "SecurityGuardian" }
+                        ]
+                    },
                     scores: { evidence_coverage: 65, evidence_placement: 40 },
                     proof_gaps: [
                         { persona: "Economic Buyer", evidence: "ROI Proof", location: 'Missing', observed: "10/10" },
@@ -636,7 +645,11 @@
                         ], 
                         drivers: [ { signal: "Logo of a known enterprise customer was visible.", support: "<strong>Goal:</strong> De-risking Investment.", consistency: 7 }, { signal: "Mention of 'predictable costs' in a sub-header.", support: "<strong>Goal:</strong> Financial Stability.", consistency: 5 }, { signal: "Data point on '30% cost reduction'.", support: "<strong>Goal:</strong> Build a business case.", consistency: 7} ] 
                     }, 
-                    playbook: [ { rank: 1, fix: "Add a three-tier pricing table directly below the hero.", addresses_friction: "Absence of a 'Pricing' link or table", impact: "High", impact_desc: "Reduces financial uncertainty and accelerates decision-making.", uplift: 10 }, { rank: 2, fix: "Replace headline with a quantifiable outcome, e.g., 'Cut Cloud Waste by 30%.'", addresses_friction: "Headline uses buzzwords", impact: "Medium", impact_desc: "Builds credibility by focusing on tangible outcomes.", uplift: 8 }, { rank: 3, fix: "Change 'Learn More' CTA to 'View Pricing'.", addresses_friction: "Vague CTA", impact: "Medium", impact_desc: "Improves navigation clarity and reduces user frustration.", uplift: 7 } ] 
+                    playbook: [ 
+                        { rank: 1, fix: "Add a three-tier pricing table directly below the hero.", addresses_friction: "Absence of a 'Pricing' link or table", impact: "High", impact_desc: "Reduces financial uncertainty and accelerates decision-making.", uplift: 10, restores_journey_point: "Prevents abandonment at Hero" }, 
+                        { rank: 2, fix: "Replace headline with a quantifiable outcome, e.g., 'Cut Cloud Waste by 30%.'", addresses_friction: "Headline uses buzzwords", impact: "Medium", impact_desc: "Builds credibility by focusing on tangible outcomes.", uplift: 8, restores_journey_point: "Improves initial engagement" }, 
+                        { rank: 3, fix: "Change 'Learn More' CTA to 'View Pricing'.", addresses_friction: "Vague CTA", impact: "Medium", impact_desc: "Improves navigation clarity and reduces user frustration.", uplift: 7, restores_journey_point: "Clarifies path to conversion" } 
+                    ] 
                 }, 
                 "EndUser": { 
                     personaName: "End User", 
@@ -668,7 +681,11 @@
                         ], 
                         drivers: [ { signal: "Testimonials from other 'Analysts' were present.", support: "<strong>Goal:</strong> Peer validation.", consistency: 6 }, { signal: "Link to technical documentation was clearly visible.", support: "<strong>Goal:</strong> Self-serve problem solving.", consistency: 7 }, { signal: "Dark mode screenshot was available.", support: "<strong>Goal:</strong> Tool fits my workflow.", consistency: 4} ] 
                     }, 
-                    playbook: [ { rank: 1, fix: "Add an animated GIF of the core product workflow in the hero section.", addresses_friction: "No product screenshots or GIFs", impact: "High", impact_desc: "Provides immediate proof of the product's existence and value.", uplift: 9 }, { rank: 2, fix: "Change headline to a specific outcome, e.g., 'Complete Reports in 10 Minutes.'", addresses_friction: "Headline is vague", impact: "Medium", impact_desc: "Connects features to tangible user benefits.", uplift: 8 }, { rank: 3, fix: "Replace 'Watch Demo' with a 2-minute, self-serve product tour video.", addresses_friction: "'Watch Demo' leads to a form", impact: "Medium", impact_desc: "Removes friction for users who want to see the product without talking to sales.", uplift: 6 } ] 
+                    playbook: [ 
+                        { rank: 1, fix: "Add an animated GIF of the core product workflow in the hero section.", addresses_friction: "No product screenshots or GIFs", impact: "High", impact_desc: "Provides immediate proof of the product's existence and value.", uplift: 9, restores_journey_point: "Provides visual proof" }, 
+                        { rank: 2, fix: "Change headline to a specific outcome, e.g., 'Complete Reports in 10 Minutes.'", addresses_friction: "Headline is vague", impact: "Medium", impact_desc: "Connects features to tangible user benefits.", uplift: 8, restores_journey_point: "Builds user-centric value" }, 
+                        { rank: 3, fix: "Replace 'Watch Demo' with a 2-minute, self-serve product tour video.", addresses_friction: "'Watch Demo' leads to a form", impact: "Medium", impact_desc: "Removes friction for users who want to see the product without talking to sales.", uplift: 6, restores_journey_point: "Enables self-service evaluation" } 
+                    ] 
                 },
                  "TechnicalDecisionMaker": { 
                     personaName: "Technical Evaluator", 
@@ -704,9 +721,9 @@
                         { driver: "'Learn More' CTA leads to a blog post, not a product view.", personaId: "EndUser" }
                     ],
                     top_fixes: [
-                        { rank: 1, fix: "Add a persistent, high-visibility 'Pricing' link to the main site navigation.", uplift: 9, personaId: "EconomicBuyer" },
-                        { rank: 2, fix: "Add an animated GIF of the core product workflow in the hero section of the features page.", uplift: 9, personaId: "EndUser"},
-                        { rank: 3, fix: "Replace 'Learn More' CTA with 'See It In Action', linking to an embedded 2-min product tour video.", uplift: 8, personaId: "EndUser" }
+                        { rank: 1, fix: "Add a persistent, high-visibility 'Pricing' link to the main site navigation.", uplift: 9, personaId: "EconomicBuyer", unlocks_journey_for: "Financial Validation Path" },
+                        { rank: 2, fix: "Add an animated GIF of the core product workflow in the hero section of the features page.", uplift: 9, personaId: "EndUser", unlocks_journey_for: "Product Visualization Path"},
+                        { rank: 3, fix: "Replace 'Learn More' CTA with 'See It In Action', linking to an embedded 2-min product tour video.", uplift: 8, personaId: "EndUser", unlocks_journey_for: "Self-Service Evaluation Path" }
                     ],
                     actual_paths: [
                         { id: 'eb-path-1', personaId: "EconomicBuyer", path: ["Home", "Case Studies", "Solutions", "EXIT"], percentage: 70, is_failure: true, diagnosis: "The journey breaks because the `/solutions` page is a dead-end for a user with financial intent. It offers <strong>no path to the `/pricing` page.</strong>" },
@@ -735,7 +752,11 @@
                             [ { time: '00:05s (/)', thought: "Homepage. Okay, need to find the price. Let's scan the navigation." }, { time: '00:12s (/)', thought: "Products, Solutions, Resources, Company... No 'Pricing'. Classic enterprise sales funnel." }, { time: '00:20s (/)', thought: "Maybe it's under 'Solutions'. Click." }, { time: '00:40s (/solutions)', thought: "Nope, just more jargon. I'm being forced into a demo I don't want." }, { time: '00:45s (/solutions)', thought: "<span style='color:var(--error); font-weight:600;'>Decision: Veto.</span> If I can't find the price in under a minute, I assume I can't afford it or they're hiding something." } ]
                         ] 
                     }, 
-                    playbook: [  { rank: 1, fix: "Add a persistent, high-visibility 'Pricing' link to the main site navigation.", addresses_friction: "Main navigation does not have a 'Pricing' link.", impact: "High", uplift: 9 }, { rank: 2, fix: "Add a 'View Pricing & Tiers' CTA banner to the bottom of all case study and solution pages.", addresses_friction: "No CTA from `/case-studies` to `/pricing`.", impact: "High", uplift: 9 }, { rank: 3, fix: "Ensure every marketing page (solutions, features) has a secondary CTA leading to a commercial action (Pricing, Demo).", addresses_friction: "Architectural dead-ends", impact: "Medium", uplift: 7 } ] 
+                    playbook: [ 
+                        { rank: 1, fix: "Add a persistent, high-visibility 'Pricing' link to the main site navigation.", addresses_friction: "Main navigation does not have a 'Pricing' link.", impact: "High", uplift: 9, unlocks_journey_for: "The financial validation path for Economic Buyers." },
+                        { rank: 2, fix: "Add a 'View Pricing & Tiers' CTA banner to the bottom of all case study and solution pages.", addresses_friction: "No CTA from `/case-studies` to `/pricing`.", impact: "High", uplift: 9, unlocks_journey_for: "The post-consideration path to purchase." },
+                        { rank: 3, fix: "Ensure every marketing page (solutions, features) has a secondary CTA leading to a commercial action (Pricing, Demo).", addresses_friction: "Architectural dead-ends", impact: "Medium", uplift: 7, unlocks_journey_for: "Reduces friction across multiple user journeys." }
+                    ]                
                 },
                 "EndUser": { 
                     personaName: "End User", 
@@ -758,7 +779,11 @@
                             [ { time: '00:10s (/)', thought: "Alright, let's see this thing. 'Product Tour' in the nav. Good." }, { time: '00:15s (/product-tour)', thought: "It's a video. Play." }, { time: '00:25s (/product-tour)', thought: "Wait, this is a customer testimonial video, not a product tour. The title is misleading." }, { time: '00:50s (/product-tour)', thought: "Okay, I'm done watching people talk. Where is the actual product?" }, { time: '01:05s (/product-tour)', thought: "<span style='color:var(--error); font-weight:600;'>Decision: Leaving.</span> The information scent is all wrong. I feel tricked. Not a good sign for a developer tool." } ]
                         ] 
                     }, 
-                    playbook: [ { rank: 1, fix: "Add an animated GIF of the core product workflow in the hero section of the features page.", addresses_friction: "No product screenshots on Features page", impact: "High", uplift: 9 }, { rank: 2, fix: "Replace 'Learn More' CTA with 'See It In Action', linking to an embedded 2-min product tour video.", addresses_friction: "'Learn More' CTA leads to a blog post", impact: "High", uplift: 8 }, { rank: 3, fix: "Create a self-serve, interactive demo sandbox and link to it from all evaluation pages.", addresses_friction: "Interactive demo is gated", impact: "Medium", uplift: 8 } ] 
+                    playbook: [ 
+                        { rank: 1, fix: "Add an animated GIF of the core product workflow in the hero section of the features page.", addresses_friction: "No product screenshots on Features page", impact: "High", uplift: 9, unlocks_journey_for: "The product visualization path for End Users." },
+                        { rank: 2, fix: "Replace 'Learn More' CTA with 'See It In Action', linking to an embedded 2-min product tour video.", addresses_friction: "'Learn More' CTA leads to a blog post", impact: "High", uplift: 8, unlocks_journey_for: "The self-service evaluation path." },
+                        { rank: 3, fix: "Create a self-serve, interactive demo sandbox and link to it from all evaluation pages.", addresses_friction: "Interactive demo is gated", impact: "Medium", uplift: 8, unlocks_journey_for: "A frictionless technical validation journey." }
+                    ]
                 }
             }
         };
@@ -1373,8 +1398,8 @@
 
         function generatePageAuditBriefHTML(allPersonaData) {
             const summaryData = allPersonaData.executiveSummary;
-             // FIX 4: Use updated titles and table for fixes
-            const executiveSummaryDashboardHTML = `
+
+                const executiveSummaryDashboardHTML = `
                 <div class="executive-verdict">
                     <div class="verdict-badge ${summaryData.decision.toLowerCase()}">
                         ${summaryData.decision === 'HOLD' ? '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>' : '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'}
@@ -1382,64 +1407,54 @@
                     </div>
                     <h3 class="verdict-title">Executive Summary</h3>
                 </div>
-                
-                <div class="what-we-found-section summary-section-container">
-                    <p>Here’s the 30-second summary of what your AI buyer personas found when they reviewed your page. </p>
-                    <div class="executive-summary-grid">
-                        <div class="summary-card">
-                            <div class="summary-card-header engagement">
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                                <span>What Kept Me Going</span>
+
+                <div class="summary-section-container" style="margin-top: 32px;">
+                    <h4>${summaryData.structural_audit_summary.title}</h4>
+                    <p>${summaryData.structural_audit_summary.subtitle}</p>
+                    <div class="scorecard-grid" style="margin-top: 20px;">
+                    ${summaryData.structural_audit_summary.findings.map(f => {
+                        const personaInfo = personaDetailsStore[f.hurts_persona_id];
+                        return `
+                        <div class="scorecard-item">
+                            <div class="score-display">
+                                <h4 class="score-title" style="color: var(--error); align-items: center; display: flex; gap: 8px;">
+                                    <span style="font-size: 24px;">${f.icon}</span>
+                                    <span>${f.text}</span>
+                                </h4>
                             </div>
-                            <ul class="summary-list">${summaryData.top_engagement_drivers.map(d => {
-                                const personaInfo = personaDetailsStore[d.personaId];
-                                return `<li class="summary-list-item">
-                                    <span class="item-text">${d.driver}</span>
-                                    <div class="item-meta">
-                                        <span class="persona-icon">${personaInfo.icon}</span>
-                                        <span class="persona-tag">${personaInfo.role_name}</span>
-                                    </div>
-                                </li>`
-                            }).join('')}
-                            </ul>
-                        </div>
-                        <div class="summary-card">
-                            <div class="summary-card-header abandonment">
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
-                                <span>Why I Gave Up</span>
+                            <p class="score-text">${f.details}</p>
+                            <div class="item-meta" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+                                <span style="font-weight: 600;">Impacts:</span>
+                                <span class="persona-icon">${personaInfo.icon}</span>
+                                <span class="persona-tag">${personaInfo.role_name}</span>
                             </div>
-                            <ul class="summary-list">${summaryData.top_abandonment_drivers.map(d => {
-                                 const personaInfo = personaDetailsStore[d.personaId];
-                                 return `<li class="summary-list-item">
-                                    <span class="item-text">${d.driver}</span>
-                                    <div class="item-meta">
-                                        <span class="persona-icon">${personaInfo.icon}</span>
-                                        <span class="persona-tag">${personaInfo.role_name}</span>
-                                    </div>
-                                </li>`
-                            }).join('')}
-                            </ul>
                         </div>
-                    </div>
-                     <div class="summary-section-container" style="background:transparent; border:none; padding:0; margin-top: 24px;">
-                        <h4 class="brief-section-header" style="justify-content:center; font-size: 20px;">What to Fix</h4>
-                        <table class="summary-table">
-                            <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Fixes For</th></tr></thead>
-                            <tbody>
-                            ${summaryData.top_fixes.map(f => {
-                                const personaInfo = personaDetailsStore[f.personaId];
-                                return `<tr>
-                                    <td>${f.fix}</td>
-                                    <td class="playbook-uplift" style="text-align:center;">+${f.uplift} pts</td>
-                                    <td><div class="persona-tag-cell">${personaInfo.icon} ${personaInfo.role_name}</div></td>
-                                </tr>`;
-                            }).join('')}
-                            </tbody>
-                        </table>
+                        `
+                    }).join('')}
                     </div>
                 </div>
 
-                <div class="executive-chart-container"><canvas id="executiveSummaryChart"></canvas></div>
+                <div class="executive-chart-container">
+                    <canvas id="executiveSummaryChart"></canvas>
+                </div>
+
+                <div class="summary-section-container">
+                    <h4 class="brief-section-header" style="justify-content:center; font-size: 20px;">What to Fix First</h4>
+                     <p style="text-align:center; max-width: 800px; margin: 0 auto 20px;">Based on the analysis, these are the top 3 recommendations to fix the most critical issues.</p>
+                    <table class="summary-table">
+                        <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Fixes For</th></tr></thead>
+                        <tbody>
+                        ${summaryData.top_fixes.map(f => {
+                            const personaInfo = personaDetailsStore[f.personaId];
+                            return `<tr>
+                                <td>${f.fix}</td>
+                                <td class="playbook-uplift" style="text-align:center;">+${f.uplift} pts</td>
+                                <td><div class="persona-tag-cell">${personaInfo.icon} ${personaInfo.role_name}</div></td>
+                            </tr>`;
+                        }).join('')}
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="summary-section-container">
                     <h4>Buying Committee Conflict</h4>
@@ -1464,6 +1479,46 @@
                                 </tr>
                             `).join('')}</tbody>
                         </table>
+                    </div>
+                </div>
+                
+                <div class="what-we-found-section summary-section-container">
+                    <p style="text-align:center;">This is the high-level summary of the positive and negative signals found on the page.</p>
+                    <div class="executive-summary-grid">
+                        <div class="summary-card">
+                            <div class="summary-card-header engagement">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                <span>Top Engagement Drivers</span>
+                            </div>
+                            <ul class="summary-list">${summaryData.top_engagement_drivers.map(d => {
+                                const personaInfo = personaDetailsStore[d.personaId];
+                                return `<li class="summary-list-item">
+                                    <span class="item-text">${d.driver}</span>
+                                    <div class="item-meta">
+                                        <span class="persona-icon">${personaInfo.icon}</span>
+                                        <span class="persona-tag">${personaInfo.role_name}</span>
+                                    </div>
+                                </li>`
+                            }).join('')}
+                            </ul>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-header abandonment">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                                <span>Top Abandonment Drivers</span>
+                            </div>
+                            <ul class="summary-list">${summaryData.top_abandonment_drivers.map(d => {
+                                 const personaInfo = personaDetailsStore[d.personaId];
+                                 return `<li class="summary-list-item">
+                                    <span class="item-text">${d.driver}</span>
+                                    <div class="item-meta">
+                                        <span class="persona-icon">${personaInfo.icon}</span>
+                                        <span class="persona-tag">${personaInfo.role_name}</span>
+                                    </div>
+                                </li>`
+                            }).join('')}
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -1500,7 +1555,7 @@
                                 <td><span class="persona-tag-cell">${personaDetailsStore[gap.personaId]?.icon || ''} ${gap.persona}</span></td>
                                 <td>${gap.evidence}</td>
                                 <td>
-                                    ${gap.location === 'Missing' ? statusIcons.Missing : statusIcons.Buried}
+                                    ${gap.location === 'Missing' ? statusIcons.Missing : gap.location === 'Buried' ? statusIcons.Buried : statusIcons.Found}
                                     ${gap.location}
                                 </td>
                                 <td>${gap.observed} Runs</td>
@@ -1547,7 +1602,6 @@
                 
                 const personaInfo = allPersonas.find(persona => persona.id === p.id);
                 
-                // FIX 3: Use the same story-verdict-grid as the journey audit
                 const verdictHTML = `
                 <div class="story-verdict-grid">
                     <div class="narrative-block">
@@ -1570,6 +1624,7 @@
                 
                 const chartHTML = `<div class="brief-divider"></div><h3 class="brief-section-header">Visual Evidence: Top Abandonment Triggers</h3><div class="chart-container" style="height: 250px;"><canvas id="frictionChart-${p.id}"></canvas></div>`;
                 
+                // UPDATED PLAYBOOK HTML
                 const playbookHTML = `<div class="playbook-section"><h3 class="brief-section-header">Prioritized Fix-It Plan</h3>
                     <table class="evidence-table playbook-table">
                         <thead><tr>
@@ -1580,14 +1635,21 @@
                         </tr></thead>
                         <tbody>${(data.playbook || []).map(p => `<tr>
                             <td class="playbook-rank">${p.rank}</td>
-                            <td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td>
+                            <td>
+                                <div class="playbook-details">
+                                    <div class="playbook-fix">${p.fix}</div>
+                                    <div class="playbook-meta">
+                                        <div class="playbook-meta-item"><strong>Fixes:</strong> ${p.addresses_friction}</div>
+                                        <div class="playbook-meta-item" style="color: var(--success); font-weight: 500;"><strong>Restores:</strong> ${p.restores_journey_point}</div>
+                                    </div>
+                                </div>
+                            </td>
                             <td><p class="playbook-impact-desc">${p.impact_desc}</p></td>
                             <td class="playbook-uplift">+${p.uplift} pts</td>
                         </tr>`).join('')}</tbody>
                     </table>
                 </div>`;
 
-                // FIX 1: Add Evidence Locker
                 const evidenceLockerHTML = `<div class="evidence-locker-section"><h3 class="brief-section-header">The Evidence Locker</h3><div class="evidence-tabs"><div class="tab-link active" data-tab="tab-diagnostics-${p.id}">Friction Points</div><div class="tab-link" data-tab="tab-drivers-${p.id}">Engagement Drivers</div></div><div class="evidence-content-wrapper"><div id="tab-diagnostics-${p.id}" class="tab-content active"><table class="evidence-table"><thead><tr><th style="width:15%">Severity ${severityTooltip}</th><th>Friction Point</th><th>Why it Matters to Me</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${data.evidence.diagnostics.map(d => `<tr class="${d.type === 'Structural Opacity' ? 'opacity-friction' : ''}"><td class="severity-cell"><span class="severity-badge ${d.severity.toLowerCase()}">${d.severity}</span></td><td class="friction-point-cell">${d.friction}</td><td>${d.violation}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div><div id="tab-drivers-${p.id}" class="tab-content"><table class="evidence-table"><thead><tr><th>Positive Signal</th><th>Why it Mattered to Me</th><th style="width:25%; text-align:center;">Observed</th></tr></thead><tbody>${(data.evidence.drivers || []).map(d => `<tr><td>${d.signal}</td><td>${d.support}</td><td style="text-align:center;">${d.consistency} out of 10 simulations</td></tr>`).join('')}</tbody></table></div></div></div>`;
 
                 const strategicAuditHTML = `<div class="strategic-audit-section"><h3 class="brief-section-header">Positioning & Resonance</h3>
@@ -1615,7 +1677,6 @@
                     </div>
                 </div>`;
                 
-                // FIX 2: Add Inner Monologue with multiple runs
                 const monologueHTML = `<div class="inner-monologue-section"><h3 class="brief-section-header">Inner Monologue</h3><div class="monologue-tabs">${Array.from({length: 5}, (_, i) => `<div class="monologue-tab-link ${i < (data.evidence.monologue || []).length ? (i === 0 ? 'active' : '') : 'disabled'}" data-tab="monologue-run-${p.id}-${i+1}">Run ${i+1}</div>`).join('')}</div><div class="monologue-content-wrapper">${(data.evidence.monologue || []).map((run, index) => `<div id="monologue-run-${p.id}-${index+1}" class="monologue-tab-content ${index === 0 ? 'active' : ''}"><table class="evidence-table monologue-table"><thead><tr><th>Time</th><th>My Thought Process</th></tr></thead><tbody>${run.map(m => `<tr><td>${m.time}</td><td>${m.thought}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div></div>`;
 
                 return `<div id="tab-${p.id}" class="tab-content">
@@ -1647,15 +1708,17 @@
             const summary = summaryData.executiveSummary;
             const executiveSummaryHTML = `
                 <div id="tab-journey-summary" class="tab-content">
-                     <div class="executive-verdict">
+                    
+                    <div class="executive-verdict">
                         <div class="verdict-badge ${summary.decision.toLowerCase()}">
                              ${summary.decision === 'HOLD' ? '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>' : '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'}
                             <span>${summary.decision}</span>
                         </div>
-                        <h3 class="verdict-title">Journey</h3>
+                        <h3 class="verdict-title">Buyer Journey Summary</h3>
                     </div>
-                    <div class="what-we-found-section summary-section-container">
-                        <p>Your buyer personas followed multiple paths through your site. Overall, the journey is failing due to critical architectural dead-ends that prevent users from finding the evidence they need.</p>
+
+                    <div class="summary-section-container" style="margin-top: 32px; background: var(--bg-primary); border: none; padding: 0;">
+                        <p style="text-align: center; max-width: 800px; margin: 0 auto 24px;">Your buyer personas followed multiple paths starting from your input page. Overall, the journey is failing due to critical structural dead-ends that prevent users from finding the evidence they need.</p>
                         <div class="journey-summary-stats">
                              <div class="verdict-metric">
                                 <div class="label">Overall Journey Completion</div>
@@ -1668,12 +1731,49 @@
                                  <div class="observed-text" style="margin-top:8px;">Key personas could not find a path to critical pages like Pricing or Demos.</div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="executive-summary-grid" style="grid-template-columns: 1fr 1fr; margin-top: 24px;">
+                    <div class="summary-section-container">
+                        <h4>Top Failure Paths I Followed</h4>
+                        <p>These are the most common journeys that led to me abandoning my evaluation. Each represents a significant revenue leak.</p>
+                        <div class="visual-evidence-grid">${summary.actual_paths.slice(0, 3).map((path, index) => `
+                            <div class="visual-evidence-item">
+                                <h5>${personaDetailsStore[path.personaId].role_name}'s Path</h5>
+                                <div class="chart-container"><canvas id="exec-funnel-chart-${index}"></canvas></div>
+                            </div>
+                        `).join('')}</div>
+                    </div>
+
+                    <div class="summary-section-container">
+                        <h4 class="brief-section-header" style="justify-content:center; font-size: 20px;">What to Fix First</h4>
+                        <p style="text-align:center; max-width: 800px; margin: 0 auto 20px;">Based on the analysis, these are the top 3 recommendations to fix the most critical issues.</p>
+                        <table class="summary-table">
+                            <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Fixes For</th></tr></thead>
+                            <tbody>
+                            ${summary.top_fixes.map(f => {
+                                const personaInfo = personaDetailsStore[f.personaId];
+                                return `<tr>
+                                    <td>
+                                        <div class="playbook-fix" style="font-weight: 600;">${f.fix}</div>
+                                        <div class="playbook-meta-item" style="color: var(--success); font-weight: 500; font-size: 13px; margin-top: 4px;">
+                                            <strong>Unlocks:</strong> ${f.unlocks_journey_for}
+                                        </div>
+                                    </td>
+                                    <td class="playbook-uplift" style="text-align:center;">+${f.uplift} Journeys</td>
+                                    <td><div class="persona-tag-cell">${personaInfo.icon} ${personaInfo.role_name}</div></td>
+                                </tr>`;
+                            }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="what-we-found-section summary-section-container">
+                        <p style="text-align:center;">This is the high-level summary of the positive and negative signals found across all journey paths.</p>
+                        <div class="executive-summary-grid" style="margin-top: 24px;">
                             <div class="summary-card">
                                 <div class="summary-card-header engagement">
                                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                                    <span>What Kept Me Going</span>
+                                    <span>Top Engagement Drivers</span>
                                 </div>
                                 <ul class="summary-list">${summary.top_engagement_drivers.map(d => {
                                     const personaInfo = personaDetailsStore[d.personaId];
@@ -1683,7 +1783,7 @@
                             <div class="summary-card">
                                 <div class="summary-card-header abandonment">
                                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
-                                    <span>Why I Gave Up</span>
+                                    <span>Top Abandonment Drivers</span>
                                 </div>
                                 <ul class="summary-list">${summary.top_abandonment_drivers.map(d => {
                                     const personaInfo = personaDetailsStore[d.personaId];
@@ -1691,33 +1791,6 @@
                                 }).join('')}</ul>
                             </div>
                         </div>
-
-                         <div class="summary-section-container" style="background:transparent; border:none; padding:0; margin-top: 24px;">
-                            <h4 class="brief-section-header" style="justify-content:center; font-size: 20px;">What to Fix</h4>
-                            <table class="summary-table">
-                                <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Fixes For</th></tr></thead>
-                                <tbody>
-                                ${summary.top_fixes.map(f => {
-                                    const personaInfo = personaDetailsStore[f.personaId];
-                                    return `<tr>
-                                        <td>${f.fix}</td>
-                                        <td class="playbook-uplift" style="text-align:center;">+${f.uplift} Journeys</td>
-                                        <td><div class="persona-tag-cell">${personaInfo.icon} ${personaInfo.role_name}</div></td>
-                                    </tr>`;
-                                }).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                     <div class="summary-section-container">
-                        <h4>Top Failure Paths I Followed</h4>
-                        <p>These are the most common journeys that led to me abandoning my evaluation. Each represents a significant revenue leak.</p>
-                        <div class="visual-evidence-grid">${summary.actual_paths.slice(0, 3).map((path, index) => `
-                            <div class="visual-evidence-item">
-                                <h5>${personaDetailsStore[path.personaId].role_name}'s Path</h5>
-                                <div class="chart-container"><canvas id="exec-funnel-chart-${index}"></canvas></div>
-                            </div>
-                        `).join('')}</div>
                     </div>
                 </div>`;
             
@@ -1804,7 +1877,20 @@
                     </tr></thead>
                     <tbody>${(data.playbook || []).map(p => `<tr>
                         <td class="playbook-rank">${p.rank}</td>
-                        <td><div class="playbook-details"><div class="playbook-fix">${p.fix}</div><div class="playbook-meta"><div class="playbook-meta-item"><strong>Addresses:</strong> ${p.addresses_friction}</div></div></div></td>
+                        <td>
+                            <div class="playbook-details">
+                                <div class="playbook-fix">${p.fix}</div>
+                                <div class="playbook-meta">
+                                    <div class="playbook-meta-item">
+                                        <strong>Fixes:</strong> ${p.addresses_friction}
+                                    </div>
+                                    <div class="playbook-meta-item" style="color: var(--success); font-weight: 500;">
+                                        <strong>Unlocks:</strong> ${p.unlocks_journey_for}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
                         <td style="text-align: center;"><span class="severity-badge ${p.impact.toLowerCase()}">${p.impact}</span></td>
                         <td class="playbook-uplift">+${p.uplift} Journeys</td>
                     </tr>`).join('')}</tbody>
