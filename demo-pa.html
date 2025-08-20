@@ -1333,6 +1333,80 @@
                     <h3 class="verdict-title">Executive Summary</h3>
                 </div>
 
+                <div class="summary-section-container" style="background: var(--bg-primary); border: none; padding: 0; margin-top: 32px;">
+                    <p style="text-align: center; max-width: 800px; margin: 0 auto 24px;">
+                        This page is on <strong>Hold</strong> as it fails to meet the non-negotiable needs of buying committee members.
+                    </p>
+                    <div class="journey-summary-stats">
+                        <div class="verdict-metric">
+                            <div class="label">
+                                <div class="tooltip">
+                                    <span>Simulation Success Rate</span>
+                                    <span class="info-icon">i</span>
+                                    <span class="tooltiptext">The number of simulations where the persona successfully completed their primary goal on this page.</span>
+                                </div>
+                            </div>
+                            <div class="value fail">21 / 60</div>
+                            <div class="observed-text" style="margin-top:8px;"><strong>79% of simulations failed.</strong></div>
+                        </div>
+                        <div class="verdict-metric">
+                            <div class="label">
+                                <div class="tooltip">
+                                    <span>Key Buyer Vetoes</span>
+                                    <span class="info-icon">i</span>
+                                    <span class="tooltiptext">The number of key buyer personas who encountered critical issue that would cause them to block a purchase.</span>
+                                </div>
+                            </div>
+                            <div class="value" style="color: var(--error);">3 of 6</div>
+                            <div class="observed-text" style="margin-top:8px;"><strong>3 out of 6 buying committee members vetoed.</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-section-container">
+                    <h4 class="brief-section-header" style="justify-content:center; font-size: 20px;">Path to Green: What to Fix First</h4>
+                     <p style="text-align:center; max-width: 800px; margin: 0 auto 20px;">Based on the analysis, these are the top 3 recommendations to fix the most critical issues.</p>
+                    <table class="summary-table">
+                        <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Fixes For</th></tr></thead>
+                        <tbody>
+                        ${summaryData.top_fixes.map(f => {
+                            const personaInfo = personaDetailsStore[f.personaId];
+                            return `<tr>
+                                <td>${f.fix}</td>
+                                <td class="playbook-uplift" style="text-align:center;">+${f.uplift} Simulations</td>
+                                <td><div class="persona-tag-cell">${personaInfo.icon} ${personaInfo.role_name}</div></td>
+                            </tr>`;
+                        }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="summary-section-container" style="margin-top: 32px;">
+                    <h4>Buying Committee Conflict</h4>
+                    <p>Here's where your page creates conflicting experiences for key buyers, stalling your deals.</p>
+                    <div class="coherence-content">
+                        <div class="alignment-risk-display">
+                             <div class="risk-value ${getAlignmentRiskClass(summaryData.committeeCoherence.alignmentRiskIndex)}">${summaryData.committeeCoherence.alignmentRiskIndex}</div>
+                             <div class="tooltip">
+                                <span class="risk-label">Alignment Risk Score</span>
+                                <span class="info-icon">i</span>
+                                <span class="tooltiptext">This score measures how much your page's messaging creates conflicting or negative experiences for different members of the buying committee. A high score indicates significant misalignment.</span>
+                            </div>
+                        </div>
+                        <table class="summary-table">
+                            <thead><tr><th>Persona</th><th>Their Goal (The Conflict)</th><th>Why It Fails</th><th>The Impact</th></tr></thead>
+                            <tbody>${summaryData.committeeCoherence.topConflicts.map(c => `
+                                <tr>
+                                    <td><span class="persona-tag-cell">${personaDetailsStore[c.personaId]?.icon || ''} ${c.persona}</span></td>
+                                    <td>${c.conflict}</td>
+                                    <td>${c.why}</td>
+                                    <td>${c.impact}</td>
+                                </tr>
+                            `).join('')}</tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="what-we-found-section summary-section-container">
                     <p style="text-align:center;">This is the high-level summary of the positive and negative signals found on the page.</p>
                     <div class="executive-summary-grid">
@@ -1373,38 +1447,12 @@
                     </div>
                 </div>
 
-                <div class="summary-section-container" style="margin-top: 32px;">
-                    <h4>Buying Committee Conflict</h4>
-                    <p>Here's where your page creates conflicting experiences for key buyers, stalling your deals.</p>
-                    <div class="coherence-content">
-                        <div class="alignment-risk-display">
-                             <div class="risk-value ${getAlignmentRiskClass(summaryData.committeeCoherence.alignmentRiskIndex)}">${summaryData.committeeCoherence.alignmentRiskIndex}</div>
-                             <div class="tooltip">
-                                <span class="risk-label">Alignment Risk Score</span>
-                                <span class="info-icon">i</span>
-                                <span class="tooltiptext">This score measures how much your page's messaging creates conflicting or negative experiences for different members of the buying committee. A high score indicates significant misalignment.</span>
-                            </div>
-                        </div>
-                        <table class="summary-table">
-                            <thead><tr><th>Persona</th><th>Their Goal (The Conflict)</th><th>Why It Fails</th><th>The Impact</th></tr></thead>
-                            <tbody>${summaryData.committeeCoherence.topConflicts.map(c => `
-                                <tr>
-                                    <td><span class="persona-tag-cell">${personaDetailsStore[c.personaId]?.icon || ''} ${c.persona}</span></td>
-                                    <td>${c.conflict}</td>
-                                    <td>${c.why}</td>
-                                    <td>${c.impact}</td>
-                                </tr>
-                            `).join('')}</tbody>
-                        </table>
-                    </div>
-                </div>
-
                 <div class="executive-chart-container">
                     <canvas id="executiveSummaryChart"></canvas>
                 </div>
                 
                 <div class="summary-section-container">
-                    <h4>Buyer Evidence Scorecard</h4>
+                    <h4>Evidence Scorecard</h4>
                     <p>I scanned your page for the specific proof points each persona needs to see. Here's what I found missing.</p>
                      <div class="veto-scanner-scores">
                         <div class="scanner-score-card">
@@ -1446,7 +1494,7 @@
                 </div>
 
                 <div class="summary-section-container">
-                    <h4>Buyer Positioning & Resonance</h4>
+                    <h4>Positioning & Resonance</h4>
                     <p>This is how your core message and tone of voice are being perceived by your key buyers.</p>
                      <table class="summary-table">
                          <thead><tr><th>Persona</th><th>Positioning Critique</th><th>Resonance Critique</th></tr></thead>
@@ -1463,24 +1511,6 @@
                                 </td>
                             </tr>
                          `).join('')}</tbody>
-                    </table>
-                </div>
-                
-                <div class="summary-section-container">
-                    <h4 class="brief-section-header" style="justify-content:center; font-size: 20px;">What to Fix First</h4>
-                     <p style="text-align:center; max-width: 800px; margin: 0 auto 20px;">Based on the analysis, these are the top 3 recommendations to fix the most critical issues.</p>
-                    <table class="summary-table">
-                        <thead><tr><th>Recommendation</th><th style="text-align:center;">Uplift</th><th>Fixes For</th></tr></thead>
-                        <tbody>
-                        ${summaryData.top_fixes.map(f => {
-                            const personaInfo = personaDetailsStore[f.personaId];
-                            return `<tr>
-                                <td>${f.fix}</td>
-                                <td class="playbook-uplift" style="text-align:center;">+${f.uplift} Journeys</td>
-                                <td><div class="persona-tag-cell">${personaInfo.icon} ${personaInfo.role_name}</div></td>
-                            </tr>`;
-                        }).join('')}
-                        </tbody>
                     </table>
                 </div>
             `;
