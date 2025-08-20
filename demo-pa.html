@@ -1347,18 +1347,18 @@
                                 </div>
                             </div>
                             <div class="value fail">21 / 60</div>
-                            <div class="observed-text" style="margin-top:8px;"><strong>79% of simulations failed.</strong></div>
+                            <div class="observed-text" style="margin-top:8px;"><strong>Only 21 of 60 total simulations succeeded.</strong></div>
                         </div>
                         <div class="verdict-metric">
                             <div class="label">
                                 <div class="tooltip">
                                     <span>Key Buyer Vetoes</span>
                                     <span class="info-icon">i</span>
-                                    <span class="tooltiptext">The number of key buyer personas who encountered critical issue that would cause them to block a purchase.</span>
+                                    <span class="tooltiptext">The number of key buyer personas who encountered a 'veto-level' issue.</span>
                                 </div>
                             </div>
                             <div class="value" style="color: var(--error);">3 of 6</div>
-                            <div class="observed-text" style="margin-top:8px;"><strong>3 out of 6 buying committee members vetoed.</strong></div>
+                            <div class="observed-text" style="margin-top:8px;"><strong>Half the buying committee vetoed.</strong></div>
                         </div>
                     </div>
                 </div>
@@ -1385,13 +1385,16 @@
                     <h4>Buying Committee Conflict</h4>
                     <p>Here's where your page creates conflicting experiences for key buyers, stalling your deals.</p>
                     <div class="coherence-content">
-                        <div class="alignment-risk-display">
-                             <div class="risk-value ${getAlignmentRiskClass(summaryData.committeeCoherence.alignmentRiskIndex)}">${summaryData.committeeCoherence.alignmentRiskIndex}</div>
-                             <div class="tooltip">
-                                <span class="risk-label">Alignment Risk Score</span>
-                                <span class="info-icon">i</span>
-                                <span class="tooltiptext">This score measures how much your page's messaging creates conflicting or negative experiences for different members of the buying committee. A high score indicates significant misalignment.</span>
+                        <div class="verdict-metric">
+                            <div class="label">
+                                <div class="tooltip">
+                                    <span>Conflicting Simulations</span>
+                                    <span class="info-icon">i</span>
+                                    <span class="tooltiptext">The total number of simulations where a buyer's critical needs were ignored, creating deal-stalling conflict.</span>
+                                </div>
                             </div>
+                            <div class="value" style="color: var(--error);">27 / 60</div>
+                            <div class="observed-text" style="margin-top:8px;"><strong>Ended in buyer conflict.</strong></div>
                         </div>
                         <table class="summary-table">
                             <thead><tr><th>Persona</th><th>Their Goal (The Conflict)</th><th>Why It Fails</th><th>The Impact</th></tr></thead>
@@ -1454,22 +1457,24 @@
                 <div class="summary-section-container">
                     <h4>Evidence Scorecard</h4>
                     <p>I scanned your page for the specific proof points each persona needs to see. Here's what I found missing.</p>
-                     <div class="veto-scanner-scores">
+                    <div class="veto-scanner-scores">
                         <div class="scanner-score-card">
-                             <div class="tooltip">
+                            <div class="tooltip">
                                 <div class="label">Evidence Coverage</div>
                                 <span class="info-icon">i</span>
-                                <span class="tooltiptext">Measures what percentage of the required proof points for all key personas were found *anywhere* on the page.</span>
+                                <span class="tooltiptext">The number of required proof points for all key personas found *anywhere* on the page.</span>
                             </div>
-                            <div class="value ${getScoreColorClass(summaryData.scores.evidence_coverage, true)}">${summaryData.scores.evidence_coverage}%</div>
+                            <div class="value ${getScoreColorClass(6, true, 10)}">6 / 10</div>
+                            <div class="observed-text" style="margin-top:4px;">Required items found</div>
                         </div>
-                         <div class="scanner-score-card">
-                             <div class="tooltip">
+                        <div class="scanner-score-card">
+                            <div class="tooltip">
                                 <div class="label">Evidence Placement</div>
                                 <span class="info-icon">i</span>
-                                <span class="tooltiptext">Measures what percentage of required proof points were found *above the fold*, where they are immediately visible without scrolling.</span>
+                                <span class="tooltiptext">The number of required proof points found *above the fold*, where they are immediately visible without scrolling.</span>
                             </div>
-                            <div class="value ${getScoreColorClass(summaryData.scores.evidence_placement, true)}">${summaryData.scores.evidence_placement}%</div>
+                            <div class="value ${getScoreColorClass(4, true, 10)}">4 / 10</div>
+                            <div class="observed-text" style="margin-top:4px;">Items above the fold</div>
                         </div>
                     </div>
                     <table class="summary-table">
@@ -1487,7 +1492,7 @@
                                     ${gap.location === 'Missing' ? statusIcons.Missing : gap.location === 'Buried' ? statusIcons.Buried : statusIcons.Found}
                                     ${gap.location}
                                 </td>
-                                <td>${gap.observed} Runs</td>
+                                <td>${gap.observed} Simulations</td>
                             </tr>`
                          }).join('')}</tbody>
                     </table>
@@ -1531,6 +1536,9 @@
                 
                 const personaInfo = allPersonas.find(persona => persona.id === p.id);
                 
+                const simulationsSucceeded = Math.round((data.verdict.completionRate / 100) * 10);
+                const simulationsFailed = 10 - simulationsSucceeded;
+
                 const verdictHTML = `
                 <div class="story-verdict-grid">
                     <div class="narrative-block">
@@ -1541,8 +1549,9 @@
                         <div class="verdict-outcome abandoned">${data.verdict.outcome}</div>
                         <div class="verdict-grid">
                             <div class="verdict-metric">
-                                <div class="label">My Journey Completion Rate</div>
-                                <div class="value fail">${data.verdict.completionRate}%</div>
+                                <div class="label">My Simulation Success Rate</div>
+                                <div class="value fail">${simulationsSucceeded} / 10</div>
+                                <div class="observed-text" style="margin-top:8px;"><strong>${simulationsFailed} simulations failed.</strong></div>
                             </div>
                         </div>
                     </div>
@@ -1571,7 +1580,7 @@
                                 </div>
                             </td>
                             <td><p class="playbook-impact-desc">${p.impact_desc}</p></td>
-                            <td class="playbook-uplift">+${p.uplift} pts</td>
+                            <td class="playbook-uplift">+${p.uplift} Simulations</td>
                         </tr>`).join('')}</tbody>
                     </table>
                 </div>`;
@@ -1587,18 +1596,18 @@
                                     ${data.strategic_messaging_audit.scores.positioning}<span class="score-total">/ 10</span>
                                 </div>
                             </div>
-                            <p class="score-subtext">Based on ${data.strategic_messaging_audit.scores.positioning} out of 10 simulations.</p>
-                            <p class="score-text">${data.strategic_messaging_audit.positioning.differentiation}</p>
+                            <p class="score-subtext">Simulations that found your positioning compelling.</p>
+                            <p class="score-text">${data.strategic_messaging_audit.positioning.summary}</p>
                         </div>
                         <div class="scorecard-item">
                             <div class="score-display">
                                 <h4 class="score-title">🗣️ Persona Resonance</h4>
                                 <div class="score-value ${getScoreColorClass(data.strategic_messaging_audit.scores.resonance)}">
-                                     ${data.strategic_messaging_audit.scores.resonance}<span class="score-total">/ 10</span>
+                                    ${data.strategic_messaging_audit.scores.resonance}<span class="score-total">/ 10</span>
                                 </div>
                             </div>
-                            <p class="score-subtext">Based on ${data.strategic_messaging_audit.scores.resonance} out of 10 simulations.</p>
-                            <p class="score-text">${data.strategic_messaging_audit.resonance.tone_and_voice}</p>
+                            <p class="score-subtext">Simulations where the tone and voice resonated with me.</p>
+                            <p class="score-text">${data.strategic_messaging_audit.resonance.summary}</p>
                         </div>` : ''}
                     </div>
                 </div>`;
