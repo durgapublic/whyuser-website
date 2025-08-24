@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pre-Seed Gauntlet: A Founder's Fundraising Playbook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+        .kpi-value {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #0d0c22;
+        }
+        .kpi-label {
+            font-size: 0.875rem;
+            color: #6e6d7a;
+            margin-top: 0.5rem;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #0d0c22;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            text-align: center;
+            color: #6e6d7a;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+        .flowchart-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            min-height: 80px;
+        }
+        .flowchart-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #6e6d7a;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-6xl font-black text-[#0d0c22]">The Pre-Seed Gauntlet</h1>
+            <p class="mt-4 text-lg md:text-xl text-[#6e6d7a]">A Methodical Playbook for Raising Capital in the Bay Area</p>
+        </header>
+
+        <main>
+            <section id="intro" class="my-16">
+                <h2 class="section-title">What "Fundable" Looks Like</h2>
+                <p class="section-subtitle">This is the "fundable bar"—the set of signals that de-risk your venture. VCs invest in the slope of the line, not just the absolute numbers. Your job is to show accelerating momentum.</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+                    <div class="kpi-card">
+                        <div class="kpi-value">5-10</div>
+                        <div class="kpi-label">Paying Teams or Signed LOIs</div>
+                    </div>
+                     <div class="kpi-card">
+                        <div class="kpi-value">▲▲▲</div>
+                        <div class="kpi-label">Accelerating LOI Velocity</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">&lt;45</div>
+                        <div class="kpi-label">Day Sales Cycle</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">2-3</div>
+                        <div class="kpi-label">Public Case Studies</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">&ge;0.25</div>
+                        <div class="kpi-label">Viral Coefficient (K-Factor)</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">3+</div>
+                        <div class="kpi-label">Acquisition Channels w/ CAC Signal</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="foundation" class="my-24">
+                <h2 class="section-title">Part I: The Foundation</h2>
+                <p class="section-subtitle">This is the most critical work. A brilliant pitch for a company with a weak foundation will collapse under the slightest pressure of due diligence. Your only job is to generate this evidence.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-3 text-[#0d0c22]">Founder-Market Fit: "Why You?"</h3>
+                        <p class="text-[#6e6d7a] mb-4">Investors bet on founders, not ideas. You must prove you have an "earned secret"—a unique, non-obvious insight forged from deep experience.</p>
+                         <div class="bg-indigo-50 p-4 rounded-lg">
+                            <p class="text-indigo-800 font-semibold">Example "Earned Secret":</p>
+                            <p class="text-indigo-700 italic">"We believe the **shareable artifact** is the new dashboard, because proof must be portable to win budget. Existing tools that trap insights behind a login are built for a world that no longer exists."</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-3 text-[#0d0c22]">Problem Validation: The Pain is Real</h3>
+                        <p class="text-[#6e6d7a] mb-4">Prove you're solving a "hair on fire" problem that customers are already trying to solve, however imperfectly.</p>
+                        <div class="chart-container h-64 md:h-72">
+                            <canvas id="problemValidationChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 md:col-span-2 lg:col-span-1">
+                        <h3 class="text-xl font-bold mb-3 text-[#0d0c22]">The "Why Now?" Thesis</h3>
+                        <p class="text-[#6e6d7a] mb-4">Articulate the tectonic shifts (technological, cultural, regulatory) that create a fleeting window of opportunity for your solution to win.</p>
+                        <div class="space-y-4">
+                            <div class="bg-[#ffc6d9] p-3 rounded-md">
+                                <p class="font-semibold text-[#ea4c89]">Demand Shift</p>
+                            </div>
+                            <div class="bg-[#c8b7ee] p-3 rounded-md">
+                                <p class="font-semibold text-[#8952e0]">Supply Shift</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="evidence" class="my-24">
+                <h2 class="section-title">Part II: Building Evidence</h2>
+                <p class="section-subtitle">Translate your foundational work into tangible, investable assets. The goal is to systematically replace every assumption in your pitch with indisputable, customer-generated proof.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-3 text-[#0d0c22]">Growth & Traction Velocity</h3>
+                        <p class="text-[#6e6d7a] mb-4">VCs invest in lines, not dots. Your job is to show a steep, upward-sloping line of progress in your core metric, like LOIs acquired over time.</p>
+                        <div class="chart-container h-80 md:h-96">
+                            <canvas id="velocityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-3 text-[#0d0c22]">Demand & List Assets</h3>
+                        <p class="text-[#6e6d7a] mb-4">Build tangible assets that prove there is a pull for your solution from the market before you have a product to sell.</p>
+                        <div class="chart-container h-80 md:h-96">
+                            <canvas id="demandChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="monetization" class="my-24">
+                 <h2 class="section-title">Part III: Monetization & GTM</h2>
+                 <p class="section-subtitle">Show that your solution has real commercial potential and you have early signals of a repeatable engine for acquiring customers.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-3 text-[#0d0c22]">Monetization & Pipeline</h3>
+                        <p class="text-[#6e6d7a] mb-4">Generate early proof of intent to pay. These are the strongest pre-revenue signals you can have.</p>
+                        <div class="space-y-4 mt-8">
+                            <div class="kpi-card !text-left !flex !items-center !gap-4"><div class="kpi-value !text-3xl">20+</div><div class="kpi-label !mt-0">Applied for Design Partnership</div></div>
+                            <div class="kpi-card !text-left !flex !items-center !gap-4"><div class="kpi-value !text-3xl">5-10</div><div class="kpi-label !mt-0">Signed LOIs with Price</div></div>
+                            <div class="kpi-card !text-left !flex !items-center !gap-4"><div class="kpi-value !text-3xl">$1k+</div><div class="kpi-label !mt-0">In Paid Pilots / First MRR</div></div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-3 text-[#0d0c22]">Channels & CAC</h3>
+                        <p class="text-[#6e6d7a] mb-4">Run small, cheap experiments to find where your customers live and how to reach them. Show a path to a viable business model.</p>
+                         <div class="space-y-4 mt-8">
+                            <div class="kpi-card !text-left !flex !items-center !gap-4"><div class="kpi-value !text-3xl">3+</div><div class="kpi-label !mt-0">Acquisition Channels Tested</div></div>
+                            <div class="kpi-card !text-left !flex !items-center !gap-4"><div class="kpi-value !text-3xl">&lt;24</div><div class="kpi-label !mt-0">Month CAC Payback Path</div></div>
+                            <div class="kpi-card !text-left !flex !items-center !gap-4"><div class="kpi-value !text-3xl">≥5%</div><div class="kpi-label !mt-0">Meeting Rate from Cold Outbound</div></div>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+            <section id="moat" class="my-24">
+                <h2 class="section-title">Part IV: Positioning & Moat</h2>
+                <p class="section-subtitle">"No competitors" is a red flag. Acknowledge the landscape and define your "Minimum Viable Moat"—the initial, unfair advantage that's hard to replicate. Frame the market to show how you win.</p>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold mb-3 text-[#0d0c22] text-center">The Wedge Slide: Carving Your Space</h3>
+                    <div class="chart-container h-80 md:h-96">
+                        <canvas id="competitionChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hygiene" class="my-24">
+                <h2 class="section-title">Part V: Company Hygiene</h2>
+                <p class="section-subtitle">The boring stuff that proves you are a professional operator who can be trusted with capital. Being diligence-ready from day one is a massive positive signal.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <div class="text-4xl mb-2">🗂️</div>
+                        <h4 class="font-bold text-lg text-[#0d0c22]">Clean CRM</h4>
+                        <p class="text-sm text-[#6e6d7a]">Every lead tracked</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl mb-2">🧪</div>
+                        <h4 class="font-bold text-lg text-[#0d0c22]">Experiment Log</h4>
+                        <p class="text-sm text-[#6e6d7a]">10+ tests logged</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl mb-2">📂</div>
+                        <h4 class="font-bold text-lg text-[#0d0c22]">Data Room</h4>
+                        <p class="text-sm text-[#6e6d7a]">Ready from day one</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl mb-2">⚖️</div>
+                        <h4 class="font-bold text-lg text-[#0d0c22]">Legal Basics</h4>
+                        <p class="text-sm text-[#6e6d7a]">DE C-Corp, IP signed</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mechanics" class="my-24">
+                <h2 class="section-title">Part VI: The Mechanics of the Raise</h2>
+                <p class="section-subtitle">With a strong foundation and evidence in hand, the final phase is about communication and execution. Run a disciplined process to create a competitive dynamic and close your round.</p>
+                <div class="grid grid-cols-1 gap-8 mb-8">
+                    <div class="bg-white rounded-lg shadow-md p-6 max-w-2xl mx-auto w-full">
+                        <h3 class="text-xl font-bold mb-3 text-[#0d0c22]">The Ask & Use of Funds</h3>
+                        <p class="text-[#6e6d7a] mb-4">Calculate your ask to provide an 18-24 month runway to hit your seed-stage milestones. Be specific about how capital will be deployed to de-risk the business.</p>
+                        <div class="chart-container h-80">
+                            <canvas id="useOfFundsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center my-12 border-t pt-8">
+            <p class="text-[#6e6d7a]">This infographic synthesizes best practices for pre-seed fundraising. Your journey is unique, but the principles of building evidence and running a disciplined process are universal. Now, go build.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const energeticPlayfulPalette = {
+            primary: '#0d0c22', 
+            secondary: '#ea4c89', 
+            accent1: '#8952e0', 
+            accent2: '#ffc6d9', 
+            accent3: '#c8b7ee',
+            text: '#6e6d7a',
+            background: '#f3f3f4'
+        };
+
+        function wrapLabel(str, maxWidth) {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            let lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines.filter(line => line.length > 0);
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+        
+        const defaultChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: energeticPlayfulPalette.text,
+                        font: {
+                            family: "'Inter', sans-serif"
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    backgroundColor: energeticPlayfulPalette.primary,
+                    titleFont: { family: "'Inter', sans-serif", size: 14 },
+                    bodyFont: { family: "'Inter', sans-serif", size: 12 },
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: energeticPlayfulPalette.text, font: { family: "'Inter', sans-serif" } },
+                    grid: { display: false }
+                },
+                y: {
+                    ticks: { color: energeticPlayfulPalette.text, font: { family: "'Inter', sans-serif" } },
+                    grid: { color: '#e5e7eb' }
+                }
+            }
+        };
+
+        // Velocity Chart
+        const velocityData = {
+            labels: ['Week 1-4', 'Week 5-8', 'Week 9-12'],
+            datasets: [{
+                label: 'New LOIs Signed',
+                data: [1, 3, 5],
+                fill: true,
+                backgroundColor: 'rgba(234, 76, 137, 0.2)',
+                borderColor: energeticPlayfulPalette.secondary,
+                tension: 0.4
+            }]
+        };
+        new Chart(document.getElementById('velocityChart'), {
+            type: 'line',
+            data: velocityData,
+            options: { ...defaultChartOptions, plugins: { ...defaultChartOptions.plugins, legend: { display: false } } }
+        });
+
+        const competitionData = {
+            labels: ['Direct Competitors', 'Indirect Competitors', 'Status Quo (Spreadsheets)'],
+            datasets: [{
+                label: 'Post-Launch Analytics',
+                data: [{x: 3, y: 7, r: 15}, {x: 5, y: 5, r: 20}, {x: 2, y: 2, r: 25}],
+                backgroundColor: energeticPlayfulPalette.accent2
+            }, {
+                label: 'Your Startup (WhyUser)',
+                data: [{x: 8, y: 8, r: 18}],
+                backgroundColor: energeticPlayfulPalette.secondary
+            }]
+        };
+        new Chart(document.getElementById('competitionChart'), {
+            type: 'bubble',
+            data: competitionData,
+            options: {
+                ...defaultChartOptions,
+                plugins: {
+                    ...defaultChartOptions.plugins,
+                    legend: { ...defaultChartOptions.plugins.legend, display: true }
+                },
+                scales: {
+                    x: { 
+                        ...defaultChartOptions.scales.x,
+                        min: 0, max: 10, 
+                        title: { display: true, text: 'Pre-Launch Validation Focus', color: energeticPlayfulPalette.text } 
+                    },
+                    y: { 
+                        ...defaultChartOptions.scales.y,
+                        min: 0, max: 10, 
+                        title: { display: true, text: 'AI-Powered Simulation', color: energeticPlayfulPalette.text } 
+                    }
+                }
+            }
+        });
+
+        const problemValidationData = {
+            labels: ['20-30 Customer Discovery Interviews', '10+ Verbatim Pain Quotes', '5-10 Signed Letters of Intent (LOIs)'].map(l => wrapLabel(l, 16)),
+            datasets: [{
+                label: 'Validation Strength',
+                data: [60, 80, 100],
+                backgroundColor: [
+                    energeticPlayfulPalette.accent3,
+                    energeticPlayfulPalette.accent2,
+                    energeticPlayfulPalette.secondary
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        };
+        new Chart(document.getElementById('problemValidationChart'), {
+            type: 'doughnut',
+            data: problemValidationData,
+            options: {
+                ...defaultChartOptions,
+                cutout: '60%',
+                plugins: { ...defaultChartOptions.plugins, legend: { ...defaultChartOptions.plugins.legend, display: true } },
+                scales: { x: { display: false }, y: { display: false } }
+            }
+        });
+
+        const demandData = {
+            labels: ['Qualified Waitlist (>150)', 'High-Value Lead Magnet (>500 ICPs)', 'Referral Loop (k>0.25)'].map(l => wrapLabel(l, 16)),
+            datasets: [{
+                label: 'Demand Signal Strength',
+                data: [80, 90, 100],
+                backgroundColor: energeticPlayfulPalette.secondary,
+                borderColor: energeticPlayfulPalette.primary,
+                borderWidth: 2,
+                borderRadius: 5,
+            }]
+        };
+        new Chart(document.getElementById('demandChart'), {
+            type: 'bar',
+            data: demandData,
+            options: {
+                ...defaultChartOptions,
+                indexAxis: 'y',
+                 plugins: { ...defaultChartOptions.plugins, legend: { display: false } },
+                 scales: {
+                    x: { ...defaultChartOptions.scales.x, grid: { display: true, color: '#e5e7eb' } },
+                    y: { ...defaultChartOptions.scales.y, grid: { display: false } }
+                }
+            }
+        });
+        
+        const useOfFundsData = {
+            labels: ['Product & Engineering', 'Go-to-Market (Sales/Marketing)', 'General & Admin'],
+            datasets: [{
+                label: 'Allocation of Pre-Seed Capital',
+                data: [60, 25, 15],
+                backgroundColor: [
+                    energeticPlayfulPalette.primary,
+                    energeticPlayfulPalette.secondary,
+                    energeticPlayfulPalette.accent3,
+                ],
+                hoverOffset: 4
+            }]
+        };
+        new Chart(document.getElementById('useOfFundsChart'), {
+            type: 'pie',
+            data: useOfFundsData,
+            options: {
+                ...defaultChartOptions,
+                plugins: { ...defaultChartOptions.plugins, legend: { ...defaultChartOptions.plugins.legend, position: 'right' } },
+                scales: { x: { display: false }, y: { display: false } }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Founder's Pre-Seed Checklist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+        }
+        .progress-bar-container {
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+            height: 1.25rem;
+        }
+        .progress-bar {
+            background-color: #3b82f6;
+            transition: width 0.3s ease-in-out;
+        }
+        .checklist-item {
+            transition: all 0.2s ease-in-out;
+        }
+        .checklist-item.completed {
+            color: #9ca3af;
+        }
+        .checklist-item.completed > div > label {
+            text-decoration: line-through;
+        }
+        .custom-checkbox {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 0.25rem;
+            border: 2px solid #d1d5db;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease-in-out;
+            flex-shrink: 0;
+        }
+        .custom-checkbox:checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        .custom-checkbox:checked::after {
+            content: '✔';
+            position: absolute;
+            color: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem;
+        }
+        .section-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e5e7eb;
+        }
+        .sub-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding-left: 0.5rem;
+        }
+        .sub-item-label {
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-900">The Founder's Pre-Seed Checklist</h1>
+            <p class="mt-2 text-lg text-gray-600">Your methodical path from idea to a fundable company.</p>
+        </header>
+        
+        <section class="section-card p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 text-center">The Pre-Seed "Fundable Bar"</h2>
+            <p class="mt-1 text-gray-600 text-center">This is your north star. Every task below should drive towards achieving this target state.</p>
+            <ul class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+                <li class="flex items-start gap-3"><span class="text-blue-500 font-bold">✔</span> 5–10 paying teams ($500–$700/mo) or signed LOIs.</li>
+                <li class="flex items-start gap-3"><span class="text-blue-500 font-bold">✔</span> **Demonstrated Velocity:** Clear acceleration in acquiring LOIs/pilots over the last 90 days.</li>
+                <li class="flex items-start gap-3"><span class="text-blue-500 font-bold">✔</span> ≤45-day sales cycle to first dollar.</li>
+                <li class="flex items-start gap-3"><span class="text-blue-500 font-bold">✔</span> ≥30% of reports forwarded to a VP.</li>
+                <li class="flex items-start gap-3"><span class="text-blue-500 font-bold">✔</span> K-factor (virality) ≥0.25.</li>
+                <li class="flex items-start gap-3"><span class="text-blue-500 font-bold">✔</span> Early CAC evidence across ≥3 channels.</li>
+                <li class="flex items-start gap-3"><span class="text-blue-500 font-bold">✔</span> 2–3 public mini-case studies.</li>
+            </ul>
+        </section>
+
+        <div class="sticky top-0 z-10 bg-gray-50/80 backdrop-blur-sm py-4 mb-8">
+            <div class="flex items-center gap-4">
+                <div class="flex-grow progress-bar-container">
+                    <div id="progressBar" class="progress-bar h-full text-center text-white text-sm font-semibold" style="width: 0%;"></div>
+                </div>
+                <div class="text-lg font-bold text-gray-900" id="progressText">0%</div>
+            </div>
+        </div>
+
+        <div class="space-y-8" id="checklist-container">
+            <!-- Checklist items will be dynamically inserted here -->
+        </div>
+        
+        <section class="section-card p-6 mt-8">
+            <div class="border-b border-gray-200 pb-4 mb-4">
+                <h2 class="text-2xl font-bold text-gray-900">90-Day Execution Rhythm</h2>
+                <p class="mt-1 text-gray-600">A disciplined weekly cadence and clear monthly milestones are crucial for maintaining momentum.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">Weekly Cadence</h3>
+                    <ul class="space-y-1 text-gray-600 text-sm list-disc list-inside">
+                        <li><span class="font-semibold">Mon:</span> Pipeline review (stages, objections).</li>
+                        <li><span class="font-semibold">Tue:</span> 2 interviews + outbound block (50 tailored emails).</li>
+                        <li><span class="font-semibold">Wed:</span> Product reliability + QA rubric review.</li>
+                        <li><span class="font-semibold">Thu:</span> Design-partner calls + case study progress.</li>
+                        <li><span class="font-semibold">Fri:</span> Experiment log updates; KPI export; founder retro.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">Milestones</h3>
+                    <ul class="space-y-1 text-gray-600 text-sm list-disc list-inside">
+                        <li><span class="font-semibold">Day 30:</span> 10 interviews; 150 waitlist; 2 LOIs; Trust FAQ live.</li>
+                        <li><span class="font-semibold">Day 60:</span> 30+ reports; forward-rate ≥25%; 4 LOIs; 2 paying logos.</li>
+                        <li><span class="font-semibold">Day 90:</span> 50+ reports; forward-rate ≥30%; 5–10 LOIs/paying logos.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card p-6 mt-8">
+            <div class="border-b border-gray-200 pb-4 mb-4">
+                <h2 class="text-2xl font-bold text-gray-900">Weekly Scorecard Thresholds</h2>
+                <p class="mt-1 text-gray-600">Use these G/Y/R (Green/Yellow/Red) flags to check yourself weekly. Are you on track?</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div><strong class="block text-gray-800">Lead Velocity (WoW):</strong> <span class="text-green-600">G ≥15%</span> / <span class="text-yellow-600">Y 5-14%</span> / <span class="text-red-600">R &lt;5%</span></div>
+                <div><strong class="block text-gray-800">Pipeline Velocity (MoM):</strong> <span class="text-green-600">G ≥2 LOIs</span> / <span class="text-yellow-600">Y 1 LOI</span> / <span class="text-red-600">R 0</span></div>
+                <div><strong class="block text-gray-800">Forward-to-VP Rate:</strong> <span class="text-green-600">G ≥30%</span> / <span class="text-yellow-600">Y 15–29%</span> / <span class="text-red-600">R &lt;15%</span></div>
+                <div><strong class="block text-gray-800">Active Pilots:</strong> <span class="text-green-600">G ≥3</span> / <span class="text-yellow-600">Y 1–2</span> / <span class="text-red-600">R 0</span></div>
+                <div><strong class="block text-gray-800">Paying Logos:</strong> <span class="text-green-600">G ≥5</span> / <span class="text-yellow-600">Y 2–4</span> / <span class="text-red-600">R &lt;2</span></div>
+                <div><strong class="block text-gray-800">K-Factor:</strong> <span class="text-green-600">G ≥0.25</span> / <span class="text-yellow-600">Y 0.1–0.24</span> / <span class="text-red-600">R &lt;0.1</span></div>
+                <div><strong class="block text-gray-800">Report Success Rate:</strong> <span class="text-green-600">G ≥95%</span> / <span class="text-yellow-600">Y 90–94%</span> / <span class="text-red-600">R &lt;90%</span></div>
+                <div><strong class="block text-gray-800">QA Score:</strong> <span class="text-green-600">G ≥8.0</span> / <span class="text-yellow-600">Y 7.0–7.9</span> / <span class="text-red-600">R &lt;7.0</span></div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const checklistData = [
+            {
+                title: 'A) Growth & Traction',
+                description: 'Prove you can find and engage your target customers in a way that signals a real business.',
+                items: [
+                    { id: 'a1', label: 'Interview Drumbeat', dod: '8–12 ICP interviews/month (Champion + VP mix), 10+ quotable verbatims, 3 recurring pains.', success: 'Your deck has a slide with 10+ direct, high-pain quotes from ideal customer profiles.', test: '30-min problem-first calls; no demo until pain is voiced.', failure: 'Polite interest; fragmented pains; buyer ≠ user.' },
+                    { id: 'a2', label: 'Buying-Committee Map & Proof Event', dod: 'One-pager mapping Champion → Economic Buyer; a named proof event (e.g., “PMM forwards VP-ready brief”).', success: 'You can clearly articulate the path from end-user (Champion) to budget holder (Economic Buyer) in under 60 seconds.', test: 'Ask “What would you need to show your VP to approve $600/mo?”', failure: 'Unclear approver; hand-wavy procurement.' },
+                    { id: 'a3', label: 'Objection Library (tested)', dod: 'Top 10 objections with a counter + evidence; status = “works/doesn’t.”', success: 'You have tested counters for your top 5 objections and can show which ones consistently work to resolve concerns.', test: 'A/B test counters in calls/emails; log win-rate deltas.', failure: 'Security left for later; generic rebuttals.' },
+                    { id: 'a4', label: 'Bottoms-Up Market Sizing', dod: 'ICP counts × ARPU bands → TAM/SAM/SOM; ±20% sensitivity.', success: 'You have a credible, bottoms-up market sizing that shows a >$1B Serviceable Addressable Market (SAM).', test: 'One math slide; review with 2 friendly VPs.', failure: 'Chasing too-narrow or fantasy top-down markets.' }
+                ]
+            },
+            {
+                title: 'B) Demand & List Assets',
+                description: 'Build tangible assets that prove there is a pull for your solution from the market.',
+                items: [
+                    { id: 'b1', label: 'High-Value Lead Magnet', dod: '500+ company-email ICPs; open ≥40–50%, reply ≥8–10%.', success: 'You have a lead magnet (e.g., a PDF) that consistently generates >10 qualified ICP leads per week.', test: 'One killer teardown PDF; distribute via LinkedIn DMs + two communities; $0 media.', failure: 'Gmail signups; generic titles; low opens.' },
+                    { id: 'b2', label: 'Qualified Waitlist', dod: '150+ qualified signups; capture title, company, use-case, urgency; segmentable.', success: 'Your waitlist has >150 qualified ICPs, with a consistent >10% week-over-week growth rate.', test: 'Notion/Typeform with 3 qualifying questions.', failure: 'Students/consultants; vague use-cases.' },
+                    { id: 'b3', label: 'Referral / Forward Loop', dod: '≥25% of new leads come from forwards/shares (tracked links).', success: 'Your K-Factor is ≥0.25, meaning every 4 users who sign up generate at least 1 additional user.', test: '“Forward to VP” CTA + unique share links in every PDF.', failure: 'Great report, zero forwards.' }
+                ]
+            },
+            {
+                title: 'C) Shareable Product Proof',
+                description: 'Create evidence that not only works for the user but can travel through an organization to the buyer.',
+                items: [
+                    { id: 'c1', label: 'The Concierge MVP', dod: 'You have manually created and delivered at least 20 "Pre-Mortem Reports" for design partners.', success: 'You have proven the core "magic" works and can be delivered reliably, even if it\'s manual.', test: 'Use you and an LLM running it behind the scenes to deliver the first reports.', failure: 'The manual process is too complex or slow to deliver consistent value.' },
+                    { id: 'c2', label: 'The "Wow" Moment', dod: 'You have recorded feedback (emails, Slack messages, call notes) from these design partners that contains phrases like "this is exactly what I needed".', success: 'You have a collection of unsolicited, enthusiastic feedback that you can show investors.', test: 'After delivering a report, ask "On a scale of 1-10, how disappointed would you be if you could no longer use this?"', failure: 'Polite interest ("this is neat") is a failure signal. You need real passion.' },
+                    { id: 'c3', label: 'VP-Forwardable Report', dod: '50+ "Single Page Analysis" reports generated for individual ICPs; ≥30% forwarded to VP; 10+ warm VP replies.', success: 'Your "Forward-to-VP" rate is consistently ≥30%, proving the artifact has value to the economic buyer.', test: 'Manually craft first 20 PDFs; concierge onboarding. Focus on the no-login experience.', failure: '“Cool/neat” reactions; request for dashboards instead of shareable proof.' },
+                    { id: 'c4', label: 'Before/After Wins', dod: '2–3 public mini-cases (“Changed X → +Y% conversion / −Z% cycle”).', success: 'You have 2-3 public case studies with logos and quantifiable metrics (e.g., "reduced cycle time by 20%").', test: 'One free analysis if they implement 1 fix + allow a light case.', failure: 'Fixes not implemented; no measurable end state.' },
+                    { id: 'c5', label: 'Security/Trust Unblock', dod: 'At least one story where a Trust gap blocked progress and your artifact unblocked it.', success: 'You can tell a specific story of a deal that was unblocked by your public Trust FAQ or security page.', test: 'Publish a lightweight Trust FAQ now; target a security-sensitive ICP.', failure: 'Security veto late in cycle; stuck as “marketing toy.”' }
+                ]
+            },
+            {
+                title: 'D) Monetization & Pipeline',
+                description: 'Show that your solution has real commercial potential and you can manage a sales process.',
+                items: [
+                    { id: 'd1', label: 'Design-Partner Funnel', dod: '20+ applied; 6–8 accepted with success criteria + dates; 3–5 active now.', success: 'You have 3-5 active design partners who are providing weekly feedback and are on a clear path to becoming paying customers.', test: '“Apply to be a Design Partner” form with published criteria.', failure: 'Hobbyists; no time-bound success metrics.' },
+                    { id: 'd2', label: 'Signed LOIs for Buying Committee Analysis', dod: '5–10 LOIs stating problem, price ($500–$700/mo for the logged-in features), start window ≤90d, success criteria.', success: 'You have 5-10 signed LOIs, with the majority signed in the last 60 days, showing acceleration.', test: 'One-page LOI template; e-sign. Clearly define the value beyond the free analysis.', failure: 'Users love the free tool but won\'t commit to paying for advanced features.' },
+                    { id: 'd3', label: 'First Dollars Collected', dod: '5–10 paying logos or paid pilots ($1–$3k/quarter); receipt screenshots.', success: 'You have >$1k MRR from at least 5 paying customers, proving someone has actually paid for your solution.', test: 'Pilot Pack: 3 Buying Committee reports/mo + monthly review; cancel anytime.', failure: 'Annuals only; long procurement; free-forever zombies.' },
+                    { id: 'd4', label: 'Pricing Evidence / Packaging Log', dod: 'Value-based interviews show acceptable range near $600/mo; objections & defenses documented.', success: 'Your pricing research consistently shows a Willingness-To-Pay (WTP) that supports a >$5k Annual Contract Value (ACV).', test: '10 pricing calls; test two price points on page.', failure: 'WTP < $300; unresolvable objections.' }
+                ]
+            },
+            {
+                title: 'E) Channels & CAC',
+                description: 'Prove you have a path to a scalable, repeatable engine for acquiring customers.',
+                items: [
+                    { id: 'e1', label: '3–5 Micro-Channel Tests', dod: '$100–$200 tests across LinkedIn ads, newsletter sponsor, content, outbound; report CPL, SQL%, etc.', success: 'You have run experiments in at least 3 acquisition channels and can show the CPL and SQL rate for each.', test: 'One creative per channel; 3 headlines; strict ICP filters.', failure: 'Optimizing for CTR vs SQLs; broad ICP.' },
+                    { id: 'e2', label: 'Outbound That Isn’t Spam', dod: '200 tailored emails → opens ≥20–30%, replies ≥5–10%, meetings ≥3–5%.', success: 'Your cold outbound campaigns are generating a meeting rate of ≥3-5% from tailored emails to your ICP.', test: '3-line plaintext; each line maps to interview pain.', failure: 'Feature pitching; wrong persona; long messages.' },
+                    { id: 'e3', label: 'Evidence of Founder-Led Distribution', dod: 'Founders have personally sourced and closed the first 5-10 design partners or LOIs through direct hustle.', success: 'You can show that you have not relied on paid ads and have a founder-driven GTM engine.', test: 'Track the source of every lead. Can you attribute the first 10 wins to founder activity?', failure: 'Early wins are all from paid channels, indicating a lack of founder-led hustle.' },
+                    { id: 'e4', label: 'Early CAC Math', dod: 'Track CAC & payback weekly by channel. Show path to ≤20–24 mo payback by seed.', success: 'You have a simple model showing a credible path to a Customer Acquisition Cost (CAC) payback period of ≤24 months.', test: 'Simple spreadsheet: (Spend + est. labor) / Customers won.', failure: 'Ignoring labor costs; no path to profitability.' }
+                ]
+            },
+            {
+                title: 'F) Engagement, Retention, & Expansion',
+                description: 'Show that once you acquire a customer, they stick around, use the product, and create opportunities for growth.',
+                items: [
+                    { id: 'f1', label: 'Forward-Rate as the North Star', dod: '≥30% of reports are forwarded to another person within the organization (tracked via unique links).', success: 'Your forward rate is ≥30%, proving the artifact has value to people other than the initial user.', test: 'Include a clear "Forward to your VP" CTA in the PDF/report. Follow up with the forward recipient.', failure: 'Users find the content useful for themselves but it never spreads to the economic buyer.' },
+                    { id: 'f2', label: 'Early Retention (Persona Customization)', dod: 'By day-60, paying teams have customized ≥2 personas and are creating ≥2 Buying Committee reports per month.', success: 'Your 60-day cohort retention shows that paying teams are deeply engaged with core features like persona customization.', test: 'Track this manually for your first 5-10 customers in a spreadsheet.', failure: 'Users don\'t engage with customization, indicating the default personas are "good enough" and the feature isn\'t a true retainer.' },
+                    { id: 'f3', label: 'Expansion Play (Buying Committee)', dod: 'You have a documented playbook for upselling from single ICP analysis to the multi-persona "Buying Committee" report, and have at least one live expansion opportunity.', success: 'You have at least one paying customer who has expanded their usage from a single persona to the full buying committee.', test: 'After a user generates a free report, ask: "Want to see how this looks for your whole buying committee?"', failure: 'Your product is a point solution for a single persona with no natural path to wider team/strategic value.' }
+                ]
+            },
+            {
+                title: 'G) Positioning & Moat',
+                description: 'Prove you have a unique wedge into the market and a defensible long-term advantage.',
+                items: [
+                    { id: 'g1', label: 'The "Earned Secret" or Non-Obvious Insight', dod: 'The first three minutes of your pitch clearly articulate your strong, non-obvious point of view about the future of your market.', success: 'Investors can repeat your core insight back to you. It feels both surprising and inevitable.', test: 'Pitch your "secret" to 5 smart people outside your industry. Do they understand and get excited by it?', failure: 'Your insight sounds like a headline from a tech blog.' },
+                    { id: 'g2', label: 'Wedge Slide + Story Spine', dod: 'Your pitch deck contains a single, clear 2x2 matrix showing your unique wedge, and the deck follows a clear narrative arc.', success: 'Your deck tells a crisp story: Problem → Why now → Wedge → Proof → Team → Ask.', test: 'Build in public; publish 2 competitor teardowns to establish expertise.', failure: 'Investors say, “You look like X.” You must fix the wedge narrative.' },
+                    { id: 'g3', label: 'Proof Artifacts Over Dashboards', dod: 'The PDF is the Trojan Horse: VP-forward rate is ≥30%. Add a "Guardian Trust Score" or similar trust-building screenshot to the deck.', success: 'Your core product experience is built around a shareable artifact (PDF/HTML), not a login-walled dashboard.', test: 'Add a "Forward to VP" button with tracking to your core artifact.', failure: 'You build a complex dashboard that users love but can\'t be shared, killing virality and the buyer-focused loop.' },
+                    { id: 'g4', label: 'Founder-Led Social Proof', dod: '6–8 LinkedIn posts with meaningful comments from VPs/PMMs; 2+ inbound DMs requesting access.', success: 'You have multiple examples of inbound leads coming from your content or social media presence.', test: 'Post teardown threads (before/after with lessons).', failure: 'Vanity likes from non-ICPs; no real engagement.' }
+                ]
+            },
+            {
+                title: 'H) Product Readiness',
+                description: 'Optimize for "proof that travels"—a product that is reliable, secure, and delivers a killer outcome.',
+                items: [
+                    { id: 'h1', label: 'Single Killer Outcome', dod: 'One artifact (e.g., “Buyer Insight Brief”) a VP consumes in <5 min and can approve.', success: 'You can articulate and deliver a single, compelling outcome for the user that is measurably better than the alternative.', test: 'PDF first; avoid dashboards until you see forwards.', failure: '“Cool” reactions, but no forwards or budget conversations.' },
+                    { id: 'h2', label: 'Activation Ladder (Free to Logged-in)', dod: 'Define A1→A2→A3 (Generate free report → Create Account → Generate Buying Committee report); instrument each step; publish weekly funnel.', success: 'You have a clear funnel showing the conversion rate from anonymous user to logged-in user to activated paying customer.', test: 'Track this in a spreadsheet before building complex analytics.', failure: 'High top-of-funnel on the free tool, but steep drop-off at the login/signup step.' },
+                    { id: 'h3', label: 'TTFV & Success Rate', dod: 'Time To First Value ≤10 min; perceived wait ≤60s; ≥95% report success rate.', success: 'Your product delivers its core value in under 10 minutes with a report success rate of ≥95%.', test: 'Manually time the first 20 onboarding flows.', failure: 'Users get stuck or frustrated before seeing the magic.' },
+                    { id: 'h4', label: 'Quality Rubric', dod: 'Human QA rubric (clarity, actionability, traceability) ≥8/10 across 20 consecutive reports.', success: 'Your product outputs consistently score ≥8/10 on an internal quality rubric for clarity and actionability.', test: 'Score reports with a simple rubric; review weekly.', failure: 'Vague, un-actionable outputs that erode trust.' },
+                    { id: 'h5', label: 'AI/Model Governance (if using LLMs)', dod: 'Versioned prompts; strict JSON schema validation; unit tests; 20-sample golden set for regression testing.', success: 'You have a "golden set" of 20+ test cases that are run against every new model or prompt change to prevent regressions.', test: 'Implement a "fail-closed" policy on schema errors.', failure: 'Inconsistent or unreliable AI outputs erode trust.' },
+                    { id: 'h6', label: 'Evidence Chain & Traceability', dod: 'Every claim in a report maps to an evidence ID (e.g., `interview_#3`); report footer lists sources.', success: 'Every data point in your output is traceable to its source, building trust and defensibility.', test: 'Pick a random data point in your output. Can you trace it back to its origin in <60 seconds?', failure: 'Buyers or VCs poke holes in your data, eroding trust in the entire product.' },
+                    { id: 'h7', label: 'Accessibility & Exportability', dod: 'The core value artifact (e.g., PDF report) is viewable with one click, requiring no login for the recipient.', success: 'Your core value artifact can be shared with a single link and requires no login to view.', test: 'Send a share link to someone outside the company. Can they see the value immediately?', failure: 'The viral loop is killed because a login wall prevents the proof from traveling up the org chart.' }
+                ]
+            },
+            {
+                title: 'I) Company & Diligence Readiness',
+                description: 'Demonstrate you\'re building a professional, resilient company, not just a product. These items de-risk execution and operational concerns.',
+                items: [
+                    { id: 'i1', label: 'CRM Discipline', dod: 'Every lead has source, hypothesis, stage, last touch, next step; weekly snapshot.', success: 'Your CRM is clean and up-to-date, allowing you to generate a pipeline report in under 5 minutes.', test: 'Airtable/HubSpot free tier; founder-owned.', failure: 'Memory-driven selling; lost context.' },
+                    { id: 'i2', label: 'Investor CRM & Deliberate Strategy', dod: 'You have a list of 30-50 target investors with tags for thesis/check size and a map for warm intros.', success: 'For your top 5 target investors, you have a one-sentence, non-generic answer for "Why us?".', test: 'Before asking for an intro, write down why that specific partner at that specific firm is a perfect fit.', failure: 'Spray and pray outreach that signals desperation and a lack of strategy.' },
+                    { id: 'i3', label: 'Experiment Log', dod: '10+ tests logged (hypothesis → setup → cost → result → decision); Friday post-mortems.', success: 'You have a log of at least 10 completed experiments, showing a culture of rapid, data-informed learning.', test: 'Notion template; one-pager per test.', failure: 'Repeating failed tests; survivorship bias.' },
+                    { id: 'i4', label: 'Fundraise-Ready Data Room', dod: 'Deck, KPI one-pager, cohort chart, LOIs, Trust FAQ, etc. updated weekly.', success: 'Your data room is built and updated weekly, ready to be shared with investors at a moment\'s notice.', test: 'Create the folder structure now. Fill it as you go.', failure: 'Scrambling for documents during diligence.' },
+                    { id: 'i5', label: 'Legal & Cap Table Basics', dod: 'DE C-Corp, IP assignment for all contributors, 83(b)s filed, 10–15% option pool, clean cap table.', success: 'Your company is incorporated as a DE C-Corp and all legal basics (IP assignments, 83(b)s) are complete.', test: 'Use a standardized service like Stripe Atlas or Clerky.', failure: 'Expensive legal cleanup required during diligence.' },
+                    { id: 'i6', label: 'Banking/Accounting Basics', dod: 'You have a dedicated startup bank account, a basic bookkeeping setup, and a cash runway model.', success: 'You can produce a clean P&L and cash flow statement for the last 6 months.', test: 'Use a service like Mercury for banking and Pilot for bookkeeping.', failure: 'Co-mingled personal and business funds, a major red flag.' },
+                    { id: 'i7', label: 'Ethical Use & Content Policy', dod: '1-pager covering acceptable use, disallowed content, data deletion, and customer responsibilities.', success: 'You have a clear and public policy for ethical use and data handling.', test: 'Review policies of 2-3 adjacent companies.', failure: 'Facing a content moderation crisis with no policy in place.' },
+                    { id: 'i8', label: 'Founder & Key-Contributor Agreements', dod: 'Written scope, milestones, vesting with cliff, and criteria to go full-time are documented for all co-founders and key early members.', success: 'All co-founders and key contributors have signed agreements with standard 4-year vesting and a 1-year cliff.', test: 'Have the hard conversations about equity, roles, and commitment upfront. Use standard templates.', failure: 'Co-founder disputes over equity or roles kill the company post-funding.' },
+                    { id: 'i9', label: 'Structured Advisor Bench', dod: '2–3 active advisors (GTM/domain/security) with written scope, cadence, and 0.25–1.0% grants.', success: 'You have 2-3 active advisors who provide measurable value, not just logos for a slide.', test: 'Ask potential advisors for specific deliverables, not just coffee chats. Track their impact.', failure: 'A "NASCAR slide" of advisors who provide no real value.' },
+                    { id: 'i10', label: 'Runway & Burn Guardrails', dod: '12-mo+ cash runway model with base & downside cases. Know your Burn Multiple (Net Burn / Net New ARR).', success: 'You have a financial model that shows 18+ months of runway and a Burn Multiple of <2x.', test: 'Can you articulate how your burn maps to specific value-inflecting milestones?', failure: 'Running out of cash because you didn\'t model realistic scenarios.' },
+                    { id: 'i11', label: 'IP & OSS Hygiene', dod: 'All contributors have signed IP assignment agreements. OSS inventory checked for GPL or other restrictive licenses.', success: 'You have a clean IP and open-source software record, avoiding common diligence red flags.', test: 'Use a tool to scan your codebase for open-source licenses. Confirm all 83(b) elections were filed on time.', failure: 'A major legal issue discovered during diligence that kills the deal.' }
+                ]
+            },
+            {
+                title: 'J) Velocity & Momentum Tracking',
+                description: 'VCs invest in lines, not dots. Show a steep, upward-sloping line for key metrics, proving your ability to execute and learn at a rapid pace.',
+                items: [
+                    { id: 'j1', label: 'Weekly KPI Snapshot', dod: 'Every Friday, you snapshot your key metrics (Waitlist count, Reports run, LOIs signed, etc.) into a simple spreadsheet.', success: 'You have a chart showing at least 8-12 weeks of data with a clear upward trend in your primary North Star metric.', test: 'Can you generate your "Traction" slide for your deck, complete with growth charts, in under 15 minutes?', failure: 'Your metrics are static numbers, and you have no way to show the rate of progress over time.' },
+                    { id: 'j2', label: 'Cohort Analysis (Lite)', dod: 'For users who generate a report, you track the conversion rate to key actions (e.g., signing up, forwarding the report) by weekly cohort.', success: 'You can show that users who signed up in later weeks are activating or converting at a higher rate than earlier cohorts, proving your product is improving.', test: 'Group your first 50 users by the week they signed up. Does the "Forward-Rate" improve for the more recent cohort?', failure: 'All your metrics are blended averages, hiding whether your execution is actually getting better over time.' }
+                ]
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('checklist-container');
+            checklistData.forEach(section => {
+                const sectionEl = document.createElement('section');
+                sectionEl.className = 'section-card p-6';
+                sectionEl.innerHTML = `
+                    <div class="border-b border-gray-200 pb-4 mb-4">
+                        <h2 class="text-2xl font-bold text-gray-900">${section.title}</h2>
+                        <p class="mt-1 text-gray-600">${section.description}</p>
+                    </div>
+                    <ul class="space-y-6">
+                        ${section.items.map(item => `
+                            <li class="checklist-item flex items-start gap-4">
+                                <input type="checkbox" id="${item.id}" class="custom-checkbox mt-1">
+                                <div class="flex-grow">
+                                    <label for="${item.id}" class="font-semibold text-gray-800 cursor-pointer">${item.label}</label>
+                                    <div class="mt-2 space-y-2 text-sm text-gray-600">
+                                        <div class="sub-item">
+                                            <span class="sub-item-label bg-blue-100 text-blue-800">DoD</span>
+                                            <p>${item.dod}</p>
+                                        </div>
+                                        <div class="sub-item">
+                                            <span class="sub-item-label bg-indigo-100 text-indigo-800">Success</span>
+                                            <p>${item.success}</p>
+                                        </div>
+                                        <div class="sub-item">
+                                            <span class="sub-item-label bg-green-100 text-green-800">Test</span>
+                                            <p>${item.test}</p>
+                                        </div>
+                                        <div class="sub-item">
+                                            <span class="sub-item-label bg-red-100 text-red-800">Fail</span>
+                                            <p>${item.failure}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                container.appendChild(sectionEl);
+            });
+
+            const checkboxes = document.querySelectorAll('.custom-checkbox');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const totalItems = checkboxes.length;
+            const storageKey = 'preseedChecklistProgress_v9';
+
+            function updateProgress() {
+                const checkedItems = document.querySelectorAll('.custom-checkbox:checked').length;
+                const percentage = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
+                
+                progressBar.style.width = `${percentage}%`;
+                progressBar.textContent = `${percentage}%`;
+                progressText.textContent = `${percentage}%`;
+            }
+
+            function saveProgress() {
+                const progress = {};
+                checkboxes.forEach(checkbox => {
+                    progress[checkbox.id] = checkbox.checked;
+                });
+                localStorage.setItem(storageKey, JSON.stringify(progress));
+            }
+
+            function loadProgress() {
+                const savedProgress = JSON.parse(localStorage.getItem(storageKey));
+                if (savedProgress) {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = savedProgress[checkbox.id] || false;
+                        const item = checkbox.closest('.checklist-item');
+                        if (checkbox.checked) {
+                            item.classList.add('completed');
+                        } else {
+                            item.classList.remove('completed');
+                        }
+                    });
+                }
+            }
+
+            checkboxes.forEach((checkbox) => {
+                checkbox.addEventListener('change', () => {
+                    const item = checkbox.closest('.checklist-item');
+                    if (checkbox.checked) {
+                        item.classList.add('completed');
+                    } else {
+                        item.classList.remove('completed');
+                    }
+                    updateProgress();
+                    saveProgress();
+                });
+            });
+
+            loadProgress();
+            updateProgress();
+        });
+    </script>
+
+</body>
+</html>
