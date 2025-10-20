@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhyUser - Causal AI for GTM Intelligence</title>
+    <script async src="https://tally.so/widgets/embed.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -123,6 +124,8 @@
             border-radius: 8px;
             font-weight: 600;
             transition: all 0.3s;
+            cursor: pointer;  /* ADD THIS */
+            border: none;     /* ADD THIS */
         }
 
         .nav-cta:hover {
@@ -530,6 +533,9 @@
             border-radius: 20px;
             padding: 5rem;
             margin-top: 4rem;
+            max-width: 700px;  /* ADD THIS - controls form width */
+            margin-left: auto;  /* ADD THIS - centers horizontally */
+            margin-right: auto; /* ADD THIS - centers horizontally */
         }
 
         .form-grid {
@@ -756,6 +762,7 @@
 
             .contact-section {
                 padding: 3rem 2rem;
+                max-width: 90%; /* ADD THIS - narrower on mobile too */
             }
 
             .footer-content {
@@ -777,7 +784,17 @@
                     <li><a href="#solution">Problem</a></li>
                     <li><a href="#platform">Platform</a></li>
                     <li><a href="#insights">Insights</a></li>
-                    <li><a href="#contact" class="nav-cta">Get Early Access</a></li>
+                    <li>
+                        <button 
+                            class="nav-cta"
+                            data-tally-open="wLQqlz" 
+                            data-tally-overlay="1" 
+                            data-tally-emoji-animation="none"
+                            style="cursor: pointer; border: none; font-family: inherit;"
+                        >
+                            Get Early Access
+                        </button>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -794,8 +811,16 @@
                         <h1>Stop Wasting Your <br>GTM Spend</h1>
                         <p>Simulate your buying committees before launch. Identify revenue-killing friction. De-risk every dollar of GTM spend with quantified buyer intelligence.</p>
                         <div class="hero-cta">
-                            <a href="#contact" class="btn-primary">Request Early Access</a>
-                            <a href="#demo-video" class="btn-secondary">Watch Demo (2 min)</a>
+                            <button 
+                                class="btn-primary"
+                                data-tally-open="wLQqlz" 
+                                data-tally-overlay="1" 
+                                data-tally-emoji-animation="none"
+                                style="cursor: pointer; border: none; font-family: inherit;"
+                            >
+                                Start Free Trial
+                            </button>
+                            <a href="#demo" class="btn-secondary">See How It Works</a>
                         </div>
                     </div>
                     
@@ -945,54 +970,22 @@
         <section class="section" id="contact">
             <div class="section-header">
                 <div class="section-subtitle">Early Access</div>
-                <h2 class="section-title">Join the future of B2B GTM intelligence</h2>
+                <h2 class="section-title">Ready to De-risk Your GTM?</h2>
+                <p style="text-align: center; color: var(--text-secondary); font-size: 1.125rem; margin-top: 1rem;">
+                    Book a 20-minute demo and we'll show you exactly how your buying committee will react to your next campaign.
+                </p>
             </div>
             
-            <div class="contact-section">
-                <form id="contactForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="Jane Smith" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Work Email</label>
-                            <input type="email" id="email" name="email" placeholder="jane@company.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="company">Company</label>
-                            <input type="text" id="company" name="company" placeholder="Your Company" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="role">Your Role</label>
-                            <select id="role" name="role" required>
-                                <option value="">Select your role</option>
-                                <option value="pmm">Product Marketing Manager</option>
-                                <option value="cmo">CMO / VP Marketing</option>
-                                <option value="gtm">GTM Lead / Growth Lead</option>
-                                <option value="founder">Founder / CEO</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="arr">Current ARR Range</label>
-                            <select id="arr" name="arr" required>
-                                <option value="">Select ARR range</option>
-                                <option value="pre-revenue">Pre-revenue</option>
-                                <option value="0-1m">$0 - $1M</option>
-                                <option value="1-5m">$1M - $5M</option>
-                                <option value="5-20m">$5M - $20M</option>
-                                <option value="20-50m">$20M - $50M</option>
-                                <option value="50m+">$50M+</option>
-                            </select>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="challenge">What's your biggest GTM challenge right now?</label>
-                            <textarea id="challenge" name="challenge" placeholder="Tell us about the wars you're fighting..." required></textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Request Early Access</button>
-                </form>
+            <div style="text-align: center; margin-top: 3rem;">
+                <button 
+                    class="btn-primary"
+                    data-tally-open="wLQqlz" 
+                    data-tally-overlay="1" 
+                    data-tally-emoji-animation="none"
+                    style="cursor: pointer; border: none; font-family: inherit; font-size: 1.15rem; padding: 1.5rem 3rem;"
+                >
+                    Request Early Access →
+                </button>
             </div>
         </section>
 
@@ -1007,7 +1000,6 @@
                     <h4>Product</h4>
                     <ul class="footer-links">
                         <li><a href="#platform">Platform</a></li>
-                        <li><a href="#solution">How It Works</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#docs">Documentation</a></li>
                     </ul>
@@ -1017,7 +1009,6 @@
                     <ul class="footer-links">
                         <li><a href="#about">About</a></li>
                         <li><a href="#insights">Insights</a></li>
-                        <li><a href="#careers">Careers</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
@@ -1053,24 +1044,6 @@
                 button.classList.add('active');
                 document.querySelector(`[data-content="${tabName}"]`).classList.add('active');
             });
-        });
-
-        // Form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // Here you would normally send to your backend
-            console.log('Form submitted:', data);
-            
-            // Show success message
-            alert('Thank you for your interest! We\'ll be in touch within 24 hours to discuss your GTM challenges and how WhyUser can help.');
-            
-            // Reset form
-            this.reset();
         });
 
         // Smooth scrolling
